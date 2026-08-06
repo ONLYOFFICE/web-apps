@@ -49,7 +49,7 @@ const PagePresentationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textPresentationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPresentationSetup} backLink={_t.textBack} />
             <BlockTitle>{_t.textSlideSize}</BlockTitle>
             <List>
                 <ListItem radio name="slide-size" checked={slideSizeIndex === 0} 

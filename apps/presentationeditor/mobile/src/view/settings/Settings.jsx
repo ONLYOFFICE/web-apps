@@ -37,12 +37,14 @@ import React, { useContext, useEffect } from 'react';
 import { View, Popup, Popover, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
+import { HelpAndFeedback } from "./HelpAndFeedback";
 import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
 import { PresentationColorSchemes } from "./PresentationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
 import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
@@ -84,6 +86,14 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/help-and-feedback/',
+        component: HelpAndFeedback
+    },
+        {
+        path: '/sharing-settings/',
+        component: SharingSettings
     },
     // Version History 
     {

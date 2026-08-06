@@ -48,7 +48,7 @@
       "dark": "Dark",
       "light": "Light",
       "system": "Same as system",
-      "textTheme": "Theme"
+      "textTheme": "Interface Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -576,7 +576,7 @@
       "textAbout": "About",
       "textAddress": "address:",
       "textApplication": "Application",
-      "textApplicationSettings": "Application Settings",
+      "textPreferences": "Preferences",
       "textAuthor": "Author",
       "textAutoSaveDocument": "Autosave",
       "textBack": "Back",
@@ -598,11 +598,11 @@
       "textEmail": "email:",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textFeedback": "Feedback & Support",
+      "textFeedback": "Contact Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
-      "textHelp": "Help",
+      "textHelpCenter": "Help Center",
       "textHighlight": "Highlight Results",
       "textInch": "Inch",
       "textLastModified": "Last Modified",
@@ -619,7 +619,7 @@
       "textPoint": "Point",
       "textPoweredBy": "Powered By",
       "textPresentationInfo": "Presentation Info",
-      "textPresentationSettings": "Presentation Settings",
+      "textPresentationSetup": "Presentation Setup",
       "textPresentationTitle": "Presentation Title",
       "textPrint": "Print",
       "textReplace": "Replace",
@@ -640,7 +640,12 @@
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textTools": "Tools",
+      "textSettingsGroup": "Settings",
+      "textAboutGroup": "About",
+      "textHelpAndFeedback": "Help & Feedback",
+      "textShare": "Share"
     }
   }
 }
