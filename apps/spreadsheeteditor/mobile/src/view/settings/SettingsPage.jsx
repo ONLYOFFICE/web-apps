@@ -160,8 +160,8 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
                         </List>
                     }
                 </List>
-                <List>
-                    {(true) &&
+                <List className='no-margin-bottom'>
+                    {(sharingSettingsUrl && !isForm) &&
                         <ListItem title={_t.textShare} link="/sharing-settings/">
                             <SvgIcon slot="media" symbolId={isRtl ? IconSharingSettingsRtl.id : IconSharingSettings.id} className={'icon icon-svg'} />
                         </ListItem>
