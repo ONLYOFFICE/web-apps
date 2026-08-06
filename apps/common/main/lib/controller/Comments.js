@@ -718,7 +718,7 @@ define([
 
             var requestObj = {},
                 comment = this.readSDKComment(id, data, requestObj),
-                text = this.getAnnotText(data.asc_getAnnotType());
+                text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
 
             if (comment) {
                 text && comment.set('comment', text) && comment.set('isAnnotation', true);
@@ -754,7 +754,7 @@ define([
             var requestObj = {};
             for (var i = 0; i < data.length; ++i) {
                 const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
-                var text = this.getAnnotText(data.asc_getAnnotType());
+                var text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
 
                 comment && text && comment.set('comment', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
