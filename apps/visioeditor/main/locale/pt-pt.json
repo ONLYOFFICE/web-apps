@@ -25,5 +25,6 @@
   "VE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Definições avançadas",
   "VE.Views.LeftMenu.tipAbout": "Acerca",
   "VE.Views.PrintWithPreview.txtAllPages": "Todas as páginas",
-  "VE.Views.ViewTab.textAlwaysShowToolbar": "Mostrar sempre a barra de ferramentas"
+  "VE.Views.ViewTab.textAlwaysShowToolbar": "Mostrar sempre a barra de ferramentas",
+  "Common.Controllers.Desktop.hintBtnHome": "Mostrar janela principal"
 }

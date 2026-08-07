@@ -74,5 +74,6 @@
   "VE.Views.Statusbar.tipZoomOut": "Uzaklaştır",
   "VE.Views.Toolbar.textTabFile": "Dosya",
   "VE.Views.Toolbar.textTabView": "Görüntüle",
-  "VE.Views.ViewTab.textZoom": "Yakınlaştırma"
+  "VE.Views.ViewTab.textZoom": "Yakınlaştırma",
+  "Common.Controllers.Desktop.hintBtnHome": "Ana pencereyi göster"
 }

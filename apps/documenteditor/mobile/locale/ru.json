@@ -848,6 +848,11 @@
     "textSwitchedMobileView": "Переключено на мобильный вид",
     "textSwitchedStandardView": "Переключено на стандартный вид",
     "textSwitchToDesktop": "Переключить в десктопный режим",
-    "warnEmptyRequiredField": "Заполните все обязательные поля для отправки формы."
+    "warnEmptyRequiredField": "Заполните все обязательные поля для отправки формы.",
+    "textSave": "Сохранить",
+    "textDontSave": "Не сохранять",
+    "textCancel": "Отмена",
+    "textSaveData": "Сохраните изменения перед выходом",
+    "textUnsavedData": "Несохраненные данные"
   }
 }

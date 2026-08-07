@@ -123,7 +123,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectLeft": "Use the keyboard arrow to move the selected object by a big step to the left.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectRight": "Use the keyboard arrow to move the selected object by a big step to the right.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectUp": "Use the keyboard arrow to move the selected object by a big step up.",
-  "Common.Controllers.Shortcuts.txtDescriptionBold": "Make the font of the selected text fragment darker and heavier than normal.",
+  "Common.Controllers.Shortcuts.txtDescriptionBold": "Make the font of the selected text fragment bold, giving it a heavier appearance.",
   "Common.Controllers.Shortcuts.txtDescriptionCenterPara": "Switch a paragraph between centered and left-aligned.",
   "Common.Controllers.Shortcuts.txtDescriptionChooseNextComboBoxOption": "Choose the next combo box option in the form.",
   "Common.Controllers.Shortcuts.txtDescriptionChoosePreviousComboBoxOption": "Choose the previous combo box option in the form.",

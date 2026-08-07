@@ -73,5 +73,7 @@
   "DE.ApplicationView.txtFullScreen": "Volledig scherm",
   "DE.ApplicationView.txtPrint": "Afdrukken",
   "DE.ApplicationView.txtSearch": "Zoek",
-  "DE.ApplicationView.txtShare": "Delen"
+  "DE.ApplicationView.txtShare": "Delen",
+  "DE.ApplicationController.errorFileNotAssembled": "Dit bestand is geopend vanuit een back-upkopie op de server en is niet opgeslagen in de opslag.<br>Gebruik de optie 'Opslaan als...' om het op een schijf op te slaan.",
+  "DE.ApplicationController.errorForcedViewMode": "Dit bestand is geopend in de weergavemodus.<br>Het bestand is vergrendeld voor bewerking of uw toegangsrechten staan bewerking niet toe."
 }

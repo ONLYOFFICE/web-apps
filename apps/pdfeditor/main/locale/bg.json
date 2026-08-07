@@ -16,7 +16,7 @@
   "Common.UI.Calendar.textMay": "Май",
   "Common.UI.Calendar.textMonths": "месеци",
   "Common.UI.Calendar.textNovember": "ноември",
-  "Common.UI.Calendar.textOctober": "октомври",
+  "Common.UI.Calendar.textOctober": "Октомври",
   "Common.UI.Calendar.textSeptember": "Септември",
   "Common.UI.Calendar.textShortApril": "Апр",
   "Common.UI.Calendar.textShortAugust": "Авг",
@@ -143,8 +143,8 @@
   "Common.Views.ImageFromUrlDialog.textUrl": "Поставете URL адрес на изображение:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "Това поле е задължително",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "Това поле трябва да е URL адрес във формат \"http://www.example.com\"",
-  "Common.Views.OpenDialog.closeButtonText": "Затвори файла",
-  "Common.Views.OpenDialog.txtEncoding": "Кодиране",
+  "Common.Views.OpenDialog.closeButtonText": "Затвори файл",
+  "Common.Views.OpenDialog.txtEncoding": "Кодиране ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Паролата е неправилна.",
   "Common.Views.OpenDialog.txtOpenFile": "Въведете парола, за да отворите файла",
   "Common.Views.OpenDialog.txtPassword": "Парола",
@@ -729,5 +729,7 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Поставя се в ширина",
   "PDFE.Views.ViewTab.tipHeadings": "Заглавия",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса",
-  "PDFE.Views.ViewTab.tipRecognize": "Редактиране на текст"
+  "PDFE.Views.ViewTab.tipRecognize": "Редактиране на текст",
+  "Common.UI.SearchBar.tipNextResult": "Следващ резултат",
+  "Common.UI.SearchBar.tipPreviousResult": "Предишен резултат"
 }
