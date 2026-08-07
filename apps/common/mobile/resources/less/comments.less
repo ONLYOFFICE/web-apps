@@ -334,3 +334,80 @@
 .actions-backdrop.backdrop-in {
   z-index: 13600;
 }
+
+.mention-popup {
+  position: fixed;
+  z-index: 20100;
+  background-color: @background-primary;
+  border-radius: 10px;
+  box-shadow: 0px 20px 80px 0px #00000024, 0px 0px 0.5px 0px #00000032;
+  overflow: hidden;
+
+  .mention-list {
+    max-height: 60px * 3;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mention-divider {
+    height: 1px;
+    margin: 0 16px;
+    background-color: @background-menu-divider;
+  }
+
+  .mention-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0 16px;
+
+    .mention-avatar {
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: @fill-white;
+      font-size: 14px;
+    }
+
+    .mention-info {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .mention-name {
+      font-size: 15px;
+      color: @text-normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mention-email {
+      font-size: 13px;
+      color: @text-secondary;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:active {
+      background-color: @background-menu-divider;
+    }
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 66px;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background-color: @background-menu-divider;
+    }
+  }
+}

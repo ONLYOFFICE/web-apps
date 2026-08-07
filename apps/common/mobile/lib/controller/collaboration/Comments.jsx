@@ -151,7 +151,7 @@ class CommentsController extends Component {
     }
 
     handleSetUsers (data) {
-        if (!data || !data.users || !data.users.length) return;
+        if (!data || data.c === 'mention' || !data.users || !data.users.length) return;
         
         let avatarUpdates = false;
         data.users.forEach((user) => {
@@ -452,7 +452,7 @@ class AddCommentController extends Component {
     }
     render() {
         return(
-            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment}/> : null
+            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment} storeAppOptions={this.props.storeAppOptions}/> : null
         )
     }
 }
@@ -586,9 +586,9 @@ class EditCommentController extends Component {
         const comment = storeComments.currentComment;
         return (
             <Fragment>
-                {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment}/>}
-                {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply}/>}
-                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply}/>}
+                {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment} storeAppOptions={this.props.storeAppOptions}/>}
+                {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply} storeAppOptions={this.props.storeAppOptions}/>}
+                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply} storeAppOptions={this.props.storeAppOptions}/>}
             </Fragment>
         )
     }

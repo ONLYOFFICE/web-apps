@@ -38,6 +38,7 @@ import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
+import { attachMention, getMention } from './mention.js';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconDoneComment from '@common-android-icons/icon-done-comment.svg';
 import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
@@ -85,6 +86,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const userInfo = props.userInfo;
+    const storeAppOptions = props.storeAppOptions;
     const [stateText, setText] = useState('');
     let refInputComment = useRef(null);
 
@@ -94,6 +96,10 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
         if(refInputComment) {
             refInputComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -127,7 +133,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea autoFocus placeholder={_t.textEnterComment} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
+                    <textarea autoFocus placeholder={getMention(storeAppOptions, _t, _t.textEnterComment)} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
                 </div>
             </div>
         </Popup>
@@ -142,6 +148,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('add-comment-dialog'),
@@ -164,7 +171,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                             <div class='name'>${userInfo.name}</div>
                         </div>
                         <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textEnterComment}'></textarea>
+                        <textarea id='comment-text' placeholder='${getMention(props.storeAppOptions, _t, _t.textEnterComment)}'></textarea>
                     </div>
                 </div>`,
             on: {
@@ -193,6 +200,12 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         }
                     });
                     done.classList.add('disabled');
+
+                    dialogMention = (props.storeAppOptions && props.storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
+                },
+                closed: () => {
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -261,7 +274,7 @@ const ReplyActions = ({comment, reply, onCommentMenuClick, opened, openActionRep
 };
 
 // Edit comment
-const EditCommentPopup = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
+const EditCommentPopup = inject("storeComments")(observer(({storeComments, comment, onEditComment, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState(comment.comment);
@@ -273,8 +286,11 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
         if(refInputEditComment) {
             refInputEditComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputEditComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
-   
     return (
         <Popup className="edit-comment-popup">
             <Navbar>
@@ -310,14 +326,14 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                     </div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textEditComment} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputEditComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textEditComment)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputEditComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const EditCommentDialog = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
+const EditCommentDialog = inject("storeComments")(observer(({storeComments, comment, onEditComment, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const templateInitials = getUserBadgeTemplate({
@@ -328,6 +344,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('edit-comment-dialog'),
@@ -353,7 +370,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                         </div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textEditComment}' autofocus>${comment.comment}</textarea>
+                        <textarea id='comment-text' placeholder='${getMention(storeAppOptions, _t, _t.textEditComment)}' autofocus>${comment.comment}</textarea>
                     </div>
                 </div>`,
             on: {
@@ -380,12 +397,16 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                             done.classList.remove('disabled');
                         }
                     });
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -401,15 +422,15 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
     );
 }));
 
-const EditComment = ({comment, onEditComment}) => {
+const EditComment = ({comment, onEditComment, storeAppOptions}) => {
     return (
         Device.phone ?
-            <EditCommentPopup comment={comment} onEditComment={onEditComment}/> :
-            <EditCommentDialog comment={comment} onEditComment={onEditComment}/>
+            <EditCommentPopup comment={comment} onEditComment={onEditComment} storeAppOptions={storeAppOptions}/> :
+            <EditCommentDialog comment={comment} onEditComment={onEditComment} storeAppOptions={storeAppOptions}/>
     )
 };
 
-const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply}) => {
+const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState('');
@@ -421,6 +442,10 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
         if(refInputReplyComment) {
             refInputReplyComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputReplyComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -454,20 +479,21 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textAddReply} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputReplyComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textAddReply)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputReplyComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply}) => {
+const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const templateInitials = getUserBadgeTemplate(userInfo);
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('add-reply-dialog'),
@@ -490,7 +516,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='reply-text' placeholder='${_t.textAddReply}' autofocus></textarea>
+                        <textarea id='reply-text' placeholder='${getMention(storeAppOptions, _t, _t.textAddReply)}' autofocus></textarea>
                     </div>
                 </div>`,
             on: {
@@ -518,12 +544,16 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         }
                     });
                     done.classList.add('disabled');
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -539,15 +569,15 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
     );
 }));
 
-const AddReply = ({userInfo, comment, onAddReply}) => {
+const AddReply = ({userInfo, comment, onAddReply, storeAppOptions}) => {
     return (
         Device.phone ?
-            <AddReplyPopup userInfo={userInfo} comment={comment} onAddReply={onAddReply}/> :
-            <AddReplyDialog userInfo={userInfo} comment={comment} onAddReply={onAddReply}/>
+            <AddReplyPopup userInfo={userInfo} comment={comment} onAddReply={onAddReply} storeAppOptions={storeAppOptions}/> :
+            <AddReplyDialog userInfo={userInfo} comment={comment} onAddReply={onAddReply} storeAppOptions={storeAppOptions}/>
     )
 };
 
-const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState(reply.reply);
@@ -559,6 +589,10 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
         if(relInputReplyComment) {
             relInputReplyComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(relInputReplyComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -596,14 +630,14 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                     </div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textEditReply} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => relInputReplyComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textEditReply)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => relInputReplyComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const templateInitials = getUserBadgeTemplate({
@@ -614,6 +648,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('edit-reply-dialog'),
@@ -639,7 +674,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                         </div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='reply-text' placeholder='${_t.textEditComment}' autofocus>${reply.reply}</textarea>
+                        <textarea id='reply-text' placeholder='${getMention(storeAppOptions, _t, _t.textEditReply)}' autofocus>${reply.reply}</textarea>
                     </div>
                 </div>`,
             on: {
@@ -666,12 +701,16 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                             done.classList.remove('disabled');
                         }
                     });
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -687,11 +726,11 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
     );
 }));
 
-const EditReply = ({comment, reply, onEditReply}) => {
+const EditReply = ({comment, reply, onEditReply, storeAppOptions}) => {
     return (
         Device.phone ?
-            <EditReplyPopup comment={comment} reply={reply} onEditReply={onEditReply}/> :
-            <EditReplyDialog comment={comment} reply={reply} onEditReply={onEditReply}/>
+            <EditReplyPopup comment={comment} reply={reply} onEditReply={onEditReply} storeAppOptions={storeAppOptions}/> :
+            <EditReplyDialog comment={comment} reply={reply} onEditReply={onEditReply} storeAppOptions={storeAppOptions}/>
     )
 };
 

@@ -205,6 +205,7 @@ class MainController extends Component {
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
+                Common.MentionUsers.init(this.editorConfig.canRequestUsers);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
 

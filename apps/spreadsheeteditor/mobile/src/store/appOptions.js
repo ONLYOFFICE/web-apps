@@ -66,12 +66,15 @@ export class storeAppOptions {
             changeSavingDocStatusText: action,
 
             customization: observable,
+
+            canRequestUsers: observable,
         });
     }
 
     isEdit = false;
     config = {};
     customization;
+    canRequestUsers;
 
     isDrawMode = false;
     changeDrawMode(value) {
@@ -135,6 +138,7 @@ export class storeAppOptions {
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
+        this.canRequestUsers = config.canRequestUsers;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.isEditDiagram = config.mode == 'editdiagram';
         this.isEditMailMerge = config.mode == 'editmerge';

@@ -91,6 +91,8 @@ export class storeAppOptions {
             changeSavingDocStatusText: action,
 
             customization: observable,
+            
+            canRequestUsers: observable,
         });
     }
 
@@ -171,6 +173,7 @@ export class storeAppOptions {
 
     config = {};
     customization;
+    canRequestUsers;
 
     setConfigOptions (config, _t) {
         this.config = config;
@@ -196,6 +199,7 @@ export class storeAppOptions {
         this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
+        this.canRequestUsers = config.canRequestUsers;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.saveAsUrl = config.saveAsUrl;
