@@ -249,8 +249,12 @@ export function attachMention(textareaEl, options) {
 
             const avatar = document.createElement('div');
             avatar.className = 'mention-avatar';
-            avatar.style.backgroundColor = getUserColor(user.id);
-            avatar.textContent = getInitials(user.name);
+            if (user.image) {
+                avatar.style.backgroundImage = `url(${user.image})`;
+            } else {
+                avatar.style.backgroundColor = getUserColor(user.id);
+                avatar.textContent = getInitials(user.name);
+            }
 
             const info = document.createElement('div');
             info.className = 'mention-info';
