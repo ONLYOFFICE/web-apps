@@ -1,7 +1,7 @@
 {
   "cancelButtonText": "Cancel",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
-  "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
+  "Common.Controllers.Desktop.hintBtnHome": "Show main window",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
   "Common.Controllers.ExternalLinks.textAddExternalData": "The link to an external source has been added. You can update such links in the Data tab.",
   "Common.Controllers.ExternalLinks.textContinue": "Continue",
@@ -52,7 +52,7 @@
   "Common.Controllers.Plugins.textRunPlugin": "Run plugin",
   "Common.Controllers.Shortcuts.txtDescriptionAddLineBreak": "Add a line break without starting a new paragraph when entering text within a graphical object.",
   "Common.Controllers.Shortcuts.txtDescriptionAutoFill": "Use this shortcut in an empty cell below or above existing values in the column. A drop-down list with existing values will appear. Select one of the available text values to fill an empty cell.",
-  "Common.Controllers.Shortcuts.txtDescriptionBold": "Make the font of the selected text fragment darker and heavier than normal, or remove the bold formatting.",
+  "Common.Controllers.Shortcuts.txtDescriptionBold": "Make the font of the selected text fragment bold, giving it a heavier appearance.",
   "Common.Controllers.Shortcuts.txtDescriptionCellAddSeparator": "Insert a separator within an active cell.",
   "Common.Controllers.Shortcuts.txtDescriptionCellCurrencyFormat": "Apply the Currency format with two decimal places.",
   "Common.Controllers.Shortcuts.txtDescriptionCellDateFormat": "Apply the Date format with the day, month, and year.",

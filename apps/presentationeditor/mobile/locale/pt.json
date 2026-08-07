@@ -279,7 +279,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "changesSaved": "Todas as alterações foram salvas"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",
@@ -291,7 +292,12 @@
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
-    "textSwitchToDesktop": "Mudar para o desktop"
+    "textSwitchToDesktop": "Mudar para o desktop",
+    "textSave": "Salvar",
+    "textDontSave": "Não salvar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Salve suas alterações antes de sair",
+    "textUnsavedData": "Dados não salvos"
   },
   "View": {
     "Add": {
@@ -510,7 +516,48 @@
       "textZoomOut": "Reduzir",
       "textZoomRotate": "Zoom e Rotação",
       "txtHeight": "Altura",
-      "txtWidth": "Largura"
+      "txtWidth": "Largura",
+      "textBlinds": "Persianas",
+      "textBox": "Box",
+      "textBoxZoom": "Box Zoom",
+      "textCenter": "Do centro",
+      "textChecker": "Verificador",
+      "textCircle": "Círculo",
+      "textComb": "Vasculhar",
+      "textCube": "Cubo",
+      "textCut": "Corte",
+      "textDiamond": "Diamante",
+      "textDissolve": "Dissolver",
+      "textDoors": "Portas",
+      "textDynamicContent": "Conteúdo dinâmico",
+      "textExciting": "Excitante",
+      "textFerris": "Roda-gigante",
+      "textFlip": "Virar",
+      "textFromBottom": "De baixo para cima",
+      "textFromBottomLeft": "De baixo para cima",
+      "textFromBottomRight": "A partir do canto inferior direito",
+      "textFromLeft": "Da esquerda para a direita",
+      "textFromRight": "Da direita para a esquerda",
+      "textFromTop": "Do topo",
+      "textFromTopLeft": "Do canto superior esquerdo",
+      "textFromTopRight": "Do canto superior direito",
+      "textGallery": "Galeria",
+      "textHoneycomb": "Favo de mel",
+      "textHorizontal": "Horizontal",
+      "textIn": "Em",
+      "textOrbit": "Órbita",
+      "textOut": "Fora",
+      "textPlus": "Mais",
+      "textRandom": "Aleatória",
+      "textRandomBars": "Barras aleatórias",
+      "textRipple": "Ondulação",
+      "textRotate": "Girar",
+      "textStartOnTap": "Comece com o Tap",
+      "textSubtle": "Sutil",
+      "textSwitch": "Trocar",
+      "textVertical": "Vertical",
+      "textVortex": "Vórtice",
+      "textWindow": "Janela"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -556,7 +603,7 @@
       "textMacrosSettings": "Configurações de macros",
       "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
-      "textOpenLocation": "Abrir a localização",
+      "textOpenLocation": "Localização disponível",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPoweredBy": "Desenvolvido por",
@@ -580,7 +627,12 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
-      "textVersionHistory": "Histórico de versão"
+      "textVersionHistory": "Histórico de versão",
+      "mniSlideLandscape": "Paisagem",
+      "mniSlidePortrait": "Retrato",
+      "textAutoSaveDocument": "Salvamento automático",
+      "textSaveDocument": "Salvar",
+      "textSlideOrientation": "Orientação do slide"
     }
   }
 }

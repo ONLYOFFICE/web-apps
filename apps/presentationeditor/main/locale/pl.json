@@ -2472,5 +2472,6 @@
   "PE.Views.ViewTab.textZoom": "Powiększenie",
   "PE.Views.ViewTab.tipFitToSlide": "Dopasuj do slajdu",
   "PE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
-  "PE.Views.ViewTab.tipHandTool": "Narzędzie ręczne"
+  "PE.Views.ViewTab.tipHandTool": "Narzędzie ręczne",
+  "Common.Controllers.Desktop.hintBtnHome": "Pokaż główne okno"
 }

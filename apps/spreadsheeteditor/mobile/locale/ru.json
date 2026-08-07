@@ -468,7 +468,12 @@
     "textEnterNewFileName": "Введите новое имя файла",
     "textOk": "OK",
     "textRenameFile": "Переименовать файл",
-    "textSwitchToDesktop": "Переключить в десктопный режим"
+    "textSwitchToDesktop": "Переключить в десктопный режим",
+    "textSave": "Сохранить",
+    "textDontSave": "Не сохранять",
+    "textCancel": "Отмена",
+    "textSaveData": "Сохраните изменения перед выходом",
+    "textUnsavedData": "Несохраненные данные"
   },
   "View": {
     "Add": {

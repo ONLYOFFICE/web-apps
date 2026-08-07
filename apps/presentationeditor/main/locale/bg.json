@@ -129,7 +129,7 @@
   "Common.Views.ListSettingsDialog.txtColor": "Цвят",
   "Common.Views.ListSettingsDialog.txtNone": "Няма",
   "Common.Views.OpenDialog.closeButtonText": "Затвори файл",
-  "Common.Views.OpenDialog.txtEncoding": "Кодиране",
+  "Common.Views.OpenDialog.txtEncoding": "Кодиране ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Паролата е неправилна.",
   "Common.Views.OpenDialog.txtOpenFile": "Въведете парола, за да отворите файла",
   "Common.Views.OpenDialog.txtPassword": "Парола",
@@ -1700,5 +1700,9 @@
   "PE.Views.ViewTab.textInterfaceTheme": "Тема на интерфейса",
   "PE.Views.ViewTab.textLine": "Линия",
   "PE.Views.ViewTab.textRulers": "Владетели",
-  "PE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса"
+  "PE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса",
+  "Common.UI.Calendar.textOctober": "Октомври",
+  "Common.UI.Calendar.textSeptember": "Септември",
+  "Common.UI.SearchBar.tipNextResult": "Следващ резултат",
+  "Common.UI.SearchBar.tipPreviousResult": "Предишен резултат"
 }
