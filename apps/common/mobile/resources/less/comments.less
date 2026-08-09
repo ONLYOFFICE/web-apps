@@ -360,10 +360,11 @@
 
   .mention-item {
     position: relative;
-    display: flex;
-    align-items: center;
     height: 60px;
-    padding: 0 16px;
+
+    .item-inner {
+      align-items: center;
+    }
 
     .mention-avatar {
       flex: 0 0 auto;
@@ -381,19 +382,14 @@
       font-size: 14px;
     }
 
-    .mention-info {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    .mention-name {
+    .item-title {
       font-size: 15px;
       color: @text-normal;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .mention-email {
+    .item-subtitle {
       font-size: 13px;
       color: @text-secondary;
       overflow: hidden;

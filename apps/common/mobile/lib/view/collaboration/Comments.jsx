@@ -38,7 +38,7 @@ import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
-import { attachMention, getMention } from './mention.js';
+import { attachMention, getMention } from './mention';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconDoneComment from '@common-android-icons/icon-done-comment.svg';
 import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';

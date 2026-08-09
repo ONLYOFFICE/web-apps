@@ -33,6 +33,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import React, { useRef, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { List, ListItem } from 'framework7-react';
 import { getUserColor } from '../../../utils/getUserColor.js';
 
 Common.MentionUsers = new (function () {
@@ -137,6 +140,49 @@ function caretOffset(textarea, position) {
     return { top: top, height: height };
 }
 
+const preventFocus = (e) => e.preventDefault();
+
+function MentionList({ users, onSelect, onScrollBottom }) {
+    const listRef = useRef(null);
+
+    useEffect(() => {
+        const el = listRef.current && listRef.current.el;
+        if (!el) return;
+
+        const onScroll = function () {
+            if (!onScrollBottom) return;
+            const itemEl = el.querySelector('.mention-item'),
+                itemHeight = itemEl ? itemEl.getBoundingClientRect().height : 0;
+            if (itemHeight && el.scrollTop + el.clientHeight >= el.scrollHeight - itemHeight) onScrollBottom();
+        };
+        el.addEventListener('scroll', onScroll);
+        return () => el.removeEventListener('scroll', onScroll);
+    }, [onScrollBottom]);
+
+    let divider = false;
+    const rows = [];
+    users.forEach(function (user) {
+        if (divider && !user.hasAccess) {
+            divider = false;
+            rows.push(<li key={'divider-' + user.email} className="mention-divider"></li>);
+        }
+
+        if (!user.email || !user.name) return;
+
+        rows.push(
+            <ListItem key={user.email} mediaList className="mention-item" title={user.name} subtitle={user.email} onMouseDown={preventFocus} onTouchStart={preventFocus} onClick={() => onSelect(user.email)}>
+                {user.image ?
+                    <img slot="media" className="mention-avatar" src={user.image} /> :
+                    <div slot="media" className="mention-avatar" style={{backgroundColor: getUserColor(user.id)}}>{getInitials(user.name)}</div>}
+            </ListItem>
+        );
+
+        if (user.hasAccess) divider = true;
+    });
+
+    return <List ref={listRef} className="mention-list" mediaList>{rows}</List>;
+}
+
 export function attachMention(textareaEl, options) {
     if (!textareaEl || !Common.MentionUsers.isEnabled()) {
         return { detach: function () {} };
@@ -145,7 +191,8 @@ export function attachMention(textareaEl, options) {
     options = options || {};
 
     let popupEl = null,
-        listEl = null,
+        root = null,
+        users = [],
         debounceTimer = null,
         isMenuVisible = false,
         search = null;
@@ -154,23 +201,8 @@ export function attachMention(textareaEl, options) {
         if (popupEl) return;
         popupEl = document.createElement('div');
         popupEl.className = 'mention-popup';
-        listEl = document.createElement('ul');
-        listEl.className = 'mention-list';
-        popupEl.appendChild(listEl);
         document.body.appendChild(popupEl);
-
-        listEl.addEventListener('scroll', function () {
-            if (!search || !search.isPaginated || search.requestMore === false) return;
-
-            const itemHeight = listEl.children[0] ? listEl.children[0].getBoundingClientRect().height : 0,
-                isBottom = itemHeight && listEl.scrollTop + listEl.clientHeight >= listEl.scrollHeight - itemHeight;
-
-            if (isBottom) {
-                search.requestMore = false;
-                search.from += search.count;
-                Common.MentionUsers.get(search.from, search.count, search.query);
-            }
-        });
+        root = createRoot(popupEl);
     }
 
     function hideMenu() {
@@ -197,8 +229,10 @@ export function attachMention(textareaEl, options) {
         left = Math.min(left, offsetLeft + viewportWidth - width - 16);
         left = Math.max(left, offsetLeft + 16);
 
-        const itemHeight = listEl.children[0] ? listEl.children[0].getBoundingClientRect().height : 0,
-            popupHeight = Math.min(listEl.children.length, 3) * itemHeight,
+        const rowEl = popupEl.querySelector('.mention-item'),
+            rows = popupEl.querySelectorAll('.mention-list > ul > li'),
+            itemHeight = rowEl ? rowEl.getBoundingClientRect().height : 0,
+            popupHeight = Math.min(rows.length, 3) * itemHeight,
             bottomSpace = (offsetTop + viewportHeight) - caretBottom;
 
         let top;
@@ -229,70 +263,29 @@ export function attachMention(textareaEl, options) {
         }, 10);
     }
 
-    function renderUsers(users, replace) {
+    function requestNextPage() {
+        if (!search || !search.isPaginated || search.requestMore === false) return;
+        search.requestMore = false;
+        search.from += search.count;
+        Common.MentionUsers.get(search.from, search.count, search.query);
+    }
+
+    function renderUsers(list, replace) {
         createPopup();
-        if (replace) listEl.innerHTML = '';
+        users = replace ? list : users.concat(list);
 
-        let divider = false;
-        users.forEach(function (user) {
-            if (divider && !user.hasAccess) {
-                divider = false;
-                const sep = document.createElement('li');
-                sep.className = 'mention-divider';
-                listEl.appendChild(sep);
-            }
+        root.render(<MentionList users={users} onSelect={insertMention} onScrollBottom={requestNextPage} />);
 
-            if (!user.email || !user.name) return;
-
-            const li = document.createElement('li');
-            li.className = 'mention-item';
-
-            const avatar = document.createElement('div');
-            avatar.className = 'mention-avatar';
-            if (user.image) {
-                avatar.style.backgroundImage = `url(${user.image})`;
-            } else {
-                avatar.style.backgroundColor = getUserColor(user.id);
-                avatar.textContent = getInitials(user.name);
-            }
-
-            const info = document.createElement('div');
-            info.className = 'mention-info';
-
-            const name = document.createElement('div');
-            name.className = 'mention-name';
-            name.innerHTML = Common.Utils.String.htmlEncode(user.name);
-
-            const email = document.createElement('div');
-            email.className = 'mention-email';
-            email.innerHTML = Common.Utils.String.htmlEncode(user.email);
-
-            info.appendChild(name);
-            info.appendChild(email);
-            li.appendChild(avatar);
-            li.appendChild(info);
-
-            const onSelect = function (e) {
-                e.preventDefault();
-                insertMention(user.email);
-            };
-            li.addEventListener('mousedown', onSelect);
-            li.addEventListener('touchend', onSelect);
-
-            listEl.appendChild(li);
-            if (user.hasAccess) divider = true;
-        });
-
-        if (listEl.children.length > 0) {
+        if (users.length > 0) {
             isMenuVisible = true;
             popupEl.style.display = '';
-            positionMenu();
+            setTimeout(positionMenu, 0);
         } else {
             hideMenu();
         }
     }
 
-    function onMentionUsers(users, isPaginated) {
+    function onMentionUsers(list, isPaginated) {
         if (!search) return;
 
         search.isPaginated = isPaginated;
@@ -300,8 +293,8 @@ export function attachMention(textareaEl, options) {
 
         const replace = search.from === 0,
             isClientSearch = isPaginated === undefined,
-            list = isClientSearch ? filterUsers(users || [], search.query) : (users || []);
-        renderUsers(list, replace);
+            result = isClientSearch ? filterUsers(list || [], search.query) : (list || []);
+        renderUsers(result, replace);
     }
 
     function showMenu(query, left, right) {
@@ -350,9 +343,11 @@ export function attachMention(textareaEl, options) {
 
             window.removeEventListener('resize', positionMenu);
 
+            if (root) root.unmount();
             if (popupEl && popupEl.parentNode) popupEl.parentNode.removeChild(popupEl);
             popupEl = null;
-            listEl = null;
+            root = null;
+            users = [];
             search = null;
         }
     };
