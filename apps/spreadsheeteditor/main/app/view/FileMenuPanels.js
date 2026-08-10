@@ -82,7 +82,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
-            this.api = options.api;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -112,14 +112,14 @@ define([], function () {
             return this;
         },
 
-        setApi: function(api) {
-            this.api = api;
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
             return this;
         },
 
         updateFormats: function() {
-            var allowed = this.api && this.api.getSaveFormats();
-            !_.isArray(allowed) && (allowed = undefined);
+            var allowed = this.saveFormats;
 
             var isVisibleFormat = function (type) {
                 return !allowed || allowed.indexOf(type) !== -1;
@@ -207,7 +207,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
-            this.api = options.api;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -237,14 +237,14 @@ define([], function () {
             return this;
         },
 
-        setApi: function(api) {
-            this.api = api;
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
             return this;
         },
 
         updateFormats: function() {
-            var allowed = this.api && this.api.getSaveFormats();
-            !_.isArray(allowed) && (allowed = undefined);
+            var allowed = this.saveFormats;
 
             var isVisibleFormat = function (type) {
                 return !allowed || allowed.indexOf(type) !== -1;

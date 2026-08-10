@@ -189,11 +189,17 @@ define([
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
+            this.leftMenu.getMenu('file').setSaveFormats(this.getSaveFormats());
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
+        },
+
+        getSaveFormats: function() {
+            var formats = this.api && this.api.getSaveFormats ? this.api.getSaveFormats() : undefined;
+            return _.isArray(formats) ? formats : undefined;
         },
 
         setMode: function(mode) {

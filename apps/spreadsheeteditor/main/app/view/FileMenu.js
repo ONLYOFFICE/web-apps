@@ -355,10 +355,6 @@ define([
                     this.panels['protect'].setApi(this.api);
                 if (this.panels['opts'])
                     this.panels['opts'].setApi(this.api);
-                if (this.panels['saveas'])
-                    this.panels['saveas'].setApi(this.api);
-                if (this.panels['save-copy'])
-                    this.panels['save-copy'].setApi(this.api);
             }
 
             this.fireEvent('render:after', this);
@@ -467,11 +463,11 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, api: this.api})).render());
+                !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render());
             }
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, api: this.api})).render());
+                !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render());
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -617,10 +613,17 @@ define([
                 this.panels['info'].setApi(api);
                 if (this.panels['opts']) this.panels['opts'].setApi(api);
                 if (this.panels['protect']) this.panels['protect'].setApi(api);
-                if (this.panels['saveas']) this.panels['saveas'].setApi(api);
-                if (this.panels['save-copy']) this.panels['save-copy'].setApi(api);
             }
             this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            if ( this.rendered ) {
+                if (this.panels['saveas']) this.panels['saveas'].setSaveFormats(formats);
+                if (this.panels['save-copy']) this.panels['save-copy'].setSaveFormats(formats);
+            }
+            return this;
         },
 
         loadDocument: function(data) {
