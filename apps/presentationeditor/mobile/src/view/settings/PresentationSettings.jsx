@@ -49,7 +49,7 @@ const PagePresentationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textPresentationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPresentationSetup} backLink={_t.textBack} />
             <BlockTitle>{_t.textSlideSize}</BlockTitle>
             <List>
                 <ListItem radio name="slide-size" checked={slideSizeIndex === 0} 
@@ -64,12 +64,14 @@ const PagePresentationSettings = props => {
                 <ListItem radio name="slide-orientation" checked={slideOrientation}
                     onChange={() => props.onSlideOrientation()} title={_t.mniSlideLandscape}></ListItem>
             </List>
+            <BlockTitle>{_t.textStyleGroup}</BlockTitle>
             <List mediaList>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>
             </List>
+            <BlockTitle>{_t.textShowSettingsGroup}</BlockTitle>
             <List>
                 <ListItem title={_t.textLoopSlideshow}>
                     <Toggle checked={isLoopSlideshow} onToggleChange={() => {props.onToggleLoopSlideshow(!isLoopSlideshow)}}/>

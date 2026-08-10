@@ -51,15 +51,15 @@ const ViewSharingSettings = props => {
     const ref = useRef(null);
 
     useEffect(() => {
-        const coauthSheetElem = ref.current.closest('.coauth__sheet');
+        const coauthSheetElem = ref.current?.closest('.coauth__sheet');
 
-        if(Device.phone) {
+        if(Device.phone && coauthSheetElem) {
             coauthSheetElem.style.height = '100%';
             coauthSheetElem.style.maxHeight = '100%';
         }
 
         return () => {
-            if(Device.phone) {
+            if(Device.phone && coauthSheetElem) {
                 coauthSheetElem.style.height = null;
                 coauthSheetElem.style.maxHeight = '65%';
             }

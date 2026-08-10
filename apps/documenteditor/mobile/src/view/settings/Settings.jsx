@@ -40,6 +40,7 @@ import DocumentSettingsController from "../../controller/settings/DocumentSettin
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
+import { HelpAndFeedback } from "./HelpAndFeedback";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
@@ -93,6 +94,10 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/help-and-feedback/',
+        component: HelpAndFeedback
     },
     {
         path: '/theme-settings/',

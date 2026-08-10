@@ -53,7 +53,7 @@ const PageDocumentFormats = props => {
     
     return (
         <Page>
-            <Navbar title={_t.textDocumentSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textDocumentSetup} backLink={_t.textBack} />
             <List mediaList>
                 {pageSizes.map((item, index) => <ListItem key={index}
                                                           radio
@@ -277,7 +277,7 @@ const PageDocumentSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textDocumentSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textDocumentSetup} backLink={_t.textBack} />
             <BlockTitle>{_t.textOrientation}</BlockTitle>
             <List>
                 <ListItem radio title={_t.textPortrait} name="orientation-checkbox" checked={storeSettings.isPortrait} onClick={e => props.onPageOrientation('portrait')}></ListItem>
@@ -300,6 +300,7 @@ const PageDocumentSettings = props => {
                 </ListItem>
             </List>
             <List>
+                <BlockTitle>{_t.textStyleGroup}</BlockTitle>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
