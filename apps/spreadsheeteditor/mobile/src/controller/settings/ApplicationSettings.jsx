@@ -48,9 +48,15 @@ class ApplicationSettingsController extends Component {
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.changeDirectionMode = this.changeDirectionMode.bind(this);
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
+        this.initSheetRtl();
     }
 
     static contextType = ThemesContext;
+
+    initSheetRtl() {
+        const api = Common.EditorApi.get();
+        this.props.storeSpreadsheetSettings.changeSheetRtl(api.asc_getSheetViewSettings().asc_getRightToLeft());
+    }
 
     onChangeDisplayComments(displayComments) {
         const api = Common.EditorApi.get();
@@ -81,6 +87,11 @@ class ApplicationSettingsController extends Component {
         const api = Common.EditorApi.get();
         LocalStorage.setBool('sse-settings-r1c1', checked);
         api.asc_setR1C1Mode(checked);
+    }
+
+    onRtlSheetClick(value) {
+        const api = Common.EditorApi.get();
+        api.asc_setRightToLeft(value);
     }
 
     unitMeasurementChange(value) {
@@ -119,6 +130,7 @@ class ApplicationSettingsController extends Component {
                 onChangeDisplayComments={this.onChangeDisplayComments}
                 onChangeDisplayResolved={this.onChangeDisplayResolved}
                 clickR1C1Style={this.clickR1C1Style}
+                onRtlSheetClick={this.onRtlSheetClick}
                 onChangeMacrosSettings={this.onChangeMacrosSettings}
                 changeDirectionMode={this.changeDirectionMode}
                 changeTheme={this.context.changeTheme}
@@ -128,4 +140,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default inject("storeApplicationSettings", "storeAppOptions")(observer(withTranslation()(ApplicationSettingsController)));
+export default inject("storeApplicationSettings", "storeSpreadsheetSettings", "storeAppOptions")(observer(withTranslation()(ApplicationSettingsController)));

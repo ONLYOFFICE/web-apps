@@ -252,6 +252,10 @@ const PageDocumentSettings = props => {
     const _t = t('Settings', {returnObjects: true});
 
     const storeSettings = props.storeDocumentSettings;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const displayMode = props.storeReview.displayMode;
+    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
+    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
 
     //Init Format
     const curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
@@ -284,8 +288,8 @@ const PageDocumentSettings = props => {
                 <ListItem radio title={_t.textLandscape} name="orientation-checkbox" checked={!storeSettings.isPortrait} onClick={e => props.onPageOrientation('landscape')}></ListItem>
             </List>
             <BlockTitle>{_t.textFormat}</BlockTitle>
-            <List mediaList>
-                <ListItem title={textFormat} subtitle={pageSizeTxt} link="/document-formats/" routeProps={{
+            <List>
+                <ListItem mediaItem title={textFormat} subtitle={pageSizeTxt} link="/document-formats/" routeProps={{
                     onFormatChange: props.onFormatChange,
                     getMargins: props.getMargins
                 }}></ListItem>
@@ -294,13 +298,32 @@ const PageDocumentSettings = props => {
                     applyMargins: props.applyMargins
                 }}></ListItem>
             </List>
-            <List>
+            <List className='no-margin-bottom'>
                 <ListItem title={_t.textHyphenation}>
                     <Toggle checked={isHyphenation} onToggleChange={() => {props.onToggleHyphenation(!isHyphenation)}}/>
                 </ListItem>
             </List>
+            <BlockTitle>{_t.textDisplayGroup}</BlockTitle>
+            <List className='no-margin-bottom'>
+                <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                    <Toggle checked={isNonprintingCharacters}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
+                                props.switchNoCharacters(!isNonprintingCharacters);
+                            }}
+                    />
+                </ListItem>
+                <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                    <Toggle checked={isHiddenTableBorders}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
+                                props.switchShowTableEmptyLine(!isHiddenTableBorders);
+                            }}
+                    />
+                </ListItem>
+            </List>
+            <BlockTitle>{_t.textStyleGroup}</BlockTitle>
             <List>
-                <BlockTitle>{_t.textStyleGroup}</BlockTitle>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
@@ -312,7 +335,7 @@ const PageDocumentSettings = props => {
 
 const DocumentFormats = inject("storeDocumentSettings")(observer(PageDocumentFormats));
 const DocumentMargins = inject("storeDocumentSettings")(observer(PageDocumentMargins));
-const DocumentSettings = inject("storeDocumentSettings")(observer(PageDocumentSettings));
+const DocumentSettings = inject("storeDocumentSettings", "storeApplicationSettings", "storeReview")(observer(PageDocumentSettings));
 const DocumentColorSchemes = inject("storeDocumentSettings")(observer(PageDocumentColorSchemes));
 
 export {

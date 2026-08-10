@@ -42,8 +42,10 @@ const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
     const storeApplicationSettings = props.storeApplicationSettings;
+    const storeSpreadsheetSettings = props.storeSpreadsheetSettings;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const isRefStyle = storeApplicationSettings.isRefStyle;
+    const isSheetRtl = storeSpreadsheetSettings.isSheetRtl;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
     const directionMode = storeApplicationSettings.directionMode;
@@ -109,6 +111,18 @@ const PageApplicationSettings = props => {
                         />
                     </ListItem>
                 </List>
+                {_isEdit &&
+                    <List>
+                        <ListItem title={_t.textSheetRtl}>
+                            <Toggle checked={isSheetRtl}
+                                    onToggleChange={() => {
+                                        storeSpreadsheetSettings.changeSheetRtl(!isSheetRtl);
+                                        props.onRtlSheetClick(!isSheetRtl);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                }
                 {!!isConfigSelectTheme &&
                     <List>
                         <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
@@ -173,7 +187,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeSpreadsheetSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 

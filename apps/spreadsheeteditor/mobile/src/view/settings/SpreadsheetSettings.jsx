@@ -247,7 +247,6 @@ const PageSpreadsheetSettings = props => {
     const isPortrait = storeSpreadsheetSettings.isPortrait;
     const isHideHeadings = storeSpreadsheetSettings.isHideHeadings;
     const isHideGridlines = storeSpreadsheetSettings.isHideGridlines;
-    const isSheetRtl = storeSpreadsheetSettings.isSheetRtl;
 
     // Init Format
 
@@ -275,22 +274,14 @@ const PageSpreadsheetSettings = props => {
                 </ListItem>
             </List>
             <BlockTitle>{_t.textFormat}</BlockTitle>
-            <List mediaList>
-                <ListItem title={textFormat} subtitle={pageSizeTxt} link="/spreadsheet-formats/" routeProps={{
+            <List className='no-margin-bottom'>
+                <ListItem mediaItem title={textFormat} subtitle={pageSizeTxt} link="/spreadsheet-formats/" routeProps={{
                     onFormatChange: props.onFormatChange
                 }}></ListItem>
                 <ListItem title={_t.textMargins} link="/margins/" routeProps={{
                     initSpreadsheetMargins: props.initSpreadsheetMargins,
                     onPageMarginsChange: props.onPageMarginsChange
                 }}></ListItem>
-            </List>
-            <List>
-                <ListItem title={_t.textSheetRtl}>
-                    <Toggle checked={isSheetRtl} onToggleChange={() => {
-                        storeSpreadsheetSettings.changeSheetRtl(!isSheetRtl)
-                        props.onRtlSheetClick(!isSheetRtl)
-                    }} />
-                </ListItem>
             </List>
             <BlockTitle>{_t.textViewGroup}</BlockTitle>
             <List>

@@ -129,11 +129,6 @@ class SpreadsheetSettingsController extends Component {
         this.initSpreadsheetSettings();
     }
 
-    onRtlSheetClick(value) {
-        const api = Common.EditorApi.get();
-        api.asc_setRightToLeft(value);
-    }
-
     render () {
         return (
             <SpreadsheetSettings 
@@ -146,7 +141,6 @@ class SpreadsheetSettingsController extends Component {
                 initPageColorSchemes={this.initPageColorSchemes}
                 onColorSchemeChange={this.onColorSchemeChange}
                 onFormatChange={this.onFormatChange}
-                onRtlSheetClick={this.onRtlSheetClick}
                 initSpreadsheetMargins={this.initSpreadsheetMargins}
                 onPageMarginsChange={this.onPageMarginsChange}
             />

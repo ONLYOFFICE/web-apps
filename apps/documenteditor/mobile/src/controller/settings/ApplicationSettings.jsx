@@ -65,16 +65,6 @@ class ApplicationSettingsController extends Component {
         Common.EditorApi.get().asc_setSpellCheck(value);
     }
 
-    switchNoCharacters(value) {
-        LocalStorage.setBool("de-mobile-no-characters", value);
-        Common.EditorApi.get().put_ShowParaMarks(value);
-    }
-
-    switchShowTableEmptyLine(value) {
-        LocalStorage.setBool("de-mobile-hidden-borders", value);
-        Common.EditorApi.get().put_ShowTableEmptyLine(value);
-    }
-
     switchDisplayComments(value) {
         const api = Common.EditorApi.get();
         this.props.storeAppOptions.changeCanViewComments(value);
@@ -127,8 +117,6 @@ class ApplicationSettingsController extends Component {
             <ApplicationSettings 
                 setUnitMeasurement={this.setUnitMeasurement}
                 switchSpellCheck={this.switchSpellCheck}
-                switchNoCharacters={this.switchNoCharacters}
-                switchShowTableEmptyLine={this.switchShowTableEmptyLine}
                 switchDisplayComments={this.switchDisplayComments}
                 switchDisplayResolved={this.switchDisplayResolved}  
                 setMacrosSettings={this.setMacrosSettings}  
