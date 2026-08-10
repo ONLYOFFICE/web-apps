@@ -90,13 +90,13 @@ const PageApplicationSettings = props => {
                 </Fragment>
             }
             {!!isConfigSelectTheme &&
-                <List mediaList>
+                <List>
                     <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
                     }}></ListItem>
                 </List>
             }
-            <List mediaList>
+            <List>
                 <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>
