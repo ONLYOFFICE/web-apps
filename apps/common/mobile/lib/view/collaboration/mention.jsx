@@ -170,7 +170,7 @@ function MentionList({ users, onSelect, onScrollBottom }) {
         if (!user.email || !user.name) return;
 
         rows.push(
-            <ListItem key={user.email} mediaList className="mention-item" title={user.name} subtitle={user.email} onMouseDown={preventFocus} onTouchStart={preventFocus} onClick={() => onSelect(user.email)}>
+            <ListItem key={user.email} mediaList className="mention-item" title={user.name} subtitle={user.email} onClick={() => onSelect(user.email)}>
                 {user.image ?
                     <img slot="media" className="mention-avatar" src={user.image} /> :
                     <div slot="media" className="mention-avatar" style={{backgroundColor: getUserColor(user.id)}}>{getInitials(user.name)}</div>}
@@ -201,6 +201,7 @@ export function attachMention(textareaEl, options) {
         if (popupEl) return;
         popupEl = document.createElement('div');
         popupEl.className = 'mention-popup';
+        popupEl.addEventListener('mousedown', preventFocus);
         document.body.appendChild(popupEl);
         root = createRoot(popupEl);
     }
@@ -215,33 +216,38 @@ export function attachMention(textareaEl, options) {
         if (!isMenuVisible || !popupEl) return;
 
         const viewport = window.visualViewport,
-            viewportWidth = viewport ? viewport.width : window.innerWidth,
-            viewportHeight = viewport ? viewport.height : window.innerHeight,
-            offsetLeft = viewport ? viewport.offsetLeft : 0,
-            offsetTop = viewport ? viewport.offsetTop : 0;
+            viewportWidth = viewport.width,
+            viewportHeight = viewport.height;
 
         const rect = textareaEl.getBoundingClientRect(),
             caret = caretOffset(textareaEl, textareaEl.selectionStart),
             caretTop = rect.top - textareaEl.scrollTop + caret.top,
             caretBottom = caretTop + caret.height,
-            width = Math.max(Math.min(rect.width, 340), 260);
+            width = Math.max(Math.min(rect.width, 500), 200);
         let left = rect.left;
-        left = Math.min(left, offsetLeft + viewportWidth - width - 16);
-        left = Math.max(left, offsetLeft + 16);
+        left = Math.min(left, viewportWidth - width - 16);
+        left = Math.max(left, 16);
 
         const rowEl = popupEl.querySelector('.mention-item'),
             rows = popupEl.querySelectorAll('.mention-list > ul > li'),
             itemHeight = rowEl ? rowEl.getBoundingClientRect().height : 0,
             popupHeight = Math.min(rows.length, 3) * itemHeight,
-            bottomSpace = (offsetTop + viewportHeight) - caretBottom;
+            bottomSpace = viewportHeight - caretBottom,
+            topSpace = caretTop;
 
-        let top;
-        if (bottomSpace >= popupHeight || (caretTop - popupHeight) < offsetTop) {
-            top = caretBottom + 4;
-        } else {
-            top = caretTop - popupHeight - 4;
+        if (bottomSpace < popupHeight && topSpace < popupHeight) {
+            popupEl.style.visibility = 'hidden';
+            return;
         }
 
+        let top;
+        if (bottomSpace >= popupHeight) {
+            top = caretBottom + 10;
+        } else {
+            top = caretTop - popupHeight - 10;
+        }
+
+        popupEl.style.visibility = '';
         popupEl.style.left = left + 'px';
         popupEl.style.top = top + 'px';
         popupEl.style.width = width + 'px';
@@ -279,7 +285,13 @@ export function attachMention(textareaEl, options) {
         if (users.length > 0) {
             isMenuVisible = true;
             popupEl.style.display = '';
-            setTimeout(positionMenu, 0);
+            setTimeout(function () {
+                if (replace) {
+                    const listEl = popupEl.querySelector('.mention-list');
+                    if (listEl) listEl.scrollTop = 0;
+                }
+                positionMenu();
+            }, 0);
         } else {
             hideMenu();
         }
@@ -344,6 +356,7 @@ export function attachMention(textareaEl, options) {
             window.removeEventListener('resize', positionMenu);
 
             if (root) root.unmount();
+            if (popupEl) popupEl.removeEventListener('mousedown', preventFocus);
             if (popupEl && popupEl.parentNode) popupEl.parentNode.removeChild(popupEl);
             popupEl = null;
             root = null;
