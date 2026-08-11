@@ -67,11 +67,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
-            if(window.DE) {
-                this.oformManager = this.api.asc_GetOForm(); 
-            } else if(window.PDFE) {
-                this.oformManager = this.api;
-            }
+            this.oformManager = this.api.asc_GetOForm(); 
 
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)

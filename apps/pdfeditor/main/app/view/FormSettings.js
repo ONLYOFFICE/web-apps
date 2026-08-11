@@ -1382,7 +1382,8 @@ define([
             }
 
             if (!roles) {
-                this.api && (roles = this.api.asc_getAllRoles());
+                const oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
 
                 // change to event asc_onRefreshRolesList
                 // roles = [
@@ -1422,13 +1423,15 @@ define([
                     const currentRole = me._originalProps.asc_getRole();
                     combo.setValue(currentRole);
 
+                    const formManager = this.api.asc_GetOForm();
+
                     new Common.Views.RoleEditDlg({
-                        oformManager: me.api,
+                        oformManager: formManager,
                         colors: [],
                         isEdit: false,
                         handler: function (result, settings) {
                             if (result === 'ok' && settings) {
-                                me.api.asc_addRole(settings.name, settings.color);
+                                this.oformManager.asc_addRole(settings.name, settings.color);
                                 me.api.asc_assignFieldToRole(settings.name);
                                 Common.Utils.InternalSettings.set('pdfe-last-form-role', settings.name);
                                 me.fireEvent('forms:currentrole');

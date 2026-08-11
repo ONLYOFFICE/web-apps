@@ -135,13 +135,15 @@ define([
             if (record.value === 0) {
                 combo.setValue(Common.Utils.InternalSettings.get('pdfe-last-form-role') || this._state.lastRoleInList);
 
+                const formManager = this.api.asc_GetOForm();
+
                 new Common.Views.RoleEditDlg({
-                    oformManager: me.api,
+                    oformManager: formManager,
                     colors: [],
                     isEdit: false,
                     handler: function (result, settings) {
                         if (result === 'ok' && settings) {
-                            me.api.asc_addRole(settings.name, settings.color);
+                            formManager.asc_addRole(settings.name, settings.color);
                             me.api.asc_assignFieldToRole(settings.name);
                             Common.Utils.InternalSettings.set('pdfe-last-form-role', settings.name);
                             combo.setValue(Common.Utils.InternalSettings.get('pdfe-last-form-role'));
@@ -164,7 +166,8 @@ define([
             if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) return;
 
             if (!roles) {
-                this.api && (roles = this.api.asc_getAllRoles());
+                const oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
             }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
             if (this.view) {
