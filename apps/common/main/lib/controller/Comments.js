@@ -754,7 +754,7 @@ define([
             var requestObj = {};
             for (var i = 0; i < data.length; ++i) {
                 const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
-                var text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+                var text = this.isPDFEditor && this.getAnnotText(data[i].asc_getAnnotType());
 
                 comment && text && comment.set('comment', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
@@ -837,7 +837,9 @@ define([
                 var hideComment = !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()),
                     needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username')) ||
                                 hideComment !== comment.get('hide');
-                comment.set('comment',  data.asc_getText());
+                var annotText = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+                comment.set('comment',  annotText ? annotText : data.asc_getText());
+                annotText && comment.set('isAnnotation', true);
                 comment.set('userid',   userid);
                 comment.set('username', data.asc_getUserName());
                 comment.set('initials', Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())));
