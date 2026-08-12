@@ -2,8 +2,8 @@
   <g class="icon-info-rtl">
     <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m20.178 7.5-4.972-5m4.972 5h-4.872a.1.1 0 0 1-.1-.1V2.5m4.972 5 .072 12.994a1 1 0 0 1-1 1.005h-4.494m.45-19h-7.95a1 1 0 0 0-1 1V11" class="icon-stroke-gray-primary"/>
     <g>
-      <path fill="#446ECA" d="M5.256 17.999a3.5 3.5 0 1 1 3.5 3.5v1.5a5 5 0 1 0 0-10 5 5 0 0 0 0 10v-1.5a3.5 3.5 0 0 1-3.5-3.5Z" class="icon-fill-brend-primary"/>
-      <path fill="#446ECA" d="M9.506 19.999v-2a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0Zm-.753-4.75a.75.75 0 0 0 0 1.5h.003a.75.75 0 0 0 0-1.5h-.003Z" class="icon-fill-brend-primary"/>
+      <path fill="#446ECA" d="M5.256 17.999a3.5 3.5 0 1 1 3.5 3.5v1.5a5 5 0 1 0 0-10 5 5 0 0 0 0 10v-1.5a3.5 3.5 0 0 1-3.5-3.5Z" class="icon-fill-brand-primary"/>
+      <path fill="#446ECA" d="M9.506 19.999v-2a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0Zm-.753-4.75a.75.75 0 0 0 0 1.5h.003a.75.75 0 0 0 0-1.5h-.003Z" class="icon-fill-brand-primary"/>
     </g>
   </g>
 </svg>

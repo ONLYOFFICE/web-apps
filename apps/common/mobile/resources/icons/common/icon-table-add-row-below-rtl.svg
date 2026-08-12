@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <g class="icon-table-add-row-below-rtl">
-    <path fill="#446ECA" d="M2 18.604a.75.75 0 0 1 0-1.5h3.25v-3.25a.75.75 0 1 1 1.5 0v3.25H10a.75.75 0 1 1 0 1.5H6.75v3.25a.75.75 0 0 1-1.5 0v-3.25H2Z" class="icon-fill-brend-primary"/>
+    <path fill="#446ECA" d="M2 18.604a.75.75 0 0 1 0-1.5h3.25v-3.25a.75.75 0 1 1 1.5 0v3.25H10a.75.75 0 1 1 0 1.5H6.75v3.25a.75.75 0 0 1-1.5 0v-3.25H2Z" class="icon-fill-brand-primary"/>
     <path fill="#444" fill-rule="evenodd" d="M4.25 3.543a1.75 1.75 0 0 0-1.75 1.75v6a.75.75 0 0 0 1.5 0v-1.25h4.5v5.06H10a2.75 2.75 0 0 1 2.75 2.752c0 .893-.429 1.686-1.09 2.188h8.59a1.751 1.751 0 0 0 1.75-1.75v-13a1.75 1.75 0 0 0-1.75-1.75h-16Zm16.25 10H16v-3.5h4.5v3.5Zm-6 0H10v-3.5h4.5v3.5Zm5.75-8.5a.25.25 0 0 1 .25.25v3.25H16v-3.5h4.25Zm-5.75 3.5H10v-3.5h4.5v3.5Zm-6 0H4v-3.25a.25.25 0 0 1 .25-.25H8.5v3.5Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
   </g>
 </svg>
