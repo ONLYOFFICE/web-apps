@@ -150,14 +150,10 @@ const SettingsView = () => {
     return (
         !Device.phone ?
             <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/' style={{ height: '410px' }}>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' style={{ height: '410px' }} />
             </Popover> :
             <Popup className="settings-popup" onPopupClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/'>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' />
             </Popup>
     )
 }
