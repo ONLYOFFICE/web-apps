@@ -149,7 +149,7 @@ DE.ApplicationController = new(function(){
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(docConfig.fileType);
+            var type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
                 permissions.edit = permissions.review = false;
             }
@@ -1123,7 +1123,7 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search),
             isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
         api = isPDF ? new Asc.PDFEditorApi({
