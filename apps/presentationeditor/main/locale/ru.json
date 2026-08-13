@@ -3700,5 +3700,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Возобновить запись",
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
   "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
-  "PE.Views.ViewTab.tipStopMacro": "Остановить запись"
+  "PE.Views.ViewTab.tipStopMacro": "Остановить запись",
+  "Common.Views.ChartTab.textDataTable": "Таблица данных",
+  "Common.Views.ChartTab.textShowDataTable": "Показывать таблицу данных",
+  "Common.Views.ChartTab.textShowLegendKeys": "Показывать ключи легенды"
 }
