@@ -33,7 +33,8 @@
       "textResolve": "Решить",
       "textSharingSettings": "Настройки доступа",
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
-      "textUsers": "Пользователи"
+      "textUsers": "Пользователи",
+      "textEnterComment": "Введите комментарий"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Пользовательские цвета",
