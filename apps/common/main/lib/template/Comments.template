@@ -21,14 +21,19 @@
         <% if (quote!==null && quote!=='') { %>
         <div class="user-quote"><%=scope.getFixedQuote(quote)%></div>
         <% } %>
-        <% if (!editText || scope.viewmode) { %>
-            <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= isAnnotation ? '<strong>' + comment + '</strong>' : scope.pickLink(comment) %></div>
-        <% } else { %>
-            <div class="inner-edit-ct">
-                <textarea class="msg-reply user-select textarea-control" maxlength="maxCommLength" aria-label="textComment"><%-comment%></textarea>
-                <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change">textEdit</button>
-                <button class="btn normal dlg-btn btn-inner-close">textCancel</button>
-            </div>
+        <% if (isAnnotation) { %>
+            <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= '<strong>' + annotation + '</strong>' %></div>
+        <% } %>
+        <% if (comment) { %>
+            <% if (!editText || scope.viewmode) { %>
+                <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= scope.pickLink(comment) %></div>
+            <% } else { %>
+                <div class="inner-edit-ct">
+                    <textarea class="msg-reply user-select textarea-control" maxlength="maxCommLength" aria-label="textComment"><%-comment%></textarea>
+                    <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change">textEdit</button>
+                    <button class="btn normal dlg-btn btn-inner-close">textCancel</button>
+                </div>
+            <% } %>
         <% } %>
 
         <!-- replys elements -->

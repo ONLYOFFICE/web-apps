@@ -503,6 +503,17 @@ define([
                         return false;
                     }
 
+                    if (!comment.get('comment')) {
+                        ascComment.asc_putText(replyVal);
+                        ascComment.asc_putUserId(me.currentUserId);
+                        ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
+
+                        me.api.asc_changeComment(id, ascComment);
+                        me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
+
+                        return true;
+                    }
+
                     var replies = comment.get('replys');
                     if (replies && replies.length) {
                         replies.forEach(function (reply) {
@@ -721,12 +732,12 @@ define([
                 text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
 
             if (comment) {
-                text && comment.set('comment', text) && comment.set('isAnnotation', true);
+                text && comment.set('annotation', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
                 const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
                 if(duplicateComment) {
                     duplicateComment.set('uid', id);
-                    text && duplicateComment.set('comment', text) && duplicateComment.set('isAnnotation', true);
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
                 } else {
                     if (comment.get('groupName')) {
                         this.addCommentToGroupCollection(comment);
@@ -756,12 +767,12 @@ define([
                 const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
                 var text = this.isPDFEditor && this.getAnnotText(data[i].asc_getAnnotType());
 
-                comment && text && comment.set('comment', text) && comment.set('isAnnotation', true);
+                comment && text && comment.set('annotation', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
                 const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
                 if(duplicateComment) {
                     duplicateComment.set('uid', comment.get('uid'));
-                    text && duplicateComment.set('comment', text) && duplicateComment.set('isAnnotation', true);
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
                 } else {
                     comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
                 }
@@ -837,9 +848,9 @@ define([
                 var hideComment = !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()),
                     needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username')) ||
                                 hideComment !== comment.get('hide');
+                comment.set('comment',  data.asc_getText());
                 var annotText = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
-                comment.set('comment',  annotText ? annotText : data.asc_getText());
-                annotText && comment.set('isAnnotation', true);
+                annotText && comment.set('annotation', annotText) && comment.set('isAnnotation', true);
                 comment.set('userid',   userid);
                 comment.set('username', data.asc_getUserName());
                 comment.set('initials', Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())));
@@ -1401,6 +1412,7 @@ define([
                 userid              : userid,
                 username            : data.asc_getUserName(),
                 isAnnotation        : false,
+                annotation          : null,
                 initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())),
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
