@@ -168,7 +168,8 @@
       "textUnderline": "Underline",
       "textUsers": "Users",
       "textWidow": "Widow control",
-      "textEnterComment": "Enter comment"
+      "textEnterComment": "Enter comment",
+      "textMention": "Comment or mention with + or @"
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
