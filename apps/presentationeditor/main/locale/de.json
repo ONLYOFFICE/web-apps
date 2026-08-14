@@ -3700,5 +3700,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Aufnahme fortsetzen",
   "PE.Views.ViewTab.tipSelectTool": "Auswählungstool",
   "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
-  "PE.Views.ViewTab.tipStopMacro": "Aufnahme beenden"
+  "PE.Views.ViewTab.tipStopMacro": "Aufnahme beenden",
+  "Common.Views.ChartTab.textDataTable": "Datentabelle",
+  "Common.Views.ChartTab.textShowDataTable": "Datentabelle anzeigen",
+  "Common.Views.ChartTab.textShowLegendKeys": "Legenden-Symbole anzeigen"
 }
