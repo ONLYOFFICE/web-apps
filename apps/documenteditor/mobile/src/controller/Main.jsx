@@ -265,7 +265,7 @@ class MainController extends Component {
                     docInfo.put_Wopi(this.editorConfig.wopi);
                     this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
-                    let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                    let type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                                     !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -511,7 +511,7 @@ class MainController extends Component {
                         _translate = this.fallbackSdkTranslations
                     }
 
-                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
                     const config = {
@@ -1392,7 +1392,7 @@ class MainController extends Component {
                 Asc.c_oAscFileType.JPG,
                 Asc.c_oAscFileType.PNG
             ];
-        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(this.document.fileType);
 
         if (type && typeof type[1] === 'string' && !appOptions.isForm) {
             if (!(format && (typeof format == 'string')) || type[1] === format.toLowerCase()) {
@@ -1721,7 +1721,7 @@ class MainController extends Component {
             enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+            let type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(this.document.fileType);
             let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                 !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer

@@ -285,7 +285,7 @@ export class storeAppOptions {
             this.canComments = false;
         this.trialMode = params.asc_getLicenseMode();
 
-        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(document.fileType);
         
         this.canDownloadOrigin = false;
         this.canDownload = permissions.download !== false;
