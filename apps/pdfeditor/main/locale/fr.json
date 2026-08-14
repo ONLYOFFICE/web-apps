@@ -30,7 +30,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectLeft": "Utiliser la flèche du clavier pour déplacer l’objet sélectionné d’un grand pas vers la gauche.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectRight": "Utiliser la flèche du clavier pour déplacer l’objet sélectionné d’un grand pas vers la droite.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectUp": "Utiliser la flèche du clavier pour déplacer l’objet sélectionné d’un grand pas vers le haut.",
-  "Common.Controllers.Shortcuts.txtDescriptionBold": "Mettre le texte sélectionné en gras, pour un aspect plus accentué.",
+  "Common.Controllers.Shortcuts.txtDescriptionBold": "Mettre en gras le fragment de texte sélectionné pour lui donner un aspect plus épais.",
   "Common.Controllers.Shortcuts.txtDescriptionCenterPara": "Passer un paragraphe entre centré et aligné à gauche.",
   "Common.Controllers.Shortcuts.txtDescriptionChooseNextComboBoxOption": "Choisir l'option suivante de la zone de liste déroulante dans le formulaire.",
   "Common.Controllers.Shortcuts.txtDescriptionChoosePreviousComboBoxOption": "Choisir l'option précédente de la zone de liste déroulante dans le formulaire.",
@@ -3154,5 +3154,10 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
-  "PDFE.Views.ViewTab.tipRecognize": "Modifier le text"
+  "PDFE.Views.ViewTab.tipRecognize": "Modifier le text",
+  "Common.Controllers.Shortcuts.txtDescriptionSmallCaps": "Mettre le fragment de texte sélectionné en petites capitales.",
+  "Common.Controllers.Shortcuts.txtLabelSmallCaps": "SmallCaps",
+  "Common.Views.ChartTab.textDataTable": "Table de données",
+  "Common.Views.ChartTab.textShowDataTable": "Afficher le table de données",
+  "Common.Views.ChartTab.textShowLegendKeys": "Afficher les symboles de légende"
 }
