@@ -60,6 +60,32 @@ define([
 
             this.actionsMap = {};
             this.eventsMap = {};
+            /**
+             * Priority list of key shortcuts per action.
+             * Key — action id (e.g. "Copy"), value — array of shortcuts for that
+             * action listed in priority order: the lower the index in the array,
+             * the higher the shortcut's priority when sorting.
+             */
+            this.shortcutPriorityList = {
+                Copy: [
+                    // Ctrl + C
+                    {
+                        altKey: false,
+                        commandKey: false,
+                        ctrlKey: true,
+                        keyCode: 67,
+                        shiftKey: false
+                    },
+                    // ⌘ + C
+                    {
+                        altKey: false,
+                        commandKey: true,
+                        ctrlKey: false,
+                        keyCode: 67,
+                        shiftKey: false
+                    }
+                ]
+            };
         },
 
         setApi: function(api) {
@@ -162,7 +188,7 @@ define([
                         ascShortcut: ascShortcut,
                     }
                 });
-                actionItem.shortcuts = actionItem.shortcuts.sort(this._sortComparator);
+                actionItem.shortcuts = actionItem.shortcuts.sort(this._sortComparator.bind(this));
             }
 
             this._eventsTrigger();
@@ -200,7 +226,7 @@ define([
             });
 
             const action = this.getActionsMap()[actionType];
-            resultShortcuts = resultShortcuts.sort(this._sortComparator);
+            resultShortcuts = resultShortcuts.sort(this._sortComparator.bind(this));
             action && (action.shortcuts = resultShortcuts);
 
             // Remove shortcuts from other actions if they conflict with updated shortcuts
@@ -477,7 +503,7 @@ define([
                     }
                 }
                 if(this.actionsMap[actionType]) {
-                    this.actionsMap[actionType].shortcuts = shortcuts.sort(this._sortComparator);
+                    this.actionsMap[actionType].shortcuts = shortcuts.sort(this._sortComparator.bind(this));
                 }
             }
         },
@@ -579,6 +605,7 @@ define([
         },
 
         _sortComparator: function(first, second) {
+            const me = this;
             const priorityModifierKeys = ['asc_IsCommand', 'asc_IsCtrl', 'asc_IsAlt', 'asc_IsShift'];
             function getWeight(ascShortcut) {
                 // Search for the first modifier key
@@ -600,6 +627,34 @@ define([
 
                 // weight = range for main key + “cost” of extra keys
                 return keyIndex * 100 + extras;
+            }
+
+            function getPriorityIndex (ascShortcut) {
+                const list = me.shortcutPriorityList && 
+                    me.shortcutPriorityList[me._getDefaultShortcutActionsInvert()[ascShortcut.type]];
+                if (!list || !list.length) return -1;
+
+                return _.findIndex(list, function(p) {
+                    return (
+                        p.altKey === ascShortcut.asc_IsAlt() &&
+                        p.commandKey === ascShortcut.asc_IsCommand() &&
+                        p.ctrlKey === ascShortcut.asc_IsCtrl() &&
+                        p.shiftKey === ascShortcut.asc_IsShift() &&
+                        p.keyCode === ascShortcut.asc_GetKeyCode()
+                    );
+                });
+            };
+
+            // Explicit priority from shortcutPriorityList — sort by position in the list.
+            const firstPriorityIndex = getPriorityIndex(first.ascShortcut);
+            const firstHasPriority = firstPriorityIndex !== -1;
+            const secondPriorityIndex = getPriorityIndex(second.ascShortcut);
+            const secondHasPriority = secondPriorityIndex !== -1;
+
+            if (firstHasPriority && !secondHasPriority) return -1;
+            if (!firstHasPriority && secondHasPriority) return 1;
+            if (firstHasPriority && secondHasPriority) {
+                return firstPriorityIndex - secondPriorityIndex;
             }
 
             if (first.ascShortcut.asc_IsLocked() && !second.ascShortcut.asc_IsLocked()) return -1;
