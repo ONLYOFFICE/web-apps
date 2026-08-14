@@ -468,7 +468,12 @@
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
     "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
-    "textSwitchToDesktop": "Passer en mode desktop"
+    "textSwitchToDesktop": "Passer en mode desktop",
+    "textSave": "Enregistrer",
+    "textDontSave": "Ne pas enregistrer",
+    "textCancel": "Annuler",
+    "textSaveData": "Enregistrez vos modifications avant de quitter",
+    "textUnsavedData": "Données non enregistrées"
   },
   "View": {
     "Add": {
