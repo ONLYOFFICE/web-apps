@@ -828,7 +828,9 @@
     "txtDownloadTxt": "Télécharger le TXT",
     "txtIncorrectPwd": "Mot de passe incorrect",
     "txtOk": "Ok",
-    "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé"
+    "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé",
+    "textDarkDocument": "Document sombre",
+    "textSaveDocument": "Enregistrer"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
@@ -844,6 +846,11 @@
     "textSwitchedMobileView": "Passé à l'affichage mobile",
     "textSwitchedStandardView": "Passé à l'affichage standard",
     "textSwitchToDesktop": "Passer en mode desktop",
-    "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire."
+    "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire.",
+    "textSave": "Enregistrer",
+    "textDontSave": "Ne pas enregistrer",
+    "textCancel": "Annuler",
+    "textSaveData": "Enregistrez vos modifications avant de quitter",
+    "textUnsavedData": "Données non enregistrées"
   }
 }
