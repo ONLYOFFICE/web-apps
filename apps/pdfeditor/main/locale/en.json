@@ -3300,7 +3300,7 @@
   "PDFE.Views.RemoveMetaDlg.textHiddenText": "Hidden text",
   "PDFE.Views.RemoveMetaDlg.textHiddenLayers": "Hidden layers",
   "PDFE.Views.RemoveMetaDlg.textDeletedTrimmed": "Deleted or trimmed content",
-  "PDFE.Views.RemoveMetaDlg.textLinksActions": "Links, actions and JavaScripts scripts",
+  "PDFE.Views.RemoveMetaDlg.textLinksActions": "Links, actions and JavaScript scripts",
   "PDFE.Views.RemoveMetaDlg.textOverlappingObjects": "Overlapping objects",
   "PDFE.Views.RemoveMetaDlg.textRemoveInformationDescription": "The Remove Hidden Information feature will search for and remove the following document information:"
 }
