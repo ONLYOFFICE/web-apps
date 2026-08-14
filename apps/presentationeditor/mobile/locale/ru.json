@@ -428,7 +428,7 @@
       "textFade": "Выцветание",
       "textFerris": "Колесо обозрения",
       "textFill": "Заливка",
-      "textFinalMessage": "Просмотр слайдов завершен. Коснитесь, чтобы выйти.",
+      "textFinalMessage": "Конец показа слайдов. Проведите пальцем вперед, чтобы выйти.",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFirstColumn": "Первый столбец",
@@ -559,7 +559,13 @@
       "textZoomOut": "Уменьшение",
       "textZoomRotate": "Увеличение с поворотом",
       "txtHeight": "Высота",
-      "txtWidth": "Ширина"
+      "txtWidth": "Ширина",
+      "textClose": "Закрыть",
+      "textPause": "Пауза",
+      "textPlay": "Воспроизведение",
+      "textSlideXofY": "Слайд {0} из {1}",
+      "txtCustom": "Пользовательский",
+      "textCurrentFont": "Основной текст"
     },
     "Settings": {
       "mniSlideLandscape": "Альбомная",
