@@ -3159,5 +3159,9 @@
   "Common.Controllers.Shortcuts.txtLabelSmallCaps": "SmallCaps",
   "Common.Views.ChartTab.textDataTable": "Table de données",
   "Common.Views.ChartTab.textShowDataTable": "Afficher le table de données",
-  "Common.Views.ChartTab.textShowLegendKeys": "Afficher les symboles de légende"
+  "Common.Views.ChartTab.textShowLegendKeys": "Afficher les symboles de légende",
+  "Common.Controllers.Comments.textCircle": "Cercle",
+  "Common.Controllers.Comments.textSquare": "Carré",
+  "Common.Controllers.Comments.textFreeText": "Texte libre",
+  "Common.Controllers.Comments.textLine": "Ligne"
 }
