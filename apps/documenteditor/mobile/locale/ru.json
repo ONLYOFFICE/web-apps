@@ -427,7 +427,9 @@
     "textWrapText": "Перенос текста",
     "textYourOption": "Ваш вариант",
     "txtHeight": "Высота",
-    "txtWidth": "Ширина"
+    "txtWidth": "Ширина",
+    "textCurrentFont": "Основной текст",
+    "txtCustom": "Пользовательский"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
