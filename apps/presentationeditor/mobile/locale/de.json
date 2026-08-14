@@ -33,7 +33,8 @@
       "textResolve": "Lösen",
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen \"Rückgängig machen\" bzw. \"Wiederholen\" sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textEnterComment": "Kommentar eingeben"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -293,7 +294,12 @@
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
-    "textSwitchToDesktop": "In den Desktopmodus wechseln"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   },
   "View": {
     "Add": {
