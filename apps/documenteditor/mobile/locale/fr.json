@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves"
+      "textWidow": "Contrôle des veuves",
+      "textEnterComment": "Saisir un commentaire"
     },
     "HighlightColorPalette": {
       "textNoFill": "Aucun remplissage"
@@ -426,7 +427,9 @@
     "textWrapText": "Habillage du texte",
     "textYourOption": "Votre option",
     "txtHeight": "Hauteur",
-    "txtWidth": "Largeur"
+    "txtWidth": "Largeur",
+    "txtCustom": "Personnalisé",
+    "textCurrentFont": "Corps de texte"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -533,7 +536,8 @@
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
     "uploadImageTitleText": "Chargement d'une image",
-    "waitText": "Veuillez patienter..."
+    "waitText": "Veuillez patienter...",
+    "changesSaved": "Toutes les modifications sont enregistrées"
   },
   "Main": {
     "criticalErrorTitle": "Erreur",
@@ -830,7 +834,8 @@
     "txtOk": "Ok",
     "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé",
     "textDarkDocument": "Document sombre",
-    "textSaveDocument": "Enregistrer"
+    "textSaveDocument": "Enregistrer",
+    "textAutoSaveDocument": "Enregistrement automatique"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
