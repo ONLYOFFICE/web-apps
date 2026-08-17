@@ -3163,5 +3163,11 @@
   "Common.Controllers.Comments.textCircle": "Cercle",
   "Common.Controllers.Comments.textSquare": "Carré",
   "Common.Controllers.Comments.textFreeText": "Texte libre",
-  "Common.Controllers.Comments.textLine": "Ligne"
+  "Common.Controllers.Comments.textLine": "Ligne",
+  "Common.Controllers.Comments.textPolygon": "Polygone",
+  "Common.Controllers.Comments.textPolyLine": "Ligne brisée",
+  "Common.Controllers.Comments.textStrikeout": "Barré",
+  "Common.Controllers.Comments.textUnderline": "Souligné",
+  "Common.Controllers.Comments.textCaret": "Signe d'insertion",
+  "Common.Controllers.Comments.textHighlight": "Surligné"
 }
