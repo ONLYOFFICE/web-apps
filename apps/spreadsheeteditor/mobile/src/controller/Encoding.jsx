@@ -71,10 +71,8 @@ class EncodingController extends Component {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
 
-        if (fromSaveAs) {
-            this.isFromSaveACopy = true;
-        }
-        
+        this.isFromSaveACopy = !!fromSaveAs;
+
         if(type === Asc.c_oAscAdvancedOptionsID.CSV) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);

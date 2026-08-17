@@ -66,9 +66,8 @@ class EncodingController extends Component {
     }
 
     initEncoding(type, advOptions, mode, formatOptions, fromSaveAs) {
-        if (fromSaveAs) {
-            this.isFromSaveACopy = true;
-        }
+        this.isFromSaveACopy = !!fromSaveAs;
+
         if(type === Asc.c_oAscAdvancedOptionsID.TXT) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);

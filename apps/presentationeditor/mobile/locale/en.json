@@ -651,7 +651,9 @@
       "textShare": "Share",
       "textStyleGroup": "Style",
       "textShowSettingsGroup": "Show Settings",
-      "textSpellingGroup": "Spelling"
+      "textSpellingGroup": "Spelling",
+      "textSaveACopyHeader": "Save a copy",
+      "textSaveConnectedStorage": "The file will be saved to the connected storage"
     }
   }
 }

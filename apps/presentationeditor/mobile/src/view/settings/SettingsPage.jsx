@@ -112,7 +112,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
-        _canRequestSaveAs = appOptions.canRequestSaveAs;
+        _canRequestSaveAs = _canDownload && appOptions.canRequestSaveAs;
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;

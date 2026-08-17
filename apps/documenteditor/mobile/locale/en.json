@@ -850,7 +850,9 @@
     "textMobileViewWarning": "Part of the content of this document will be hidden in Mobile View.",
     "textStyleGroup": "Style",
     "textSpellingGroup": "Spelling",
-    "textDisplayGroup": "Display"
+    "textDisplayGroup": "Display",
+    "textSaveACopyHeader": "Save a copy",
+    "textSaveConnectedStorage": "The file will be saved to the connected storage"
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",

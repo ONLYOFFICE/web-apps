@@ -934,7 +934,9 @@
       "textTools": "Tools",
       "textViewGroup": "View",
       "textLanguageAndRegion": "Language & Region",
-      "textStyleGroup": "Style"
+      "textStyleGroup": "Style",
+      "textSaveACopyHeader": "Save a copy",
+      "textSaveConnectedStorage": "The file will be saved to the connected storage"
     }
   }
 }

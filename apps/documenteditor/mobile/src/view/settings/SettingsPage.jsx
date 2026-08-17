@@ -135,7 +135,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
-        _canRequestSaveAs = appOptions.canRequestSaveAs;
+        _canRequestSaveAs = (_canDownload || _canDownloadOrigin) && (appOptions.canRequestSaveAs || !!appOptions.saveAsUrl);
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;

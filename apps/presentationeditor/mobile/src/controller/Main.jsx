@@ -155,6 +155,8 @@ class MainController extends Component {
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
 
+                this.props.storeAppOptions.wopi = this.editorConfig.wopi;
+
                 let value = LocalStorage.getItem("pe-mobile-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
