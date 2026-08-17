@@ -33,7 +33,8 @@
       "textResolve": "Résoudre",
       "textSharingSettings": "Paramètres de partage",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs"
+      "textUsers": "Utilisateurs",
+      "textEnterComment": "Saisir un commentaire"
     },
     "HighlightColorPalette": {
       "textNoFill": "Aucun remplissage"
@@ -280,7 +281,8 @@
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
     "uploadImageTitleText": "Chargement d'une image",
-    "waitText": "Veuillez patienter..."
+    "waitText": "Veuillez patienter...",
+    "changesSaved": "Toutes les modifications sont enregistrées"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
