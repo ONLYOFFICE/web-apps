@@ -541,7 +541,10 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textSheets": "Arbeitsblätter",
+      "textLinkTo": "Link zu",
+      "textDefinedName": "Definierter Name"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -749,7 +752,12 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "txtCustom": "Benutzerdefiniert",
+      "textCurrentFont": "Haupttext",
+      "textSheets": "Arbeitsblätter",
+      "textLinkTo": "Link zu",
+      "textDefinedName": "Definierter Name"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -826,7 +834,7 @@
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
-      "textOpenLocation": "Ordner öffnen",
+      "textOpenLocation": "Speicherort öffnen",
       "textOrientation": "Orientierung",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
