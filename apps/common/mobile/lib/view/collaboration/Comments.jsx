@@ -848,12 +848,12 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                             {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                                     {Device.ios ? 
                                                         comment.resolved ? 
-                                                            <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
-                                                            <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                                            <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} />
                                                     :
                                                         comment.resolved ? 
-                                                            <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
-                                                            <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                                            <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} />
                                                     }
                                                 </div> 
                                             }
@@ -1027,12 +1027,12 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                         {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                             {Device.ios ? 
                                                 comment.resolved ? 
-                                                    <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
-                                                    <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                                    <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} />
                                             :
                                                 comment.resolved ?
-                                                    <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
-                                                    <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                                    <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} />
                                             }
                                         </div>}
                                         {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
