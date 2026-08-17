@@ -311,14 +311,14 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                                 <SvgIcon slot="media" symbolId={IconInfo.id} className={'icon icon-svg'} />
                             </ListItem>
                         }
-                        {_canAbout &&
-                            <ListItem title={_t.textAbout} link="/about/">
-                                <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
-                            </ListItem>
-                        }
                         {(_canHelp || _canFeedback) &&
                             <ListItem title={_t.textHelpAndFeedback} link="/help-and-feedback/">
                                 <SvgIcon slot="media" symbolId={IconHelp.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        {_canAbout &&
+                            <ListItem title={_t.textAbout} link="/about/">
+                                <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
                             </ListItem>
                         }
                     </List>
