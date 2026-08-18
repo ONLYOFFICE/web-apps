@@ -68,7 +68,7 @@
   "Common.Views.EmbedDialog.textWidth": "Largeur",
   "Common.Views.EmbedDialog.txtCopy": "Copier dans le presse-papiers",
   "Common.Views.EmbedDialog.warnCopy": "Erreur du navigateur ! Utilisez le raccourci clavier [Ctrl] + [C].",
-  "Common.Views.ImageFromUrlDialog.textUrl": "Collez l'URL de l'image :",
+  "Common.Views.ImageFromUrlDialog.textUrl": "Coller URL d'image :",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "Ce champ est obligatoire",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "Ce champ doit être une URL au format \"http://www.example.com\"",
   "Common.Views.OpenDialog.closeButtonText": "Fermer fichier",
