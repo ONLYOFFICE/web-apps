@@ -145,18 +145,18 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 component: <EditShapeController />
             })
         }
-        if (settings.indexOf('cell') > -1) {
-            editors.push({
-                caption: _t.textCell,
-                id: 'edit-text',
-                component: <EditCellController />
-            })
-        }
         if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
                 component: <EditTableController />
+            })
+        }
+        if (settings.indexOf('cell') > -1) {
+            editors.push({
+                caption: _t.textCell,
+                id: 'edit-text',
+                component: <EditCellController />
             })
         }
         if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('chart') > -1) {

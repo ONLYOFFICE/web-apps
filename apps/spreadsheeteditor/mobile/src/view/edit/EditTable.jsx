@@ -65,7 +65,7 @@ const EditTable = props => {
     const canDeleteTable = tableInfo.asc_getIsDeleteTable();
 
     return (
-        <Page>
+        <Page className="table-panel">
             <Navbar title={_t.textTable} />
             <List>
                 <ListItem className='buttons'>
