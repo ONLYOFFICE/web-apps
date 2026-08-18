@@ -41,6 +41,7 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats, PageCellTextDirection } from './EditCell';
+import { PageTableStyle, PageTableStyleOptions } from './EditTable';
 import { PageTextFonts, PageTextCustomFontSize, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape, PageTextAdditionalFormatting, PageTextDirection } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageEditTypeLink, PageEditSheet } from './EditLink';
@@ -180,6 +181,17 @@ const routes = [
     {
         path: '/edit-cell-style/',
         component: CellStyle
+    },
+
+    // Table
+
+    {
+        path: '/edit-table-style/',
+        component: PageTableStyle
+    },
+    {
+        path: '/edit-table-style-options/',
+        component: PageTableStyleOptions
     },
 
     // Text

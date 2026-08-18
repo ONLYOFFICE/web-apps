@@ -49,6 +49,7 @@ export class storeFocusObjects {
             shapeObject: computed,
             imageObject: computed,
             chartObject: computed,
+            tableObject: computed,
             isLocked: observable,
             isLockedText: observable,
             isLockedShape: observable,
@@ -124,6 +125,10 @@ export class storeFocusObjects {
 
     get chartObject() {
         return !!this.intf ? this.intf.getChartObject() : null;
+    }
+
+    get tableObject() {
+        return !!this.intf ? this.intf.getTableObject() : null;
     }
 
     get paragraphObject() {

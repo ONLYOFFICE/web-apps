@@ -90,7 +90,12 @@
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?",
-    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
+    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?",
+    "menuAddColumn": "Add Column",
+    "menuAddRow": "Add Row",
+    "menuDeleteColumn": "Delete Column",
+    "menuDeleteRow": "Delete Row",
+    "menuSelectAll": "Select All"
   },
   "Controller": {
     "Main": {
@@ -546,7 +551,9 @@
       "txtYes": "Yes",
       "textSheets": "Sheets",
       "textLinkTo": "Link to",
-      "textDefinedName": "Defined name"
+      "textDefinedName": "Defined name",
+      "textStyle": "Style",
+      "textTable": "Table"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -759,7 +766,19 @@
       "textCurrentFont": "Main Text",
       "textSheets": "Sheets",
       "textLinkTo": "Link to",
-      "textDefinedName": "Defined name"
+      "textDefinedName": "Defined name",
+      "textTotalRow": "Total Row",
+      "textTable": "Table",
+      "textStyleOptions": "Style Options",
+      "textRow": "Row",
+      "textLastColumn": "Last Column",
+      "textHeaderRow": "Header Row",
+      "textFilterButton": "Filter Button",
+      "textDeleteTable": "Delete Table",
+      "textColumn": "Column",
+      "textBandedColumns": "Banded Columns",
+      "textBandedRows": "Banded Rows",
+      "textFirstColumn": "First Column"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

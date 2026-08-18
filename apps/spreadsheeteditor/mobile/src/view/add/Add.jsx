@@ -44,6 +44,7 @@ import { EditLinkController } from "../../controller/edit/EditLink";
 import { PageTypeLink, PageSheet } from "./AddLink";
 import { PageEditTypeLink, PageEditSheet } from "../../view/edit/EditLink";
 import AddFilterController from "../../controller/add/AddFilter";
+import AddTableController from "../../controller/add/AddTable";
 import AddingPage from './AddingPage';
 import { MainContext } from '../../page/main';
 
@@ -99,6 +100,11 @@ const routes = [
     {
         path: '/add-sort-and-filter/',
         component: AddFilterController
+    },
+    // Table
+    {
+        path: '/add-table-style/',
+        component: AddTableController
     }
 ];
 

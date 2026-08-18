@@ -42,6 +42,7 @@ import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTextController from "../../controller/edit/EditText";
 import EditChartController from "../../controller/edit/EditChart";
+import EditTableController from "../../controller/edit/EditTable";
 import { Device } from "../../../../../common/mobile/utils/device";
 import { MainContext } from '../../page/main';
 import SvgIcon from '@common/lib/component/SvgIcon';
@@ -149,6 +150,13 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 caption: _t.textCell,
                 id: 'edit-text',
                 component: <EditCellController />
+            })
+        }
+        if (settings.indexOf('table') > -1) {
+            editors.push({
+                caption: _t.textTable,
+                id: 'edit-table',
+                component: <EditTableController />
             })
         }
         if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('chart') > -1) {
