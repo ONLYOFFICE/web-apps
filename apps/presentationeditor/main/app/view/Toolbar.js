@@ -1366,7 +1366,7 @@ define([
                         enableKeyEvents: true,
                         itemHeight: 40,
                         style: 'min-width:123px;',
-                        lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
+                        lock: [_set.themeLock, _set.lostConnect, _set.noSlides, _set.slideMasterMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
