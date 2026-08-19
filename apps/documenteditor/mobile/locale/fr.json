@@ -548,7 +548,7 @@
     "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "notcriticalErrorTitle": "Avertissement",
     "SDK": {
-      " -Section ": "- Section",
+      " -Section ": " - Section ",
       "above": "Au-dessus",
       "Aspect": "Aspect",
       "below": "en dessous",
@@ -671,7 +671,7 @@
     "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
     "textSaveAsPdf": "Enregistrer comme PDF",
     "textYes": "Oui",
-    "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.\n<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
+    "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
     "tipLicenseUsersExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal d'utilisateurs autorisés à modifier les documents par licence a été atteint. <br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d'un accès pour l'éditer.",
     "titleDialogProtectedDocument": "Le document est protégé",
     "titleLicenseExp": "Licence expirée",
