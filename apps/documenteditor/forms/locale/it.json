@@ -211,5 +211,7 @@
   "DE.Views.ApplicationView.txtPrint": "Stampa",
   "DE.Views.ApplicationView.txtSearch": "Trova",
   "DE.Views.ApplicationView.txtShare": "Condividi",
-  "DE.Views.ApplicationView.txtTheme": "Tema dell'interfaccia"
+  "DE.Views.ApplicationView.txtTheme": "Tema dell'interfaccia",
+  "DE.Views.FillingStatusSettings.txtComplete": "Completa",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "Il documento è firmato"
 }
