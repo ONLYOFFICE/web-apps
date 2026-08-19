@@ -19,20 +19,20 @@
     <% if (isAnnotation) { %>
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= '<strong>' + annotation + '</strong>' %></div>
     <% } %>
-    <% if (comment) { %>
-        <% if (!editTextInPopover || (hint && !fullInfoInHint) || scope.viewmode) { %>
+    <% if (!editTextInPopover || (hint && !fullInfoInHint) || scope.viewmode) { %>
+        <% if (comment) { %>
             <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= scope.pickLink(comment) %></div>
-        <% } else { %>
-            <div class="inner-edit-ct">
-                <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %> aria-label="textComment"><%-comment%></textarea>
-                <% if (hideAddReply) { %>
-                    <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textAdd</button>
-                <% } else { %>
-                    <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textEdit</button>
-                <% } %>
-                <button class="btn normal dlg-btn btn-inner-close">textCancel</button>
-            </div>
         <% } %>
+    <% } else { %>
+        <div class="inner-edit-ct">
+            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %> aria-label="textComment"><%-comment%></textarea>
+            <% if (hideAddReply) { %>
+                <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textAdd</button>
+            <% } else { %>
+                <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textEdit</button>
+            <% } %>
+            <button class="btn normal dlg-btn btn-inner-close">textCancel</button>
+        </div>
     <% } %>
 
     <!-- replys elements -->
