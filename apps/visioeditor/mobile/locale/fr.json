@@ -57,7 +57,7 @@
       "textOpenFile": "Entrez le mot de passe pour ouvrir le fichier",
       "textPaidFeature": "Fonctionnalité payante",
       "textYes": "Oui",
-      "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.\n<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
+      "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
       "tipLicenseUsersExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal d'utilisateurs autorisés à modifier les documents par licence a été atteint. <br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d'un accès pour l'éditer.",
       "titleLicenseExp": "Licence expirée",
       "titleLicenseNotActive": "Licence non active",
@@ -216,7 +216,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Infos sur Visionneuse de diagramme",
       "textVisioSettings": "Paramètres de Visionneuse de diagrammes",
-      "textVisioTitle": "Titre de la Visionneuse de diagrammes"
+      "textVisioTitle": "Titre de la Visionneuse de diagrammes",
+      "textOpenLocation": "Ouvrir l'emplacement"
     }
   }
 }
