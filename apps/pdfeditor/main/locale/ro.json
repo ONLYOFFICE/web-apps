@@ -30,7 +30,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectLeft": "Folosire tasta săgeată pentru a muta obiectul selectat cu un pas mare la stânga.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectRight": "Folosire tasta săgeată pentru a muta obiectul selectat cu un pas mare la dreapta.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectUp": "Folosire tasta săgeată pentru a muta obiectul selectat cu un pas mare în sus.",
-  "Common.Controllers.Shortcuts.txtDescriptionBold": "Formatare text selectat ca mai întunecat și mai îngroșat.",
+  "Common.Controllers.Shortcuts.txtDescriptionBold": "Formatare text selectat ca aldin сu un aspect mai îngroșat.",
   "Common.Controllers.Shortcuts.txtDescriptionCenterPara": "Comutare între aliniere la centru și aliniere la stânga a unui paragraf.",
   "Common.Controllers.Shortcuts.txtDescriptionChooseNextComboBoxOption": "Alege opțiunea din următoarea casetă combo din formular.",
   "Common.Controllers.Shortcuts.txtDescriptionChoosePreviousComboBoxOption": "Alege opțiunea din casetă combo precedentă în formular.",
@@ -3154,5 +3154,7 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Potrivire lățime",
   "PDFE.Views.ViewTab.tipHeadings": "Titluri",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
-  "PDFE.Views.ViewTab.tipRecognize": "Editare text"
+  "PDFE.Views.ViewTab.tipRecognize": "Editare text",
+  "Common.Controllers.Shortcuts.txtDescriptionSmallCaps": "Formatare fragment de text selectat ca majuscule mici.",
+  "Common.Controllers.Shortcuts.txtLabelSmallCaps": "SmallCaps"
 }
