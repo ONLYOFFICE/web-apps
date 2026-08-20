@@ -155,6 +155,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-start-over"></div>' +    
+                                    '<div class="btn-slot" id="slot-btn-dt-download"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
@@ -369,6 +370,10 @@ define([
                 this.btnStartOver[props.startOver ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-start-over', props.startOver);
             }
+            if (props.download !== undefined) {
+                this.btnDownload[props.download ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-download', props.download);
+            }
             Common.NotificationCenter.trigger('edit:complete');
 
             if ( caller && caller == 'header' )
@@ -545,6 +550,13 @@ define([
                         checkable: true
                     });
                 }
+                if (me.btnDownload) {
+                    arr.push({
+                        caption: me.textDownload,
+                        value: 'download',
+                        checkable: true
+                    });
+                }
                 me.btnQuickAccess.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     style: 'min-width: 110px;',
@@ -566,6 +578,9 @@ define([
                         }
                         if (item.value === 'startover') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true), true);
+                        }
+                        if (item.value === 'download') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false), true);
                         }
                     });
                 });
@@ -589,20 +604,21 @@ define([
                             break;
                         case 'startover':
                             props.startOver = item.checked;
-                            break;        
+                            break;
+                        case 'download':
+                            props.download = item.checked;
+                            break;
                     }
                     onChangeQuickAccess.call(me, 'header', props);
                 });
                 Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
             }
 
-            if ( !appConfig.twoLevelHeader ) {
-                if ( me.btnDownload ) {
-                    me.btnDownload.updateHint(me.tipDownload);
-                    me.btnDownload.on('click', function (e) {
-                        me.fireEvent('downloadas', ['original']);
-                    });
-                }
+            if ( me.btnDownload ) {
+                me.btnDownload.updateHint(me.tipDownload);
+                me.btnDownload.on('click', function (e) {
+                    me.fireEvent('downloadas', ['original']);
+                });
             }
 
             if ( me.btnEdit ) {
@@ -1134,6 +1150,11 @@ define([
                             label: me.tipStartOver
                         };
                     }
+                    if (config.canDownload) {
+                        me.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-btn-dt-download'), false, undefined, undefined, 'D');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false) && me.btnDownload.hide();
+                    }
+
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',
                         iconCls: 'toolbar__icon icon--inverse btn-more',

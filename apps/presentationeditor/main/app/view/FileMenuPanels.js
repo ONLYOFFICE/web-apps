@@ -930,6 +930,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader,
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('pe-quick-access-save', true),
@@ -937,7 +938,8 @@ define([], function () {
                     quickPrint: Common.localStorage.getBool('pe-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('pe-quick-access-undo', true),
                     redo: Common.localStorage.getBool('pe-quick-access-redo', true),
-                    startOver: Common.localStorage.getBool('pe-quick-access-start-over', true)
+                    startOver: Common.localStorage.getBool('pe-quick-access-start-over', true),
+                    download: Common.localStorage.getBool('pe-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();
