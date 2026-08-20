@@ -3700,5 +3700,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Nastavite snimanje",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
   "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
-  "PE.Views.ViewTab.tipStopMacro": "Prekinite snimanje"
+  "PE.Views.ViewTab.tipStopMacro": "Prekinite snimanje",
+  "Common.Views.ChartTab.textDataTable": "Tabela podataka",
+  "Common.Views.ChartTab.textShowDataTable": "Prikaži tabelu podataka",
+  "Common.Views.ChartTab.textShowLegendKeys": "Prikaži ključeve legende"
 }
