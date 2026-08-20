@@ -3154,5 +3154,19 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.ViewTab.tipRecognize": "Uredi tekst"
+  "PDFE.Views.ViewTab.tipRecognize": "Uredi tekst",
+  "Common.Controllers.Shortcuts.txtDescriptionSmallCaps": "Označeni deo teksta formatiraj kao mala velika slova.",
+  "Common.Controllers.Shortcuts.txtLabelSmallCaps": "Mala slova",
+  "Common.Views.ChartTab.textDataTable": "Tabela podataka",
+  "Common.Views.ChartTab.textShowDataTable": "Prikaži tabelu podataka",
+  "Common.Views.ChartTab.textShowLegendKeys": "Prikaži ključeve legende",
+  "Common.Controllers.Comments.textCircle": "Krug",
+  "Common.Controllers.Comments.textSquare": "Kvadrat",
+  "Common.Controllers.Comments.textFreeText": "Slobodan tekst",
+  "Common.Controllers.Comments.textLine": "Linija",
+  "Common.Controllers.Comments.textInk": "Мастило",
+  "Common.Controllers.Comments.textPolygon": "Mnogougao",
+  "Common.Controllers.Comments.textPolyLine": "Polilinija",
+  "Common.Controllers.Comments.textStamp": "Pečat",
+  "Common.Controllers.Comments.textHighlight": "Istakni"
 }
