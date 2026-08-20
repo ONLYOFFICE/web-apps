@@ -1257,7 +1257,7 @@
   "Common.Views.ReviewChanges.tipReview": "Urmărirea modificărilor",
   "Common.Views.ReviewChanges.tipReviewView": "Selectați modul de afișare a modificărilor",
   "Common.Views.ReviewChanges.tipSetDocLang": "Specificarea limbii pentru document",
-  "Common.Views.ReviewChanges.tipSetSpelling": "Verificarea ortografică",
+  "Common.Views.ReviewChanges.tipSetSpelling": "Verificare ortografică",
   "Common.Views.ReviewChanges.tipSharing": "Administrarea permisiunilor de acces la document",
   "Common.Views.ReviewChanges.txtAccept": "Acceptare",
   "Common.Views.ReviewChanges.txtAcceptAll": "Acceptați toate modificările",
@@ -1291,7 +1291,7 @@
   "Common.Views.ReviewChanges.txtRejectChanges": "Respingere modificări",
   "Common.Views.ReviewChanges.txtRejectCurrent": "Se respinge modificarea curentă",
   "Common.Views.ReviewChanges.txtSharing": "Partajare",
-  "Common.Views.ReviewChanges.txtSpelling": "Verificarea ortografică",
+  "Common.Views.ReviewChanges.txtSpelling": "Verificare ortografică",
   "Common.Views.ReviewChanges.txtTurnon": "Urmărirea modificărilor",
   "Common.Views.ReviewChanges.txtView": "Modul de afișare",
   "Common.Views.ReviewPopover.textAdd": "Adaugă",
@@ -3700,5 +3700,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Reluare înregistrare",
   "PE.Views.ViewTab.tipSelectTool": "Instrumentul Selectare",
   "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
-  "PE.Views.ViewTab.tipStopMacro": "Oprire înregistrare"
+  "PE.Views.ViewTab.tipStopMacro": "Oprire înregistrare",
+  "Common.Views.ChartTab.textDataTable": "Tabel de date",
+  "Common.Views.ChartTab.textShowDataTable": "Afișare tabel de date",
+  "Common.Views.ChartTab.textShowLegendKeys": "Afișare simboluri de legendă"
 }
