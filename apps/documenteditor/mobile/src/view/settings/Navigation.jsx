@@ -68,7 +68,7 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
 
     return (
         <Page>
-            <Navbar title={t('Settings.textNavigation')} backLink={_t.textBack} />
+            <Navbar title={t('Settings.textHeadings')} backLink={_t.textBack} />
             {!arrHeaders || !arrHeaders.length 
                 ?
                     <div className="empty-screens">
@@ -128,7 +128,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
     return (
         <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation')}} style={{height: '45%', opacity: '1'}}>
             <Page>
-                <Navbar title={t('Settings.textNavigation')}>
+                <Navbar title={t('Settings.textHeadings')}>
                     {Device.phone &&
                         <NavRight>
                             <Link sheetClose="#view-navigation-sheet">
