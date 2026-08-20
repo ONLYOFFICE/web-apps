@@ -198,8 +198,8 @@ define([
         },
 
         getSaveFormats: function() {
-            var formats = this.api && this.api.getSaveFormats ? this.api.getSaveFormats() : undefined;
-            return _.isArray(formats) ? formats : undefined;
+            var formats = this.api ? this.api.getSaveFormats() : undefined;
+            return formats != undefined && !_.isArray(formats) ? [formats] : formats;
         },
 
         setMode: function(mode) {
