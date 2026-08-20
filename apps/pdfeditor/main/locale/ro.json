@@ -3156,5 +3156,19 @@
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
   "PDFE.Views.ViewTab.tipRecognize": "Editare text",
   "Common.Controllers.Shortcuts.txtDescriptionSmallCaps": "Formatare fragment de text selectat ca majuscule mici.",
-  "Common.Controllers.Shortcuts.txtLabelSmallCaps": "SmallCaps"
+  "Common.Controllers.Shortcuts.txtLabelSmallCaps": "SmallCaps",
+  "Common.Views.ChartTab.textDataTable": "Tabel de date",
+  "Common.Views.ChartTab.textShowDataTable": "Afișare tabel de date",
+  "Common.Views.ChartTab.textShowLegendKeys": "Afișare simboluri de legendă",
+  "Common.Controllers.Comments.textSquare": "Pătrat",
+  "Common.Controllers.Comments.textFreeText": "Text liber",
+  "Common.Controllers.Comments.textLine": "Linie",
+  "Common.Controllers.Comments.textInk": "Cerneală",
+  "Common.Controllers.Comments.textPolygon": "Poligon",
+  "Common.Controllers.Comments.textPolyLine": "Linie poligonală",
+  "Common.Controllers.Comments.textStamp": "Ștampilă",
+  "Common.Controllers.Comments.textHighlight": "Evidențiere",
+  "Common.Controllers.Comments.textStrikeout": "Tăiere cu o linie",
+  "Common.Controllers.Comments.textUnderline": "Subliniere",
+  "Common.Controllers.Comments.textCaret": "Semn de inserare"
 }
