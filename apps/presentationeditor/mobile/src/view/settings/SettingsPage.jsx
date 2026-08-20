@@ -178,7 +178,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
                     }
                     {_canRequestSaveAs &&
                         <ListItem title={_t.textSaveACopy} link="/saveacopy/">
-                            <SvgIcon slot="media" symbolId={isRtl ? IconSaveACopy.id : IconSaveACopyRtl.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSaveACopyRtl.id : IconSaveACopy.id} className={'icon icon-svg'} />
                         </ListItem>
                     }
                     {_canPrint &&
