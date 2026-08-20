@@ -47,6 +47,8 @@ import IconCollaboration from '@common-icons/icon-collaboration.svg';
 import IconAppSettings from '@common-icons/icon-app-settings.svg';
 import IconVersionHistory from '@common-icons/icon-version-history.svg';
 import IconDownload from '@common-icons/icon-download.svg';
+import IconSaveACopy from '@common-icons/icon-save-copy-as.svg';
+import IconSaveACopyRtl from '@common-icons/icon-save-copy-as-rtl.svg';
 import IconPrint from '@common-icons/icon-print.svg';
 import IconInfo from '@common-icons/icon-info.svg';
 import IconHelp from '@common-icons/icon-help.svg';
@@ -180,7 +182,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
                     }
                     {_canRequestSaveAs &&
                         <ListItem title={_t.textSaveACopy} link="/saveacopy/">
-                            <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSaveACopyRtl.id : IconSaveACopy.id} className={'icon icon-svg'} />
                         </ListItem>
                     }
                     {_canPrint &&

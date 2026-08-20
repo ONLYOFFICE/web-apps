@@ -55,6 +55,8 @@ import IconSpellcheck from '@common-icons/icon-spellcheck.svg';
 import IconDocSetup from '@icons/icon-settings-document.svg';
 import IconDocSetupRtl from '@icons/icon-settings-document-rtl.svg';
 import IconDownload from '@common-icons/icon-download.svg';
+import IconSaveACopy from '@common-icons/icon-save-copy-as.svg';
+import IconSaveACopyRtl from '@common-icons/icon-save-copy-as-rtl.svg';
 import IconAppSettings from '@common-icons/icon-app-settings.svg';
 import IconExport from '@common-icons/icon-export.svg';
 import IconPrint from '@common-icons/icon-print.svg';
@@ -135,7 +137,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
-        _canRequestSaveAs = (_canDownload || _canDownloadOrigin) && (appOptions.canRequestSaveAs || !!appOptions.saveAsUrl);
+        _canRequestSaveAs = _canDownload && appOptions.canRequestSaveAs;
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;
@@ -202,7 +204,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     }
                     {_canRequestSaveAs &&
                         <ListItem title={_t.textSaveCopy} link="/saveacopy/">
-                            <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSaveACopyRtl.id : IconSaveACopy.id} className={'icon icon-svg'} />
                         </ListItem>
                     }
                     {_canPrint &&

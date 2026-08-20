@@ -76,13 +76,14 @@ class SaveACopyController extends Component {
 
         const idx = docTitle.lastIndexOf('.');
         const nameDoc = idx > 0 ? docTitle.substring(0, idx) : docTitle;
+        const fileNameDialogContent = Device.ios ?
+            '<div class="input-field"><input type="text" class="modal-text-input" name="modal-title" id="modal-title"></div>' :
+            '<div class="input-field modal-title"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" name="modal-title" id="modal-title"></div></div></div></li></ul></div></div>';
 
         f7.dialog.create({
             title: t('Settings.textSaveACopyHeader'),
             text: t('Settings.textSaveConnectedStorage'),
-            content: Device.ios ?
-                '<div class="input-field"><input type="text" class="modal-text-input" name="modal-title" id="modal-title"></div>' :
-                '<div class="input-field modal-title"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" name="modal-title" id="modal-title"></div></div></div></li></ul></div></div>',
+            content: fileNameDialogContent,
             cssClass: 'dlg-adv-options',
             buttons: [
                 {
