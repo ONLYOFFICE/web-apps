@@ -92,7 +92,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionMoveToLowerHeaderFooter": "Mută la antetul/subsolul de jos (dacă cursorul se află în antet/subsol).",
   "Common.Controllers.Shortcuts.txtDescriptionMoveToNextCell": "Trece la următoarea celulă dintr-un rând al tabelului.",
   "Common.Controllers.Shortcuts.txtDescriptionMoveToNextForm": "Mutare la formularul următor.",
-  "Common.Controllers.Shortcuts.txtDescriptionMoveToNextPage": "Merge la următoarea pagină a fișierului PDF editat actualmente.",
+  "Common.Controllers.Shortcuts.txtDescriptionMoveToNextPage": "Salt la pagina următoare a fișierului PDF în curs de editare.",
   "Common.Controllers.Shortcuts.txtDescriptionMoveToNextRow": "Trece la rândul următor dintr-un tabel.",
   "Common.Controllers.Shortcuts.txtDescriptionMoveToPreviousCell": "Trece la celula precedentă dintr-un rând de tabel.",
   "Common.Controllers.Shortcuts.txtDescriptionMoveToPreviousForm": "Mutare la formularul precedent.",
@@ -2836,7 +2836,7 @@
   "PDFE.Views.Statusbar.tipFitPage": "Portivire la pagina",
   "PDFE.Views.Statusbar.tipFitWidth": "Potrivire lățime",
   "PDFE.Views.Statusbar.tipHandTool": "Instrumentul Mână",
-  "PDFE.Views.Statusbar.tipPageNext": "Pagina următoare",
+  "PDFE.Views.Statusbar.tipPageNext": "Salt la pagina următoare",
   "PDFE.Views.Statusbar.tipPagePrev": "Pagina anterioară",
   "PDFE.Views.Statusbar.tipSelectTool": "Instrumentul Selectare",
   "PDFE.Views.Statusbar.tipZoomFactor": "Zoom",
@@ -3091,7 +3091,7 @@
   "PDFE.Views.Toolbar.tipMarkersHRound": "Marcatori cerc gol ",
   "PDFE.Views.Toolbar.tipMarkersStar": "Marcatori stele",
   "PDFE.Views.Toolbar.tipNextForm": "Salt la câmpul următor",
-  "PDFE.Views.Toolbar.tipNextPage": "Pagina următoare",
+  "PDFE.Views.Toolbar.tipNextPage": "Salt la pagina următoare",
   "PDFE.Views.Toolbar.tipNone": "Niciunul",
   "PDFE.Views.Toolbar.tipNumbers": "Numerotare",
   "PDFE.Views.Toolbar.tipPaste": "Lipire",
@@ -3205,5 +3205,10 @@
   "PDFE.Views.FormSettingsAdvanced.textAdd": "Adăugare",
   "PDFE.Views.FormSettingsAdvanced.textDelete": "Ștergere",
   "PDFE.Views.FormSettingsAdvanced.textMouseUp": "La eliberarea butonului mouse-ului",
-  "PDFE.Views.FormSettingsAdvanced.textMouseDown": "La apăsarea butonului mouse-ului"
+  "PDFE.Views.FormSettingsAdvanced.textMouseDown": "La apăsarea butonului mouse-ului",
+  "PDFE.Views.FormSettingsAdvanced.textCreateGoToViewDesc": "Utilizați barele de defilare, mouse-ul și zoom-ul pentru a selecta vizualizarea țintă, apoi apăsați Setare link pentru a crea destinația link-ului.",
+  "PDFE.Views.FormSettingsAdvanced.textSetLink": "Setare link",
+  "PDFE.Views.FormSettingsCodeEditor.txtTitle": "Editor JavaScript",
+  "PDFE.Views.FormSettingsSelectNamedAction.txtTitle": "Element de meniu",
+  "PDFE.Views.FormSettingsSelectNamedAction.txtActionNextPage": "Pagina următoare"
 }
