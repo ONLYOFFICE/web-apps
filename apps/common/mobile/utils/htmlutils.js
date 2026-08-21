@@ -99,7 +99,8 @@ if (!obj) {
             type: supportedThemes[uithemeParam]
         };
     } else {
-        const id = window.native?.editorConfig?.theme?.type || 'theme-system';
+        const nativeThemeId = `theme-${window.native?.editorConfig?.theme?.type}`;
+        const id = supportedThemes[nativeThemeId] ? nativeThemeId : 'theme-system';
         obj = {
             id,
             type: supportedThemes[id]
