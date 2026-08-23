@@ -84,7 +84,9 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-search',
                 enableToggle: true,
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true,
+                ariaControls: 'left-panel-search'
             });
             this.btnSearchBar.on('click', _.bind(function () {
                 this.onBtnMenuClick(this.btnSearchBar);
@@ -99,7 +101,9 @@ define([
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-thumbs',
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true,
+                ariaControls: 'id_panel_thumbnails'
             });
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
 
@@ -137,7 +141,9 @@ define([
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-comments',
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true,
+                ariaControls: 'left-panel-comments'
             });
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
             PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
@@ -153,7 +159,9 @@ define([
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-chat',
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true,
+                ariaControls: 'left-panel-chat'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({

@@ -282,7 +282,9 @@ define([
             scaling         : true,
             canFocused      : false, // used for button with menu
             takeFocusOnClose: false, // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
-            action: '' // action for button
+            action: '', // action for button
+            ariaExpanded    : false, // used for toggle button without a menu
+            ariaControls    : ''
         },
 
         template: _.template([
@@ -634,8 +636,11 @@ define([
                     $btn.addClass('canfocused');
 
                 if (me.enableToggle && !me.menu) {
-                    $btn.attr('aria-pressed', !!me.pressed)
+                    $btn.attr(me.options.ariaExpanded ? 'aria-expanded' : 'aria-pressed', !!me.pressed);
                 }
+
+                if(me.options.ariaControls)
+                    $btn.attr('aria-controls', me.options.ariaControls)
 
                 if (me.menu) {
                     $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
@@ -684,7 +689,7 @@ define([
             this.pressed = state;
 
             if (this.cmpEl) {
-                this.cmpEl.attr('aria-pressed', state);
+                this.cmpEl.attr(this.options.ariaExpanded ? 'aria-expanded' : 'aria-pressed', state);
                 this.cmpEl.trigger('button.internal.active', [state]);
             }
 
