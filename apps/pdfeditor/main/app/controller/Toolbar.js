@@ -231,13 +231,13 @@ define([
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
         },
 
-        attachRestrictedEditUIEvents: function(toolbar) {
-            if (this.mode && this.mode.isRestrictedEdit) {
+        attachViewUIEvents: function(toolbar) {
+            if (this.mode && this.mode.canSubmitForms) {
                 toolbar.btnClear.on('click', _.bind(this.onClearClick, this));
                 toolbar.btnPrevForm.on('click', _.bind(this.onGoToForm, this, 'prev'));
                 toolbar.btnNextForm.on('click', _.bind(this.onGoToForm, this, 'next'));
                 toolbar.btnSubmit && toolbar.btnSubmit.on('click', _.bind(this.onSubmitClick, this));
-                toolbar.btnSaveForm && toolbar.btnSaveForm.on('click', _.bind(this.onSaveFormClick, this));
+                // toolbar.btnSaveForm && toolbar.btnSaveForm.on('click', _.bind(this.onSaveFormClick, this));
             }
         },
 
@@ -378,8 +378,9 @@ define([
             if (this.mode.isEdit) {
                 this.attachPDFAnnotateUIEvents(toolbar);
                 this.mode.isPDFEdit && this.attachPDFEditUIEvents(toolbar);
-            } else if (this.mode.isRestrictedEdit)
-                this.attachRestrictedEditUIEvents(toolbar);
+            } 
+            if (!this.mode.canSwitchMode)
+                this.attachViewUIEvents(toolbar);
         },
 
         attachCommonApiEvents: function() {
@@ -392,15 +393,8 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
-        attachRestrictedEditApiEvents: function() {
-            if (!this.mode.isRestrictedEdit) return;
-
-            this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
-            this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
-            this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
-            Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+        attachViewApiEvents: function() {
+            if (this.mode.canSwitchMode) return;
 
             this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
             this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
@@ -465,8 +459,9 @@ define([
             if (this.mode.isEdit) {
                 this.attachPDFAnnotateApiEvents();
                 this.mode.isPDFEdit && this.attachPDFEditApiEvents();
-            } else if (this.mode.isRestrictedEdit)
-                this.attachRestrictedEditApiEvents();
+            }  
+            if (!this.mode.canSwitchMode)
+                this.attachViewApiEvents(toolbar);
         },
 
         onChangeCompactView: function(view, compact, suppressSave) {
@@ -1513,19 +1508,25 @@ define([
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
                 this.toolbar.lockToolbar(Common.enumLock.submit, false, {array: [this.toolbar.btnSubmit]})
-                if (!this.submitedTooltip) {
-                    this.submitedTooltip = new Common.UI.SynchronizeTip({
-                        text: this.textSubmited,
-                        extCls: 'no-arrow',
-                        showLink: false,
-                        target: $('.toolbar'),
-                        placement: 'bottom'
-                    });
-                    this.submitedTooltip.on('closeclick', function () {
-                        this.submitedTooltip.hide();
-                    }, this);
+                if (!this._submitFail) {
+                    Common.Gateway.submitForm();
+                    this.toolbar.btnSubmit.setCaption(this.toolbar.textFilled);
+                    var text = (typeof this.mode.customization.submitForm==='object') ? this.mode.customization.submitForm.resultMessage : this.toolbar.textSubmitOk;
+                    if (text==='') return;
+                    if (!this.submitedTooltip) {
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: text || this.toolbar.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
+                    }
+                    this.submitedTooltip.show();
                 }
-                !this._submitFail && this.submitedTooltip.show();
             }
         },
 
@@ -1779,7 +1780,7 @@ define([
                 var hand = !config.isEdit;
                 me.toolbar && me.toolbar.btnHandTool && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
-                if (config.isRestrictedEdit && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
+                if (config.canSubmitForms && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
                     me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});
                     if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
                         me.requiredTooltip = new Common.UI.SynchronizeTip({
@@ -1805,6 +1806,17 @@ define([
                         me.requiredTooltip.show();
                     } else {
                         me.toolbar.btnSubmit.updateHint(me.textRequired);
+                    }
+                }
+
+                if (me.toolbar) {
+                    if(me.toolbar.btnSubmit) {
+                        me.toolbar.btnSubmit.render($('#slot-btn-header-form-submit'));
+                        if (me.api && me.api.asc_IsAllRequiredFormsFilled()) {
+                            me.toolbar.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                        }
+                    } else {
+                        $('#slot-btn-header-form-submit').hide();
                     }
                 }
 

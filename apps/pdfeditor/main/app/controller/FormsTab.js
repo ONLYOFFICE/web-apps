@@ -105,6 +105,9 @@ define([
                     'forms:currentrole': this.onCurrentRoleChanged
                 }
             });
+            this.appConfig.canSwitchMode && this.api && this.api.asc_registerCallback('asc_onOFormChangeFinal', _.bind(this.onOFormChangeFinal, this))
+            Common.NotificationCenter.on('forms:request-fill',          _.bind(this.requestStartFilling, this));
+            Common.NotificationCenter.on('forms:show-send-for-signing', _.bind(this.showSendForSigning, this));
         },
 
         SetDisabled: function(state) {
@@ -254,6 +257,44 @@ define([
             this.view._state.lastViewRole = lastViewRole;
             Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onFinalClick: function(state) {
+            this.api && this.api.asc_markAsFinal(state);
+            PDFE.getController('Main').onPdfModeApply(state ? 'view' : 'edit');
+        },
+
+        onOFormChangeFinal: function(isFinal) {
+            // off preview review changes
+            var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
+            if (review && review.isPreviewChangesMode()) {
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || Asc.c_oAscDisplayModeInReview.Edit;
+                review.turnDisplayMode(value);
+                review.view && review.view.turnDisplayMode(value);
+            }
+
+            this.onFinalClick(isFinal, false);
+        },
+        
+        requestStartFilling: function() {
+            var oform = this.api.asc_GetOForm(),
+                roles = oform ? oform.asc_getAllRoles() : [],
+                arr = [];
+            for (var i=0; i<roles.length; i++) {
+                var role = roles[i].asc_getSettings(),
+                    color = role.asc_getColor();
+                color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
+                arr.push({
+                    name: role.asc_getName() || this.view.textAnyone,
+                    color: '#' + color
+                });
+            }
+            Common.Gateway.requestStartFilling(arr);
+        },
+
+        showSendForSigning: function() {
+            const rightmenuController = this.getApplication().getController('RightMenu');
+            rightmenuController.openSendForSigning();
         },
 
         onDownloadUrl: function(url, fileType) {

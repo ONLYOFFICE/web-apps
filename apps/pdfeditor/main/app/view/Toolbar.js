@@ -1224,17 +1224,8 @@ define([
                     }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
-                } else if ( config.isRestrictedEdit ) {
-                    Common.UI.Mixtbar.prototype.initialize.call(this, {
-                            template: _.template(template),
-                            tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
-                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'}
-                            ],
-                            config: config
-                        }
-                    );
-
+                } 
+                if (!config.canSwitchMode) {
                     this.btnClear = new Common.UI.Button({
                         id: 'id-toolbar-btn-clear',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1271,32 +1262,18 @@ define([
                     });
                     this.toolbarControls.push(this.btnNextForm);
 
-                    if (config.canSubmitForms) {
+                    if(config.canSubmitForms) {
                         this.btnSubmit = new Common.UI.Button({
-                            id: 'id-toolbar-btn-submit',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'toolbar__icon btn-submit-form',
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
-                            dataHint: '1',
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
+                            dataHint: '0',
                             dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
+                            dataHintOffset: 'big'
                         });
                         this.toolbarControls.push(this.btnSubmit);
-                    } else if (config.canDownload) {
-                        this.btnSaveForm = new Common.UI.Button({
-                            id: 'id-toolbar-btn-download-form',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            lock: [_set.lostConnect, _set.disableOnStart],
-                            iconCls: 'toolbar__icon btn-save-form',
-                            caption: config.canRequestSaveAs || !!config.saveAsUrl ? this.capBtnSaveForm : (config.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
-                            dataHint: '1',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
-                        });
-                        this.toolbarControls.push(this.btnSaveForm);
                     }
-                }
+                } 
 
                 if ( config.isEdit || config.isRestrictedEdit) {
                     const shortcutHints = {};
@@ -1611,14 +1588,14 @@ define([
                     me.fireEvent('home:open');
             },
 
-            rendererComponentsRestrictedEdit: function($host) {
+            rendererComponentsView: function($host) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
                 _injectComponent('#slot-btn-form-prev', this.btnPrevForm);
                 _injectComponent('#slot-btn-form-next', this.btnNextForm);
                 _injectComponent('#slot-btn-form-submit', this.btnSubmit);
-                _injectComponent('#slot-btn-form-save', this.btnSaveForm);
+                // _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
             rendererComponentsPDFEdit: function($host, mode) {
@@ -1704,9 +1681,9 @@ define([
                     this.rendererComponentsAnnotate($host);
                     mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
-                } else if (mode.isRestrictedEdit)
-                    this.rendererComponentsRestrictedEdit($host);
-
+                } 
+                if (mode.canSubmitForms)
+                    this.rendererComponentsView($host);
                 return $host;
             },
 
@@ -1889,14 +1866,14 @@ define([
                 this.btnNextPage.updateHint(this.tipNextPage);
             },
 
-            createDelayedElementsRestrictedEdit: function() {
-                if (!this.mode.isRestrictedEdit) return;
+            createDelayedElementsView: function() {
+                if (this.mode.canSwitchMode) return;
 
                 this.btnClear.updateHint(this.textClearFields);
                 this.btnPrevForm.updateHint(this.tipPrevForm);
                 this.btnNextForm.updateHint(this.tipNextForm);
                 this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
-                this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
+                // this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
             },
 
             createDelayedElementsPDFAnnotate: function() {
@@ -2071,8 +2048,9 @@ define([
                 if (this.mode.isEdit) {
                     this.createDelayedElementsPDFAnnotate();
                     this.mode.isPDFEdit && this.createDelayedElementsPDFEdit();
-                } else if (this.mode.isRestrictedEdit)
-                    this.createDelayedElementsRestrictedEdit();
+                }  
+                if (!this.mode.canSwitchMode)
+                    this.createDelayedElementsView();
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -2239,7 +2217,9 @@ define([
             tipNumNumbersPoint: '1. 2. 3.',
             tipNumNumbersParentheses: '1) 2) 3)',
             tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.'
+            tipNumRomanSmall: 'i. ii. iii.',
+            textFilled: 'Filled',
+            textSubmitOk: 'Your PDF form has been successfully filled.',
         }
     })(), PDFE.Views.Toolbar || {}));
 });

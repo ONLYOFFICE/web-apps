@@ -282,6 +282,10 @@ define([
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
                 (item) ? item.setChecked(true) : this.btnPDFMode.menu.clearAll();
             }
+            this.showStartFillButton(
+                config.showStartFillingButton,
+                config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text
+            );
         }
 
         function changeDocMode(type, lockEditing) {
@@ -408,14 +412,6 @@ define([
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
                 updateDocNamePosition();
             }
-
-            me.btnStartFill && me.btnStartFill.on('click', function (e) {
-                if(appConfig.canRequestStartFilling) {
-                    Common.NotificationCenter.trigger('forms:request-fill');
-                } else {
-                    Common.NotificationCenter.trigger('forms:show-send-for-signing');
-                }
-            });
 
             if (me.btnFillStatus) {
                 me.btnFillStatus.updateHint(me.tipFillStatus);
@@ -1026,18 +1022,11 @@ define([
                         btnMode = null;
                     }
 
-                    if (config.showStartFillingButton) {
-                        me.btnStartFill = new Common.UI.Button({
-                            cls: 'btn-text-default auto yellow',
-                            caption: config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text ? config.customization.startFillingForm.text : me.textStartFill,
-                            dataHint: '0',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'big'
-                        });
-                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
-                    } else {
-                        $html.find('#slot-btn-start-fill').hide();
-                    }
+                    me.showStartFillButton(
+                        config.showStartFillingButton, 
+                        config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text,
+                        $html
+                    );
 
                     if (config.isPDFForm && config.canRequestFillingStatus) {
                         me.btnFillStatus = new Common.UI.Button({
@@ -1217,6 +1206,39 @@ define([
                     this.setDocTitle( value );
                 }
                 return value;
+            },
+
+            showStartFillButton: function(show, caption, $html) {
+                const $el = $html ? $html.find('#slot-btn-start-fill') : $('#slot-btn-start-fill');
+                if (show) {
+                    if(!this.btnStartFill) {
+                        this.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: caption || this.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        this.btnStartFill.on('click', function (e) {
+                            if(appConfig.canRequestStartFilling) {
+                                Common.NotificationCenter.trigger('forms:request-fill');
+                            } else {
+                                Common.NotificationCenter.trigger('forms:show-send-for-signing');
+                            }
+                        });
+                        $el.show();
+                        this.btnStartFill.render($el);
+                    } else {
+                        this.btnStartFill.setVisible(true);
+                        caption && this.btnStartFill.setCaption(caption);
+                    }
+                } else {
+                    if(!this.btnStartFill) {
+                        $el.hide();
+                    } else {
+                        this.btnStartFill.setVisible(false);
+                    }
+                }
             },
 
             getDocumentCaption: function () {
@@ -1431,7 +1453,7 @@ define([
             },
 
             onStartFilling: function() {
-                this.btnStartFill && this.btnStartFill.setVisible(false);
+                this.showStartFillButton(false);
                 updateDocNamePosition();
             },
 
