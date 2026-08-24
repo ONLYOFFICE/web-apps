@@ -190,7 +190,7 @@
     "textColor": "Culoare",
     "textCustomColor": "Culoare particularizată",
     "textLineSize": "Dimensiune linie",
-    "textOpacity": "Transparență"
+    "textOpacity": "Opacitate"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -480,7 +480,7 @@
       "textNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "textNumbers": "Numere",
       "textOk": "OK",
-      "textOpacity": "Transparență",
+      "textOpacity": "Opacitate",
       "textOptions": "Opțiuni",
       "textOrbit": "Orbitare",
       "textOut": "În exterior",
