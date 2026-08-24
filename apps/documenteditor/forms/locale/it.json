@@ -214,5 +214,7 @@
   "DE.Views.ApplicationView.txtTheme": "Tema dell'interfaccia",
   "DE.Views.FillingStatusSettings.txtComplete": "Completa",
   "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "Il documento è firmato",
-  "DE.Views.RightMenu.txtFillingStatus": "Stato di compilazione"
+  "DE.Views.RightMenu.txtFillingStatus": "Stato di compilazione",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Stato di riempimento",
+  "DE.Views.RightMenu.ariaRightMenu": "Menù a destra"
 }
