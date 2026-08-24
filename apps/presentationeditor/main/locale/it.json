@@ -3693,5 +3693,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Riprendi la registrazione",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.ViewTab.tipStopMacro": "Ferma la registrazione"
+  "PE.Views.ViewTab.tipStopMacro": "Ferma la registrazione",
+  "Common.Views.ChartTab.textDataTable": "Tabella dati",
+  "Common.Views.ChartTab.textShowDataTable": "Mostra tabella dati",
+  "Common.Views.ChartTab.textShowLegendKeys": "Mostra chiavi della legenda"
 }
