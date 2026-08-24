@@ -254,7 +254,7 @@
     "textColor": "Culoare",
     "textCustomColor": "Culoare particularizată",
     "textLineSize": "Dimensiune linie",
-    "textOpacity": "Transparență"
+    "textOpacity": "Opacitate"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -678,7 +678,7 @@
       "textNumber": "Număr",
       "textOk": "OK",
       "textOnTickMarks": "Pe gradații",
-      "textOpacity": "Transparență",
+      "textOpacity": "Opacitate",
       "textOut": "Din",
       "textOuterTop": "În exterior în sus",
       "textOutsideBorders": "Borduri în exteriorul",
