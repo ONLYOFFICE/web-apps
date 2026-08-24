@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
       "textUnderline": "Sottolineato",
       "textUsers": "Utenti",
-      "textWidow": "Controllo vedovo"
+      "textWidow": "Controllo vedovo",
+      "textEnterComment": "Inserisci commento"
     },
     "HighlightColorPalette": {
       "textNoFill": "Nessun riempimento"
@@ -426,7 +427,9 @@
     "textWrapText": "Avvolgi il testo",
     "textYourOption": "La tua opzione",
     "txtHeight": "Altezza",
-    "txtWidth": "Larghezza"
+    "txtWidth": "Larghezza",
+    "txtCustom": "Personalizza",
+    "textCurrentFont": "Testo principale"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
@@ -533,7 +536,8 @@
     "txtEditingMode": "Imposta modalità di modifica...",
     "uploadImageTextText": "Caricamento immagine in corso...",
     "uploadImageTitleText": "Caricamento immagine",
-    "waitText": "Attendere prego..."
+    "waitText": "Attendere prego...",
+    "changesSaved": "Tutte le modifiche sono state salvate"
   },
   "Main": {
     "criticalErrorTitle": "Errore",
@@ -828,7 +832,10 @@
     "txtDownloadTxt": "Scarica TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
+    "textAutoSaveDocument": "Salvataggio automatico",
+    "textDarkDocument": "Documento scuro",
+    "textSaveDocument": "Salva"
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",
@@ -844,6 +851,11 @@
     "textSwitchedMobileView": "Passato alla visualizzazione mobile",
     "textSwitchedStandardView": "Passato alla visualizzazione standard",
     "textSwitchToDesktop": "Passa al desktop",
-    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo."
+    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo.",
+    "textSave": "Salva",
+    "textDontSave": "Non salvare",
+    "textCancel": "Annulla",
+    "textSaveData": "Salva le modifiche prima di uscire",
+    "textUnsavedData": "Dati non salvati"
   }
 }
