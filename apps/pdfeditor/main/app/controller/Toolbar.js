@@ -1501,13 +1501,14 @@ define([
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
                 this._submitFail = false;
                 this.submitedTooltip && this.submitedTooltip.hide();
+                this.toolbar.lockToolbar(Common.enumLock.viewMode, true);
                 this.toolbar.lockToolbar(Common.enumLock.submit, true, {array: [this.toolbar.btnSubmit]})
             }
         },
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
-                this.toolbar.lockToolbar(Common.enumLock.submit, false, {array: [this.toolbar.btnSubmit]})
+                this.toolbar.lockToolbar(Common.enumLock.submit, !this._submitFail, {array: [this.toolbar.btnSubmit]})
                 if (!this._submitFail) {
                     Common.Gateway.submitForm();
                     this.toolbar.btnSubmit.setCaption(this.toolbar.textFilled);
