@@ -5380,5 +5380,12 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Unesite lozinku da nezaštitite list",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu",
+  "Common.Controllers.Shortcuts.txtLabelFillDown": "Popuni nadole",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Neispravan format vremena. Primer:",
+  "SSE.Views.ChartTab.textDataTable": "Tabela podataka",
+  "SSE.Views.DocumentHolder.textConvertToShape": "Pretvori u oblik",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Omogući kopiranje slika za ćelije",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Iseci, kopiraj i nalepi",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Omogući automatsko dovršavanje vrednosti ćelija"
 }
