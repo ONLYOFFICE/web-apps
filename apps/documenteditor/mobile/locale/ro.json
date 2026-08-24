@@ -16,7 +16,7 @@
     "textBack": "Înapoi",
     "textBelowText": "Dedesubt textul",
     "textBottomOfPage": "Josul paginii",
-    "textBreak": "Sfârșit",
+    "textBreak": "Întrerupere",
     "textCancel": "Anulare",
     "textCenterBottom": "La centru jos",
     "textCenterTop": "La centru sus",
@@ -234,7 +234,7 @@
     "textColor": "Culoare",
     "textCustomColor": "Culoare particularizată",
     "textLineSize": "Dimensiune linie",
-    "textOpacity": "Transparență"
+    "textOpacity": "Opacitate"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
@@ -352,7 +352,7 @@
     "textOctober": "Octombrie",
     "textOk": "OK",
     "textOnline": "Online",
-    "textOpacity": "Transparență",
+    "textOpacity": "Opacitate",
     "textOptions": "Opțiuni",
     "textOrphanControl": "Control orfan",
     "textPageBreakBefore": "Sfârsit pagină inainte",
