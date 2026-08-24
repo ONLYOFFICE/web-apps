@@ -831,6 +831,11 @@ define([
                         text    = this.waitText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['ExportVideo']:
+                        title   = this.animatedExportTitleText;
+                        text    = this.animatedExportTextText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         text    = this.txtEditingMode;
@@ -1851,6 +1856,14 @@ define([
 
                     case Asc.c_oAscError.ID.ForcedViewMode:
                         config.msg = this.errorForcedViewMode;
+                        break;
+
+                    case Asc.c_oAscError.ID.AnimatedExport:
+                        config.msg = this.errorAnimatedExport;
+                        break;
+
+                    case Asc.c_oAscError.ID.AnimatedExportMemory:
+                        config.msg = this.errorAnimatedExportMemory;
                         break;
 
                     default:
