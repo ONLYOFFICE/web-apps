@@ -87,9 +87,9 @@
 
         <% if (!showReply && !scope.viewmode) { %>
             <% if (replys.length && !add_arrow) { %>
-                <label class="user-reply with-reply" role="presentation" tabindex="-1">textAddReply</label>
+                <label class="user-reply with-reply" role="presentation" tabindex="-1"><%= scope.getAddReplyText(comment) %></label>
             <% } else { %>
-                <label class="user-reply" role="presentation" tabindex="-1">textAddReply</label>
+                <label class="user-reply" role="presentation" tabindex="-1"><%= scope.getAddReplyText(comment) %></label>
             <% } %>
         <% } %>
 
@@ -117,8 +117,8 @@
 
         <% if (showReply) { %>
             <div class="reply-ct">
-                <textarea class="msg-reply user-select textarea-control" placeholder="textAddReply" maxlength="maxCommLength" aria-label="textReply"></textarea>
-                <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change">textReply</button>
+                <textarea class="msg-reply user-select textarea-control" placeholder="<%- scope.getAddReplyText(comment) %>" maxlength="maxCommLength" aria-label="textReply"></textarea>
+                <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change"><%= scope.getReplyButtonText(comment) %></button>
                 <button class="btn normal dlg-btn btn-close">textClose</button>
             </div>
         <% } %>

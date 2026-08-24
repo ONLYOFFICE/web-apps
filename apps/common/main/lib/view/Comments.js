@@ -867,6 +867,12 @@ define([
         getEncodedName: function (username) {
             return Common.Utils.String.htmlEncode(username);
         },
+        getAddReplyText: function (comment) {
+            return comment ? this.textAddReply : this.textAddComment;
+        },
+        getReplyButtonText: function (comment) {
+            return comment ? this.textReply : this.textComment;
+        },
 
         pickLink: function (message) {
             var arr = [], offset, len;
