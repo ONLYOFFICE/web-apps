@@ -2704,6 +2704,7 @@
   "PE.Views.FileMenu.btnCreateNewCaption": "Create New",
   "PE.Views.FileMenu.btnDownloadCaption": "Download As",
   "PE.Views.FileMenu.btnExitCaption": "Close",
+  "PE.Views.FileMenu.btnExportCaption": "Export",
   "PE.Views.FileMenu.btnFileOpenCaption": "Open",
   "PE.Views.FileMenu.btnHelpCaption": "Help",
   "PE.Views.FileMenu.btnHistoryCaption": "Version History",

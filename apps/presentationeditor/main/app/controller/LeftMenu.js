@@ -235,6 +235,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
+            case 'export': this.clickExportAnimated(menu, Common.Utils.InternalSettings.get('pe-export-animated-format') || Asc.c_oAscAnimatedExportFormat.Gif, true); break;
             case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -312,7 +313,7 @@ define([
             menu.hide();
         },
 
-        clickExportAnimated: function(menu, format) {
+        clickExportAnimated: function(menu, format, remember) {
             menu && menu.hide();
 
             var me = this,
@@ -334,7 +335,7 @@ define([
                     supportedFormats: formats,
                     handler: function(result, settings) {
                         if (result === 'ok') {
-                            me.startExportAnimated(settings);
+                            me.startExportAnimated(settings, remember);
                         }
                     }
                 });
@@ -342,7 +343,9 @@ define([
             });
         },
 
-        startExportAnimated: function(settings) {
+        startExportAnimated: function(settings, remember) {
+            remember && Common.Utils.InternalSettings.set('pe-export-animated-format', settings.format);
+
             var rangeOptions = new Asc.CAscPageRange();
             rangeOptions.asc_setRangeType(settings.rangeType);
             rangeOptions.asc_setCustomRange(settings.customRange || '');
