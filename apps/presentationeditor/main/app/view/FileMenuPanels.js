@@ -76,10 +76,8 @@ define([], function () {
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG},
-            {name: 'GIF',   imgCls: 'pptx',  type: Asc.c_oAscAnimatedExportFormat.Gif,  animated: true},
-            {name: 'WEBP',  imgCls: 'ppsx', type: Asc.c_oAscAnimatedExportFormat.WebP, animated: true},
-            {name: 'WEBM',  imgCls: 'pdf', type: Asc.c_oAscAnimatedExportFormat.WebM, animated: true},
-            {name: 'MP4',   imgCls: 'odp',  type: Asc.c_oAscAnimatedExportFormat.Mp4,  animated: true}
+            {name: 'GIF',   imgCls: 'gif',   type: Asc.c_oAscAnimatedExportFormat.Gif, animated: true},
+            {name: 'Video', imgCls: 'video', type: 'video', animated: true}
         ]],
 
 
@@ -159,8 +157,8 @@ define([], function () {
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
                 var format = parseInt(type.value);
-                if (_.contains(Asc.c_oAscAnimatedExportFormat, format)) {
-                    this.menu.fireEvent('saveas:animated', [this.menu, format]);
+                if (type.value === 'video' || format === Asc.c_oAscAnimatedExportFormat.Gif) {
+                    this.menu.fireEvent('saveas:animated', [this.menu, type.value === 'video' ? 'video' : 'gif']);
                     return;
                 }
                 this.menu.fireEvent('saveas:format', [this.menu, format]);
@@ -187,10 +185,8 @@ define([], function () {
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'},
-            {name: 'GIF',   imgCls: 'pptx',  type: Asc.c_oAscAnimatedExportFormat.Gif,  animated: true},
-            {name: 'WEBP',  imgCls: 'ppsx', type: Asc.c_oAscAnimatedExportFormat.WebP, animated: true},
-            {name: 'WEBM',  imgCls: 'pdf', type: Asc.c_oAscAnimatedExportFormat.WebM, animated: true},
-            {name: 'MP4',   imgCls: 'odp',  type: Asc.c_oAscAnimatedExportFormat.Mp4,  animated: true}
+            {name: 'GIF',   imgCls: 'gif',   type: Asc.c_oAscAnimatedExportFormat.Gif, animated: true},
+            {name: 'Video', imgCls: 'video', type: 'video', animated: true}
         ]],
 
         template: _.template([
@@ -270,8 +266,8 @@ define([], function () {
                 ext = e.currentTarget.attributes['format-ext'];
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
                 var format = parseInt(type.value);
-                if (_.contains(Asc.c_oAscAnimatedExportFormat, format)) {
-                    this.menu.fireEvent('savecopy:animated', [this.menu, format]);
+                if (type.value === 'video' || format === Asc.c_oAscAnimatedExportFormat.Gif) {
+                    this.menu.fireEvent('savecopy:animated', [this.menu, type.value === 'video' ? 'video' : 'gif']);
                     return;
                 }
                 this.menu.fireEvent('savecopy:format', [this.menu, format, ext.value]);
