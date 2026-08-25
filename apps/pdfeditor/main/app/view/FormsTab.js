@@ -203,7 +203,7 @@ define([
                 this.btnTextField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-text-field',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnText,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -214,7 +214,7 @@ define([
                 this.btnComboBox = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-combo-box',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnComboBox,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -225,7 +225,7 @@ define([
                 this.btnDropDown = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-listbox',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnDropDown,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -236,7 +236,7 @@ define([
                 this.btnCheckBox = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-checkbox',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnCheckBox,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -247,7 +247,7 @@ define([
                 this.btnRadioBox = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-radio-button',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnRadioBox,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -258,7 +258,7 @@ define([
                 this.btnImageField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insertimage',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnImage,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -269,7 +269,7 @@ define([
                 this.btnSignatureField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ic-signature',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnSignatureField,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -280,7 +280,7 @@ define([
                 this.btnEmailField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-email',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnEmail,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -291,7 +291,7 @@ define([
                 this.btnPhoneField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-phone',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capBtnPhone,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -302,7 +302,7 @@ define([
                 this.btnZipCode = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-zip-code',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capZipCode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -313,7 +313,7 @@ define([
                 this.btnCreditCard = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-credit-card',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capCreditCard,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -324,7 +324,7 @@ define([
                 this.btnDateTime = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-datetime',
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode, _set.viewFormMode],
                     caption: this.capDateTime,
                     dataHint: '1',
                     dataHintDirection: 'bottom',

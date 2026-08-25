@@ -90,6 +90,7 @@ define([
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
                     'forms:clear': this.onClearClick,
+                    'forms:goto': this.onGoTo,
                     'forms:preview': this.onPreviewClick,
                     'forms:manager': this.onManagerClick,
                     'forms:currentrole': this.onCurrentRole
@@ -172,6 +173,9 @@ define([
                 const oform = this.api.asc_GetOForm();
                 oform && (roles = oform.asc_getAllRoles());
             }
+            if(!this._state.lastViewRole && roles && roles[0])  {
+                this._state.lastViewRole = roles[0].asc_getSettings().asc_getName();
+            }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
             if (this.view) {
                 this.view.fillRolesMenu(roles, this._state.lastViewRole);
@@ -241,6 +245,12 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onGoTo: function(type) {
+            if (this.api)
+                this.api.asc_MoveToFillingForm(type=='next');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         onManagerClick: function() {
             const me = this;
             (new Common.Views.RolesManagerDlg({
@@ -255,7 +265,7 @@ define([
         onPreviewClick: function(isPreview, lastViewRole) {
             isPreview && lastViewRole && (this._state.lastViewRole = lastViewRole);
             this.view._state.lastViewRole = lastViewRole;
-            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
+            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'view-form' : 'edit');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

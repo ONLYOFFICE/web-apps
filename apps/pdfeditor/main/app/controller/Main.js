@@ -665,7 +665,7 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
@@ -1354,6 +1354,7 @@ define([
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && (this.editorConfig.mode !== 'view');
                 this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense && (this.permissions.edit !== false || this.appOptions.isDesktopApp && this.appOptions.isOffline);
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
+                this.appOptions.isViewForm     = false; // Toggles when in ‘view-form’ mode
                 // isPDFFill - can only fill forms, co-edit and save changes to file
                 this.appOptions.isPDFFill = pdfEdit && this.appOptions.canLicense && (this.permissions.fillForms!==false) && !this.appOptions.canPDFAnnotate && !this.appOptions.canPDFEdit && (this.editorConfig.mode !== 'view');
                 this.appOptions.canSwitchMode = this.appOptions.isPDFAnnotate && this.appOptions.canPDFEdit; // switch between View/annotate and pdf edit
@@ -1591,35 +1592,41 @@ define([
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
                     this.appOptions.isPDFEdit = true;
                     this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='comment' && this.appOptions.canPDFAnnotate) {
                     this.appOptions.isPDFEdit = false;
                     this.appOptions.isPDFAnnotate = true;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='view') {
-                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = this.appOptions.isViewForm = false;
+                } else if(mode==='view-form') {
+                    this.appOptions.isPDFEdit = false;
+                    this.appOptions.isViewForm = true;
                 }
                 this.appOptions.showStartFillingButton = (this.appOptions.canStartFilling || this.appOptions.canRequestStartFilling) && this.appOptions.isPDFEdit;
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
                 const app = this.getApplication();
                 const toolbar = app.getController('Toolbar');
                 toolbar.applyMode(activeTab);
+                toolbar.disableEditing(mode==='view-form');
                 app.getController('Viewport').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
-
+                
                 const formsTabController = app.getController('FormsTab');
                 const role = new AscCommon.CRestrictionSettings();
                 role.put_OFormRole(formsTabController.getCurrentViewRole());
                 let restrictionType;
-                if (this.appOptions.isRestrictedEdit) {
+                if(this.appOptions.isViewForm) {
                     restrictionType = Asc.c_oAscRestrictionType.OnlyForms;
-                } else if (this.appOptions.isPDFEdit) {
+                } else if(this.appOptions.isPDFEdit) {
                     restrictionType = Asc.c_oAscRestrictionType.None;
                 } else {
                     restrictionType = Asc.c_oAscRestrictionType.View;
                 }
                 this.api.asc_setRestriction(restrictionType, role);
-                formsTabController.view && formsTabController.view.btnViewFormRoles.toggle(mode != 'edit', true);
+                formsTabController.view && formsTabController.view.btnViewFormRoles.toggle(mode == 'view-form', true);
 
                 const selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length > 0)

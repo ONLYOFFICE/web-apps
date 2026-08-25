@@ -271,12 +271,34 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view'),
-                isEdit = config.isPDFEdit,
-                isComment = !isEdit && config.isPDFAnnotate;
-            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
-            me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
-            me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
+
+            let type;
+            const btnModeState = { icon: '', caption: '', hint: ''};
+            if(config.isViewForm) {
+                type = 'view-form';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textViewForm;
+                btnModeState.hint = me.tipDocViewForm;
+            } else if(config.isPDFEdit) {
+                type = 'edit';
+                btnModeState.icon = 'btn-edit';
+                btnModeState.caption = me.textEdit;
+                btnModeState.hint = me.tipEdit;
+            } else if(config.isPDFAnnotate) {
+                type = 'comment';
+                btnModeState.icon = 'btn-menu-comments';
+                btnModeState.caption = me.textComment;
+                btnModeState.hint = me.tipComment;
+            } else {
+                type = 'view';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textView;
+                btnModeState.hint = me.tipView;
+            }
+
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + btnModeState.icon);
+            me.btnPDFMode.setCaption(btnModeState.caption);
+            me.btnPDFMode.updateHint(btnModeState.hint);
             me.btnPDFMode.options.value = type;
             if (me.btnPDFMode.menu && typeof me.btnPDFMode.menu === 'object') {
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
@@ -635,6 +657,15 @@ define([
                         template: menuTemplate,
                         description: me.textAnnotateDesc,
                         value: 'comment',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                    arr.push({
+                        caption: me.textViewForm,
+                        iconCls : 'menu__icon btn-sheet-view',
+                        template: menuTemplate,
+                        description: me.textDocViewFormDesc,
+                        value: 'view-form',
                         checkable: true,
                         toggleGroup: 'docmode'
                     });

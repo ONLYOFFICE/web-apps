@@ -1497,6 +1497,37 @@ define([
             }
         },
 
+        disableEditing: function(disable) {
+            if (this._state.DisabledEditing != disable) {
+                this._state.DisabledEditing = disable;
+
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: false,
+                    reviewMode: false,
+                    fillFormMode: true,
+                    viewDocMode: false,
+                    allowMerge: false,
+                    allowSignature: false,
+                    allowProtect: false,
+                    rightMenu: {clear: false, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: false, previewMode: true},
+                    fileMenu: {info: true},
+                    navigation: {disable: false, previewMode: true},
+                    comments: {disable: false, previewMode: true},
+                    chat: false,
+                    review: true,
+                    viewport: false,
+                    documentHolder: {clear: false, disable: true},
+                    toolbar: true,
+                    plugins: true,
+                    protect: true,
+                    header: {docmode: false, search: false, startfill: false},
+                    shortcuts: false
+                }, 'forms');
+            }
+        },
+
         onLongActionBegin: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
                 this._submitFail = false;
@@ -1561,18 +1592,25 @@ define([
             this.DisableToolbar(true, true);
         },
 
-        DisableToolbar: function(disable, viewMode) {
+        DisableToolbar: function(disable, viewMode, fillformmode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
-            var mask = $('.toolbar-mask');
+            var toolbar_mask = $('.toolbar-mask'),
+                group_mask = $('.toolbar-group-mask'),
+                mask = fillformmode ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
             toolbar.hideMoreBtns();
+            if (fillformmode)
+                toolbar.lockToolbar(Common.enumLock.viewFormMode, disable);
 
             if(disable) {
-                mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
+                if (fillformmode)
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
+                else
+                    mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
             }
@@ -1706,6 +1744,22 @@ define([
             var me = this,
                 toolbar = this.toolbar,
                 $host = $(toolbar.$layout);
+
+            const createFormsTab = function() {
+                if (!this.mode.canFeatureForms || this._state.createdFormsTab) return;
+                tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
+                const forms = this.getApplication().getController('FormsTab');
+                forms.setApi(me.api).setConfig({toolbar: me, config: this.mode});
+                toolbar.addTab(tab, forms.createToolbarPanel(), 2);
+                Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                forms.onAppReady(this.mode);
+                forms.getView('FormsTab').onAppReady(this.mode);
+                this._state.createdFormsTab = true;
+                setTimeout(function(){
+                    toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                }, 50);
+            };
+
             if (this.mode.isPDFEdit && this._state.initEditing) {
                 Array.prototype.push.apply(me.toolbar.lockControls, toolbar.applyLayoutPDFEdit(this.mode));
                 toolbar.rendererComponentsPDFEdit($host, this.mode);
@@ -1740,26 +1794,29 @@ define([
                     redacttab.onDocumentReady();
                 }, 50);
 
-                if (this.mode.canFeatureForms) {
-                    tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
-                    var forms = this.getApplication().getController('FormsTab');
-                    forms.setApi(me.api).setConfig({toolbar: me, config: this.mode});
-                    toolbar.addTab(tab, forms.createToolbarPanel(), 2);
-                    Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
-                    forms.onAppReady(this.mode);
-                    forms.getView('FormsTab').onAppReady(this.mode);
-                }
+                createFormsTab.call(this);
 
                 this._state.initEditing = false;
             }
+
+            if(this.mode.isViewForm) {
+                createFormsTab.call(this);
+            }
+
             if (activeTab)
                 toolbar.setTab(activeTab);
-            else if (this.mode.isPDFEdit ||  toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
+            else if (!this.mode.isViewForm && 
+                (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
+            ) {
                 toolbar.setTab('home');
+            }
 
-            toolbar.setVisible('ins', this.mode.isPDFEdit);
-            toolbar.setVisible('red', this.mode.isPDFEdit);
-            toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
+            toolbar.setVisible('ins', this.mode.isPDFEdit && !this.mode.isViewForm);
+            toolbar.setVisible('red', this.mode.isPDFEdit && !this.mode.isViewForm);
+            toolbar.setVisible('forms', (this.mode.isPDFEdit || this.mode.isViewForm) && this.mode.canFeatureForms);
+
+            const formsController = this.getApplication().getController('FormsTab');
+            formsController.view.setPreviewMode(this.mode.isViewForm);
 
             !this.mode.isPDFEdit && $host.find('.annotate').addClass('transparent');
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
@@ -1824,7 +1881,7 @@ define([
                 me.btnsComment = [];
                 if ( config.canComments ) {
                     var _set = Common.enumLock;
-                    me.btnsComment = Common.Utils.injectButtons(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect], undefined, undefined, undefined, '1', 'bottom', 'small');
+                    me.btnsComment = Common.Utils.injectButtons(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect, _set.viewFormMode], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                     if ( me.btnsComment.length ) {
                         var _comments = PDFE.getController('Common.Controllers.Comments').getView();
