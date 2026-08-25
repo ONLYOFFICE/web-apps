@@ -75,7 +75,7 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 350px;">',
-                    '<div style="padding-bottom:15px;">',
+                    '<div style="margin-bottom:15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="export-btn-gif">', this.textGif, '</button>',
                         '<button type="button" class="btn btn-text-default auto" id="export-btn-video">', this.textVideo, '</button>',
                     '</div>',
@@ -261,13 +261,13 @@ define([
 
             this.spnTiming = new Common.UI.MetricSpinner({
                 el: $window.find('#export-spin-timing'),
-                step: 1,
+                step: 0.25,
                 width: 80,
                 defaultUnit: this.textSec,
                 value: '1 ' + this.textSec,
                 maxValue: 300,
                 minValue: 0,
-                allowDecimal: false
+                allowDecimal: true
             });
 
             this.chTransparent = new Common.UI.CheckBox({
