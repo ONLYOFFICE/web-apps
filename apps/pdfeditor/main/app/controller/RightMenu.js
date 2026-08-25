@@ -100,7 +100,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            // this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
+            this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
@@ -374,16 +374,16 @@ define([
             }
         },
 
-        // onApiUpdateSignatures: function(valid){
-        //     if (!this.rightmenu.signatureSettings) return;
-        //
-        //     var disabled = (!valid || valid.length<1),
-        //         type = Common.Utils.documentSettingsType.Signature;
-        //     this._settings[type].hidden = disabled ? 1 : 0;
-        //     this._settings[type].btn.setDisabled(disabled);
-        //     this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
-        //     this._settings[type].panel.setLocked(this._settings[type].locked);
-        // },
+        onApiUpdateSignatures: function(valid){
+            if (!this.rightmenu.signatureSettings) return;
+        
+            var disabled = (!valid || valid.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
+        },
 
         getDocumentSettingsType: function(type) {
             switch (type) {

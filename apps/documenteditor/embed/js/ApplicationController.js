@@ -48,7 +48,8 @@ DE.ApplicationController = new(function(){
         _submitFail, $submitedTooltip, $requiredTooltip,
         $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0,
-        requireUserAction = true;
+        requireUserAction = true,
+        isPDF = false;
 
     var LoadingDocument = -256,
         WarningShown = false;
@@ -698,7 +699,8 @@ DE.ApplicationController = new(function(){
         }
 
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = false; // use forms editor for filling forms
+        // appOptions.canFillForms   = false; // use forms editor for filling forms
+        appOptions.canFillForms   = isPDF;
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);
@@ -710,6 +712,8 @@ DE.ApplicationController = new(function(){
         api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
+
+        $('.embed-body').toggleClass('fill-form', appOptions.canFillForms);
 
         if (!appOptions.canFillForms) {
             $('#id-btn-prev-field').hide();
@@ -1123,8 +1127,8 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
-            isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
+        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search);
+        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',
