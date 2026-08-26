@@ -52,6 +52,7 @@
   "DE.ApplicationController.textOk": "OK",
   "DE.ApplicationController.textRequired": "Fill all required fields to send form.",
   "DE.ApplicationController.textSubmit": "Complete & Submit",
+  "DE.ApplicationController.textFilled": "Filled",
   "DE.ApplicationController.textSubmited": "<b>Form submitted successfully</b><br>Click to close the tip",
   "DE.ApplicationController.titleLicenseExp": "License expired",
   "DE.ApplicationController.titleLicenseNotActive": "License not active",
