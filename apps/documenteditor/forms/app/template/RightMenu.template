@@ -8,7 +8,7 @@
         <div class="ct-btn-category arrow-left"></div>
         <% if(showFillingStatus) { %>
             <button id="id-right-menu-filling-status" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-send-for-signing-settings">
-                <i class="icon svg-icon filing-status scaling-off">&nbsp;</i>
+                <i class="icon svg-icon filing-status scaling-off" aria-hidden="true">&nbsp;</i>
             </button>
         <% } %>
         <div id="slot-right-menu-more"></div>

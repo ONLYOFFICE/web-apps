@@ -1626,7 +1626,7 @@ define([], function () {
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
                             '<div class="tree-item date <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;' + (!Common.UI.isRTL() ? 'padding-left' : 'padding-right') + ': <%= level*16 + 22 %>px;">',
                                 '<% if (hasSubItems) { %>',
-                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
+                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" aria-hidden="true" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
                                 '<% } %>',
                                 '<div class="name not-header has-checkbox">',
                                     Common.UI.CheckBoxTemplate,
@@ -1674,6 +1674,10 @@ define([], function () {
                 });
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
+
+            this.on('close:before', function() {
+                me.cellsList.$el.remove();
+            });
 
             this.on('close', function() {
                 me.currentCellsListInsertId = 0;

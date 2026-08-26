@@ -16,8 +16,13 @@
             <div class="user-date"><%=date%></div>
         </div>
     </div>
+    <% if (isAnnotation) { %>
+        <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= '<strong>' + annotation + '</strong>' %></div>
+    <% } %>
     <% if (!editTextInPopover || (hint && !fullInfoInHint) || scope.viewmode) { %>
-        <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
+        <% if (comment) { %>
+            <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%= scope.pickLink(comment) %></div>
+        <% } %>
     <% } else { %>
         <div class="inner-edit-ct">
             <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %> aria-label="textComment"><%-comment%></textarea>

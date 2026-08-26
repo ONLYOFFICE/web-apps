@@ -1,10 +1,10 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "انتباہ",
-  "Common.Controllers.Desktop.hintBtnHome": "مین ونڈو دکھائیں۔",
+  "Common.Controllers.Desktop.hintBtnHome": "مین ونڈو دکھائیں",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "ٹیمپلیٹ سے تخلیق کریں۔",
   "Common.Controllers.ExternalLinks.textAddExternalData": "ایک بیرونی ماخذ کا لنک شامل کر دیا گیا ہے۔ آپ ڈیٹا ٹیب میں ایسے لنکس کو اپ ڈیٹ کر سکتے ہیں۔",
   "Common.Controllers.ExternalLinks.textDontUpdate": "اپ ڈیٹ نہ کریں۔",
-  "Common.Controllers.ExternalLinks.textUpdate": "اپ ڈیٹ کریں۔",
+  "Common.Controllers.ExternalLinks.textUpdate": "اپ ڈیٹ کریں",
   "Common.Controllers.ExternalLinks.txtErrorExternalLink": "خرابی: اپ ڈیٹ کرنا ناکام ہو گیا۔",
   "Common.Controllers.ExternalLinks.warnUpdateExternalData": "اس ورک بک میں ایک یا زیادہ بیرونی ذرائع کے لنکس ہیں جو غیر محفوظ ہو سکتے ہیں۔<br>اگر آپ کو لنکس پر بھروسہ ہے تو تازہ ترین ڈیٹا حاصل کرنے کے لیے انہیں اپ ڈیٹ کریں۔",
   "Common.Controllers.ExternalLinks.warnUpdateExternalDataDE": "اس دستاویز میں ایک یا زیادہ بیرونی ذرائع کے لنکس ہیں جو غیر محفوظ ہو سکتے ہیں۔ اگر آپ کو لنکس پر بھروسہ ہے تو تازہ ترین ڈیٹا حاصل کرنے کے لیے انہیں اپ ڈیٹ کریں۔",

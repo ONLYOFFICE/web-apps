@@ -825,7 +825,8 @@ define([
         FILE_DOCUMENT_OFORM_PDF: FILE_DOCUMENT + 0x0017,
         FILE_DOCUMENT_PAGES:    FILE_DOCUMENT + 0x0018,
         FILE_DOCUMENT_HWP:      FILE_DOCUMENT + 0x0019,
-        FILE_DOCUMENT_HWPX:     FILE_DOCUMENT + 0x0020,
+        FILE_DOCUMENT_HWPX:     FILE_DOCUMENT + 0x001a,
+        FILE_DOCUMENT_MD:       FILE_DOCUMENT + 0x001c,
         FILE_DOCUMENT_XML: FILE_DOCUMENT + 0x0030,
 
         FILE_PRESENTATION:      FILE_PRESENTATION,
@@ -892,8 +893,9 @@ define([
             case utils.defines.FileFormat.FILE_DOCUMENT_DOTM:       return 'dotm';
             case utils.defines.FileFormat.FILE_DOCUMENT_XML:       return 'xml';
             case utils.defines.FileFormat.FILE_DOCUMENT_PAGES:      return 'pages';
-            case utils.defines.FileFormat.FILE_DOCUMENT_HWP:        return 'hwpx';
-            case utils.defines.FileFormat.FILE_DOCUMENT_HWPX:       return 'hwp';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HWP:        return 'hwp';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HWPX:       return 'hwpx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_MD:         return 'md';
 
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';

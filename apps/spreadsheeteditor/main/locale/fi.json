@@ -2838,5 +2838,6 @@
   "SSE.Views.WatchDialog.textDeleteAll": "Poista kaikki",
   "SSE.Views.WatchDialog.textFormula": "Kaava",
   "SSE.Views.WatchDialog.textSheet": "Taulukko",
-  "SSE.Views.WatchDialog.textValue": "Arvo"
+  "SSE.Views.WatchDialog.textValue": "Arvo",
+  "Common.Controllers.Desktop.hintBtnHome": "Näytä pääikkuna"
 }

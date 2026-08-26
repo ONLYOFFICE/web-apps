@@ -229,6 +229,9 @@ class MainController extends Component {
 
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setConfigOptions(this.editorConfig, _t);
+                Common.MentionUsers.init(this.editorConfig.canRequestUsers);
+
+                appOptions.wopi = this.editorConfig.wopi;
 
                 let value;
                 if (appOptions.canRenameAnonymous) {

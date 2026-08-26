@@ -109,7 +109,7 @@ const CellEditorView = props => {
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
-                    <textarea id="idx-cell-content" spellCheck="false" />
+                    <div id="idx-cell-content" className="input-with-value" contentEditable={true} spellCheck={false}></div>
                     <div className="formula-hints-overlay">
                         <FunctionHint funcHint={props.funcHint}/>
                         {argConstList && argConstList.length ?

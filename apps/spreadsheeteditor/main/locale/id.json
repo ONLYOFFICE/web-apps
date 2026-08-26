@@ -1,7 +1,7 @@
 {
   "cancelButtonText": "Batalkan",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Peringatan",
-  "Common.Controllers.Desktop.hintBtnHome": "Tampilkan Jendela utama",
+  "Common.Controllers.Desktop.hintBtnHome": "Tampilkan jendela utama",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Buat dari templat",
   "Common.Controllers.History.notcriticalErrorTitle": "Peringatan",
   "Common.Controllers.Plugins.textPluginSuccessfullyInstalled": "<b>{0}</b> berhasil dipasang. Anda bisa mengakses semua plugin latar belakang di sini.",

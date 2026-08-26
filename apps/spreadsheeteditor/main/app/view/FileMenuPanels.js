@@ -43,6 +43,7 @@ define([], function () {
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'XLS',  imgCls: 'xls',  type: Asc.c_oAscFileType.XLS},
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
@@ -81,6 +82,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -107,26 +109,47 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'xlsx').toLowerCase(),
+                itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.XLSM && fileType !== 'xlsm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
         },
 
@@ -146,6 +169,7 @@ define([], function () {
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX, ext: '.xlsx'},
+            {name: 'XLS',  imgCls: 'xls',  type: Asc.c_oAscFileType.XLS, ext: '.xls'},
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS, ext: '.ods'},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV, ext: '.csv'},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
@@ -183,6 +207,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -209,26 +234,47 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'xlsx').toLowerCase(),
+                itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.XLSM && fileType !== 'xlsm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
         },
 
@@ -1467,13 +1513,15 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader,
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('sse-quick-access-save', true),
                     print: Common.localStorage.getBool('sse-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('sse-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('sse-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('sse-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('sse-quick-access-redo', true),
+                    download: Common.localStorage.getBool('sse-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();

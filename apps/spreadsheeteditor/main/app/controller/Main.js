@@ -2328,6 +2328,10 @@ define([
                         config.msg = this.errorForcedViewMode;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyRangeTooLarge:
+                        config.msg = this.errorCopyRangeTooLarge;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')

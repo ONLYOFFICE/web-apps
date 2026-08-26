@@ -426,7 +426,7 @@ define([
                         if (value.Get_Shd() !== undefined)
                             proptext += (me.textShd + cmm);
                         if (value.Get_FontFamily() !== undefined)
-                            proptext += (value.Get_FontFamily() + cmm);
+                            proptext += (Common.Utils.String.htmlEncode(value.Get_FontFamily()) + cmm);
                         if (value.Get_FontSize() !== undefined)
                             proptext += (value.Get_FontSize() + cmm);
                         if (value.Get_Spacing() !== undefined)
@@ -497,7 +497,7 @@ define([
                             proptext += (me.textNum + cmm);
                         if (value.Get_PStyle() !== undefined) {
                             var style = me.api.asc_GetStyleNameById(value.Get_PStyle());
-                            if (!_.isEmpty(style)) proptext += (style + cmm);
+                            if (!_.isEmpty(style)) proptext += (Common.Utils.String.htmlEncode(style) + cmm);
                         }
 
                         if (!_.isEmpty(proptext)) {

@@ -39,7 +39,9 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
+import { HelpAndFeedback } from "./HelpAndFeedback";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
@@ -87,12 +89,20 @@ const routes = [
         component: DownloadController
     },
     {
+        path: '/saveacopy/',
+        component: SaveACopyController
+    },
+    {
         path: '/color-schemes/',
         component: DocumentColorSchemes
     },
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/help-and-feedback/',
+        component: HelpAndFeedback
     },
     {
         path: '/theme-settings/',
@@ -155,14 +165,10 @@ const SettingsView = () => {
     return (
         !Device.phone ?
             <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
-                <View style={{ height: '410px' }} routes={routes} url='/settings/'>
-                    <SettingsPage />
-                </View>
+                <View style={{ height: '410px' }} routes={routes} url='/settings/' />
             </Popover> :
             <Popup className="settings-popup" onPopupClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings/'>
-                    <SettingsPage />
-                </View> 
+                <View routes={routes} url='/settings/' />
             </Popup>
     )
 };

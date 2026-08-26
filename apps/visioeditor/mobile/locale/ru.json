@@ -216,7 +216,8 @@
       "textVersion": "Версия",
       "textVisioInfo": "Сведения о Просмотрщике диаграмм",
       "textVisioSettings": "Настройки Просмотрщика диаграмм",
-      "textVisioTitle": "Название Просмотрщика диаграмм"
+      "textVisioTitle": "Название Просмотрщика диаграмм",
+      "textOpenLocation": "Открыть папку"
     }
   }
 }

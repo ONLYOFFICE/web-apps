@@ -3034,6 +3034,7 @@ define([
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
             this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes || isNotesPage, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isHandout || isNotes || isNotesPage, { array: [this.toolbar.listTheme] });
 
             this._state.viewMode = mode;
             if (isMaster) {

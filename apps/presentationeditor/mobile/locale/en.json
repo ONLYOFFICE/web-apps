@@ -34,7 +34,8 @@
       "textSharingSettings": "Sharing Settings",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUsers": "Users",
-      "textEnterComment": "Enter comment"
+      "textEnterComment": "Enter comment",
+      "textMention": "Comment or mention with + or @"
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
@@ -48,7 +49,7 @@
       "dark": "Dark",
       "light": "Light",
       "system": "Same as system",
-      "textTheme": "Theme"
+      "textTheme": "Interface Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -576,7 +577,7 @@
       "textAbout": "About",
       "textAddress": "address:",
       "textApplication": "Application",
-      "textApplicationSettings": "Application Settings",
+      "textPreferences": "Preferences",
       "textAuthor": "Author",
       "textAutoSaveDocument": "Autosave",
       "textBack": "Back",
@@ -598,11 +599,11 @@
       "textEmail": "email:",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textFeedback": "Feedback & Support",
+      "textFeedback": "Contact Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
-      "textHelp": "Help",
+      "textHelpCenter": "Help Center",
       "textHighlight": "Highlight Results",
       "textInch": "Inch",
       "textLastModified": "Last Modified",
@@ -619,7 +620,7 @@
       "textPoint": "Point",
       "textPoweredBy": "Powered By",
       "textPresentationInfo": "Presentation Info",
-      "textPresentationSettings": "Presentation Settings",
+      "textPresentationSetup": "Presentation Setup",
       "textPresentationTitle": "Presentation Title",
       "textPrint": "Print",
       "textReplace": "Replace",
@@ -627,6 +628,8 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
       "textSaveDocument": "Save",
+      "textSaveACopy": "Save a Copy",
+      "textSaveACopyAs": "Save a Copy as",
       "textSearch": "Find",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",
@@ -640,7 +643,17 @@
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textTools": "Tools",
+      "textSettingsGroup": "Settings",
+      "textAboutGroup": "About",
+      "textHelpAndFeedback": "Help & Feedback",
+      "textShare": "Share",
+      "textStyleGroup": "Style",
+      "textShowSettingsGroup": "Show Settings",
+      "textSpellingGroup": "Spelling",
+      "textSaveACopyHeader": "Save a copy",
+      "textSaveConnectedStorage": "The file will be saved to the connected storage"
     }
   }
 }

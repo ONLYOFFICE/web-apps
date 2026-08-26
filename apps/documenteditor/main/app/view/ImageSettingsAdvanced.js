@@ -1043,10 +1043,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1064,10 +1064,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1085,10 +1085,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1106,10 +1106,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl

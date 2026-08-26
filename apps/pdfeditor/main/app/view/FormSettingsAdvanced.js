@@ -81,7 +81,7 @@ define([
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
+            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, SpecialType: AscPDF.SpecialFormatType.PHONE, Mask: '*', RegExp: '.'};
             this.FormatType = AscPDF.FormatType.NONE;
         },
 
@@ -273,7 +273,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: format && format.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             me.putFormatPropValue('asc_putScript', result, 'format');
                             me.textareaFormat.setValue(result);
                         }
@@ -296,7 +296,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: keystroke && keystroke.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             me.putFormatPropValue('asc_putScript', result, 'keystroke');
                             me.textareaKeystroke.setValue(result);
                         }
@@ -366,7 +366,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: validate && validate.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             validate && validate.asc_putScript(result);
                             me.textareaValidateScript.setValue(result);
                         }
@@ -466,7 +466,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: calculate && calculate.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             calculate && calculate.asc_putScript(result);
                             me.textareaCalculateScript.setValue(result);
                         }
@@ -757,6 +757,10 @@ define([
         },
 
         getSettings: function () {
+            const format = this._changedProps.asc_getFormat();
+            if(format && format.asc_getType() == AscPDF.FormatType.SPECIAL && format.asc_getFormat() == -1) {
+                this._changedProps.asc_putFormat(undefined);
+            }
             return {FormatType: this.FormatType, actionsProps: this._changedProps};
         },
 
@@ -888,7 +892,6 @@ define([
             this.putFormatPropValue('asc_putSepStyle', this.cmbSeparator.getValue());
             this.putFormatPropValue('asc_putCurrency', this.getSymbolValue());
             this.putFormatPropValue('asc_putCurrencyPrepend', this.cmbLocation.getValue() < 2);
-            this.putFormatPropValue('asc_putMask', this._state.Mask);
             this.putFormatPropValue('asc_putScript', this.textareaFormat.getValue(), 'format');
             this.putFormatPropValue('asc_putScript', this.textareaKeystroke.getValue(), 'keystroke');
             this.putFormatPropValue('asc_putNegStyle', this._state.NegStyle);
@@ -898,6 +901,8 @@ define([
                 this.putFormatPropValue('asc_putFormat', this._state.TimeFormat);
             } else if(this.FormatType===AscPDF.FormatType.SPECIAL) {
                 this.putFormatPropValue('asc_putFormat', this._state.SpecialType);
+                this.putFormatPropValue('asc_putMask', this._state.SpecialType == -1 ? this._state.Mask : undefined);
+                this._maskPanel.toggleClass('hidden', this._state.SpecialType!==-1);
             }
         },
 
@@ -1255,6 +1260,8 @@ define([
             if(this._state.SpecialType===-1) {
                 this.txtMask.setValue(this._state.Mask);
                 this.putFormatPropValue('asc_putMask', this._state.Mask);
+            } else {
+                this.putFormatPropValue('asc_putMask', undefined);
             }
             this.putFormatPropValue('asc_putFormat', this._state.SpecialType);
             this.updateFormatExample();

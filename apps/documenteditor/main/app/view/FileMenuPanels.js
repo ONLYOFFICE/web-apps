@@ -1214,13 +1214,15 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader,
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('de-quick-access-save', true),
                     print: Common.localStorage.getBool('de-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('de-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('de-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('de-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('de-quick-access-redo', true),
+                    download: Common.localStorage.getBool('de-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();

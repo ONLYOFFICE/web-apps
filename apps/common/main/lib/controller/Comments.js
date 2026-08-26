@@ -503,6 +503,17 @@ define([
                         return false;
                     }
 
+                    if (!comment.get('comment')) {
+                        ascComment.asc_putText(replyVal);
+                        ascComment.asc_putUserId(me.currentUserId);
+                        ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
+
+                        me.api.asc_changeComment(id, ascComment);
+                        me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
+
+                        return true;
+                    }
+
                     var replies = comment.get('replys');
                     if (replies && replies.length) {
                         replies.forEach(function (reply) {
@@ -665,16 +676,68 @@ define([
 
         // SDK
 
+        getAnnotText: function (annotType) {
+            var text = null;
+
+            switch (annotType) {
+                case AscPDF.ANNOTATIONS_TYPES.Circle:
+                    text = this.textCircle;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Square:
+                    text = this.textSquare;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.FreeText:
+                    text = this.textFreeText;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Line:
+                    text = this.textLine;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Ink:
+                    text = this.textInk;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Polygon:
+                    text = this.textPolygon;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.PolyLine:
+                    text = this.textPolyLine;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Stamp:
+                    text = this.textStamp;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Highlight:
+                    text = this.textHighlight;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Strikeout:
+                    text = this.textStrikeout;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Underline:
+                    text = this.textUnderline;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Caret:
+                    text = this.textCaret;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Redact:
+                    text = this.textRedact;
+                    break;
+            }
+
+            return text;
+        },
+
         onApiAddComment: function (id, data) {
             if (this.isPDFEditor && (this.findComment(id) || this.findCommentInGroup(id))) return; // fix for PDF, do not add comment with existing id
 
             var requestObj = {},
-                comment = this.readSDKComment(id, data, requestObj);
+                comment = this.readSDKComment(id, data, requestObj),
+                text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+
             if (comment) {
+                text && comment.set('annotation', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
                 const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
                 if(duplicateComment) {
                     duplicateComment.set('uid', id);
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
                 } else {
                     if (comment.get('groupName')) {
                         this.addCommentToGroupCollection(comment);
@@ -702,10 +765,14 @@ define([
             var requestObj = {};
             for (var i = 0; i < data.length; ++i) {
                 const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
+                var text = this.isPDFEditor && this.getAnnotText(data[i].asc_getAnnotType());
+
+                comment && text && comment.set('annotation', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
                 const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
                 if(duplicateComment) {
                     duplicateComment.set('uid', comment.get('uid'));
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
                 } else {
                     comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
                 }
@@ -782,6 +849,8 @@ define([
                     needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username')) ||
                                 hideComment !== comment.get('hide');
                 comment.set('comment',  data.asc_getText());
+                var annotText = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+                annotText && comment.set('annotation', annotText) && comment.set('isAnnotation', true);
                 comment.set('userid',   userid);
                 comment.set('username', data.asc_getUserName());
                 comment.set('initials', Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())));
@@ -1342,6 +1411,8 @@ define([
                 guid                : data.asc_getGuid(),
                 userid              : userid,
                 username            : data.asc_getUserName(),
+                isAnnotation        : false,
+                annotation          : null,
                 initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())),
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),

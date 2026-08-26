@@ -211,5 +211,10 @@
   "DE.Views.ApplicationView.txtPrint": "Imprimir",
   "DE.Views.ApplicationView.txtSearch": "Pesquisar",
   "DE.Views.ApplicationView.txtShare": "Compartilhar",
-  "DE.Views.ApplicationView.txtTheme": "Tema de interface"
+  "DE.Views.ApplicationView.txtTheme": "Tema de interface",
+  "DE.Views.FillingStatusSettings.txtComplete": "Completeo",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "O documento está assinado",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Status de preenchimento",
+  "DE.Views.RightMenu.ariaRightMenu": "Menu à direita",
+  "DE.Views.RightMenu.txtFillingStatus": "Status de preenchimento"
 }

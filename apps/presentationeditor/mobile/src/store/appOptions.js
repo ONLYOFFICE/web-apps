@@ -65,6 +65,8 @@ export class storeAppOptions {
             changeSavingDocStatusText: action,
 
             customization: observable,
+
+            canRequestUsers: observable,
         });
     }
 
@@ -74,6 +76,7 @@ export class storeAppOptions {
     canBranding = true;
     config = {};
     customization;
+    canRequestUsers;
 
     isDrawMode = false;
     changeDrawMode(value) {
@@ -129,6 +132,7 @@ export class storeAppOptions {
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
+        this.canRequestUsers = config.canRequestUsers;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.canRequestClose = config.canRequestClose;
@@ -156,6 +160,7 @@ export class storeAppOptions {
         }
         
         this.canBack = this.canBackToFolder = canBack;
+        this.canRequestSaveAs = config.canRequestSaveAs;
         this.canPlugins = false;
 
         AscCommon.UserInfoParser.setParser(true);

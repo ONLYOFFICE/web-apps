@@ -81,7 +81,7 @@ define([
                                 '</td></tr>',
                                 '<tr><td>',
                                 '<div style="word-break: break-word;">',
-                                    '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;">Formula result:</label>',
+                                    '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px; width: 560px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Formula result:</label>',
                                 '</div>',
                                 '</td></tr>',
                                 '</table>',
@@ -179,9 +179,9 @@ define([
                 this.recalcArgTableSize();
 
                 var result = props.asc_getFunctionResult();
-                this.lblFunctionResult.html('= ' + ((result!==undefined && result!==null) ? result : ''));
+                this.lblFunctionResult.html('= ' + ((result!==undefined && result!==null) ? Common.Utils.String.htmlEncode(result) : ''));
                 result = props.asc_getFormulaResult();
-                this.lblFormulaResult.html(this.textValue + ': ' + ((result!==undefined && result!==null)? result : ''));
+                this.lblFormulaResult.html(this.textValue + ': ' + ((result!==undefined && result!==null)? Common.Utils.String.htmlEncode(result) : ''));
 
                 var argres = props.asc_getArgumentsResult(),
                     argtype = props.asc_getArgumentsType(),
@@ -386,7 +386,7 @@ define([
                 me.args[argcount].lblName.html('<b>' + me.args[argcount].argName + '</b>');
             else
                 me.args[argcount].lblName.html(me.args[argcount].argName);
-            me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
+            me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? Common.Utils.String.htmlEncode(argres) : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
             Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
@@ -401,9 +401,9 @@ define([
             arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? Common.Utils.String.htmlEncode(argres) : '<span style="opacity: 0.6; font-weight: bold;">' + arg.argTypeName + '</span>' ));
 
             var result = res ? res.asc_getFunctionResult() : undefined;
-            me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
+            me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null) ? Common.Utils.String.htmlEncode(result) : ''));
             result = res ? res.asc_getFormulaResult() : undefined;
-            me.lblFormulaResult.html(me.textValue + ':' + ((result!==undefined && result!==null)? result : ''));
+            me.lblFormulaResult.html(me.textValue + ':' + ((result!==undefined && result!==null) ? Common.Utils.String.htmlEncode(result) : ''));
             if (endInsert && res) {
                 argres = res.asc_getArguments();
                 argres && arg.argInput.setValue(argres[index]);

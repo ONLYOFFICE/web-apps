@@ -558,6 +558,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorForcedViewMode');
                 break;
 
+            case Asc.c_oAscError.ID.CopyRangeTooLarge:
+                config.msg = t('Error.errorCopyRangeTooLarge');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

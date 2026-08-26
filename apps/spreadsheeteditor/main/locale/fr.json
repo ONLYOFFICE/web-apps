@@ -1,7 +1,7 @@
 {
   "cancelButtonText": "Annuler",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avertissement",
-  "Common.Controllers.Desktop.hintBtnHome": "Afficher la Fenêtre Principale",
+  "Common.Controllers.Desktop.hintBtnHome": "Afficher la fenêtre principale",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Créer à partir d'un modèle",
   "Common.Controllers.ExternalLinks.textAddExternalData": "Le lien vers une source externe a été ajouté. Vous pouvez mettre à jour ces liens dans l'onglet Données.",
   "Common.Controllers.ExternalLinks.textContinue": "Continuer",
