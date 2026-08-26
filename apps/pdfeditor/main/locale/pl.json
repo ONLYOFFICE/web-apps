@@ -597,8 +597,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} nie jest prawidłowym znakiem specjalnym dla pola \"Zamień na\".",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Połączenie zostało utracone</b><br>Trwa próba ponownego połączenia. Sprawdź ustawienia połączenia.",
   "PDFE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Wszystkie ustawienia wykresu są teraz dostępne na dedykowanej karcie Projektowanie wykresu na pasku narzędzi.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Karta Projektowanie wykresu",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Ostrzeżenie",
   "PDFE.Controllers.Toolbar.textGotIt": "Rozumiem",
   "PDFE.Controllers.Toolbar.textRequired": "Wypełnij wszystkie wymagane pola, aby wysłać formularz.",

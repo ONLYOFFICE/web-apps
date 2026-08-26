@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "Επικόλληση σε URL αρχείου",
   "DE.Controllers.Toolbar.helpCommentFilter": "Διαχειριστείτε την προβολή σας εναλλάσσοντας μεταξύ ανοιχτών και επιλυμένων σχολίων στον αριστερό πίνακα.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Φίλτρα σχολίων",
-  "DE.Controllers.Toolbar.helpChartTab": "Όλες οι ρυθμίσεις γραφήματος είναι τώρα διαθέσιμες στην ειδική καρτέλα Σχεδίαση γραφήματος στη γραμμή εργαλείων.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Καρτέλα Σχεδίαση γραφήματος",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "DE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "DE.Controllers.Toolbar.textBracket": "Αγκύλες",

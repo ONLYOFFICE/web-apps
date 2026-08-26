@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "ファイルのURLを貼り付ける",
   "DE.Controllers.Toolbar.helpCommentFilter": "左パネルで、開いているコメントと解決済みコメントを切り替えて、表示の管理ができます。",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "コメントのフィルター",
-  "DE.Controllers.Toolbar.helpChartTab": "すべてのグラフ設定が、ツールバーの専用「グラフのデザイン」タブで利用可能になりました。",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "グラフのデザインタブ",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "DE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "DE.Controllers.Toolbar.textBracket": "括弧",

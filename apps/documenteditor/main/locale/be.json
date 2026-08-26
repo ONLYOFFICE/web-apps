@@ -1156,8 +1156,6 @@
   "DE.Controllers.Statusbar.zoomText": "Маштаб {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Шрыфт, які вы хочаце захаваць, недаступны на гэтай прыладзе.<br>Стыль тэксту будзе паказвацца пры дапамозе аднаго з сістэмных шрыфтоў. Захаваны шрыфт будзе выкарыстоўвацца, калі ён стане даступным.<br>Працягнуць?",
   "DE.Controllers.Toolbar.dataUrl": "Уставіць URL-адрас даных",
-  "DE.Controllers.Toolbar.helpChartTab": "Усе параметры дыяграмы цяпер даступныя на адмысловай укладцы Афармленне дыяграмы на панэлі інструментаў.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Укладка афармлення дыяграмы",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Увага",
   "DE.Controllers.Toolbar.textAccent": "Дыякрытычныя знакі",
   "DE.Controllers.Toolbar.textBracket": "Дужкі",

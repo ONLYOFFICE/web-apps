@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Εστίαση {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Η γραμματοσειρά που πρόκειται να αποθηκεύσετε δεν είναι διαθέσιμη στην τρέχουσα συσκευή. Το στυλ κειμένου θα εμφανιστεί χρησιμοποιώντας μία από τις γραμματοσειρές της συσκευής, η αποθηκευμένη γραμματοσειρά θα χρησιμοποιηθεί όταν είναι διαθέσιμη. Θέλετε να συνεχίσετε;",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα.<br>Παρακαλούμε να επικοινωνήστε με τον διαχειριστή του διακομιστή εγγράφων.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Όλες οι ρυθμίσεις γραφήματος είναι τώρα διαθέσιμες στην ειδική καρτέλα Σχεδίαση γραφήματος στη γραμμή εργαλείων.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Καρτέλα Σχεδίαση γραφήματος",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Εντάξει",

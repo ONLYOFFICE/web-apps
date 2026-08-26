@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "Incolla l'URL di un file",
   "DE.Controllers.Toolbar.helpCommentFilter": "Gestisci la visualizzazione passando dai commenti aperti a quelli risolti nel pannello di sinistra.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Filtri dei commenti",
-  "DE.Controllers.Toolbar.helpChartTab": "Tutte le impostazioni del grafico sono ora disponibili nella scheda dedicata Progettazione grafico nella barra degli strumenti.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Scheda Progettazione grafico",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Avviso",
   "DE.Controllers.Toolbar.textAccent": "Accenti",
   "DE.Controllers.Toolbar.textBracket": "Parentesi",

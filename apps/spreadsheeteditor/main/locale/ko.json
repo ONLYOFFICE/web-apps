@@ -2108,8 +2108,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "차트당 시리즈내 포인트의 최대값은 4096임.",
   "SSE.Controllers.Toolbar.errorMaxRows": "오류! 차트 당 최대 데이터 시리즈 수는 255입니다.",
   "SSE.Controllers.Toolbar.errorStockChart": "잘못된 행 순서. 주식형 차트를 작성하려면 시트에 데이터를 다음과 같은 순서로 배치하십시오 : <br> 개시 가격, 최대 가격, 최소 가격, 마감 가격.",
-  "SSE.Controllers.Toolbar.helpChartTab": "이제 모든 차트 설정을 도구 모음의 전용 차트 디자인 탭에서 사용할 수 있습니다.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "차트 디자인 탭",
   "SSE.Controllers.Toolbar.textAccent": "악센트",
   "SSE.Controllers.Toolbar.textBracket": "대괄호",
   "SSE.Controllers.Toolbar.textDirectional": "방향",

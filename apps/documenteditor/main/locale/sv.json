@@ -1238,8 +1238,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Klistra in en data-URL",
   "DE.Controllers.Toolbar.errorAccessDeny": "Du försöker utföra en åtgärd som du inte har rättigheter till.<br>Vänligen kontakta din systemadministratör.",
   "DE.Controllers.Toolbar.fileUrl": "Klistra in en fil-URL",
-  "DE.Controllers.Toolbar.helpChartTab": "Alla diagraminställningar är nu tillgängliga på den dedikerade fliken Diagramdesign i verktygsfältet.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Fliken Diagramdesign",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Varning",
   "DE.Controllers.Toolbar.textAccent": "Accenter",
   "DE.Controllers.Toolbar.textBracket": "Parantes",

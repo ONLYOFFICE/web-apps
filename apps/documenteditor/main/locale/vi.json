@@ -442,8 +442,6 @@
   "DE.Controllers.Statusbar.tipReview": "Theo dõi Thay đổi",
   "DE.Controllers.Statusbar.zoomText": "Thu phóng {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Phông chữ bạn sẽ lưu không có sẵn trên thiết bị hiện tại.<br>Kiểu văn bản sẽ được hiển thị bằng một trong các phông chữ hệ thống, phông chữ đã lưu sẽ được sử dụng khi có sẵn.<br>Bạn có muốn tiếp tục?",
-  "DE.Controllers.Toolbar.helpChartTab": "Tất cả cài đặt biểu đồ giờ đây có sẵn trong tab Thiết kế biểu đồ chuyên dụng trên thanh công cụ.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Tab Thiết kế biểu đồ",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Cảnh báo",
   "DE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "DE.Controllers.Toolbar.textBracket": "Dấu ngoặc",

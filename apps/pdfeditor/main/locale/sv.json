@@ -575,8 +575,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} är inte ett giltigt specialtecken för rutan Ersätt med.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<br>Anslutningen förlorades</br><br>Försöker återansluta. Vänligen kontroller anslutningens inställningar.",
   "PDFE.Controllers.Statusbar.zoomText": "Zooma {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Alla diagraminställningar är nu tillgängliga på den dedikerade fliken Diagramdesign i verktygsfältet.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Fliken Diagramdesign",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Varning",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Det angivna värdet är inkorrekt.<br> Vänligen ange ett numeriskt värde mellan 1 och 300",
   "PDFE.Controllers.Toolbar.textWarning": "Varning",

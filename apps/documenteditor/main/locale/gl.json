@@ -960,8 +960,6 @@
   "DE.Controllers.Statusbar.zoomText": "Ampliar {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "A fonte que vai gardar non está dispoñible no dispositivo actual. <br> O estilo de texto amosarase empregando unha das fontes do sistema, a fonte gardada utilizarase cando estea dispoñible. <br> Quere continuar?",
   "DE.Controllers.Toolbar.dataUrl": "Pegar unha URL de datos",
-  "DE.Controllers.Toolbar.helpChartTab": "Todos os axustes do gráfico están agora dispoñibles na lapela específica Deseño de gráfico na barra de ferramentas.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Lapela Deseño de gráfico",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Acentos",
   "DE.Controllers.Toolbar.textBracket": "Paréntese",

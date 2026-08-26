@@ -1319,8 +1319,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Wklej adres URL danych",
   "DE.Controllers.Toolbar.errorAccessDeny": "Próbujesz wykonać czynność, do której nie masz uprawnień.<br>Skontaktuj się z administratorem serwera dokumentów.",
   "DE.Controllers.Toolbar.fileUrl": "Wklejanie adresu URL pliku",
-  "DE.Controllers.Toolbar.helpChartTab": "Wszystkie ustawienia wykresu są teraz dostępne na dedykowanej karcie Projektowanie wykresu na pasku narzędzi.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Karta Projektowanie wykresu",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Ostrzeżenie",
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Klamry",

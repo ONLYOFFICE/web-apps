@@ -1783,8 +1783,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Písmo (font) ve kterém se chystáte uložit, není na tomto zařízení k dispozici.<br>Text bude zobrazen pomocí některého ze systémových písem s tím, že uložené písmo bude použito v případě budoucí dostupnosti.<br>Chcete pokračovat?",
   "PE.Controllers.Toolbar.helpChartElements": "Jednoduše přepnout viditelnost prvků grafu několika kliknutími.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Zobrazení prvků grafu",
-  "PE.Controllers.Toolbar.helpChartTab": "Všechna nastavení grafu jsou nyní dostupná na vyhrazené kartě Návrh grafu na panelu nástrojů.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Karta Návrh grafu",
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Závorky",
   "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu v rozmezí 1 až 300",

@@ -1167,8 +1167,6 @@
   "DE.Controllers.Statusbar.zoomText": "Tālummaiņa {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Fonts, kuru vēlaties saglabāt, pašreizējā ierīcē nav pieejams.<br>Teksta stils tiks parādīts, izmantojot vienu no sistēmas fontiem, saglabātais fonts tiks izmantots, kad tas būs pieejams.<br>Vai vēlaties turpināt?",
   "DE.Controllers.Toolbar.dataUrl": "Ielīmēt datu vietrādi URL",
-  "DE.Controllers.Toolbar.helpChartTab": "Visi diagrammas iestatījumi tagad ir pieejami īpašā cilnē Diagrammas noformējums rīkjoslā.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Cilne Diagrammas noformējums",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Brīdinājums",
   "DE.Controllers.Toolbar.textAccent": "Uzsvari",
   "DE.Controllers.Toolbar.textBracket": "Iekavas",

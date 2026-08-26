@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "הגופן שאת/ה עומד/ת לשמור אינו זמין במכשיר הנוכחי.<br>סגנון הטקסט יוצג באמצעות אחד מגופני המערכת, הגופן שנשמר ישמש כאשר יהיה זמין.<br>האם להמשיך?",
   "PE.Controllers.Toolbar.helpChartElements": "שנה בקלות את הנראות של רכיבי התרשים בכמה לחיצות.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "תצוגת רכיבי תרשים",
-  "PE.Controllers.Toolbar.helpChartTab": "כל הגדרות התרשים זמינות כעת בלשונית עיצוב התרשים הייעודית בסרגל הכלים.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "לשונית עיצוב התרשים",
   "PE.Controllers.Toolbar.textAccent": "הדגשות",
   "PE.Controllers.Toolbar.textBracket": "סוגריים",
   "PE.Controllers.Toolbar.textFontSizeErr": "הערך שהוזן אינו נכון.<br>נא להזין ערך מספרי בין 1 ל 300",

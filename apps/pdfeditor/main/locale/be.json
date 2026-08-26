@@ -910,8 +910,6 @@
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Злучэнне страчана</b><br>Выконваецца спроба падлучэння. Праверце налады.",
   "PDFE.Controllers.Statusbar.zoomText": "Маштаб {0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Вы спрабуеце выканаць дзеянне, на якое не маеце правоў.<br>Калі ласка, звярніцеся да адміністратара сервера дакументаў.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Усе параметры дыяграмы цяпер даступныя на адмысловай укладцы Афармленне дыяграмы на панэлі інструментаў.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Укладка афармлення дыяграмы",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Увага",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Уведзена хібнае значэнне.<br>Калі ласка, ўвядзіце лік ад 1 да 300.",
   "PDFE.Controllers.Toolbar.textGotIt": "Добра",

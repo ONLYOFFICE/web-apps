@@ -1121,8 +1121,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Wybierz co najmniej dwie serie danych, aby utworzyć wykres kombi.",
   "SSE.Controllers.Toolbar.errorMaxRows": "BŁĄD! Maksymalna liczba serii danych na wykresie wynosi 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nieprawidłowa kolejność wierszy. Aby zbudować wykres akcji, umieść dane na arkuszu w następującej kolejności:<br> cena otwarcia, cena maksymalna, cena minimalna, cena zamknięcia.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Wszystkie ustawienia wykresu są teraz dostępne na dedykowanej karcie Projektowanie wykresu na pasku narzędzi.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Karta Projektowanie wykresu",
   "SSE.Controllers.Toolbar.textAccent": "Akcenty",
   "SSE.Controllers.Toolbar.textBracket": "Klamry",
   "SSE.Controllers.Toolbar.textDirectional": "Wskazówki",

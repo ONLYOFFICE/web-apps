@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "Colar um URL de ficheiro",
   "DE.Controllers.Toolbar.helpCommentFilter": "Gerir a vista alternando entre comentários abertos e resolvidos no painel esquerdo.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Filtros de comentários",
-  "DE.Controllers.Toolbar.helpChartTab": "Todas as configurações do gráfico estão agora disponíveis no separador dedicado Design do gráfico na barra de ferramentas.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Separador Design do gráfico",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Destaques",
   "DE.Controllers.Toolbar.textBracket": "Parênteses",

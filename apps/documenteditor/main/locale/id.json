@@ -1285,8 +1285,6 @@
   "DE.Controllers.Statusbar.zoomText": "Perbesar {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Font yang akan Anda simpan tidak tersedia di perangkat sekarang.<br>Style teks akan ditampilkan menggunakan salah satu font sistem, font yang disimpan akan digunakan jika sudah tersedia.<br>Apakah Anda ingin melanjutkan?",
   "DE.Controllers.Toolbar.dataUrl": "Paste URL data",
-  "DE.Controllers.Toolbar.helpChartTab": "Semua pengaturan bagan sekarang tersedia di tab Desain bagan khusus pada bilah alat.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Tab Desain bagan",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Peringatan",
   "DE.Controllers.Toolbar.textAccent": "Aksen",
   "DE.Controllers.Toolbar.textBracket": "Tanda Kurung",

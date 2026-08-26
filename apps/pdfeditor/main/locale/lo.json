@@ -335,8 +335,6 @@
   "PDFE.Controllers.Search.textReplaceSkipped": "ການທົດແທນໄດ້ຖືກປະຕິບັດແລ້ວ. {0} ຖືກຂ້າມເຫດການທີ່ເກີດຂື້ນໄດ້",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>ຂາດເຊື່ອມຕໍ່</b><br>ກຳລັງພະຍາຍາມເຊື່ອມຕໍ່. ກະລຸນາກວດເບິ່ງການຕັ້ງຄ່າການເຊື່ອມຕໍ່.",
   "PDFE.Controllers.Statusbar.zoomText": "ຂະຫຍາຍ {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "ການຕັ້ງຄ່າຕາຕະລາງທັງໝົດ ດຽວນີ້ມີໃຫ້ໃນແທັບອອກແບບຕາຕະລາງສະເພາະໃນແຖບເຄື່ອງມື.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "ແທັບອອກແບບຕາຕະລາງ",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
   "PDFE.Controllers.Toolbar.textWarning": "ແຈ້ງເຕືອນ",
   "PDFE.Controllers.Toolbar.txtDownload": "ດາວໂຫຼດ",

@@ -787,8 +787,6 @@
   "DE.Controllers.Statusbar.tipReview": "Проследяване на промените",
   "DE.Controllers.Statusbar.zoomText": "Мащабиране {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Шрифтът, който ще запазите, не е наличен в текущото устройство. <br> Стилът на текста ще се покаже с помощта на един от системните шрифтове, запазеният шрифт ще се използва, когато е налице. <br> Искате ли да продължите ?",
-  "DE.Controllers.Toolbar.helpChartTab": "Всички настройки на диаграмата вече са достъпни в специалния раздел Дизайн на диаграма в лентата с инструменти.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Раздел Дизайн на диаграма",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Внимание",
   "DE.Controllers.Toolbar.textAccent": "Акценти",
   "DE.Controllers.Toolbar.textBracket": "Скоби",

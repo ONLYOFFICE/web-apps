@@ -1506,8 +1506,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Het lettertype dat u probeert op te slaan, is niet beschikbaar op het huidige apparaat.<br>De tekststijl wordt weergegeven met een van de systeemlettertypen. Het opgeslagen lettertype wordt gebruikt wanneer het beschikbaar is.<br>Wilt u doorgaan?",
   "PE.Controllers.Toolbar.helpChartElements": "Schakel de zichtbaarheid van grafiekelementen eenvoudig in of uit met een paar klikken.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Weergave van diagram-elementen. ",
-  "PE.Controllers.Toolbar.helpChartTab": "Alle grafiekinstellingen zijn nu beschikbaar op het speciale tabblad Grafiekontwerp in de werkbalk.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Tabblad Grafiekontwerp",
   "PE.Controllers.Toolbar.textAccent": "Accenten",
   "PE.Controllers.Toolbar.textBracket": "Haakjes",
   "PE.Controllers.Toolbar.textFontSizeErr": "De ingevoerde waarde is onjuist.<br>Voer een waarde tussen 1 en 300 in",

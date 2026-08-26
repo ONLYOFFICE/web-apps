@@ -348,8 +348,6 @@
   "PE.Controllers.Search.textReplaceSkipped": "Đã thực hiện thay thế. {0} lần xuất hiện đã bị bỏ qua.",
   "PE.Controllers.Statusbar.zoomText": "Thu phóng {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Phông chữ bạn sẽ lưu không có sẵn trên thiết bị hiện tại.<br>Kiểu văn bản sẽ được hiển thị bằng một trong các phông chữ hệ thống, phông chữ đã lưu sẽ được sử dụng khi có sẵn.<br>Bạn có muốn tiếp tục?",
-  "PE.Controllers.Toolbar.helpChartTab": "Tất cả cài đặt biểu đồ giờ đây có sẵn trong tab Thiết kế biểu đồ chuyên dụng trên thanh công cụ.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Tab Thiết kế biểu đồ",
   "PE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "PE.Controllers.Toolbar.textBracket": "Dấu ngoặc",
   "PE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 300",

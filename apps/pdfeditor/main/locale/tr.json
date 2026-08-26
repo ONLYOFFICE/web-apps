@@ -416,8 +416,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0}, Şununla Değiştir kutusu için geçerli bir özel karakter değil.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Bağlantı kesildi</b><br>Bağlanmayı deneyin. Lütfen bağlantı ayarlarını kontrol edin.",
   "PDFE.Controllers.Statusbar.zoomText": "Yakınlaştırma {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Tüm grafik ayarları artık araç çubuğundaki özel Grafik tasarımı sekmesinde mevcuttur.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Grafik tasarımı sekmesi",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Uyarı",
   "PDFE.Controllers.Toolbar.textWarning": "Uyarı",
   "PDFE.Controllers.Toolbar.txtDownload": "İndir",

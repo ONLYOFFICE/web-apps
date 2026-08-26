@@ -891,8 +891,6 @@
   "DE.Controllers.Statusbar.zoomText": "Priblíženie {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Písmo, ktoré chcete uložiť, nie je dostupné na aktuálnom zariadení.<br>Štýl textu sa zobrazí pomocou jedného zo systémových písiem, uložené písmo sa použije, keď bude k dispozícii.<br>Chcete pokračovať?",
   "DE.Controllers.Toolbar.dataUrl": "Vložiť adresu domény URL",
-  "DE.Controllers.Toolbar.helpChartTab": "Všetky nastavenia grafu sú teraz dostupné na vyhradenej karte Návrh grafu na paneli nástrojov.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Karta Návrh grafu",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Upozornenie",
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Zátvorky",

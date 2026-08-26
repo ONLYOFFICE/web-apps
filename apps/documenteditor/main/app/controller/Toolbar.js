@@ -278,10 +278,6 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 // 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
                 //                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'tipChartTab' : {name: 'de-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'pasteOptions' : {name:'de-help-tip-pasteOptions', placement: 'bottom-right', text: this.helpPasteOptions, header: this.helpPasteOptionsHeader, target: '#slot-btn-paste', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true}
             });
             // TODO: Add name
             Common.UI.TooltipManager.addTips({

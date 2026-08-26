@@ -1408,8 +1408,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>انقطع الاتصال</b><br>جارى محاولة الاتصال. يرجى التحقق من إعدادات الاتصال.",
   "PE.Controllers.Statusbar.zoomText": "تكبير/تصغير {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "الخط الذي تقوم بحفظه غير متاح على جهازك الحالي.<br>سيتم إظهار نمط التص باستخدام أحد خطوط النظام، و سيتم استخدام الخط المحفوظ حال توافره..<br>هل تريد المتابعة؟",
-  "PE.Controllers.Toolbar.helpChartTab": "أصبحت جميع إعدادات الرسم البياني متاحة الآن في علامة تبويب تصميم الرسم البياني المخصصة في شريط الأدوات.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "علامة تبويب تصميم الرسم البياني",
   "PE.Controllers.Toolbar.textAccent": "علامات التمييز",
   "PE.Controllers.Toolbar.textBracket": "أقواس",
   "PE.Controllers.Toolbar.textFontSizeErr": "القيمة المدخلة غير صحيحة.<br>الرجاء إدخال قيمة بين 1 و 300",

@@ -446,8 +446,6 @@
   "SSE.Controllers.Toolbar.confirmAddFontName": "Phông chữ bạn sẽ lưu không có sẵn trên thiết bị hiện tại.<br>Kiểu văn bản sẽ được hiển thị bằng một trong các phông chữ hệ thống, phông chữ đã lưu sẽ được sử dụng khi có sẵn.<br>Bạn có muốn tiếp tục?",
   "SSE.Controllers.Toolbar.errorMaxRows": "LỖI! Số chuỗi dữ liệu tối đa cho mỗi biểu đồ là 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Thứ tự hàng không chính xác. Để xây dựng một biểu đồ chứng khoán đặt dữ liệu trên giấy theo thứ tự sau:<br>giá mở phiên, giá cao nhất, giá thấp nhất, giá đóng phiên.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Tất cả cài đặt biểu đồ giờ đây có sẵn trong tab Thiết kế biểu đồ chuyên dụng trên thanh công cụ.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Tab Thiết kế biểu đồ",
   "SSE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "SSE.Controllers.Toolbar.textBracket": "Dấu ngoặc",
   "SSE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Vui lòng nhập một giá trị số giữa 1 và 409",
