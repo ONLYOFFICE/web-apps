@@ -40,7 +40,7 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/SendForSigningSettings.template',
+    'text!common/main/lib/template/SendForSigningSettings.template',
     'jquery',
     'underscore',
     'backbone',
@@ -48,7 +48,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.SendForSigningSettings = Backbone.View.extend(_.extend({
+    Common.Views.SendForSigningSettings = Backbone.View.extend(_.extend({
         el: '#id-send-for-signing-settings',
 
         // Compile our stats template
@@ -295,5 +295,5 @@ define([
         txtSend: 'Send',
         txtCancel: 'Cancel',
 
-    }, DE.Views.SendForSigningSettings || {}));
+    }, Common.Views.SendForSigningSettings || {}));
 });

@@ -57,7 +57,10 @@ define([
         initialize: function () {
         },
         onLaunch: function () {
-            this._state = {};
+            this._state = {
+                lastViewRole: undefined, // last selected role in the preview mode
+                lastRoleInList: undefined, // last role in the roles list,
+            };
         },
 
         setApi: function (api) {
@@ -65,6 +68,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
@@ -86,7 +90,10 @@ define([
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
                     'forms:clear': this.onClearClick,
-                    'forms:preview': this.onPreviewClick
+                    'forms:goto': this.onGoTo,
+                    'forms:preview': this.onPreviewClick,
+                    'forms:manager': this.onManagerClick,
+                    'forms:currentrole': this.onCurrentRole
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -94,8 +101,14 @@ define([
                     'view:compact'  : function (toolbar, state) {
                         state && me.onTabCollapse();
                     },
+                },
+                'FormSettings': {
+                    'forms:currentrole': this.onCurrentRoleChanged
                 }
             });
+            this.appConfig.canSwitchMode && this.api && this.api.asc_registerCallback('asc_onOFormChangeFinal', _.bind(this.onOFormChangeFinal, this))
+            Common.NotificationCenter.on('forms:request-fill',          _.bind(this.requestStartFilling, this));
+            Common.NotificationCenter.on('forms:show-send-for-signing', _.bind(this.showSendForSigning, this));
         },
 
         SetDisabled: function(state) {
@@ -111,8 +124,63 @@ define([
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
+        getCurrentViewRole: function() {
+            return this._state.lastViewRole;
+        },
+
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onCurrentRole: function (combo, record) {
+            const me = this;
+
+            if (!this.api) return;
+            if (record.value === 0) {
+                combo.setValue(Common.Utils.InternalSettings.get('pdfe-last-form-role') || this._state.lastRoleInList);
+
+                const formManager = this.api.asc_GetOForm();
+
+                new Common.Views.RoleEditDlg({
+                    oformManager: formManager,
+                    colors: [],
+                    isEdit: false,
+                    handler: function (result, settings) {
+                        if (result === 'ok' && settings) {
+                            formManager.asc_addRole(settings.name, settings.color);
+                            me.api.asc_assignFieldToRole(settings.name);
+                            Common.Utils.InternalSettings.set('pdfe-last-form-role', settings.name);
+                            combo.setValue(Common.Utils.InternalSettings.get('pdfe-last-form-role'));
+                        }
+                    }
+                }).on('close', () => {
+                    this.fireEvent('editcomplete', this);
+                }).show();
+            } else {
+                Common.Utils.InternalSettings.set('pdfe-last-form-role', record.value)
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onCurrentRoleChanged: function() {
+            this.view && this.view.cmbRoles && this.view.cmbRoles.setValue(Common.Utils.InternalSettings.get('pdfe-last-form-role'));
+        },
+
+        onRefreshRolesList: function(roles) {
+            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) return;
+
+            if (!roles) {
+                const oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
+            }
+            if(!this._state.lastViewRole && roles && roles[0])  {
+                this._state.lastViewRole = roles[0].asc_getSettings().asc_getName();
+            }
+            this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
+            if (this.view) {
+                this.view.fillRolesMenu(roles, this._state.lastViewRole);
+                this.view.fillFillForCombo(roles, this._state.lastRoleInList);
+            }
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -147,8 +215,6 @@ define([
         onControlsSelect: function(type, options) {
             if (!(this.toolbar.mode && this.toolbar.mode.canFeatureForms)) return;
 
-            var oPr,
-                oFormPr = new AscCommon.CSdtFormPr();
             this.toolbar.toolbar.fireEvent('insertcontrol', this.toolbar.toolbar);
             if (type == 'picture')
                 this.api.AddImageField();
@@ -167,6 +233,7 @@ define([
             } else if (type == 'text') {
                 this.api.AddTextField(options);
             }
+            this.api.asc_assignFieldToRole(Common.Utils.InternalSettings.get('pdfe-last-form-role') || this._state.lastRoleInList);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -178,9 +245,66 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onPreviewClick: function(isPreview) {
-            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
+        onGoTo: function(type) {
+            if (this.api)
+                this.api.asc_MoveToFillingForm(type=='next');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onManagerClick: function() {
+            const me = this;
+            (new Common.Views.RolesManagerDlg({
+                api: me.api,
+                handler: function(result, settings) {
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                },
+                props : undefined
+            })).show();
+        },
+
+        onPreviewClick: function(isPreview, lastViewRole) {
+            isPreview && lastViewRole && (this._state.lastViewRole = lastViewRole);
+            this.view._state.lastViewRole = lastViewRole;
+            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'view-form' : 'edit');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onFinalClick: function(state) {
+            this.api && this.api.asc_markAsFinal(state);
+            PDFE.getController('Main').onPdfModeApply(state ? 'view' : 'edit');
+        },
+
+        onOFormChangeFinal: function(isFinal) {
+            // off preview review changes
+            var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
+            if (review && review.isPreviewChangesMode()) {
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || Asc.c_oAscDisplayModeInReview.Edit;
+                review.turnDisplayMode(value);
+                review.view && review.view.turnDisplayMode(value);
+            }
+
+            this.onFinalClick(isFinal, false);
+        },
+        
+        requestStartFilling: function() {
+            var oform = this.api.asc_GetOForm(),
+                roles = oform ? oform.asc_getAllRoles() : [],
+                arr = [];
+            for (var i=0; i<roles.length; i++) {
+                var role = roles[i].asc_getSettings(),
+                    color = role.asc_getColor();
+                color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
+                arr.push({
+                    name: role.asc_getName() || this.view.textAnyone,
+                    color: '#' + color
+                });
+            }
+            Common.Gateway.requestStartFilling(arr);
+        },
+
+        showSendForSigning: function() {
+            const rightmenuController = this.getApplication().getController('RightMenu');
+            rightmenuController.openSendForSigning();
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -223,7 +347,9 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
+            
             });
+            this.onRefreshRolesList();
         },
 
         onActiveTab: function(tab) {

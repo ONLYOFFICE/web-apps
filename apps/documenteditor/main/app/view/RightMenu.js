@@ -53,6 +53,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
+    'common/main/lib/view/SendForSigningSettings',
     'documenteditor/main/app/view/ParagraphSettings',
     // 'documenteditor/main/app/view/HeaderFooterSettings',
     'documenteditor/main/app/view/ImageSettings',
@@ -63,7 +64,6 @@ define([
     'documenteditor/main/app/view/TextArtSettings',
     'documenteditor/main/app/view/SignatureSettings',
     'documenteditor/main/app/view/FormSettings',
-    'documenteditor/main/app/view/SendForSigningSettings',
     'documenteditor/main/app/view/FillingStatusSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
@@ -292,7 +292,7 @@ define([
                             btn.$el.blur();
                         }
                     }.bind(this));
-                    this.sendForSigningSettings = new DE.Views.SendForSigningSettings({
+                    this.sendForSigningSettings = new Common.Views.SendForSigningSettings({
                         handler: function(state, options) {
                             if(state == 'submit') {
                                 me.disableUIForSendForSigning(false);
@@ -477,7 +477,6 @@ define([
             let newDocMode;
             if(status) {
                 const header = DE.getController('Viewport').getView('Common.Views.Header');
-                this._disableUIForSendForSigningState
                 this._sendForSigningState = {
                     docMode: (header &&
                         header.btnDocMode &&

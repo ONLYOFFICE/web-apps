@@ -48,7 +48,9 @@ DE.ApplicationController = new(function(){
         _submitFail, $submitedTooltip, $requiredTooltip,
         $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0,
-        requireUserAction = true;
+        requireUserAction = true,
+        isPDF = false,
+        isSubmitted = false;
 
     var LoadingDocument = -256,
         WarningShown = false;
@@ -88,7 +90,7 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
-        config.mode = 'view'; // always view for embedded
+        config.mode = config.mode || 'view';
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -193,6 +195,7 @@ DE.ApplicationController = new(function(){
                     $submitedTooltip && $submitedTooltip.hide();
                     btnSubmit.attr({disabled: true});
                     btnSubmit.css("pointer-events", "none");
+                    disableFillingForms(true);
                 break;
             case LoadingDocument:
                 text = me.textLoadingDocument + '           ';
@@ -215,15 +218,26 @@ DE.ApplicationController = new(function(){
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
             if (!_submitFail) {
+                isSubmitted = true;
+                btnSubmit.attr({disabled: true});
+                btnSubmit.find('.caption').text(me.textFilled);
                 if (!$submitedTooltip) {
                     $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
                     $(document.body).append($submitedTooltip);
                     $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
                 }
                 $submitedTooltip.show();
-            }
+            } else 
+                disableFillingForms(false);
         }
         me.loadMask && me.loadMask.hide();
+    }
+
+    function disableFillingForms(state) {
+        $('#id-btn-prev-field').attr({disabled: state});
+        $('#id-btn-next-field').attr({disabled: state});
+        $('#id-btn-clear-fields').attr({disabled: state});
+        api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
     }
 
     function onDocMouseMoveStart() {
@@ -311,6 +325,8 @@ DE.ApplicationController = new(function(){
     }
 
     function onFillRequiredFields(isFilled) {
+        if(isSubmitted) return;
+        
         if (isFilled) {
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
@@ -698,7 +714,8 @@ DE.ApplicationController = new(function(){
         }
 
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = false; // use forms editor for filling forms
+        // appOptions.canFillForms   = false; // use forms editor for filling forms
+        appOptions.canFillForms   = isPDF;
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);
@@ -710,6 +727,8 @@ DE.ApplicationController = new(function(){
         api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
+
+        $('.embed-body').toggleClass('fill-form', appOptions.canFillForms);
 
         if (!appOptions.canFillForms) {
             $('#id-btn-prev-field').hide();
@@ -1123,8 +1142,8 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search),
-            isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
+        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search);
+        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',
@@ -1187,6 +1206,7 @@ DE.ApplicationController = new(function(){
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
         textSubmit: 'Submit',
+        textFilled: 'Filled',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',

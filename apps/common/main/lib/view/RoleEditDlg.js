@@ -41,7 +41,7 @@
 
 define([], function () { 'use strict';
 
-    DE.Views.RoleEditDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.RoleEditDlg = Common.UI.Window.extend(_.extend({
         options: {
             width: 330,
             cls: 'modal-dlg',
@@ -215,5 +215,5 @@ define([], function () { 'use strict';
         textNoHighlight: 'No highlighting',
         errNameExists: 'Role with such a name already exists.',
         textNameEx: 'Example: Applicant, Client, Sales Rep'
-    }, DE.Views.RoleEditDlg || {}));
+    }, Common.Views.RoleEditDlg || {}));
 });

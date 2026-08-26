@@ -665,7 +665,7 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
@@ -1089,6 +1089,8 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
+                me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
+                me.api.asc_registerCallback('asc_onCompletePreparingOForm', _.bind(me.onCompletePreparingOForm, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -1151,6 +1153,7 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
+                    me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
 
                     var timer_sl = setTimeout(function(){
 
@@ -1351,6 +1354,7 @@ define([
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && (this.editorConfig.mode !== 'view');
                 this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense && (this.permissions.edit !== false || this.appOptions.isDesktopApp && this.appOptions.isOffline);
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
+                this.appOptions.isViewForm     = false; // Toggles when in ‘view-form’ mode
                 // isPDFFill - can only fill forms, co-edit and save changes to file
                 this.appOptions.isPDFFill = pdfEdit && this.appOptions.canLicense && (this.permissions.fillForms!==false) && !this.appOptions.canPDFAnnotate && !this.appOptions.canPDFEdit && (this.editorConfig.mode !== 'view');
                 this.appOptions.canSwitchMode = this.appOptions.isPDFAnnotate && this.appOptions.canPDFEdit; // switch between View/annotate and pdf edit
@@ -1384,7 +1388,8 @@ define([
                 this.appOptions.isEditTextSupport = this.appOptions.isEdit;
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
-                this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+                this.appOptions.canSubmitForms = this.appOptions.isPDFFill && this.appOptions.canLicense && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object') &&
+                    !!this.editorConfig.customization.submitForm && (typeof this.editorConfig.customization.submitForm !== 'object' || this.editorConfig.customization.submitForm.visible!==false);
                 // TODO: check view mode
                 this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -1396,6 +1401,10 @@ define([
                 this.appOptions.showSaveButton = this.appOptions.isEdit && !this.appOptions.isPDFFill && (this.appOptions.canSaveToFile || this.appOptions.canDownload);
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
                 this.appOptions.canCopy        = this.permissions.copy !== false;
+                
+                this.appOptions.canStartFilling = this.editorConfig.canStartFilling && !this.appOptions.isPDFFill;
+                this.appOptions.canRequestStartFilling = this.editorConfig.canRequestStartFilling && !this.appOptions.isPDFFill;
+                this.appOptions.showStartFillingButton = (this.appOptions.canStartFilling || this.appOptions.canRequestStartFilling) && this.appOptions.isPDFEdit; // show Start Filling button in the header
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1460,7 +1469,7 @@ define([
                 this.api.asc_setPdfViewer((this.editorConfig.mode === 'view') && !this.appOptions.isXpsViewer);
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
-                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms :
+                this.api.asc_setRestriction(this.appOptions.canSubmitForms ? Asc.c_oAscRestrictionType.OnlyForms :
                                             this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
 
                 this.api.asc_LoadDocument();
@@ -1583,24 +1592,41 @@ define([
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
                     this.appOptions.isPDFEdit = true;
                     this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='comment' && this.appOptions.canPDFAnnotate) {
                     this.appOptions.isPDFEdit = false;
                     this.appOptions.isPDFAnnotate = true;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='view') {
-                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = this.appOptions.isViewForm = false;
+                } else if(mode==='view-form') {
+                    this.appOptions.isPDFEdit = false;
+                    this.appOptions.isViewForm = true;
                 }
-                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+                this.appOptions.showStartFillingButton = (this.appOptions.canStartFilling || this.appOptions.canRequestStartFilling) && this.appOptions.isPDFEdit;
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
-                var app = this.getApplication(),
-                    toolbar = app.getController('Toolbar');
+                const app = this.getApplication();
+                const toolbar = app.getController('Toolbar');
                 toolbar.applyMode(activeTab);
+                toolbar.disableEditing(mode==='view-form');
                 app.getController('Viewport').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
-
-                var formsTabView = app.getController('FormsTab').view;
-                formsTabView && formsTabView.btnPreview.toggle(mode !== 'edit', true);
+                
+                const formsTabController = app.getController('FormsTab');
+                const role = new AscCommon.CRestrictionSettings();
+                role.put_OFormRole(formsTabController.getCurrentViewRole());
+                let restrictionType;
+                if(this.appOptions.isViewForm) {
+                    restrictionType = Asc.c_oAscRestrictionType.OnlyForms;
+                } else if(this.appOptions.isPDFEdit) {
+                    restrictionType = Asc.c_oAscRestrictionType.None;
+                } else {
+                    restrictionType = Asc.c_oAscRestrictionType.View;
+                }
+                this.api.asc_setRestriction(restrictionType, role);
+                formsTabController.view && formsTabController.view.btnViewFormRoles.toggle(mode == 'view-form', true);
 
                 const selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length > 0)
@@ -1626,6 +1652,26 @@ define([
                     this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
 
                 this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+            },
+
+            onStartFilling: function(disconnect, roles) {
+                this._isFillInitiator = true;
+                this._rolesForFilling = roles;
+                this.api.asc_CompletePreparingOForm(!!disconnect);
+                !disconnect && this.onDisconnectEveryone(); // disable editing only for current user
+            },
+
+            onDisconnectEveryone: function() {
+                Common.NotificationCenter.trigger('pdf:mode-apply', 'comment');
+                appHeader.onStartFilling();
+                !this._isFillInitiator && Common.UI.warning({
+                                            msg  : this.warnStartFilling,
+                                            buttons: ['ok']
+                                        });
+            },
+
+            onCompletePreparingOForm: function() {
+                Common.Gateway.startFilling(this._rolesForFilling);
             },
 
             applyModeCommonElements: function() {

@@ -2407,7 +2407,7 @@
   "DE.Views.RightMenu.txtSignatureSettings": "Tetapan tandatangan",
   "DE.Views.RightMenu.txtTableSettings": "Seting Jadual",
   "DE.Views.RightMenu.txtTextArtSettings": "Seting Lukisan Teks",
-  "DE.Views.RolesManagerDlg.textNew": "Baharu",
+  "Common.Views.RolesManagerDlg.textNew": "Baharu",
   "DE.Views.ShapeSettings.strBackground": "Warna latar belakang",
   "DE.Views.ShapeSettings.strChange": "Ubah Autobentuk",
   "DE.Views.ShapeSettings.strColor": "Warna",

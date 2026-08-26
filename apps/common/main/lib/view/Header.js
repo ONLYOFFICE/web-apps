@@ -272,17 +272,43 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view'),
-                isEdit = config.isPDFEdit,
-                isComment = !isEdit && config.isPDFAnnotate;
-            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
-            me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
-            me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
+
+            let type;
+            const btnModeState = { icon: '', caption: '', hint: ''};
+            if(config.isViewForm) {
+                type = 'view-form';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textViewForm;
+                btnModeState.hint = me.tipDocViewForm;
+            } else if(config.isPDFEdit) {
+                type = 'edit';
+                btnModeState.icon = 'btn-edit';
+                btnModeState.caption = me.textEdit;
+                btnModeState.hint = me.tipEdit;
+            } else if(config.isPDFAnnotate) {
+                type = 'comment';
+                btnModeState.icon = 'btn-menu-comments';
+                btnModeState.caption = me.textComment;
+                btnModeState.hint = me.tipComment;
+            } else {
+                type = 'view';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textView;
+                btnModeState.hint = me.tipView;
+            }
+
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + btnModeState.icon);
+            me.btnPDFMode.setCaption(btnModeState.caption);
+            me.btnPDFMode.updateHint(btnModeState.hint);
             me.btnPDFMode.options.value = type;
             if (me.btnPDFMode.menu && typeof me.btnPDFMode.menu === 'object') {
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
                 (item) ? item.setChecked(true) : this.btnPDFMode.menu.clearAll();
             }
+            this.showStartFillButton(
+                config.showStartFillingButton,
+                config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text
+            );
         }
 
         function changeDocMode(type, lockEditing) {
@@ -413,14 +439,6 @@ define([
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
                 updateDocNamePosition();
             }
-
-            me.btnStartFill && me.btnStartFill.on('click', function (e) {
-                if(appConfig.canRequestStartFilling) {
-                    Common.NotificationCenter.trigger('forms:request-fill');
-                } else {
-                    Common.NotificationCenter.trigger('forms:show-send-for-signing');
-                }
-            });
 
             if (me.btnFillStatus) {
                 me.btnFillStatus.updateHint(me.tipFillStatus);
@@ -655,6 +673,15 @@ define([
                         template: menuTemplate,
                         description: me.textAnnotateDesc,
                         value: 'comment',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                    arr.push({
+                        caption: me.textViewForm,
+                        iconCls : 'menu__icon btn-sheet-view',
+                        template: menuTemplate,
+                        description: me.textDocViewFormDesc,
+                        value: 'view-form',
                         checkable: true,
                         toggleGroup: 'docmode'
                     });
@@ -1042,18 +1069,11 @@ define([
                         btnMode = null;
                     }
 
-                    if (config.showStartFillingButton) {
-                        me.btnStartFill = new Common.UI.Button({
-                            cls: 'btn-text-default auto yellow',
-                            caption: config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text ? config.customization.startFillingForm.text : me.textStartFill,
-                            dataHint: '0',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'big'
-                        });
-                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
-                    } else {
-                        $html.find('#slot-btn-start-fill').hide();
-                    }
+                    me.showStartFillButton(
+                        config.showStartFillingButton, 
+                        config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text,
+                        $html
+                    );
 
                     if (config.isPDFForm && config.canRequestFillingStatus) {
                         me.btnFillStatus = new Common.UI.Button({
@@ -1238,6 +1258,39 @@ define([
                     this.setDocTitle( value );
                 }
                 return value;
+            },
+
+            showStartFillButton: function(show, caption, $html) {
+                const $el = $html ? $html.find('#slot-btn-start-fill') : $('#slot-btn-start-fill');
+                if (show) {
+                    if(!this.btnStartFill) {
+                        this.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: caption || this.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        this.btnStartFill.on('click', function (e) {
+                            if(appConfig.canRequestStartFilling) {
+                                Common.NotificationCenter.trigger('forms:request-fill');
+                            } else {
+                                Common.NotificationCenter.trigger('forms:show-send-for-signing');
+                            }
+                        });
+                        $el.show();
+                        this.btnStartFill.render($el);
+                    } else {
+                        this.btnStartFill.setVisible(true);
+                        caption && this.btnStartFill.setCaption(caption);
+                    }
+                } else {
+                    if(!this.btnStartFill) {
+                        $el.hide();
+                    } else {
+                        this.btnStartFill.setVisible(false);
+                    }
+                }
             },
 
             getDocumentCaption: function () {
@@ -1452,7 +1505,7 @@ define([
             },
 
             onStartFilling: function() {
-                this.btnStartFill && this.btnStartFill.setVisible(false);
+                this.showStartFillButton(false);
                 updateDocNamePosition();
             },
 

@@ -41,14 +41,14 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/RolesManagerDlg.template',
+    'text!common/main/lib/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 
-    DE.Views = DE.Views || {};
+    Common.Views = Common.Views || {};
 
-    DE.Views.RolesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.RolesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'RolesManagerDlg',
             contentWidth: 500,
@@ -67,7 +67,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
-            this.oformManager = this.api.asc_GetOForm();
+            this.oformManager = this.api.asc_GetOForm(); 
 
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
@@ -170,7 +170,7 @@ define([
             if (roles) {
                 var arr = [];
                 for (var i=0; i<roles.length; i++) {
-                    var role = roles[i].asc_getSettings(),
+                    let role = roles[i].asc_getSettings(),
                         color = role.asc_getColor();
                     color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
                     arr.push({
@@ -215,7 +215,7 @@ define([
                 xy = Common.Utils.getOffset(me.$window),
                 rec = this.rolesList.getSelectedRec();
 
-            var win = new DE.Views.RoleEditDlg({
+            var win = new Common.Views.RoleEditDlg({
                 oformManager: me.oformManager,
                 props   : (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null,
                 colors  : me.arrColors,
@@ -224,13 +224,24 @@ define([
                     if (result == 'ok' && settings) {
                         me.lastSelectedRole = settings.name;
 
-                        var role = new AscCommon.CRoleSettings();
-                        role.asc_putName(settings.name);
-                        role.asc_putColor(settings.color);
-                        if (isEdit && rec) {
-                            me.oformManager.asc_editRole(rec.get('name'), role);
-                        } else {
-                            me.oformManager.asc_addRole(role);
+                        if(window.DE) {
+                            const role = new AscCommon.CRoleSettings();
+                            role.asc_putName(settings.name);
+                            role.asc_putColor(settings.color);
+                            if (isEdit && rec) {
+                                me.oformManager.asc_editRole(rec.get('name'), role);
+                            } else {
+                                me.oformManager.asc_addRole(role);
+                            }
+                        } else if(window.PDFE) {
+                            if (isEdit && rec) {
+                                const role = me.oformManager.asc_getRole(rec.get('name'));
+                                role.asc_putName(settings.name);
+                                role.asc_putColor(settings.color);
+                                me.oformManager.asc_editRole(rec.get('name'), role);
+                            } else {
+                                me.oformManager.asc_addRole(settings.name, settings.color);
+                            }
                         }
                     }
                 }
@@ -271,7 +282,7 @@ define([
                 });
             } else {
                 var xy = Common.Utils.getOffset(me.$window);
-                var win = new DE.Views.RoleDeleteDlg({
+                var win = new Common.Views.RoleDeleteDlg({
                     props   : {roles: this.rolesList.store, excludeName: rec.get('name')},
                     handler : function(result, settings) {
                         if (result == 'ok' && settings) {
@@ -361,5 +372,5 @@ define([
         textAnyone: 'Anyone',
         textDeleteLast: 'Are you sure you want to delete the role {0}?<br>Once deleted, the default role will be created.'
 
-    }, DE.Views.RolesManagerDlg || {}));
+    }, Common.Views.RolesManagerDlg || {}));
 });
