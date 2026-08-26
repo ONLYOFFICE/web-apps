@@ -1558,6 +1558,7 @@ define([
                         }, this);
                     }
                     this.submitedTooltip.show();
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                 }
             }
         },
