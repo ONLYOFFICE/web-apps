@@ -1238,8 +1238,6 @@
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>連線失敗</b><br>正在嘗試連線。請檢查網路連線設定。",
   "PDFE.Controllers.Statusbar.zoomText": "放大{0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "您正在嘗試執行一個您無權限進行的操作。<br>請聯絡您的文件伺服器管理員。",
-  "PDFE.Controllers.Toolbar.helpChartTab": "現在所有圖表設定都可以在工具列上專用的圖表設計標籤中使用。",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "圖表設計標籤",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "輸入的值不正確。<br>請輸入介於1和300之間的數值。",
   "PDFE.Controllers.Toolbar.textGotIt": "知道了",

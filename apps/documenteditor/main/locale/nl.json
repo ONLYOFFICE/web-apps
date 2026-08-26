@@ -1770,8 +1770,6 @@
   "DE.Controllers.Toolbar.fileUrl": "Een bestands-URL plakken",
   "DE.Controllers.Toolbar.helpCommentFilter": "Beheer uw weergave door te schakelen tussen open en opgeloste opmerkingen in het linkerpaneel.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Opmerkingenfilters",
-  "DE.Controllers.Toolbar.helpChartTab": "Alle grafiekinstellingen zijn nu beschikbaar op het speciale tabblad Grafiekontwerp in de werkbalk.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Tabblad Grafiekontwerp",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Waarschuwing",
   "DE.Controllers.Toolbar.textAccent": "Accenten",
   "DE.Controllers.Toolbar.textBracket": "Haakjes",

@@ -1762,8 +1762,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Налепи URL података",
   "DE.Controllers.Toolbar.errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте свог Документ Сервер администратора.",
   "DE.Controllers.Toolbar.fileUrl": "Налепи URL датотеке",
-  "DE.Controllers.Toolbar.helpChartTab": "Сва подешавања графикона сада су доступна на наменској картици Дизајн графикона на траци са алаткама.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Картица Дизајн графикона",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Упозорење",
   "DE.Controllers.Toolbar.textAccent": "Нагласци",
   "DE.Controllers.Toolbar.textBracket": "Заграде",

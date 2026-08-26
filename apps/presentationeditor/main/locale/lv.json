@@ -1221,8 +1221,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Savienojums ir zaudēts</b><br>Mēģina izveidot savienojumu. Pārbaudiet savienojuma iestatījumus.",
   "PE.Controllers.Statusbar.zoomText": "Tālummaiņa {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Fonts, kuru vēlaties saglabāt, pašreizējā ierīcē nav pieejams.<br>Teksta stils tiks parādīts, izmantojot vienu no sistēmas fontiem, saglabātais fonts tiks izmantots, kad tas būs pieejams.<br>Vai vēlaties turpināt?",
-  "PE.Controllers.Toolbar.helpChartTab": "Visi diagrammas iestatījumi tagad ir pieejami īpašā cilnē Diagrammas noformējums rīkjoslā.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Cilne Diagrammas noformējums",
   "PE.Controllers.Toolbar.textAccent": "Uzsvari",
   "PE.Controllers.Toolbar.textBracket": "Iekavas",
   "PE.Controllers.Toolbar.textFontSizeErr": "Ievadītā vērtība ir nepareiza.<br>Ievadiet skaitlisku vērtību no 1 līdz 300",

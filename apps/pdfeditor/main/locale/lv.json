@@ -395,8 +395,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} ir nederīga speciālā rakstzīme laukam Aizstāt ar lodziņu.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Savienojums ir zaudēts</b><br>Mēģina izveidot savienojumu. Pārbaudiet savienojuma iestatījumus.",
   "PDFE.Controllers.Statusbar.zoomText": "Tālummaiņa {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Visi diagrammas iestatījumi tagad ir pieejami īpašā cilnē Diagrammas noformējums rīkjoslā.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Cilne Diagrammas noformējums",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Brīdinājums",
   "PDFE.Controllers.Toolbar.textWarning": "Brīdinājums",
   "PDFE.Controllers.Toolbar.txtDownload": "Lejupielādēt",

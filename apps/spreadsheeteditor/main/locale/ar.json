@@ -1555,8 +1555,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "الحد الأقصى لعدد النقاط في السلسلة لكل مخطط هو 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "خطأ! الحد الأعظمي لعدد سلاسل البيانات المسموح به لكل رسم بياني هو 255",
   "SSE.Controllers.Toolbar.errorStockChart": "ترتيب الصف غير صحيح. لبناء مخطط الأسهم قم بوضع البيانات في الصفحة بالترتيب التالي:<br> سعر الافتتاح، أعلى سعر، أقل سعر، سعر الإغلاق.",
-  "SSE.Controllers.Toolbar.helpChartTab": "أصبحت جميع إعدادات الرسم البياني متاحة الآن في علامة تبويب تصميم الرسم البياني المخصصة في شريط الأدوات.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "علامة تبويب تصميم الرسم البياني",
   "SSE.Controllers.Toolbar.textAccent": "علامات التمييز",
   "SSE.Controllers.Toolbar.textBracket": "أقواس",
   "SSE.Controllers.Toolbar.textDirectional": "اتجاهي",

@@ -1362,8 +1362,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Maksimālais punktu sērijas skaits diagrammā ir 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "KĻŪDA! Maksimālais datu sēriju skaits diagrammā ir 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nepareiza rindu secība. Lai izveidotu akciju diagrammu novietojiet datus lapā šādā secībā:<br> sākumcena, maksimālā cena, minimālā cena, slēgšanas cena.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Visi diagrammas iestatījumi tagad ir pieejami īpašā cilnē Diagrammas noformējums rīkjoslā.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Cilne Diagrammas noformējums",
   "SSE.Controllers.Toolbar.textAccent": "Uzsvari",
   "SSE.Controllers.Toolbar.textBracket": "Iekavas",
   "SSE.Controllers.Toolbar.textDirectional": "Virziena",

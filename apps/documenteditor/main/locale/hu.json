@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "Fájl URL-címének beillesztése",
   "DE.Controllers.Toolbar.helpCommentFilter": "A nézetet a bal oldali panelen a megnyitott és a lezárt megjegyzések közötti váltással kezelheti.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Hozzászólásszűrők",
-  "DE.Controllers.Toolbar.helpChartTab": "Minden diagrambeállítás mostantól elérhető az eszköztár Diagramtervezés lapján.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Diagramtervezés lap",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Figyelmeztetés",
   "DE.Controllers.Toolbar.textAccent": "Akcentusok",
   "DE.Controllers.Toolbar.textBracket": "Zárójelben",

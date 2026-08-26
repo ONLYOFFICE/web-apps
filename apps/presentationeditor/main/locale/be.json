@@ -1212,8 +1212,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Злучэнне страчана</b><br>Выконваецца спроба падлучэння. Праверце налады.",
   "PE.Controllers.Statusbar.zoomText": "Маштаб {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Шрыфт, які вы хочаце захаваць, недаступны на гэтай прыладзе.<br>Стыль тэксту будзе паказвацца пры дапамозе аднаго з сістэмных шрыфтоў. Захаваны шрыфт будзе выкарыстоўвацца, калі ён стане даступным.<br>Працягнуць?",
-  "PE.Controllers.Toolbar.helpChartTab": "Усе параметры дыяграмы цяпер даступныя на адмысловай укладцы Афармленне дыяграмы на панэлі інструментаў.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Укладка афармлення дыяграмы",
   "PE.Controllers.Toolbar.textAccent": "Дыякрытычныя знакі",
   "PE.Controllers.Toolbar.textBracket": "Дужкі",
   "PE.Controllers.Toolbar.textFontSizeErr": "Уведзена хібнае значэнне.<br>Калі ласка, ўвядзіце лік ад 1 да 300.",

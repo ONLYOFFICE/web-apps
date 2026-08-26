@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Խոշորացնել {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Տառատեսակը, որը պատրաստվում եք պահպանել, հասանելի չէ ընթացիկ սարքում:<br>Տեքստի ոճը կցուցադրվի սարքի տառատեսակներից մեկի միջոցով, պահված տառատեսակը կօգտագործվի, երբ այն հասանելի լինի:<br>Ցանկանու՞մ եք շարունակել:",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Գծապատկերի բոլոր կարգավորումներն այժմ հասանելի են գործիքագոտու Գծապատկերի ձևավորում հատուկ ներդիրում:",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Գծապատկերի ձևավորման ներդիր",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Զգուշացում",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Խնդրում ենք մուտքագրել 1-ից 300 թվային արժեք:",
   "PDFE.Controllers.Toolbar.textGotIt": "Հասկանալի է",

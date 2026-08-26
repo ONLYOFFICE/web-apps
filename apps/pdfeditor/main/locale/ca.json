@@ -789,8 +789,6 @@
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>S'ha perdut la connexió.</b><br>S'intenta connectar. Comproveu la configuració de connexió",
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "No tens permisos per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador del servidor de documents.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Tots els paràmetres del gràfic estan ara disponibles a la pestanya Disseny del gràfic dedicada a la barra d'eines.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Pestanya de disseny del gràfic",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Advertiment",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "El valor introduït no és correcte. <br>Introduïu un valor numèric entre 1 i 300.",
   "PDFE.Controllers.Toolbar.textGotIt": "Entesos",

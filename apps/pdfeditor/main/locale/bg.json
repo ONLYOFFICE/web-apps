@@ -388,8 +388,6 @@
   "PDFE.Controllers.Search.textReplaceSkipped": "Замяната е направена. {0} събития бяха пропуснати.",
   "PDFE.Controllers.Statusbar.zoomText": "Мащаб {0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Опитвате се да извършите действие, за което нямате права.<br>Моля, свържете се с администратора на сървъра за документи.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Всички настройки на диаграмата вече са достъпни в специалния раздел Дизайн на диаграма в лентата с инструменти.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Раздел Дизайн на диаграма",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Внимание",
   "PDFE.Controllers.Toolbar.textWarning": "Внимание",
   "PDFE.Controllers.Toolbar.txtDownload": "Изтегли",

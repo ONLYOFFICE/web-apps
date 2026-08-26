@@ -1018,8 +1018,6 @@
   "DE.Controllers.Toolbar.confirmAddFontName": "Skrifttypen du gemmer er ikke tilgængeligt på din nuværende enhed.<br>Typografien vil blive vist ved brug af en systemets skrifttyper. Den gemte skrifttype vil blive brugt, når den er tilgængelig.<br>Vil du fortsætte?",
   "DE.Controllers.Toolbar.dataUrl": "Indsæt en data-URL",
   "DE.Controllers.Toolbar.errorAccessDeny": "Du prøver at foretage en handling, som du ikke har rettigheder til.<br>Kontakt venligst din administrator for hjælp.",
-  "DE.Controllers.Toolbar.helpChartTab": "Alle diagramindstillinger er nu tilgængelige på den dedikerede Diagramdesign-fane i værktøjslinjen.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Diagramdesign-fane",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Advarsel",
   "DE.Controllers.Toolbar.textAccent": "Accenter",
   "DE.Controllers.Toolbar.textBracket": "Klammer",

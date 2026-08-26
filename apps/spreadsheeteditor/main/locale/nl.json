@@ -2058,8 +2058,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Het maximaal aantal punten in een serie per grafiek is 4096",
   "SSE.Controllers.Toolbar.errorMaxRows": "FOUT! Het maximumaantal gegevensreeksen per grafiek is 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Onjuiste volgorde rijen. Als u een aandelengrafiek wilt maken, zet u de rijen in de volgende volgorde op het blad:<br> beginkoers, hoogste koers, laagste koers, slotkoers.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Alle grafiekinstellingen zijn nu beschikbaar op het speciale tabblad Grafiekontwerp in de werkbalk.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Tabblad Grafiekontwerp",
   "SSE.Controllers.Toolbar.textAccent": "Accenten",
   "SSE.Controllers.Toolbar.textBracket": "Haakjes",
   "SSE.Controllers.Toolbar.textDirectional": "Directioneel",

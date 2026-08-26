@@ -955,8 +955,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>З'єднання втрачено</b><br>Спроба підключення. Перевірте налаштування підключення.",
   "PE.Controllers.Statusbar.zoomText": "Збільшити {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Шрифт, який ви збираєтеся зберегти, недоступний на поточному пристрої. <br> Текстовий стиль відображатиметься за допомогою одного з системних шрифтів, збережений шрифт буде використовуватися, коли він буде доступний. <br> Ви хочете продовжити ?",
-  "PE.Controllers.Toolbar.helpChartTab": "Усі налаштування діаграми тепер доступні на спеціальній вкладці «Конструктор діаграм» на панелі інструментів.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Вкладка «Конструктор діаграм»",
   "PE.Controllers.Toolbar.textAccent": "Акценти",
   "PE.Controllers.Toolbar.textBracket": "Дужки",
   "PE.Controllers.Toolbar.textFontSizeErr": "Введене значення невірно. <br> Будь ласка, введіть числове значення від 1 до 300",

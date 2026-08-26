@@ -1611,8 +1611,6 @@
   "DE.Controllers.Toolbar.dataUrl": "貼上資料URL",
   "DE.Controllers.Toolbar.errorAccessDeny": "您正在嘗試執行您沒有權限執行的動作，請聯繫您的文件伺服器管理員。",
   "DE.Controllers.Toolbar.fileUrl": "貼上檔案 URL",
-  "DE.Controllers.Toolbar.helpChartTab": "現在所有圖表設定都可以在工具列上專用的圖表設計標籤中使用。",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "圖表設計標籤",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "DE.Controllers.Toolbar.textAccent": "口音",
   "DE.Controllers.Toolbar.textBracket": "括號",

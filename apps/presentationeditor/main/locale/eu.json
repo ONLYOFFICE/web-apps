@@ -1268,8 +1268,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Konexioa galdu da</b><br>Saiatu berriz konektatzen. Egiaztatu konexioaren ezarpenak.",
   "PE.Controllers.Statusbar.zoomText": "Zooma %{0}",
   "PE.Controllers.Toolbar.confirmAddFontName": "Gordeko duzun letra-tipoa ez dago uneko gailuan erabilgarri.<br>Testu-estiloa sistemako letra-tipo bat erabiliz bistaratuko da. Gordetako letra-tipoa erabilgarri dagoenean erabiliko da.<br>Jarraitu nahi duzu?",
-  "PE.Controllers.Toolbar.helpChartTab": "Grafikoaren ezarpen guztiak orain Grafikoaren diseinua fitxan eskuragarri daude tresna-barran.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Grafikoaren diseinua fitxa",
   "PE.Controllers.Toolbar.textAccent": "Azentuak",
   "PE.Controllers.Toolbar.textBracket": "Parentesiak",
   "PE.Controllers.Toolbar.textFontSizeErr": "Sartutako balioa ez da zuzena.<br>1 eta 300 arteko zenbakizko balioa izan behar du.",

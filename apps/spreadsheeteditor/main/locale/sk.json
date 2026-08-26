@@ -1080,8 +1080,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Pre vytvorenie kombinovaného grafu, zvoľte aspoň dve skupiny dát.",
   "SSE.Controllers.Toolbar.errorMaxRows": "CHYBA! Maximálny počet dátových radov na graf je 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nesprávne poradie riadkov. Ak chcete vytvoriť burzový graf, umiestnite údaje na hárok v nasledujúcom poradí:<br> začiatočná cena, max cena, min cena, konečná cena.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Všetky nastavenia grafu sú teraz dostupné na vyhradenej karte Návrh grafu na paneli nástrojov.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Karta Návrh grafu",
   "SSE.Controllers.Toolbar.textAccent": "Akcenty",
   "SSE.Controllers.Toolbar.textBracket": "Zátvorky",
   "SSE.Controllers.Toolbar.textDirectional": "Smerové",
