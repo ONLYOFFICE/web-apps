@@ -1542,12 +1542,12 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.submit, !this._submitFail, {array: [this.toolbar.btnSubmit]})
                 if (!this._submitFail) {
                     Common.Gateway.submitForm();
-                    this.toolbar.btnSubmit.setCaption(this.toolbar.textFilled);
-                    var text = (typeof this.mode.customization.submitForm==='object') ? this.mode.customization.submitForm.resultMessage : this.toolbar.textSubmitOk;
+                    this.toolbar.btnSubmit.setCaption(this.textFilled);
+                    var text = (typeof this.mode.customization.submitForm==='object') ? this.mode.customization.submitForm.resultMessage : this.textSubmitOk;
                     if (text==='') return;
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: text || this.toolbar.textSubmitOk,
+                            text: text || this.textSubmitOk,
                             extCls: 'no-arrow colored',
                             showLink: false,
                             target: $('.toolbar'),
@@ -2951,7 +2951,9 @@ define([
         helpTextComment: 'Insert a text comment or text callout in your PDF file.',
         helpTextCommentHeader: 'Text Comment',
         helpEditPdf: 'Edit text, add, delete, and rotate pages, insert images, tables, etc.',
-        helpEditPdfHeader: 'Edit PDF'
+        helpEditPdfHeader: 'Edit PDF',
+        textFilled: 'Filled',
+        textSubmitOk: 'Your PDF form has been successfully filled.'
 
     }, PDFE.Controllers.Toolbar || {}));
 });

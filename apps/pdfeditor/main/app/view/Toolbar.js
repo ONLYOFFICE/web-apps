@@ -2217,9 +2217,7 @@ define([
             tipNumNumbersPoint: '1. 2. 3.',
             tipNumNumbersParentheses: '1) 2) 3)',
             tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.',
-            textFilled: 'Filled',
-            textSubmitOk: 'Your PDF form has been successfully filled.',
+            tipNumRomanSmall: 'i. ii. iii.'
         }
     })(), PDFE.Views.Toolbar || {}));
 });
