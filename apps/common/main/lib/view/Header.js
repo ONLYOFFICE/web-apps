@@ -128,7 +128,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" data-layout-name="header-user">' +
+                                    '<div class="btn-slot" data-layout-name="header-user" aria-hidden="true">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
@@ -158,12 +158,12 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-download"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
-                                '<div class="lr-separator" id="id-box-doc-name">' +
+                                '<div class="lr-separator" id="id-box-doc-name" aria-hidden="true">' +
                                     // '<label id="title-doc-name" /></label>' +
                                     '<input id="title-doc-name" autofill="off" autocomplete="off" spellcheck="false"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" data-layout-name="header-user">' +
+                                    '<div class="btn-slot" data-layout-name="header-user" aria-hidden="true">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
