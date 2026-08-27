@@ -118,7 +118,11 @@
         <% if (showReply) { %>
             <div class="reply-ct">
                 <textarea class="msg-reply user-select textarea-control" placeholder="<%- scope.getAddReplyText(comment) %>" maxlength="maxCommLength" aria-label="textReply"></textarea>
-                <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change"><%= scope.getReplyButtonText(comment) %></button>
+                <% if (comment) { %>
+                    <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change">textReply</button>
+                <% } else { %>
+                    <button class="btn normal dlg-btn primary btn-comment" id="id-comments-change">textComment</button>
+                <% } %>
                 <button class="btn normal dlg-btn btn-close">textClose</button>
             </div>
         <% } %>

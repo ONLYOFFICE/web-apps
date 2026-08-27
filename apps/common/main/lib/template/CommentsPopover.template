@@ -117,7 +117,11 @@
     <% if (showReplyInPopover) { %>
         <div class="reply-ct">
             <textarea class="msg-reply user-select" placeholder="textMentionReply" maxlength="maxCommLength" spellcheck="false" aria-label="textReply"></textarea>
-            <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change-popover"><%= scope.getReplyButtonText(comment) %></button>
+            <% if (comment) { %>
+                <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change-popover">textReply</button>
+            <% } else { %>
+                <button class="btn normal dlg-btn primary btn-comment" id="id-comments-change-popover">textComment</button>
+            <% } %>
             <button class="btn normal dlg-btn btn-close">textClose</button>
         </div>
     <% } %>

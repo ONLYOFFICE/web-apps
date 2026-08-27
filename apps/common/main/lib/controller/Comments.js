@@ -101,6 +101,7 @@ define([
                     // reply handlers
 
                     'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:addComment':       _.bind(this.onAddComment, this),
                     'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
                     'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
                     'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
@@ -125,6 +126,7 @@ define([
                     // reply handlers
 
                     'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:addComment':       _.bind(this.onAddComment, this),
                     'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
                     'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
                     'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
@@ -486,6 +488,24 @@ define([
 
             return false;
         },
+        onAddComment: function (id, commentVal) {
+            var me = this, comment = me.findComment(id);
+            var ascComment = me.buildComment(comment);
+            if (!ascComment) {
+                return false;
+            }
+
+            if (comment && !comment.get('comment')) {
+                ascComment.asc_putText(commentVal);
+                ascComment.asc_putUserId(me.currentUserId);
+                ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
+
+                me.api.asc_changeComment(id, ascComment);
+                me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), commentVal);
+
+                return true;
+            }
+        },
         onAddReplyComment: function (id, replyVal) {
             if (replyVal.length > 0) {
                 var me = this, uid = null, comment = me.findComment(id);
@@ -501,17 +521,6 @@ define([
                     var ascComment = me.buildComment(comment);
                     if (!ascComment) {
                         return false;
-                    }
-
-                    if (!comment.get('comment')) {
-                        ascComment.asc_putText(replyVal);
-                        ascComment.asc_putUserId(me.currentUserId);
-                        ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
-
-                        me.api.asc_changeComment(id, ascComment);
-                        me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
-
-                        return true;
                     }
 
                     var replies = comment.get('replys');
