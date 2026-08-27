@@ -49,7 +49,8 @@ define([
                 showLink: true,
                 showButton: false,
                 closable: true,
-                textHeader: ''
+                textHeader: '',
+                speechScreenReader: true    // whether to announce 'textHeader' and 'text' via aria-live for screen readers
             },
 
             template: _.template([
@@ -130,6 +131,9 @@ define([
                 } else
                     this.render();
                 this.automove && $(window).on('resize', this.binding.windowresize);
+                if(Common.Utils.ScreeenReaderHelper && this.options.speechScreenReader && (this.text || this.textHeader)) {
+                    Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
+                }
             },
 
             hide: function() {
@@ -234,6 +238,9 @@ define([
                 if (this.text !== text) {
                     this.text = text;
                     this.cmpEl.find('.tip-text').text(text);
+                    if(Common.Utils.ScreeenReaderHelper && this.options.speechScreenReader && (this.text || this.textHeader)) {
+                        Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
+                    }
                 }
             },
 

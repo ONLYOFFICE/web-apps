@@ -94,6 +94,7 @@
         init: function(opts) {
             this.$element  = opts.owner instanceof Backbone.View ? opts.owner.$el : $(opts.owner);
             this.placement = opts.placement;
+            this.speechScreenReader = opts.speechScreenReader ?? true; // whether to announce 'text' via aria-live for screen readers
 
             if (this.$element.data('bs.tooltip'))
                 this.$element.removeData('bs.tooltip');
@@ -119,6 +120,10 @@
                     me.trigger('tooltip:hideonclick', this);
                 });
             }
+            
+            if(Common.Utils.ScreeenReaderHelper && this.speechScreenReader && opts.title) {
+                Common.Utils.ScreeenReaderHelper.speech(opts.title);
+            }
 
             this.$element.on('shown.bs.tooltip', _.bind(this.onTipShown, this));
             this.$element.on('hidden.bs.tooltip', _.bind(this.onTipHidden, this));
@@ -134,7 +139,12 @@
 
         setTitle: function(title) {
             var tip = this.getBSTip();
-            if (tip) tip.options.title = title;
+            if (tip) {
+                tip.options.title = title;
+                if(Common.Utils.ScreeenReaderHelper && this.speechScreenReader && title) {
+                    Common.Utils.ScreeenReaderHelper.speech(title);
+                }
+            }
         },
 
         updateTitle: function() {
