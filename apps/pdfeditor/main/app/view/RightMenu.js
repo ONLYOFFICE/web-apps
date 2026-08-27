@@ -88,8 +88,7 @@ define([
                 iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-paragraph-settings'
+                ariaExpanded: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
@@ -99,8 +98,7 @@ define([
                 iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-table-settings'
+                ariaExpanded: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
@@ -110,8 +108,7 @@ define([
                 iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-image-settings'
+                ariaExpanded: true
             });
             // this.btnChart = new Common.UI.Button({
             //     hint: this.txtChartSettings,
@@ -130,8 +127,7 @@ define([
                 iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-shape-settings'
+                ariaExpanded: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -142,8 +138,7 @@ define([
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-textart-settings'
+                ariaExpanded: true
             });
 
             this.btnAnnotation = new Common.UI.Button({
@@ -154,8 +149,7 @@ define([
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-annotation-settings'
+                ariaExpanded: true
             });
 
             this._settings = [];
@@ -230,8 +224,7 @@ define([
             //         iconCls: 'btn-menu-signature',
             //         toggleGroup: 'tabpanelbtnsGroup',
             //         allowMouseEventsOnDisabled: true,
-            //         ariaExpanded: true,
-            //         ariaControls: 'id-signature-settings'
+            //         ariaExpanded: true
             //     });
             //     this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
             //
@@ -249,8 +242,7 @@ define([
                     iconCls: 'btn-field',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-form-settings'
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
                 this.btnForm.setElement($('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);

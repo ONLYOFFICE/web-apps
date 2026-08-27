@@ -88,8 +88,7 @@ define([
                 iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-paragraph-settings'
+                ariaExpanded: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
@@ -99,8 +98,7 @@ define([
                 iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-image-settings'
+                ariaExpanded: true
             });
             // this.btnChart = new Common.UI.Button({
             //     hint: this.txtChartSettings,
@@ -119,8 +117,7 @@ define([
                 iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-shape-settings'
+                ariaExpanded: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -131,8 +128,7 @@ define([
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-textart-settings'
+                ariaExpanded: true
             });
 
             this.btnPivot = new Common.UI.Button({
@@ -144,8 +140,7 @@ define([
                 visible: false,
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-pivot-settings'
+                ariaExpanded: true
             });
             this.btnCell = new Common.UI.Button({
                 hint: this.txtCellSettings,
@@ -155,8 +150,7 @@ define([
                 iconCls: 'btn-menu-cell',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-cell-settings'
+                ariaExpanded: true
             });
             this.btnSlicer = new Common.UI.Button({
                 hint: this.txtSlicerSettings,
@@ -166,8 +160,7 @@ define([
                 iconCls: 'btn-slicer',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true,
-                ariaExpanded: true,
-                ariaControls: 'id-slicer-settings'
+                ariaExpanded: true
             });
 
             this._settings = [];
@@ -247,8 +240,7 @@ define([
                     iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-signature-settings'
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
 

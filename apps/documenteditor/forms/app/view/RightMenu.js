@@ -118,8 +118,7 @@ define([
                     scaling: false,
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-filling-status-settings'
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
                 this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 

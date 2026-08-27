@@ -123,8 +123,7 @@ define([
                     iconCls: 'btn-paragraph',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-paragraph-settings'
+                    ariaExpanded: true
                 });
                 this.btnTable = new Common.UI.Button({
                     hint: this.txtTableSettings,
@@ -134,8 +133,7 @@ define([
                     iconCls: 'btn-menu-table',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-table-settings'
+                    ariaExpanded: true
                 });
                 this.btnImage = new Common.UI.Button({
                     hint: this.txtImageSettings,
@@ -145,8 +143,7 @@ define([
                     iconCls: 'btn-menu-image',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-image-settings'
+                    ariaExpanded: true
                 });
 
                 // this.btnHeaderFooter = new Common.UI.Button({
@@ -175,8 +172,7 @@ define([
                     iconCls: 'btn-menu-shape',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-shape-settings'
+                    ariaExpanded: true
                 });
     
                 this.btnTextArt = new Common.UI.Button({
@@ -187,8 +183,7 @@ define([
                     iconCls: 'btn-menu-textart',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-textart-settings'
+                    ariaExpanded: true
                 });
     
                 this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
@@ -232,8 +227,7 @@ define([
                         iconCls: 'btn-mailmerge',
                         toggleGroup: 'tabpanelbtnsGroup',
                         allowMouseEventsOnDisabled: true,
-                        ariaExpanded: true,
-                        ariaControls: 'id-mail-merge-settings'
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge};
                     this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
@@ -250,8 +244,7 @@ define([
                         iconCls: 'btn-menu-signature',
                         toggleGroup: 'tabpanelbtnsGroup',
                         allowMouseEventsOnDisabled: true,
-                        ariaExpanded: true,
-                        ariaControls: 'id-signature-settings'
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature};
                     this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
@@ -268,8 +261,7 @@ define([
                         iconCls: 'btn-field',
                         toggleGroup: 'tabpanelbtnsGroup',
                         allowMouseEventsOnDisabled: true,
-                        ariaExpanded: true,
-                        ariaControls: 'id-form-settings'
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
                     this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
@@ -287,8 +279,7 @@ define([
                         iconCls: 'btn-menu-send-to-sign',
                         toggleGroup: 'tabpanelbtnsGroup',
                         allowMouseEventsOnDisabled: true,
-                        ariaExpanded: true,
-                        ariaControls: 'id-send-for-signing-settings'
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.SendForSigning]   = {panel: "id-send-for-signing-settings", btn: this.btnSendForSigning};
                     this.btnSendForSigning.setElement($markup.findById('#id-right-menu-send-for-signing'), false); 
@@ -337,8 +328,7 @@ define([
                     iconCls: 'btn-filling-status',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true,
-                    ariaExpanded: true,
-                    ariaControls: 'id-filling-status-settings'
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
                 this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 

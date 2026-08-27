@@ -78,8 +78,7 @@ define([
                 iconCls: 'btn-menu-search',
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup',
-                ariaExpanded: true,
-                ariaControls: 'left-panel-search'
+                ariaExpanded: true
             });
             this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
 
@@ -117,8 +116,7 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup',
-                ariaExpanded: true,
-                ariaControls: 'left-panel-comments'
+                ariaExpanded: true
             });
             this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
@@ -136,8 +134,7 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup',
-                ariaExpanded: true,
-                ariaControls: 'left-panel-chat'
+                ariaExpanded: true
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
@@ -158,8 +155,7 @@ define([
                 disabled: true,
                 iconCls: 'btn-ic-docspell',
                 toggleGroup: 'leftMenuGroup',
-                ariaExpanded: true,
-                ariaControls: 'left-panel-spellcheck'
+                ariaExpanded: true
             });
             this.btnSpellcheck.hide();
             this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
