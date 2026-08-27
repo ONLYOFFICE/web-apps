@@ -116,6 +116,7 @@ define([
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
             this.headerCustomControls = [];
+            this.floatActionButtons = [];
 
             this.newInstalledBackgroundPlugins = [];
             this.customButtonsArr = [];
@@ -208,6 +209,8 @@ define([
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
                 this.api.asc_registerCallback('onPluginWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this));
                 this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', this.onPluginUpdateWindowHeaderMenu.bind(this));
+                this.api.asc_registerCallback('onPluginFloatActionButtons', this.onPluginFloatActionButtons.bind(this));
+                this.api.asc_registerCallback('onPluginUpdateFloatActionButtons', this.onPluginUpdateFloatActionButtons.bind(this));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
@@ -881,6 +884,14 @@ define([
             this.updateHeaderMenu(data, true);
         },
 
+        onPluginFloatActionButtons: function(data) {
+            this.updateFloatActionButtons(data, false);
+        },
+
+        onPluginUpdateFloatActionButtons: function(data) {
+            this.updateFloatActionButtons(data, true);
+        },
+
         /**
          * @typedef {{
          *   type: 'button',
@@ -1199,6 +1210,155 @@ define([
                     $temp.append(cmp.$el);
                 });
             }
+        },
+
+
+        /**
+         * @param {Array<{
+         *   guid: string,
+         *   items: FloatActionButton[]
+         * }>} data
+         * @param {boolean} [preventRemove] - if true, prevents removal of existing custom controls
+        */
+        updateFloatActionButtons: function(data, preventRemove) {
+            if (!data) return;
+            const me = this;
+
+            data.forEach(function(plugin) {
+                if(!plugin.guid) return;
+
+                const controlCallback = function(value, pressed) {
+                    me.api && me.api.onPluginFloatActionButtonClick && 
+                        me.api.onPluginFloatActionButtonClick(plugin.guid, value, pressed);
+                };
+                me.addFloatActionButtons(plugin.guid, plugin.items, controlCallback, preventRemove);
+            });
+        },
+
+
+        /**
+         * @typedef {{
+         *   id: string,
+         *   text?: string,
+         *   icons?: string,    //size 28px
+         *   hint?: string,
+         *   enableToggle?: boolean,
+         *   disabled?: boolean,
+         *   visible?: boolean,
+         *   removed?: boolean
+         * }} FloatActionButton
+        */
+        addFloatActionButtons: function(guid, components, callback, preventRemove) {
+            if(!Array.isArray(components)) components = [];
+
+            const me = this;
+
+            let added = [],
+                removed = preventRemove ? [] : this._findRemovedFloatActionButton(guid, components);
+
+            components.forEach(function(component) {
+                /** @type {FloatActionButton} */
+                const options = _.extend({}, {}, component);
+
+                if (options.removed) { // need to remove button
+                    let cmp = me._findAndRemoveFloatActionButton(guid, options.id);
+                    cmp && removed.push(cmp);
+                    return;
+                }
+
+                let cmp = me._findFloatActionButton(guid, options.id);
+                
+                // change text, hint, disable state
+                if(cmp) { 
+                    if(options.text !== undefined) {
+                        const caption = options.text || '';
+                        cmp.setCaption(caption);
+                        cmp.options.caption = caption;
+                    }
+                    (options.hint !== undefined) && cmp.updateHint(options.hint || '');
+                    (options.disabled !== undefined) && cmp.setDisabled(!!options.disabled);
+                    (options.visible !== undefined) && cmp.setVisible(options.visible);
+                    return;
+                } else {
+                    cmp = new Common.UI.ButtonCustom({
+                        caption: options.text,
+                        baseUrl: '',    // base url is included in icon path
+                        value: options.id,
+                        enableToggle: options.enableToggle,
+                        iconsSet: options.icons && me.viewPlugins.iconsStr2IconsObj(options.icons),
+                        hint: options.hint,
+                        disabled: !!options.disabled,
+                        tabindex: -1,
+                        cls: 'btn-fab'
+                    });
+                    cmp.on('click', function(b, e) {
+                        callback && callback(b.options.value, b.pressed);
+                    });
+                    cmp.render($('<div class="btn-slot"></div>'));
+                    added.push(cmp);
+                }
+            });
+
+            if (!this.floatActionButtons[guid])
+                this.floatActionButtons[guid] = [];
+            Array.prototype.push.apply(this.floatActionButtons[guid], added);
+
+            // Add and remove in fab conainer
+            const $fabContainer = $('#plugin-fab-container');
+            if($fabContainer) {
+                Array.isArray(removed) && removed.forEach(function(btn) {
+                    btn.$el.remove();
+                });
+                Array.isArray(added) && added.forEach(function(btn) {
+                    btn.$el.appendTo($fabContainer);
+                });
+            }
+        },
+
+        _findFloatActionButton: function(guid, id) {
+            const buttons = this.floatActionButtons[guid];
+            if(!buttons) return;
+
+            for (var i=0; i < buttons.length; i++) {
+                const cmp = buttons[i];
+                if (cmp.options.value === id) {
+                    return cmp;
+                }
+            }
+        },
+
+        _findAndRemoveFloatActionButton: function(guid, id) {
+            const buttons = this.floatActionButtons[guid];
+            if(!buttons) return;
+
+            for (var i=0; i < buttons.length; i++) {
+                const cmp = buttons[i];
+                if (cmp.options.value === id) {
+                    buttons.splice(i, 1);
+                    return cmp;
+                }
+            }
+        },
+
+        _findRemovedFloatActionButton: function(guid, items) {
+            const buttons = this.floatActionButtons[guid];
+            if(!buttons) return;
+
+            let arr = [];
+            if (!items || items.length<1) {
+                arr = buttons;
+                this.floatActionButtons[guid] = undefined;
+            } else {
+                for (var i=0; i < buttons.length; i++) {
+                    const cmp = buttons[i];
+                    if (!_.findWhere(items, {id: cmp.options.value})) {
+                        arr.push(cmp);
+                        buttons.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+            return arr;
         },
 
         runAutoStartPlugins: function() {

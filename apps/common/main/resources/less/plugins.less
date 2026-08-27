@@ -348,3 +348,69 @@
         display: none;
     }
 }
+
+#plugin-fab-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 10;
+    bottom: 20px;
+    right: 32px;
+    .rtl & {
+        right: auto;
+        left: 32px;
+        align-items: flex-start;
+    }
+
+    & > *:not(:last-child) {
+        margin-bottom: 6px;
+    }
+    
+    .btn-fab {
+        height: 44px;
+        min-width: 44px;
+        padding: 8px;
+        background: @background-normal-ie;
+        background: @background-normal;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+        border: @scaled-one-px-value solid @border-regular-control;
+        .border-radius(8px);
+        .font-size-normal();
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+            display: block;
+            width: 28px;
+            height: 28px;
+        }
+
+        &:hover:not(.disabled),
+        .over:not(.disabled) {
+            background-color: @highlight-button-hover-ie !important;
+            background-color: @highlight-button-hover !important;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled) {
+            background-color: @highlight-button-pressed-ie !important;
+            background-color: @highlight-button-pressed !important;
+            color: @text-normal-pressed-ie;
+            color: @text-normal-pressed;
+            &:not(:focus) {
+                border-color: @highlight-button-pressed-ie;
+                border-color: @highlight-button-pressed;
+            }
+        }
+
+        &[disabled],
+        &.disabled {
+            opacity: @component-disabled-opacity-ie;
+            opacity: @component-disabled-opacity;
+        }
+    }
+}
