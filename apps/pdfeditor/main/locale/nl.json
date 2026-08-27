@@ -1138,8 +1138,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoomen {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Het lettertype dat u wilt opslaan is niet beschikbaar op het huidige apparaat.<br>De tekststijl wordt weergegeven met een van de apparaatletterschriften; het opgeslagen lettertype wordt gebruikt wanneer het beschikbaar is.<br>Wilt u doorgaan?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem alstublieft contact op met de beheerder van de documentserver.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Alle grafiekinstellingen zijn nu beschikbaar op het speciale tabblad Grafiekontwerp in de werkbalk.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Tabblad Grafiekontwerp",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Waarschuwing",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "De ingevoerde waarde is onjuist.<br>Voer een waarde tussen 1 en 300 in",
   "PDFE.Controllers.Toolbar.textGotIt": "OK",

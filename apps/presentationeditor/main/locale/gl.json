@@ -1022,8 +1022,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Perdeuse a conexión</b><br>Intentando conectarse. Comproba a configuración de conexión.",
   "PE.Controllers.Statusbar.zoomText": "Ampliar {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "A fonte que vai gardar non está dispoñible no dispositivo actual. <br> O estilo de texto amosarase empregando unha das fontes do sistema, a fonte gardada utilizarase cando estea dispoñible. <br> Quere continuar?",
-  "PE.Controllers.Toolbar.helpChartTab": "Todos os axustes do gráfico están agora dispoñibles na lapela específica Deseño de gráfico na barra de ferramentas.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Lapela Deseño de gráfico",
   "PE.Controllers.Toolbar.textAccent": "Acentos",
   "PE.Controllers.Toolbar.textBracket": "Corchetes",
   "PE.Controllers.Toolbar.textFontSizeErr": "O valor introducido é incorrecto. <br> Insira un valor numérico entre 1 e 300",

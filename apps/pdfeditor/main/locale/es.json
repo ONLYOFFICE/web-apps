@@ -1652,8 +1652,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Ampliación {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "La fuente que va a guardar no está disponible en el dispositivo actual.<br>El estilo de texto se mostrará utilizando una de las fuentes del dispositivo, la fuente guardada se utilizará cuando esté disponible.<br>¿Desea continuar?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Está intentando realizar una acción para la que no tiene permiso.<br>Contacte con el administrador del Servidor de documentos.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Todas las configuraciones del gráfico ahora están disponibles en la pestaña dedicada Diseño de gráfico en la barra de herramientas.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Pestaña Diseño de gráfico",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Advertencia",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "El valor introducido es incorrecto.<br>Por favor, introduzca un valor numérico entre 1 y 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Entiendo",

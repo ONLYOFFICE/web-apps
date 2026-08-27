@@ -288,8 +288,6 @@
   "PDFE.Controllers.Search.textReplaceSkipped": "Nadomestek je bil izdelan. {0} dogodki so bili preskočeni.",
   "PDFE.Controllers.Search.warnReplaceString": "{0} ni veljaven poseben znak za polje Zamenjaj z.",
   "PDFE.Controllers.Statusbar.zoomText": "Povečava {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Vse nastavitve grafikona so zdaj na voljo na namenskem zavihku Oblikovanje grafikona v orodni vrstici.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Zavihek Oblikovanje grafikona",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Opozorilo",
   "PDFE.Controllers.Toolbar.textWarning": "Opozorilo",
   "PDFE.Controllers.Toolbar.txtDownload": "Prenesi",

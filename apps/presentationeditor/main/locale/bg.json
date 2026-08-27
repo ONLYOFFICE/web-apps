@@ -592,8 +592,6 @@
   "PE.Controllers.Main.warnProcessRightsChange": "На вас е отказано правото да редактирате файла.",
   "PE.Controllers.Statusbar.zoomText": "Мащаб {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Шрифтът, който ще запазите, не е наличен в текущото устройство. <br> Стилът на текста ще се покаже с помощта на един от системните шрифтове, запазения шрифт, който се използва, когато е налице. <br> Искате ли да продавате?",
-  "PE.Controllers.Toolbar.helpChartTab": "Всички настройки на диаграмата вече са достъпни в специалния раздел Дизайн на диаграма в лентата с инструменти.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Раздел Дизайн на диаграма",
   "PE.Controllers.Toolbar.textAccent": "Акценти",
   "PE.Controllers.Toolbar.textBracket": "Скоби",
   "PE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 300",

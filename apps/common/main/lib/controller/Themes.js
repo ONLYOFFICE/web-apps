@@ -56,6 +56,22 @@ define([
                 type: THEME_TYPE_SYSTEM,
                 source: 'static',
             },
+            'theme-white': {
+                text: locale.txtThemeModernLight || 'White',
+                type: 'light',
+                source: 'static',
+                icons: {
+                    cls: 'mod2',
+                }
+            },
+            'theme-night': {
+                text: locale.txtThemeModernDark || 'Night',
+                type: 'dark',
+                source: 'static',
+                icons: {
+                    cls: 'mod2',
+                }
+            },
             'theme-light': {
                 text: locale.txtThemeLight || 'Light',
                 type: 'light',
@@ -170,22 +186,6 @@ define([
                                     --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
-            },
-            'theme-white': {
-                text: locale.txtThemeModernLight || 'White',
-                type: 'light',
-                source: 'static',
-                icons: {
-                    cls: 'mod2',
-                }
-            },
-            'theme-night': {
-                text: locale.txtThemeModernDark || 'Night',
-                type: 'dark',
-                source: 'static',
-                icons: {
-                    cls: 'mod2',
-                }
             },
         }
 

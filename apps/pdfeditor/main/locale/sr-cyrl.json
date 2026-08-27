@@ -1368,8 +1368,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Зумирај {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Фонт који покушавате да сачувате није доступан на тренутном уређају.<br>Стил текста ће бити приказан користећи један од фонтова са уређаја, сачувани фонт ће бити коришћен када постане доступан.<br>Да ли желите да наставите?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте свог Документ Сервер администратора.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Сва подешавања графикона сада су доступна на наменској картици Дизајн графикона на траци са алаткама.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Картица Дизајн графикона",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Упозорење",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Унета вредност је нетачна.<br>Молимо унесите нумеричку вредност између 1 и 300.",
   "PDFE.Controllers.Toolbar.textGotIt": "Разумем",

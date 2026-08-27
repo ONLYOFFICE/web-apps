@@ -482,8 +482,6 @@
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Forbindelsen er tabt</b><br>Forsøger at genoprette forbindelse. Tjek venligst forbindelsesindstillingerne.",
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Du forsøger at foretage en handling, som du ikke har rettigheder til.<br>Kontakt venligst din administrator.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Alle diagramindstillinger er nu tilgængelige på den dedikerede Diagramdesign-fane i værktøjslinjen.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Diagramdesign-fane",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Advarsel",
   "PDFE.Controllers.Toolbar.textRequired": "Udfyld alle obligatoriske felter for at sende formularen.",
   "PDFE.Controllers.Toolbar.textWarning": "Advarsel",

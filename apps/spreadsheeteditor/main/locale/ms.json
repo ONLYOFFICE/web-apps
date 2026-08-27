@@ -1143,8 +1143,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Untuk mencipta kombinasi carta, pilih sekurang-kurangnya dua siri data.",
   "SSE.Controllers.Toolbar.errorMaxRows": "RALAT! Bilangan maksimum siri data per carta ialah 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Urutan baris tidak betul. Untuk membina carta stok, tempatkan data pada helaian mengikut urutan:<br> harga bukaan, harga mak, harga min, harga penutup.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Semua tetapan carta kini tersedia dalam tab Reka bentuk carta yang khusus pada bar alat.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Tab Reka bentuk carta",
   "SSE.Controllers.Toolbar.textAccent": "Aksen",
   "SSE.Controllers.Toolbar.textBracket": "Tanda kurung",
   "SSE.Controllers.Toolbar.textDirectional": "Berarah",

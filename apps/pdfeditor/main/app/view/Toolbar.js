@@ -81,6 +81,7 @@ define([
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
+        formsNoRoles:   'no-roles',
         firstPage: 'first-page',
         lastPage: 'last-page',
         requiredNotFilled: 'required-not-filled',
@@ -946,7 +947,7 @@ define([
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-add-comment',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         caption: this.capBtnComment,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -958,7 +959,7 @@ define([
                         id: 'tlbtn-textcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-text-comment',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
@@ -970,7 +971,7 @@ define([
                     this.toolbarControls.push(this.btnTextComment);
 
                     this.chShowComments = new Common.UI.CheckBox({
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.viewFormMode],
                         labelText: this.capBtnShowComments,
                         value: true,
                         dataHint    : '1',
@@ -985,7 +986,7 @@ define([
                         caption: this.capBtnStamp,
                         split: true,
                         iconCls: 'toolbar__icon btn-stamp',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
@@ -999,7 +1000,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.capBtnSignature,
                         iconCls: 'toolbar__icon btn-ic-signature',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
@@ -1013,7 +1014,7 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1048,7 +1049,7 @@ define([
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1083,7 +1084,7 @@ define([
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1120,7 +1121,7 @@ define([
                         id: 'tlbtn-shapecomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-annotation-rectangle',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         caption: ' ',
                         menu: true,
                         split: true,
@@ -1223,22 +1224,13 @@ define([
                     }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
-                } else if ( config.isRestrictedEdit ) {
-                    Common.UI.Mixtbar.prototype.initialize.call(this, {
-                            template: _.template(template),
-                            tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
-                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'}
-                            ],
-                            config: config
-                        }
-                    );
-
+                } 
+                if (!config.canSwitchMode) {
                     this.btnClear = new Common.UI.Button({
                         id: 'id-toolbar-btn-clear',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-clear-style',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.textClear,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1250,7 +1242,7 @@ define([
                         id: 'id-toolbar-btn-prev',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-previous-field icon-rtl',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.capBtnPrev,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1262,7 +1254,7 @@ define([
                         id: 'id-toolbar-btn-next',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-next-field icon-rtl',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.capBtnNext,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1270,32 +1262,18 @@ define([
                     });
                     this.toolbarControls.push(this.btnNextForm);
 
-                    if (config.canSubmitForms) {
+                    if(config.canSubmitForms) {
                         this.btnSubmit = new Common.UI.Button({
-                            id: 'id-toolbar-btn-submit',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'toolbar__icon btn-submit-form',
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
-                            dataHint: '1',
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
+                            dataHint: '0',
                             dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
+                            dataHintOffset: 'big'
                         });
                         this.toolbarControls.push(this.btnSubmit);
-                    } else if (config.canDownload) {
-                        this.btnSaveForm = new Common.UI.Button({
-                            id: 'id-toolbar-btn-download-form',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            lock: [_set.lostConnect, _set.disableOnStart],
-                            iconCls: 'toolbar__icon btn-save-form',
-                            caption: config.canRequestSaveAs || !!config.saveAsUrl ? this.capBtnSaveForm : (config.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
-                            dataHint: '1',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
-                        });
-                        this.toolbarControls.push(this.btnSaveForm);
                     }
-                }
+                } 
 
                 if ( config.isEdit || config.isRestrictedEdit) {
                     const shortcutHints = {};
@@ -1610,14 +1588,14 @@ define([
                     me.fireEvent('home:open');
             },
 
-            rendererComponentsRestrictedEdit: function($host) {
+            rendererComponentsView: function($host) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
                 _injectComponent('#slot-btn-form-prev', this.btnPrevForm);
                 _injectComponent('#slot-btn-form-next', this.btnNextForm);
                 _injectComponent('#slot-btn-form-submit', this.btnSubmit);
-                _injectComponent('#slot-btn-form-save', this.btnSaveForm);
+                // _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
             rendererComponentsPDFEdit: function($host, mode) {
@@ -1703,9 +1681,9 @@ define([
                     this.rendererComponentsAnnotate($host);
                     mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
-                } else if (mode.isRestrictedEdit)
-                    this.rendererComponentsRestrictedEdit($host);
-
+                } 
+                if (mode.canSubmitForms)
+                    this.rendererComponentsView($host);
                 return $host;
             },
 
@@ -1888,14 +1866,14 @@ define([
                 this.btnNextPage.updateHint(this.tipNextPage);
             },
 
-            createDelayedElementsRestrictedEdit: function() {
-                if (!this.mode.isRestrictedEdit) return;
+            createDelayedElementsView: function() {
+                if (this.mode.canSwitchMode) return;
 
                 this.btnClear.updateHint(this.textClearFields);
                 this.btnPrevForm.updateHint(this.tipPrevForm);
                 this.btnNextForm.updateHint(this.tipNextForm);
                 this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
-                this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
+                // this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
             },
 
             createDelayedElementsPDFAnnotate: function() {
@@ -2070,8 +2048,9 @@ define([
                 if (this.mode.isEdit) {
                     this.createDelayedElementsPDFAnnotate();
                     this.mode.isPDFEdit && this.createDelayedElementsPDFEdit();
-                } else if (this.mode.isRestrictedEdit)
-                    this.createDelayedElementsRestrictedEdit();
+                }  
+                if (!this.mode.canSwitchMode)
+                    this.createDelayedElementsView();
             },
 
             onToolbarAfterRender: function(toolbar) {

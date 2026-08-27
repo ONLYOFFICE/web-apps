@@ -95,11 +95,12 @@ define([
             // this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
             this.api = api;
-            // this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
+            this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
@@ -110,7 +111,7 @@ define([
         },
 
         onRightMenuClick: function(menu, type, minimized, event) {
-            if (!minimized && this.editMode && this.mode.isPDFEdit) {
+            if (!minimized && this.editMode) {
                 if (event) { // user click event
                     var idx = this._priorityArr.indexOf(type);
                     if (idx>=0)
@@ -134,7 +135,7 @@ define([
         },
 
         onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
-            if (!this.editMode && !forceSignature)
+            if (!this.editMode && !forceSignature || this.rightmenu.GetActivePane() == 'id-send-for-signing-settings')
                 return;
 
             var open = this._initSettings ? !Common.localStorage.getBool("pdfe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
@@ -373,16 +374,16 @@ define([
             }
         },
 
-        // onApiUpdateSignatures: function(valid){
-        //     if (!this.rightmenu.signatureSettings) return;
-        //
-        //     var disabled = (!valid || valid.length<1),
-        //         type = Common.Utils.documentSettingsType.Signature;
-        //     this._settings[type].hidden = disabled ? 1 : 0;
-        //     this._settings[type].btn.setDisabled(disabled);
-        //     this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
-        //     this._settings[type].panel.setLocked(this._settings[type].locked);
-        // },
+        onApiUpdateSignatures: function(valid){
+            if (!this.rightmenu.signatureSettings) return;
+        
+            var disabled = (!valid || valid.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
+        },
 
         getDocumentSettingsType: function(type) {
             switch (type) {
@@ -457,6 +458,15 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu)
+        },
+
+        openSendForSigning: function() {
+            const activePanelId = this.rightmenu.GetActivePane();
+            if(activePanelId != 'id-send-for-signing-settings') {
+                const panelType = Common.Utils.documentSettingsType.SendForSigning;
+                this._settings[panelType].btn.trigger('click', this._settings[panelType].btn, null, true);
+                this._settings[panelType].btn.setDisabled(false);
+            }
         },
 
         onHidePlugins: function() {

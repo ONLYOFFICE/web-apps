@@ -1281,8 +1281,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "S'ha perdut la connexió. S'està intentat connectar. Comproveu la configuració de connexió",
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "La lletra que desareu no està disponible al dispositiu actual. <br>L'estil de text es mostrarà amb una de les lletres del sistema, la lletra desada s'utilitzarà quan estigui disponible. <br>Voleu continuar?",
-  "PE.Controllers.Toolbar.helpChartTab": "Tots els paràmetres del gràfic estan ara disponibles a la pestanya Disseny del gràfic dedicada a la barra d'eines.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Pestanya de disseny del gràfic",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Claudàtors",
   "PE.Controllers.Toolbar.textFontSizeErr": "El valor introduït no és correcte. <br>Introduïu un valor numèric entre 1 i 300.",

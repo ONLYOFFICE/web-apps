@@ -414,8 +414,6 @@
   "PDFE.Controllers.Search.textReplaceSuccess": "Пошук виконано. Замінено {0} збігів",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>З'єднання втрачено</b><br>Спроба підключення. Перевірте налаштування підключення.",
   "PDFE.Controllers.Statusbar.zoomText": "Масштаб {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Усі налаштування діаграми тепер доступні на спеціальній вкладці «Конструктор діаграм» на панелі інструментів.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Вкладка «Конструктор діаграм»",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Застереження",
   "PDFE.Controllers.Toolbar.textWarning": "Застереження",
   "PDFE.Controllers.Toolbar.txtDownload": "Завантажити",

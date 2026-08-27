@@ -10,6 +10,7 @@
         <!--        </div>-->
             <div id="id-form-settings" class="settings-panel"></div>
             <div id="id-annotation-settings" class="settings-panel"></div>
+            <div id="id-send-for-signing-settings" class="settings-panel"></div>
         </div>
     </div>
     <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
@@ -22,6 +23,7 @@
 <!--        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" content-target="id-signature-settings" aria-controls="id-signature-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-signature" aria-hidden="true">&nbsp;</i></button>-->
         <button id="id-right-menu-form" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-form-settings" aria-controls="id-form-settings"><i class="icon toolbar__icon btn-field" aria-hidden="true">&nbsp;</i></button>
         <button id="id-right-menu-annotation" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-annotation-settings" aria-controls="id-annotation-settings"><i class="icon toolbar__icon btn-menu-annotations" aria-hidden="true">&nbsp;</i></button>
+        <button id="id-right-menu-send-for-signing" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-send-for-signing-settings"><i class="icon toolbar__icon btn-menu-send-to-sign" aria-hidden="true">&nbsp;</i></button>
         <div id="slot-right-menu-more"></div>
     </div>
 </div>

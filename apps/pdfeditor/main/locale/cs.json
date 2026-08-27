@@ -1651,8 +1651,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Přiblížení {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Písmo (font) ve kterém se chystáte uložit, není na tomto zařízení k dispozici.<br>Text bude zobrazen pomocí některého ze systémových písem s tím, že uložené písmo bude použito v případě budoucí dostupnosti.<br>Chcete pokračovat?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Všechna nastavení grafu jsou nyní dostupná na vyhrazené kartě Návrh grafu na panelu nástrojů.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Karta Návrh grafu",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Varování",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu v rozmezí 1 až 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Rozumím",

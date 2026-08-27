@@ -53,6 +53,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
+    'common/main/lib/view/SendForSigningSettings',
     'pdfeditor/main/app/view/ParagraphSettings',
     'pdfeditor/main/app/view/ImageSettings',
     // 'pdfeditor/main/app/view/ChartSettings',
@@ -182,7 +183,8 @@ define([
                 Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             }, this));
 
-            el.html(this.template({scope: this}));
+            var $markup = $(this.template({scope: this}));
+            this.$el.html($markup);
 
             this.updateWidth();
             el.show();
@@ -250,6 +252,56 @@ define([
                 this.formSettings = new PDFE.Views.FormSettings();
             }
 
+            if (mode && (mode.canStartFilling || mode.canRequestStartFilling) && mode.canSwitchMode &&
+                mode.canFeatureForms && !mode.canRequestStartFilling && mode.canRequestUsers
+            ) {
+                const me = this;
+                this.btnSendForSigning = new Common.UI.Button({
+                    hint: this.txtSendForSigning,
+                    asctype: Common.Utils.documentSettingsType.SendForSigning,
+                    enableToggle: true,
+                    disabled: true,
+                    iconCls: 'btn-menu-send-to-sign',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true
+                });
+                this._settings[Common.Utils.documentSettingsType.SendForSigning]   = {panel: "id-send-for-signing-settings", btn: this.btnSendForSigning};
+                this.btnSendForSigning.setElement($markup.findById('#id-right-menu-send-for-signing'), false); 
+                this.btnSendForSigning.render().setVisible(true);
+                this.btnSendForSigning.on('click', function(btn, e, openStatus) {
+                    if(!btn) return;
+
+                    if(openStatus === true || btn.pressed) {
+                        if(!this.$el.is(':visible')) {
+                            PDFE.getController('RightMenu').onRightMenuHide(null, true);
+                        }
+                        this.disableUIForSendForSigning(true);
+                        const panelType = Common.Utils.documentSettingsType.SendForSigning;
+                        this._settings[panelType].btn.setDisabled(false);
+                        this._settings[panelType].btn.toggle(true);
+                        this.onBtnMenuClick(btn, e);
+                    } else {
+                        btn.toggle(true);
+                        btn.$el.blur();
+                    }
+                }.bind(this));
+                this.sendForSigningSettings = new Common.Views.SendForSigningSettings({
+                    handler: function(state, options) {
+                        if(state == 'submit') {
+                            me.btnSendForSigning.toggle(false);
+                            me.onBtnMenuClick(me.btnSendForSigning);
+                            me.disableUIForSendForSigning(false);
+                            PDFE.getController('Main').onStartFilling(true, options);
+                        } else if(state == 'cancel') {
+                            me.btnSendForSigning.toggle(false);
+                            me.onBtnMenuClick(me.btnSendForSigning);
+                            me.btnSendForSigning.setDisabled(true);
+                            me.disableUIForSendForSigning(false);
+                        }
+                    }
+                });
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -278,6 +330,7 @@ define([
             this.annotationSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
+            if (this.sendForSigningSettings) this.sendForSigningSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
 
         setMode: function(mode) {
@@ -286,6 +339,7 @@ define([
             this.formSettings && this.formSettings.setMode(mode);
             // this.chartSettings && this.chartSettings.setMode(mode);
             this.annotationSettings && this.annotationSettings.setMode(mode);
+            this.sendForSigningSettings && this.sendForSigningSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -352,6 +406,8 @@ define([
         },
 
         clearSelection: function() {
+            if(this.GetActivePane() == 'id-send-for-signing-settings') return;
+
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
             let btn = this.getPluginButtonPressed();
@@ -366,6 +422,33 @@ define([
             this.minimizedMode = true;
             this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        disableUIForSendForSigning: function(status) {
+            if((this._sendForSigningState && this._sendForSigningState.isUIDisabled) == status) return;
+
+            let newDocMode;
+            if(status) {
+                const header = PDFE.getController('Viewport').getView('Common.Views.Header');
+                this._sendForSigningState = {
+                    docMode: (header &&
+                        header.btnPDFMode &&
+                        header.btnPDFMode.options.value) ||
+                        'edit',
+                    isUIDisabled: true
+                }
+                newDocMode = 'view';
+            } else {
+                newDocMode = this._sendForSigningState.docMode;
+                this._sendForSigningState.isUIDisabled = false;
+            }
+
+            PDFE.getController('LeftMenu').SetDisabled(status);
+            PDFE.getController('Main').onPdfModeApply(newDocMode);
+            Common.NotificationCenter.trigger('editing:disable', status, {
+                header: {docmode: true},
+            }, 'view');
+            PDFE.getController('Toolbar').DisableToolbar(status);
         },
 
         updateScroller: function() {

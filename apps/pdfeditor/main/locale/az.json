@@ -334,8 +334,6 @@
   "PDFE.Controllers.Search.textNoTextFound": "Axtardığınız verilən tapılmadı. Axtarış seçimlərinizi tənzimləyin.",
   "PDFE.Controllers.Search.textReplaceSkipped": "Əvəz edilir. {0} hal nəzərə alınmadı.",
   "PDFE.Controllers.Statusbar.zoomText": "Miqyası dəyişin {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Bütün diaqram parametrləri artıq alətlər panelindəki xüsusi Diaqram dizayn nişanında mövcuddur.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Diaqram dizayn nişanı",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Xəbərdarlıq",
   "PDFE.Controllers.Toolbar.textWarning": "Xəbərdarlıq",
   "PDFE.Controllers.Toolbar.txtDownload": "Endir",

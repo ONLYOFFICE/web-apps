@@ -283,10 +283,8 @@ define([
             this.toolbar.applyLayout(mode);
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'darkDocument' : {name:'sse-help-tip-darkDocument', placement: 'bottom', text: this.helpDarkDocument, header: this.helpDarkDocumentHeader, target: '#slot-btn-dark-document', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true}
+                // 'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
+                //                     automove: true, closable: false, isNewFeature: true},
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},

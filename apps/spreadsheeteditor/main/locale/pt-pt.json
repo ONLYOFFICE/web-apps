@@ -1229,8 +1229,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Para criar um gráfico de combinação, selecione pelo menos duas séries de dados.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRO! O número máximo de séries de dados, por gráfico, é 255.",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordem de linha inválida. Para criar um gráfico de cotações, coloque os dados na folha pela seguinte ordem:<br>preço de abertura, preço máximo, preço mínimo, preço de fecho.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Todas as configurações do gráfico estão agora disponíveis no separador dedicado Design do gráfico na barra de ferramentas.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Separador Design do gráfico",
   "SSE.Controllers.Toolbar.textAccent": "Destaques",
   "SSE.Controllers.Toolbar.textBracket": "Parênteses",
   "SSE.Controllers.Toolbar.textDirectional": "Direcional",

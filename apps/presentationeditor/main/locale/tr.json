@@ -1104,8 +1104,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Bağlantı kesildi</b><br>Bağlanmayı deneyin. Lütfen bağlantı ayarlarını kontrol edin.",
   "PE.Controllers.Statusbar.zoomText": "Büyütme {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Kaydedeceğiniz yazı tipi kullandığınız cihazda mevcut değil.<br>Yazı tipi, şimdilik cihazınızda bulunan yazı tiplerinden biri ile gösterilecektir, tercih ettiğiniz yazı tipi cihaza yüklendiğinde kullanılacaktır.<br>Devam etmek istiyor musunuz?",
-  "PE.Controllers.Toolbar.helpChartTab": "Tüm grafik ayarları artık araç çubuğundaki özel Grafik tasarımı sekmesinde mevcuttur.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Grafik tasarımı sekmesi",
   "PE.Controllers.Toolbar.textAccent": "Aksanlar",
   "PE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "PE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 300 arasında sayısal değer giriniz.",

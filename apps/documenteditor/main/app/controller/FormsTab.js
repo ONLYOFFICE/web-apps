@@ -684,7 +684,7 @@ define([
         onManagerClick: function() {
             var me = this;
             this.closeHelpTip('roles', true);
-            this.api.asc_GetOForm() && (new DE.Views.RolesManagerDlg({
+            this.api.asc_GetOForm() && (new Common.Views.RolesManagerDlg({
                 api: me.api,
                 handler: function(result, settings) {
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -821,7 +821,7 @@ define([
 
                 const formManager = this.api.asc_GetOForm();
 
-                new DE.Views.RoleEditDlg({
+                new Common.Views.RoleEditDlg({
                     oformManager: formManager,
                     colors: [],
                     isEdit: false,
