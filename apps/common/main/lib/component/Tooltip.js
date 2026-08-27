@@ -121,9 +121,7 @@
                 });
             }
             
-            if(Common.Utils.ScreeenReaderHelper && this.speechScreenReader && opts.title) {
-                Common.Utils.ScreeenReaderHelper.speech(opts.title);
-            }
+            this._speechFromScreenReader(opts.title);
 
             this.$element.on('shown.bs.tooltip', _.bind(this.onTipShown, this));
             this.$element.on('hidden.bs.tooltip', _.bind(this.onTipHidden, this));
@@ -141,9 +139,7 @@
             var tip = this.getBSTip();
             if (tip) {
                 tip.options.title = title;
-                if(Common.Utils.ScreeenReaderHelper && this.speechScreenReader && title) {
-                    Common.Utils.ScreeenReaderHelper.speech(title);
-                }
+                this._speechFromScreenReader(title);
             }
         },
 
@@ -166,7 +162,15 @@
 
         isVisible: function() {
             return this.getBSTip().tip().is(':visible');
-        }
+        },
+
+        _speechFromScreenReader: function(text) {
+            if(Common.Utils.InternalSettings.get("app-settings-screen-reader") && Common.Utils.ScreeenReaderHelper && 
+                this.speechScreenReader && text
+            ) {
+                Common.Utils.ScreeenReaderHelper.speech(text);
+            }
+        },
     });
     Common.UI = Common.UI || {};
     Common.UI.Tooltip = Tooltip;

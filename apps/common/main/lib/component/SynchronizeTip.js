@@ -131,9 +131,7 @@ define([
                 } else
                     this.render();
                 this.automove && $(window).on('resize', this.binding.windowresize);
-                if(Common.Utils.ScreeenReaderHelper && this.options.speechScreenReader && (this.text || this.textHeader)) {
-                    Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
-                }
+                this._speechFromScreenReader();
             },
 
             hide: function() {
@@ -238,9 +236,15 @@ define([
                 if (this.text !== text) {
                     this.text = text;
                     this.cmpEl.find('.tip-text').text(text);
-                    if(Common.Utils.ScreeenReaderHelper && this.options.speechScreenReader && (this.text || this.textHeader)) {
-                        Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
-                    }
+                    this._speechFromScreenReader();
+                }
+            },
+
+            _speechFromScreenReader: function() {
+                if(Common.Utils.InternalSettings.get("app-settings-screen-reader") && Common.Utils.ScreeenReaderHelper && 
+                    this.options.speechScreenReader && (this.text || this.textHeader)
+                ) {
+                    Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
                 }
             },
 
