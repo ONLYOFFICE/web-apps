@@ -263,7 +263,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-send-to-sign',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.SendForSigning]   = {panel: "id-send-for-signing-settings", btn: this.btnSendForSigning};
                 this.btnSendForSigning.setElement($markup.findById('#id-right-menu-send-for-signing'), false); 
