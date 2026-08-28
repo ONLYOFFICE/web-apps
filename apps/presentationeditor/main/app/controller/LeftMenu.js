@@ -92,6 +92,8 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'saveas:animated': this.clickExportAnimated.bind(this),
+                    'savecopy:animated': this.clickExportAnimated.bind(this),
                     'savecopy:format': _.bind(function(menu, format, ext) {
                         if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
                             this.saveAsInWopi(menu, format, ext);
@@ -154,6 +156,9 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onAnimatedExportProgress', this.onAnimatedExportProgress.bind(this));
+            this.api.asc_registerCallback('asc_onAnimatedExportEnd',      this.onAnimatedExportEnd.bind(this));
+            this.api.asc_registerCallback('asc_onAnimatedExportError',    this.onAnimatedExportEnd.bind(this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -229,6 +234,11 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
+            case 'export':
+                var exportFormat = Common.Utils.InternalSettings.get('pe-export-animated-format'),
+                    exportMode = (exportFormat === Asc.c_oAscAnimatedExportFormat.Mp4 || exportFormat === Asc.c_oAscAnimatedExportFormat.WebM) ? 'video' : 'gif';
+                this.clickExportAnimated(menu, exportMode, true, exportFormat);
+                break;
             case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -304,6 +314,78 @@ define([
             this.api.asc_DownloadAs(options);
 
             menu.hide();
+        },
+
+        clickExportAnimated: function(menu, mode, remember, format) {
+            menu && menu.hide();
+
+            var me = this;
+            this.api.asc_getSupportedAnimatedExportFormats(function(formats) {
+                formats = formats || [];
+
+                var isSupported = mode === 'video'
+                    ? formats.includes(Asc.c_oAscAnimatedExportFormat.Mp4) || formats.includes(Asc.c_oAscAnimatedExportFormat.WebM)
+                    : formats.includes(Asc.c_oAscAnimatedExportFormat.Gif) || formats.includes(Asc.c_oAscAnimatedExportFormat.WebP);
+
+                if (!isSupported) {
+                    Common.UI.warning({
+                        msg: me.textExportNotSupported
+                    });
+                    return;
+                }
+
+                var dlg = new PE.Views.ExportAnimatedDialog({
+                    api: me.api,
+                    mode: mode,
+                    format: format,
+                    supportedFormats: formats,
+                    handler: function(result, settings) {
+                        if (result === 'ok') {
+                            me.startExportAnimated(settings, remember);
+                        }
+                    }
+                });
+                dlg.show();
+            });
+        },
+
+        startExportAnimated: function(settings, remember) {
+            remember && Common.Utils.InternalSettings.set('pe-export-animated-format', settings.format);
+
+            var rangeOptions = new Asc.CAscPageRange();
+            rangeOptions.asc_setRangeType(settings.rangeType);
+            rangeOptions.asc_setCustomRange(settings.customRange || '');
+
+            var exportSettings = new Asc.CAscAnimatedExportSettings(settings.format);
+            exportSettings.asc_setPreset(settings.preset);
+            exportSettings.asc_setSlideDuration(settings.timing);
+            exportSettings.asc_setRangeOptions(rangeOptions);
+            exportSettings.asc_setAutoDownload(true);
+            if (settings.fps !== undefined) exportSettings.asc_setFps(settings.fps);
+            exportSettings.asc_setTransparentBackground(settings.transparent);
+
+            this._exportInProgress = true;
+            if (!this.api.asc_ExportToAnimation(exportSettings)) {
+                this._exportInProgress = false;
+                Common.UI.warning({
+                    msg: this.textExportNotSupported
+                });
+            }
+        },
+
+        getMainLoadMask: function() {
+            var main = this.getApplication().getController('Main');
+            return main ? main.loadMask : undefined;
+        },
+
+        onAnimatedExportProgress: function(percent) {
+            if (!this._exportInProgress) return;
+            var loadMask = this.getMainLoadMask();
+            loadMask && loadMask.setTitle(this.textExporting + ' ' + (percent || 0) + '%');
+        },
+
+        onAnimatedExportEnd: function() {
+            this._exportInProgress = false;
         },
 
         saveAsInWopi: function(menu, format, ext) {

@@ -169,6 +169,16 @@ define([
                 dataHintOffset: [2, 14]
             });
 
+            this.miExport = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-export'),
+                action  : 'export',
+                caption : this.btnExportCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
             this.miPrint = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-print'),
                 action  : 'print',
@@ -333,6 +343,7 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
+                this.miExport,
                 this.miPrint,
                 this.miPrintWithPreview,
                 this.miRename,
@@ -423,6 +434,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
+            this.miExport[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
