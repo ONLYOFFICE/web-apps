@@ -45,8 +45,7 @@ define([
     'core',
     'common/main/lib/util/Shortcuts',
     'presentationeditor/main/app/view/LeftMenu',
-    'presentationeditor/main/app/view/FileMenu',
-    'presentationeditor/main/app/view/ExportAnimatedDialog'
+    'presentationeditor/main/app/view/FileMenu'
 ], function () {
     'use strict';
 

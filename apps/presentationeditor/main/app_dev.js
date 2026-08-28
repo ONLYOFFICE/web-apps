@@ -248,7 +248,8 @@ require([
                 'presentationeditor/main/app/view/HeaderFooterDialog',
                 'presentationeditor/main/app/view/HyperlinkSettingsDialog',
                 'presentationeditor/main/app/view/DateTimeDialog',
-                'presentationeditor/main/app/view/ChartSettingsAdvanced'
+                'presentationeditor/main/app/view/ChartSettingsAdvanced',
+                'presentationeditor/main/app/view/ExportAnimatedDialog'
             ];
 
             window.compareVersions = true;
