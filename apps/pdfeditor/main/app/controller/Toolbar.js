@@ -1871,6 +1871,19 @@ define([
                     }
                 }
 
+                if (config.isPDFFill) {
+                    var oform = me.api.asc_GetOForm(),
+                        role = new AscCommon.CRestrictionSettings();
+                    if (oform && me.appOptions.user.roles) {
+                        if (me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
+                            role.put_OFormRole(me.appOptions.user.roles[0]);
+                        } else {
+                            role.put_OFormNoRole(true);
+                        }
+                    }
+                    me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
+
                 if (me.toolbar) {
                     if(me.toolbar.btnSubmit) {
                         me.toolbar.btnSubmit.render($('#slot-btn-header-form-submit'));

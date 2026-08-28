@@ -436,6 +436,19 @@ DE.ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
+        if (appOptions.canFillForms) {
+            var oform = api.asc_GetOForm(),
+                role = new AscCommon.CRestrictionSettings();
+            if (oform && config.user.roles) {
+                if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                    role.put_OFormRole(config.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
+            }
+            api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+        }
+
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
