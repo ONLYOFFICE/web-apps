@@ -1756,6 +1756,7 @@
   "PDFE.Controllers.Main.warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "PDFE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "PDFE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "PDFE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "PDFE.Controllers.Print.textMarginsLast": "Last custom",

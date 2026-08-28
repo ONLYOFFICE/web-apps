@@ -1590,6 +1590,9 @@ define([
         onApiCoAuthoringDisconnect: function(enableDownload) {
             (this.mode.isEdit || this.mode.isRestrictedEdit) && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
+            Common.NotificationCenter.trigger('editing:disable', true, {
+                header: {docmode: true},
+            }, 'Disconnect');
             this.DisableToolbar(true, true);
         },
 
@@ -1817,7 +1820,7 @@ define([
             toolbar.setVisible('forms', (this.mode.isPDFEdit || this.mode.isViewForm) && this.mode.canFeatureForms);
 
             const formsController = this.getApplication().getController('FormsTab');
-            formsController.view.setPreviewMode(this.mode.isViewForm);
+            formsController && formsController.view && formsController.view.setPreviewMode(this.mode.isViewForm);
 
             !this.mode.isPDFEdit && $host.find('.annotate').addClass('transparent');
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
