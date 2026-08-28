@@ -131,7 +131,7 @@
       "textNoKeepLines": "Ne gardez pas de lignes ensemble",
       "textNoKeepNext": "Ne gardez pas avec la prochaine",
       "textNot": "Non ",
-      "textNoWidow": "Pas de contrôle des veuves",
+      "textNoWidow": "Ne pas éviter les veuves",
       "textNum": "Changer la numérotation",
       "textOk": "Ok",
       "textOriginal": "Original",
@@ -167,7 +167,7 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves",
+      "textWidow": "Éviter les veuves",
       "textEnterComment": "Saisir un commentaire"
     },
     "HighlightColorPalette": {
@@ -355,7 +355,7 @@
     "textOnline": "En ligne",
     "textOpacity": "Opacité",
     "textOptions": "Options",
-    "textOrphanControl": "Éviter orphelines",
+    "textOrphanControl": "Éviter les orphelines",
     "textPageBreakBefore": "Saut de page avant",
     "textPageNumbering": "Numérotation des pages",
     "textPageNumbers": "Numéros de page",
