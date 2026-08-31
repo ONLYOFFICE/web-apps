@@ -45,12 +45,12 @@ DE.ApplicationController = new(function(){
         labelDocName,
         appOptions = {},
         btnSubmit,
-        _submitFail, $submitedTooltip, $requiredTooltip,
+        _submitFail, $submitedTooltip,
         $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0,
         requireUserAction = true,
         isPDF = false,
-        isSubmitted = false;
+        helpTips = {};
 
     var LoadingDocument = -256,
         WarningShown = false;
@@ -218,7 +218,6 @@ DE.ApplicationController = new(function(){
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
             if (!_submitFail) {
-                isSubmitted = true;
                 btnSubmit.attr({disabled: true});
                 btnSubmit.find('.caption').text(me.textFilled);
                 if (!$submitedTooltip) {
@@ -325,16 +324,65 @@ DE.ApplicationController = new(function(){
     }
 
     function onFillRequiredFields(isFilled) {
-        if(isSubmitted) return;
-        
-        if (isFilled) {
-            btnSubmit.removeAttr('disabled');
-            btnSubmit.css("pointer-events", "auto");
-            // $requiredTooltip && $requiredTooltip.hide();
-        } else {
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
+        btnSubmit.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+        if(isFilled) {
+            closeHelpTip('submit-required')
         }
+    }
+
+    function onApiUpdateSignatures(valid){
+        showSignatureTooltip(valid);
+    }
+
+    function showSignatureTooltip(valid) {
+        var hasForm = false;
+        valid && valid.forEach(function(item, index){
+            item.asc_getIsForm() && (hasForm = true);
+        });
+
+        if (!hasForm)
+            closeHelpTip('formSigned');
+        else {
+            showHelpTip('formSigned');
+            btnSubmit && btnSubmit.attr({disabled: true});
+            $('#id-btn-prev-field').attr({disabled: true});
+            $('#id-btn-next-field').attr({disabled: true});
+            $('#id-btn-clear-fields').attr({disabled: true});
+        }
+    }
+
+    function closeHelpTip(step) {
+        if(!helpTips[step]) return;
+        helpTips[step].remove();
+        helpTips[step].hide();
+        helpTips[step] = undefined;
+    }
+
+    function showHelpTip(step) {
+        if(helpTips[step]) closeHelpTip(step);
+
+        var $tip;
+        if(step == 'submit-required') {
+            var offset = common.utils.getOffset(btnSubmit);
+            $tip = $('<div class="help-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close"></div></div>');
+            $tip.find('.close').on('click', function() {
+                closeHelpTip(step);
+            });
+            $(document.body).append($tip);
+            $tip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $tip.outerWidth() + 'px'});
+            $tip.show();
+        } else if(step == 'formSigned') {
+            var $target = $('#title-doc-name');
+            var offset = common.utils.getOffset($target);
+            $tip = $('<div class="help-tooltip" style="display:none;"><div>' + me.textSubmitOk + '</div><div class="close"></div></div>');
+            $tip.find('.close').on('click', function() {
+                closeHelpTip(step);
+            });
+            $(document.body).append($tip);
+            $tip.css({top : offset.top + $target.height() + 20 + 'px', left: offset.left + $target.outerWidth()/2 - $tip.outerWidth()/2 + 'px'});
+            $tip.show();
+        }
+        $tip && (helpTips[step] = $tip);
     }
 
     function onShowContentControlsActions(obj, x, y) {
@@ -534,6 +582,7 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
+        api.asc_registerCallback('asc_onUpdateSignatures',    onApiUpdateSignatures);
         if (appOptions.canFillForms) {
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
@@ -644,33 +693,9 @@ DE.ApplicationController = new(function(){
 
         // TODO: add asc_hasRequiredFields to sdk
 
-        if (appOptions.canSubmitForms && appOptions.canFillForms && !api.asc_IsAllRequiredFormsFilled()) {
-            var sgroup = $('#id-submit-group');
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
-            if (!common.localStorage.getItem("de-embed-hide-submittip")) {
-                var offset = common.utils.getOffset(btnSubmit);
-                $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
-                $(document.body).append($requiredTooltip);
-                $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
-                $requiredTooltip.find('.close-div').on('click', function() {
-                    $requiredTooltip.hide();
-                    api.asc_MoveToFillingForm(true, true, true);
-                    common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                });
-                $requiredTooltip.show();
-            } else {
-                sgroup.attr('data-toggle', 'tooltip');
-                sgroup.tooltip({
-                    title       : me.textRequired,
-                    placement   : 'bottom'
-                });
-            }
+        if (appOptions.canSubmitForms && appOptions.canFillForms && btnSubmit) {
+            var isFilled = api.asc_IsAllRequiredFormsFilled();
+            btnSubmit.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
         }
 
         var documentMoveTimer;
@@ -765,11 +790,18 @@ DE.ApplicationController = new(function(){
             if (appOptions.canSubmitForms) {
                 btnSubmit.find('.caption').text(me.textSubmit);
                 btnSubmit.on('click', function(){
+                    if (!api.asc_IsAllRequiredFormsFilled()) {
+                        showHelpTip('submit-required');
+                        api.asc_MoveToFillingForm(true, true, true);
+                        return;
+                    }
                     api.asc_SendForm();
                 });
             } else
                 btnSubmit.hide();
 
+            appOptions.isPDFFill && api && showSignatureTooltip(api.asc_getSignatures());
+            
             api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
