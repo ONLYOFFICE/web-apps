@@ -80,7 +80,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-search',
                 enableToggle: true,
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true
             });
             this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
 
@@ -116,7 +117,8 @@ define([
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-chat',
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             VE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
@@ -138,7 +140,8 @@ define([
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-thumbs',
-                toggleGroup: 'leftMenuGroup'
+                toggleGroup: 'leftMenuGroup',
+                ariaExpanded: true
             });
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
 
