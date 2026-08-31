@@ -236,7 +236,7 @@ define([
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'export':
                 var exportFormat = Common.Utils.InternalSettings.get('pe-export-animated-format'),
-                    exportMode = (exportFormat === Asc.c_oAscAnimatedExportFormat.Mp4 || exportFormat === Asc.c_oAscAnimatedExportFormat.WebM) ? 'video' : 'gif';
+                    exportMode = (exportFormat === Asc.c_oAscAnimatedExportFormat.Mp4 || exportFormat === Asc.c_oAscAnimatedExportFormat.WebM) ? 'video' : 'animation';
                 this.clickExportAnimated(menu, exportMode, true, exportFormat);
                 break;
             case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;

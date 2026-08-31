@@ -3779,7 +3779,7 @@
   "PE.Views.ExportAnimatedDialog.textFps": "fps",
   "PE.Views.ExportAnimatedDialog.textFrameRate": "Frame rate",
   "PE.Views.ExportAnimatedDialog.textFullHD": "Full HD (1080p)",
-  "PE.Views.ExportAnimatedDialog.textGif": "GIF",
+  "PE.Views.ExportAnimatedDialog.textAnimation": "Animation",
   "PE.Views.ExportAnimatedDialog.textHD": "HD (720p)",
   "PE.Views.ExportAnimatedDialog.textLarge": "Large (720p)",
   "PE.Views.ExportAnimatedDialog.textMedium": "Medium (480p)",

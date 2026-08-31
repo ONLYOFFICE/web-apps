@@ -76,8 +76,8 @@ define([], function () {
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG},
-            {name: 'GIF',   imgCls: 'gif',   type: Asc.c_oAscAnimatedExportFormat.Gif, animated: true},
-            {name: 'Video', imgCls: 'video', type: 'video', animated: true}
+            {name: 'Animation', imgCls: 'animation', type: 'animation'},
+            {name: 'Video', imgCls: 'video', type: 'video'}
         ]],
 
 
@@ -156,12 +156,11 @@ define([], function () {
         onFormatClick: function(e) {
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
-                var format = parseInt(type.value);
-                if (type.value === 'video' || format === Asc.c_oAscAnimatedExportFormat.Gif) {
-                    this.menu.fireEvent('saveas:animated', [this.menu, type.value === 'video' ? 'video' : 'gif']);
+                if (type.value === 'animation' || type.value === 'video') {
+                    this.menu.fireEvent('saveas:animated', [this.menu, type.value]);
                     return;
                 }
-                this.menu.fireEvent('saveas:format', [this.menu, format]);
+                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
             }
         },
 
@@ -185,8 +184,8 @@ define([], function () {
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'},
-            {name: 'GIF',   imgCls: 'gif',   type: Asc.c_oAscAnimatedExportFormat.Gif, animated: true},
-            {name: 'Video', imgCls: 'video', type: 'video', animated: true}
+            {name: 'Animation', imgCls: 'animation', type: 'animation'},
+            {name: 'Video', imgCls: 'video', type: 'video'}
         ]],
 
         template: _.template([
@@ -265,12 +264,11 @@ define([], function () {
             var type = e.currentTarget.attributes['format'],
                 ext = e.currentTarget.attributes['format-ext'];
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
-                var format = parseInt(type.value);
-                if (type.value === 'video' || format === Asc.c_oAscAnimatedExportFormat.Gif) {
-                    this.menu.fireEvent('savecopy:animated', [this.menu, type.value === 'video' ? 'video' : 'gif']);
+                if (type.value === 'animation' || type.value === 'video') {
+                    this.menu.fireEvent('savecopy:animated', [this.menu, type.value]);
                     return;
                 }
-                this.menu.fireEvent('savecopy:format', [this.menu, format, ext.value]);
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
             }
         },
 

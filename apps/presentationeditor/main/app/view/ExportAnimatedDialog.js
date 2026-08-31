@@ -69,7 +69,7 @@ define([], function () { 'use strict';
             this.template = [
                 '<div class="box" style="height: 350px;">',
                     '<div style="margin-bottom:15px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="export-btn-gif">', this.textGif, '</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="export-btn-animation">', this.textAnimation, '</button>',
                         '<button type="button" class="btn btn-text-default auto" id="export-btn-video">', this.textVideo, '</button>',
                     '</div>',
                     '<table cols="1" style="width:100%;">',
@@ -82,7 +82,7 @@ define([], function () { 'use strict';
                                 '<div id="export-txt-range" style="width:80px;"></div>',
                             '</td>',
                         '</tr>',
-                        '<tr class="export-gif">',
+                        '<tr class="export-animation">',
                             '<td style="display:flex; justify-content:space-between; align-items:center; padding-bottom:15px;">',
                                 '<label class="font-weight-bold">', this.textFormat, '</label>',
                                 '<div id="export-combo-image-format" style="width:80px;"></div>',
@@ -137,12 +137,12 @@ define([], function () { 'use strict';
 
             var $window = this.getChild();
 
-            this.btnGif = new Common.UI.Button({
-                el: $window.find('#export-btn-gif'),
+            this.btnAnimation = new Common.UI.Button({
+                el: $window.find('#export-btn-animation'),
                 enableToggle: true,
                 allowDepress: false,
                 toggleGroup: 'export-animated-mode',
-                pressed: this.mode === 'gif'
+                pressed: this.mode === 'animation'
             });
             this.btnVideo = new Common.UI.Button({
                 el: $window.find('#export-btn-video'),
@@ -151,10 +151,10 @@ define([], function () { 'use strict';
                 toggleGroup: 'export-animated-mode',
                 pressed: this.mode === 'video'
             });
-            Common.UI.GroupedButtons([this.btnGif, this.btnVideo]);
-            this.btnGif.on('click', function (btn, e) {
+            Common.UI.GroupedButtons([this.btnAnimation, this.btnVideo]);
+            this.btnAnimation.on('click', function (btn, e) {
                 if (btn.pressed) {
-                    this.mode = 'gif';
+                    this.mode = 'animation';
                     this.updateMode();
                 }
             }.bind(this));
@@ -270,7 +270,7 @@ define([], function () { 'use strict';
             });
 
             this.videoRows = $window.find('.export-video');
-            this.gifRows = $window.find('.export-gif, .export-fps-row, .export-transparent');
+            this.animationRows = $window.find('.export-animation, .export-fps-row, .export-transparent');
 
             this.updateMode();
 
@@ -278,9 +278,9 @@ define([], function () { 'use strict';
         },
 
         updateMode: function () {
-            var isGif = this.mode === 'gif';
-            this.videoRows.toggleClass('hidden', isGif);
-            this.gifRows.toggleClass('hidden', !isGif);
+            var isAnimation = this.mode === 'animation';
+            this.videoRows.toggleClass('hidden', isAnimation);
+            this.animationRows.toggleClass('hidden', !isAnimation);
             this.loadPresets();
         },
 
@@ -289,7 +289,7 @@ define([], function () { 'use strict';
         },
 
         getCurrentFormat: function () {
-            return this.mode === 'gif' ? this.cmbImageFormat.getValue() : this.cmbFormat.getValue();
+            return this.mode === 'animation' ? this.cmbImageFormat.getValue() : this.cmbFormat.getValue();
         },
 
         loadPresets: function () {
@@ -348,7 +348,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function () {
-            return [this.btnGif, this.btnVideo, this.cmbRange, this.inputPages, this.cmbImageFormat, this.cmbFormat, this.cmbResolution, this.spnFps, this.spnTiming, this.chTransparent].concat(this.getFooterButtons());
+            return [this.btnAnimation, this.btnVideo, this.cmbRange, this.inputPages, this.cmbImageFormat, this.cmbFormat, this.cmbResolution, this.spnFps, this.spnTiming, this.chTransparent].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -391,7 +391,7 @@ define([], function () { 'use strict';
 
         textExport: 'Export',
         textCancel: 'Cancel',
-        textGif: 'GIF',
+        textAnimation: 'Animation',
         textVideo: 'Video',
         textExportRange: 'Export range',
         txtAllSlides: 'All slides',
