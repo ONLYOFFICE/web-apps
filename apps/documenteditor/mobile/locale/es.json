@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas"
+      "textWidow": "Control de viudas",
+      "textEnterComment": "Escribir comentario"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sin relleno"
@@ -426,7 +427,9 @@
     "textWrapText": "Ajustar texto",
     "textYourOption": "Su opción",
     "txtHeight": "Altura",
-    "txtWidth": "Ancho"
+    "txtWidth": "Ancho",
+    "txtCustom": "Personalizado",
+    "textCurrentFont": "Texto principal"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -492,7 +495,9 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -531,7 +536,8 @@
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Cargando imagen...",
     "uploadImageTitleText": "Cargando imagen",
-    "waitText": "Por favor, espere..."
+    "waitText": "Por favor, espere...",
+    "changesSaved": "Se han guardado todos los cambios"
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -825,7 +831,11 @@
     "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
     "txtOk": "OK",
-    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
+    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
+    "textAutoSaveDocument": "Guardado automático",
+    "textDarkDocument": "Documento oscuro",
+    "textOpenLocation": "Abrir ubicación",
+    "textSaveDocument": "Guardar"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",
@@ -841,6 +851,11 @@
     "textSwitchedMobileView": "Cambiado a vista móvil",
     "textSwitchedStandardView": "Cambiado a vista estándar",
     "textSwitchToDesktop": "Cambiar a escritorio",
-    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario."
+    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario.",
+    "textSave": "Guardar",
+    "textDontSave": "No guardar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Guarde los cambios antes de salir",
+    "textUnsavedData": "Datos no guardados"
   }
 }
