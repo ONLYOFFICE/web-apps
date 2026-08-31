@@ -62,7 +62,7 @@ define([
     'pdfeditor/main/app/view/TextArtSettings',
     'pdfeditor/main/app/view/AnnotationSettings',
     'pdfeditor/main/app/view/FormSettings',
-    // 'pdfeditor/main/app/view/SignatureSettings',
+    'pdfeditor/main/app/view/SignatureSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -211,22 +211,22 @@ define([
             this.textartSettings = new PDFE.Views.TextArtSettings();
             this.annotationSettings = new PDFE.Views.AnnotationSettings();
 
-            // if (mode && mode.isSignatureSupport) {
-            //     this.btnSignature = new Common.UI.Button({
-            //         hint: this.txtSignatureSettings,
-            //         asctype: Common.Utils.documentSettingsType.Signature,
-            //         enableToggle: true,
-            //         disabled: true,
-            //         iconCls: 'btn-menu-signature',
-            //         toggleGroup: 'tabpanelbtnsGroup',
-            //         allowMouseEventsOnDisabled: true
-            //     });
-            //     this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
-            //
-            //     this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
-            //     this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
-            //     this.signatureSettings = new PDFE.Views.SignatureSettings();
-            // }
+            if (mode && (mode.isSignatureSupport || mode.isPDFSignatureSupport)) {
+                this.btnSignature = new Common.UI.Button({
+                    hint: this.txtSignatureSettings,
+                    asctype: Common.Utils.documentSettingsType.Signature,
+                    enableToggle: true,
+                    disabled: true,
+                    iconCls: 'btn-menu-signature',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true
+                });
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+            
+                this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
+                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
+                this.signatureSettings = new PDFE.Views.SignatureSettings();
+            }
 
             if (mode && mode.canFeatureForms) {
                 this.btnForm = new Common.UI.Button({
@@ -320,7 +320,7 @@ define([
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.annotationSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
-            // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
             if (this.sendForSigningSettings) this.sendForSigningSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
@@ -331,6 +331,7 @@ define([
             this.formSettings && this.formSettings.setMode(mode);
             // this.chartSettings && this.chartSettings.setMode(mode);
             this.annotationSettings && this.annotationSettings.setMode(mode);
+            this.signatureSettings && this.signatureSettings.setMode(mode);
             this.sendForSigningSettings && this.sendForSigningSettings.setMode(mode);
         },
 
@@ -451,7 +452,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart/*, this.btnSignature*/, this.btnForm, this.btnAnnotation];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart, this.btnSignature, this.btnForm, this.btnAnnotation];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 

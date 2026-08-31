@@ -92,7 +92,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             // this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
-            // this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
@@ -225,15 +225,15 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
-                // else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
 
                 if(!this.rightmenu.isPluginButtonPressed()) {
                     if (active !== undefined) {
                         this.rightmenu.SetActivePane(active, open);
                         if (active!=Common.Utils.documentSettingsType.Signature)
                             this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
-                        // else
-                        //     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                        else
+                            this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                         (active !== currentactive) && this.rightmenu.updateScroller();
                     } else
                         this.rightmenu.clearSelection();
@@ -262,10 +262,15 @@ define([
                 // this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.annotationSettings.disableControls(disabled);
 
-                // if (this.rightmenu.signatureSettings) {
-                //     !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
-                //     allowSignature && disabled && this.onFocusObject([], true); // force press signature button
-                // }
+                if (this.rightmenu.signatureSettings && this.rightmenu.btnSignature) {
+                    if(allowSignature) {
+                        const signType = Common.Utils.documentSettingsType.Signature;
+                        this.rightmenu.btnSignature.click();  // force press signature button
+                        this._settings[signType].panel.ChangeSettings.call(this._settings[signType].panel);
+                    } else  {
+                        this.rightmenu.btnSignature.setDisabled(disabled);
+                    }
+                }
 
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
@@ -421,7 +426,7 @@ define([
                     this.rightmenu.toggleActivePluginButton(false);
                     this.rightmenu.clearSelection();
                     this.rightmenu.hide();
-                    // this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 } else {
                     this.rightmenu.show();
                     var selectedElements = this.api.getSelectedElements();
