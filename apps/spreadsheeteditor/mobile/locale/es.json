@@ -33,7 +33,8 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios"
+      "textUsers": "Usuarios",
+      "textEnterComment": "Escribir comentario"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -382,7 +383,9 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -426,7 +429,8 @@
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Subiendo imagen...",
     "uploadImageTitleText": "Subiendo imagen",
-    "waitText": "Por favor, espere..."
+    "waitText": "Por favor, espere...",
+    "changesSaved": "Se han guardado todos los cambios"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertencia",
@@ -453,7 +457,8 @@
     "textTabColor": "Color de la pestaña",
     "textUnhide": "Volver a mostrar",
     "textWarnDeleteSheet": "La hoja puede tener datos. ¿Continuar con la operación?",
-    "warnAddSheetCsv": "El formato CSV no permite guardar un archivo de varias hojas. Solo se guardará la hoja activa. Para mantener todas las hojas, guarde el archivo en un formato diferente."
+    "warnAddSheetCsv": "El formato CSV no permite guardar un archivo de varias hojas. Solo se guardará la hoja activa. Para mantener todas las hojas, guarde el archivo en un formato diferente.",
+    "textUnhideSheets": "Mostrar hojas ocultas"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",
@@ -465,7 +470,12 @@
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
     "textOk": "OK",
     "textRenameFile": "Renombrar archivo",
-    "textSwitchToDesktop": "Cambiar a escritorio"
+    "textSwitchToDesktop": "Cambiar a escritorio",
+    "textSave": "Guardar",
+    "textDontSave": "No guardar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Guarde los cambios antes de salir",
+    "textUnsavedData": "Datos no guardados"
   },
   "View": {
     "Add": {
@@ -531,7 +541,10 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textSheets": "Hojas",
+      "textLinkTo": "Vincular a",
+      "textDefinedName": "Nombre definido"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -622,7 +635,7 @@
       "textGeneral": "General",
       "textGridlines": "Líneas de cuadrícula",
       "textHigh": "Alto",
-      "textHorizontal": "Horizontal ",
+      "textHorizontal": "Horizontal",
       "textHorizontalAxis": "Eje horizontal",
       "textHorizontalText": "Texto horizontal",
       "textHundredMil": "100.000.000",
@@ -631,7 +644,7 @@
       "textHyperlink": "Enlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
-      "textIn": "En",
+      "textIn": "Hacia dentro",
       "textInnerBottom": "Abajo en el interior",
       "textInnerTop": "Arriba en el interior",
       "textInsideBorders": "Bordes internos",
@@ -675,7 +688,7 @@
       "textOk": "Aceptar",
       "textOnTickMarks": "Marcas de graduación",
       "textOpacity": "Opacidad ",
-      "textOut": "Fuera",
+      "textOut": "Hacia fuera",
       "textOuterTop": "Arriba en el exterior",
       "textOutsideBorders": "Bordes externos",
       "textOverlay": "Superposición",
@@ -739,7 +752,12 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor "
+      "txtSortLow2High": "Ordenar de menor a mayor ",
+      "txtCustom": "Personalizado",
+      "textCurrentFont": "Texto principal",
+      "textSheets": "Hojas",
+      "textLinkTo": "Vincular a",
+      "textDefinedName": "Nombre definido"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -899,7 +917,11 @@
       "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
       "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato.",
-      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?",
+      "textAutoSaveDocument": "Guardado automático",
+      "textOpenLocation": "Abrir ubicación",
+      "textSaveDocument": "Guardar",
+      "textDarkDocument": "Documento oscuro"
     }
   }
 }
