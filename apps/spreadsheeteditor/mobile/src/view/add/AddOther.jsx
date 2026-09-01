@@ -48,6 +48,8 @@ import IconInsimageAndroid from '@android-icons/icon-insimage.svg';
 import IconSort from '@icons/icon-sort.svg';
 import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
 import IconLinkAndroid from '@common-android-icons/icon-link.svg';
+import IconAddTableIos from '@common-ios-icons/icon-add-table.svg?ios';
+import IconAddTableAndroid from '@common-android-icons/icon-add-table.svg';
 
 const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props => {
     const { t } = useTranslation();
@@ -87,6 +89,12 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
                 {Device.ios ? 
                     <SvgIcon slot="media" symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
                     <SvgIcon slot="media" symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
+                }
+            </ListItem>
+            <ListItem title={_t.textTable} className={wsProps.Objects && 'disabled'} link={'/add-table-style/'}>
+                {Device.ios ?
+                    <SvgIcon slot="media" symbolId={IconAddTableIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon slot="media" symbolId={IconAddTableAndroid.id} className={'icon icon-svg'} />
                 }
             </ListItem>
             <ListItem key='drawing' title={_t.textDrawing} onClick={() => {

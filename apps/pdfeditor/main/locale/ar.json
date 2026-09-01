@@ -1045,8 +1045,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "تكبير/تصغير {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "الخط الذي ستحفظه غير متوفر على جهازك الحالي.<br> سيتم إظهار النص بإحدى الخطوط المتوفرة على الجهاز، الخط المحفوظ سيتم استخدامه عند توفره.<br>هل تود المتابعة؟ ",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "أنت تحاول تنفيذ إجراء ليس لديك صلاحيات به.<br>الرجاء الاتصال بالمسئول عن خادم المستندات.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "أصبحت جميع إعدادات الرسم البياني متاحة الآن في علامة تبويب تصميم الرسم البياني المخصصة في شريط الأدوات.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "علامة تبويب تصميم الرسم البياني",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "تحذير",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "القيمة المدخلة غير صحيحة.<br>الرجاء إدخال قيمة بين 1 و 300",
   "PDFE.Controllers.Toolbar.textGotIt": "مفهوم",

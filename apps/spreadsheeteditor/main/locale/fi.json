@@ -1062,8 +1062,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Luodaksesi yhdistelmäkaavion valitse ainakin kaksi tietosarjaa.",
   "SSE.Controllers.Toolbar.errorMaxRows": "VIRHE! Tietosarjojen maksimimäärä kaaviossa on 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Virheellinen rivin järjestys. Jotta voit luoda pörssikaavion, niin aseta tiedot seuraavassa järjestyksessä: <br> avaushinta, korkein hinta, halvin hinta, sulkuhinta.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Kaikki kaavioasetukset ovat nyt saatavilla työkalupalkin omistetussa Kaavion suunnittelu -välilehdessä.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Kaavion suunnittelu -välilehti",
   "SSE.Controllers.Toolbar.textAccent": "Aksentit",
   "SSE.Controllers.Toolbar.textBracket": "Hakasulkeet",
   "SSE.Controllers.Toolbar.textFontSizeErr": "Syötetty arvo ei ole oikein.<br>Ole hyvä ja syötä numeerinen arvo välillä 1-409",

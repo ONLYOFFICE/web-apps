@@ -1664,8 +1664,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "每個圖表系列中的最大點數量為4096。",
   "SSE.Controllers.Toolbar.errorMaxRows": "錯誤！每個圖表的數據系列數量上限為255",
   "SSE.Controllers.Toolbar.errorStockChart": "行順序不正確。建立股票圖表時，請按照以下順序在工作表上放置數據：開盤價、最高價、最低價、收盤價。",
-  "SSE.Controllers.Toolbar.helpChartTab": "現在所有圖表設定都可以在工具列上專用的圖表設計標籤中使用。",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "圖表設計標籤",
   "SSE.Controllers.Toolbar.textAccent": "重音符號",
   "SSE.Controllers.Toolbar.textBracket": "括號",
   "SSE.Controllers.Toolbar.textDirectional": "方向性的",

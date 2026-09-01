@@ -1862,8 +1862,6 @@
   "DE.Controllers.Toolbar.fileUrl": "파일 URL 붙여넣기",
   "DE.Controllers.Toolbar.helpCommentFilter": "왼쪽 패널에서 열린 댓글과 해결된 댓글을 전환하여 보기 상태를 관리합니다.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "댓글 필터",
-  "DE.Controllers.Toolbar.helpChartTab": "이제 모든 차트 설정을 도구 모음의 전용 차트 디자인 탭에서 사용할 수 있습니다.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "차트 디자인 탭",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "경고",
   "DE.Controllers.Toolbar.textAccent": "Accents",
   "DE.Controllers.Toolbar.textBracket": "대괄호",

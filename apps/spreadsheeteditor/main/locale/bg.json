@@ -1037,8 +1037,6 @@
   "SSE.Controllers.Toolbar.confirmAddFontName": "Шрифтът, който ще запазите, не е наличен в текущото устройство. <br> Стилът на текста ще се покаже с помощта на един от системните шрифтове, запазеният шрифт ще се използва, когато е налице. <br> Искате ли да продължите ?",
   "SSE.Controllers.Toolbar.errorMaxRows": "ГРЕШКА! Максималният брой поредици данни за диаграма е 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Неправилен ред на ред. За изграждане на борсова карта поставете данните на листа в следния ред: <br> цена на отваряне, максимална цена, мин. цена, цена на затваряне.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Всички настройки на диаграмата вече са достъпни в специалния раздел Дизайн на диаграма в лентата с инструменти.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Раздел Дизайн на диаграма",
   "SSE.Controllers.Toolbar.textAccent": "Акценти",
   "SSE.Controllers.Toolbar.textBracket": "Скоби",
   "SSE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 409",

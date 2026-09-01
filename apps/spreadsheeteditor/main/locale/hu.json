@@ -2108,8 +2108,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "A soronkénti maximális pontszám diagramonként 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "HIBA! Az adatsorok maximális száma diagramonként 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Helytelen sor sorrend. Tőzsdei diagram létrehozásához az adatokat az alábbi sorrendben vigye fel:<br>nyitó ár, maximum ár, minimum ár, záró ár.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Minden diagrambeállítás mostantól elérhető az eszköztár Diagramtervezés lapján.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Diagramtervezés lap",
   "SSE.Controllers.Toolbar.textAccent": "Akcentusok",
   "SSE.Controllers.Toolbar.textBracket": "Zárójelben",
   "SSE.Controllers.Toolbar.textDirectional": "Irányított",

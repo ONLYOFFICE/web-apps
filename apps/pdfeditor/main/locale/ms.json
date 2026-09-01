@@ -359,8 +359,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} bukan aksara khas yang sah untuk Gantikan Dengan kotak.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Sambungan telah hilang</b><br>Sedang cuba untuk menyambung. Sila semak seting sambungan.",
   "PDFE.Controllers.Statusbar.zoomText": "Zum {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Semua tetapan carta kini tersedia dalam tab Reka bentuk carta yang khusus pada bar alat.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Tab Reka bentuk carta",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Amaran",
   "PDFE.Controllers.Toolbar.textWarning": "Amaran",
   "PDFE.Controllers.Toolbar.txtDownload": "Muat turun",

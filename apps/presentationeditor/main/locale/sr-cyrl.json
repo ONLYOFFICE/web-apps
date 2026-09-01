@@ -1643,8 +1643,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Конекција је изгубљена</b><br>Покушај конектовања. Молим вас проверите подешавања конекције.",
   "PE.Controllers.Statusbar.zoomText": "Зумирај {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Фонт који ћете сачувати није доступан на тренутном уређају.<br>Стил текста ће бити приказан користећи један од системских фонтова, сачувани фонт ће бити коришћен када буде доступан.<br>Да ли желите да наставите?",
-  "PE.Controllers.Toolbar.helpChartTab": "Сва подешавања графикона сада су доступна на наменској картици Дизајн графикона на траци са алаткама.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Картица Дизајн графикона",
   "PE.Controllers.Toolbar.textAccent": "Нагласци",
   "PE.Controllers.Toolbar.textBracket": "Заграде",
   "PE.Controllers.Toolbar.textFontSizeErr": "Унета вредност је нетачна.<br>Молимо унесите нумеричку вредност између 1 и 300.",

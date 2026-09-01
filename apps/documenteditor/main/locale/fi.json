@@ -1314,8 +1314,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Liitä datan verkko-osoite",
   "DE.Controllers.Toolbar.errorAccessDeny": "Sinulla ei ole oikeuksia suorittaa tätä toimintoa.<br>Ota yhteyttä asiakirjapalvelimen ylläpitäjään.",
   "DE.Controllers.Toolbar.fileUrl": "Liitä tiedoston URL",
-  "DE.Controllers.Toolbar.helpChartTab": "Kaikki kaavioasetukset ovat nyt saatavilla työkalupalkin omistetussa Kaavion suunnittelu -välilehdessä.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Kaavion suunnittelu -välilehti",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Varoitus",
   "DE.Controllers.Toolbar.textAccent": "Aksentit",
   "DE.Controllers.Toolbar.textBracket": "Hakasulkeet",

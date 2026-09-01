@@ -1073,8 +1073,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Bir kombinasyon grafiği oluşturmak için en az iki veri serisi seçin.",
   "SSE.Controllers.Toolbar.errorMaxRows": "HATA! Her grafik için maksimum veri serileri sayısı 255'tir",
   "SSE.Controllers.Toolbar.errorStockChart": "Yanlış dizi sırası. Stok grafiği oluşturma için tablodaki verileri şu sırada yerleştirin:<br> açılış fiyatı, maksimum fiyat, minimum fiyat, kapanış fiyatı. ",
-  "SSE.Controllers.Toolbar.helpChartTab": "Tüm grafik ayarları artık araç çubuğundaki özel Grafik tasarımı sekmesinde mevcuttur.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Grafik tasarımı sekmesi",
   "SSE.Controllers.Toolbar.textAccent": "Aksanlar",
   "SSE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "SSE.Controllers.Toolbar.textDirectional": "Yönlü",

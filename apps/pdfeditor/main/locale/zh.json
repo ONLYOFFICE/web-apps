@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "缩放{0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "您要保存的字体在当前设备不可用。<br>文本将以一种设备字体进行显示，保存的字体在可用时会将其替代。<br>是否要继续？",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "您正在尝试执行您没有权限的操作。<br>请联系您的文档服务器管理员。",
-  "PDFE.Controllers.Toolbar.helpChartTab": "所有图表设置现已在工具栏上专用的图表设计选项卡中提供。",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "图表设计选项卡",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确<br>请输入一个介于1和300之间的数值",
   "PDFE.Controllers.Toolbar.textGotIt": "知道了",

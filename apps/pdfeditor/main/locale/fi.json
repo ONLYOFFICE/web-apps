@@ -695,8 +695,6 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} ei ole sopiva erikoismerkki käytettäväksi korvaustyökalussa.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Yhteyttä yritetään luoda. Tarkasta yhteysasetukset.",
   "PDFE.Controllers.Statusbar.zoomText": "Suurennos {0}%",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Kaikki kaavioasetukset ovat nyt saatavilla työkalupalkin omistetussa Kaavion suunnittelu -välilehdessä.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Kaavion suunnittelu -välilehti",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Varoitus",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Syötetty arvo ei ole oikein.<br>Ole hyvä ja syötä numeerinen arvo välillä 1 ja 300",
   "PDFE.Controllers.Toolbar.textRequired": "Täytä kaikki vaaditut kentät lähettääksesi lomakkeen.",

@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "A menteni kívánt betűkészlet nem érhető el az aktuális eszközön.<br>A szövegstílus a rendszer egyik betűkészletével jelenik meg, a mentett betűtípust akkor használja, ha elérhető.<br>Folytatni szeretné?",
   "PE.Controllers.Toolbar.helpChartElements": "A diagramelemek láthatóságát könnyedén, néhány kattintással átkapcsolhatja.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Diagramelemek megjelenítése",
-  "PE.Controllers.Toolbar.helpChartTab": "Minden diagrambeállítás mostantól elérhető az eszköztár Diagramtervezés lapján.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Diagramtervezés lap",
   "PE.Controllers.Toolbar.textAccent": "Akentus",
   "PE.Controllers.Toolbar.textBracket": "Zárójelben",
   "PE.Controllers.Toolbar.textFontSizeErr": "A megadott érték helytelen.<br>Kérjük, adjon meg egy számértéket 1 és 300 között",

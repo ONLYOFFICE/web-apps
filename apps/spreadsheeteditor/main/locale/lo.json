@@ -1087,8 +1087,6 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "ສ້າງກຣາບ",
   "SSE.Controllers.Toolbar.errorMaxRows": "ຜິດພາດ! ຈຳນວນຊຸດຂໍ້ມູນສູງສຸດຕໍ່ຕາຕະລາງນີ້ແມ່ນ 255",
   "SSE.Controllers.Toolbar.errorStockChart": "ຄໍາສັ່ງແຖວບໍ່ຖືກຕ້ອງ. ເພື່ອສ້າງຕາຕະລາງຫຸ້ນ ໃຫ້ວາງຂໍ້ມູນໃສ່ເຈັ້ຍຕາມ ລຳດັບຕໍ່ໄປນີ້:<br>  ລາຄາເປີດ, ລາຄາສູງສຸດ, ລາຄາຕໍ່າສຸດ, ລາຄາປິດ. ",
-  "SSE.Controllers.Toolbar.helpChartTab": "ການຕັ້ງຄ່າຕາຕະລາງທັງໝົດ ດຽວນີ້ມີໃຫ້ໃນແທັບອອກແບບຕາຕະລາງສະເພາະໃນແຖບເຄື່ອງມື.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "ແທັບອອກແບບຕາຕະລາງ",
   "SSE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "SSE.Controllers.Toolbar.textBracket": "ວົງເລັບ",
   "SSE.Controllers.Toolbar.textDirectional": "ທິດທາງ",

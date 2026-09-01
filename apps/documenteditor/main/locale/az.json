@@ -884,8 +884,6 @@
   "DE.Controllers.Statusbar.zoomText": "Miqyası dəyişin {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "Yadda saxlayacağınız şrift cari cihazda mövcud deyil. <br> Mətn üslubu sistem şriftlərindən biri ilə göstəriləcək, mövcud olduqda saxlanmış şrift istifadə olunacaq. <br> Davam etmək istəyirsiniz?",
   "DE.Controllers.Toolbar.dataUrl": "Məlumat URL-ni yerləşdirin",
-  "DE.Controllers.Toolbar.helpChartTab": "Bütün diaqram parametrləri artıq alətlər panelindəki xüsusi Diaqram dizayn nişanında mövcuddur.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "Diaqram dizayn nişanı",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Xəbərdarlıq",
   "DE.Controllers.Toolbar.textAccent": "Vurğular",
   "DE.Controllers.Toolbar.textBracket": "Mötərizələr",

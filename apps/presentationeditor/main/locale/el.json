@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Η γραμματοσειρά που επιχειρείτε να αποθηκεύσετε δεν είναι διαθέσιμη στην τρέχουσα συσκευή.<br>Η τεχνοτροπία κειμένου θα εμφανιστεί με μια από τις γραμματοσειρές συστήματος, η αποθηκευμένη γραμματοσειρά θα χρησιμοποιηθεί όταν γίνει διαθέσιμη.<br>Θέλετε να συνεχίσετε;",
   "PE.Controllers.Toolbar.helpChartElements": "Αλλάζετε εύκολα την ορατότητα των στοιχείων του διαγράμματος με μερικά κλικ.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Εμφάνιση στοιχείων γραφήματος",
-  "PE.Controllers.Toolbar.helpChartTab": "Όλες οι ρυθμίσεις γραφήματος είναι τώρα διαθέσιμες στην ειδική καρτέλα Σχεδίαση γραφήματος στη γραμμή εργαλείων.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Καρτέλα Σχεδίαση γραφήματος",
   "PE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "PE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "PE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 300",

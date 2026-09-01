@@ -1038,7 +1038,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                         {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                             <div className='comment-menu'
                                                 onClick={() => {openActionComment(true);}}>
-                                                <Icon icon='icon-menu-comment'/>
+                                                {Device.ios ?
+                                                    <SvgIcon symbolId={IconMenuCommentIos.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconMenuCommentAndroid.id} className={'icon icon-svg'} />
+                                                }
                                             </div>
                                         }
                                     </div>

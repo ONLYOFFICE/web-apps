@@ -893,8 +893,6 @@
   "DE.Controllers.Statusbar.zoomText": "ຂະຫຍາຍ {0}%",
   "DE.Controllers.Toolbar.confirmAddFontName": "ຕົວອັກສອນທີ່ທ່ານ ກຳ ລັງຈະບັນທຶກແມ່ນບໍ່ມີຢູ່ໃນອຸປະກອນປັດຈຸບັນ. <br> ຮູບແບບຕົວ ໜັງ ສືຈະຖືກສະແດງໂດຍໃຊ້ຕົວອັກສອນລະບົບໜຶ່ງ, ຕົວອັກສອນທີ່ບັນທຶກຈະຖືກ ນຳ ໃຊ້ໃນເວລາທີ່ມັນມີຢູ່. <br> ທ່ານຕ້ອງການສືບຕໍ່ບໍ ?",
   "DE.Controllers.Toolbar.dataUrl": "ວາງ URL ຂໍ້ມູນ",
-  "DE.Controllers.Toolbar.helpChartTab": "ການຕັ້ງຄ່າຕາຕະລາງທັງໝົດ ດຽວນີ້ມີໃຫ້ໃນແທັບອອກແບບຕາຕະລາງສະເພາະໃນແຖບເຄື່ອງມື.",
-  "DE.Controllers.Toolbar.helpChartTabHeader": "ແທັບອອກແບບຕາຕະລາງ",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
   "DE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "DE.Controllers.Toolbar.textBracket": "ວົງເລັບ",

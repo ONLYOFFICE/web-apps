@@ -2057,8 +2057,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Il numero massimo di punti in serie per grafico è di 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRORE! Il numero massimo di serie di dati per grafico è 255.",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordine di righe scorretto. Per creare un grafico in pila posiziona i dati nel foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Tutte le impostazioni del grafico sono ora disponibili nella scheda dedicata Progettazione grafico nella barra degli strumenti.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Scheda Progettazione grafico",
   "SSE.Controllers.Toolbar.textAccent": "Accenti",
   "SSE.Controllers.Toolbar.textBracket": "Parentesi",
   "SSE.Controllers.Toolbar.textDirectional": "Direzionale",

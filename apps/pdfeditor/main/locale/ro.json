@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Fontul pe care doriți să-l salvați nu este disponibil pe acest dispozitiv.<br>Textul va apărea scris cu fontul și stilul disponibil pe sistem, fontul salvat va fi aplicat de îndată ce devine disponibil.<br>Doriți să continuați?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dumneavoastră de Server Documente.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Toate setările graficului sunt acum disponibile în fila dedicată Proiectare grafic din bara de instrumente.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Fila Proiectare grafic",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Avertisment",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 300.",
   "PDFE.Controllers.Toolbar.textGotIt": "Am înțeles",

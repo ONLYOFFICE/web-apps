@@ -1783,8 +1783,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "All chart settings are now available in the dedicated Chart design tab on the toolbar.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Chart design tab",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Got it",

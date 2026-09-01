@@ -837,8 +837,6 @@
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Ligação perdida</b><br>A tentar novamente. Por favor, verifique as definições da ligação.",
   "PDFE.Controllers.Statusbar.zoomText": "Ampliação {0}%",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Está a tentar executar uma ação para a qual não tem permissões.<br>Por favor contacte o administrador do servidor de documentos.",
-  "PDFE.Controllers.Toolbar.helpChartTab": "Todas as configurações do gráfico estão agora disponíveis no separador dedicado Design do gráfico na barra de ferramentas.",
-  "PDFE.Controllers.Toolbar.helpChartTabHeader": "Separador Design do gráfico",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "PDFE.Controllers.Toolbar.textSubmited": "<b>Formulário submetido com sucesso</b><br>Clique para fechar a dica.",
   "PDFE.Controllers.Toolbar.textTabChart": "Design do gráfico",

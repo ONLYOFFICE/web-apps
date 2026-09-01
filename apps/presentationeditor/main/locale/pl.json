@@ -1076,8 +1076,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Połączenie zostało utracone</b><br>Trwa próba ponownego połączenia. Sprawdź ustawienia połączenia.",
   "PE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Czcionka, którą zamierzasz zapisać, nie jest dostępna na bieżącym urządzeniu.<br>Styl tekstu zostanie wyświetlony przy użyciu jednej z czcionek systemowych, a zapisana czcionka będzie używana, jeśli będzie dostępna.<br>Czy chcesz kontynuować?",
-  "PE.Controllers.Toolbar.helpChartTab": "Wszystkie ustawienia wykresu są teraz dostępne na dedykowanej karcie Projektowanie wykresu na pasku narzędzi.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Karta Projektowanie wykresu",
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Nawiasy",
   "PE.Controllers.Toolbar.textFontSizeErr": "Wprowadzona wartość jest nieprawidłowa.<br>Wprowadź wartość numeryczną w zakresie od 1 do 300",

@@ -750,8 +750,6 @@
   "PE.Controllers.Main.warnProcessRightsChange": "Siz faylı redaktə etmək hüququnuzdan məhrum oldunuz.",
   "PE.Controllers.Statusbar.zoomText": "Miqyası dəyişin {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Yadda saxlayacağınız şrift cari cihazda mövcud deyil. <br> Mətn üslubu sistem şriftlərindən biri ilə göstəriləcək, mövcud olduqda saxlanmış şrift istifadə olunacaq. <br> Davam etmək istəyirsiniz?",
-  "PE.Controllers.Toolbar.helpChartTab": "Bütün diaqram parametrləri artıq alətlər panelindəki xüsusi Diaqram dizayn nişanında mövcuddur.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Diaqram dizayn nişanı",
   "PE.Controllers.Toolbar.textAccent": "Vurğular",
   "PE.Controllers.Toolbar.textBracket": "Mötərizələr",
   "PE.Controllers.Toolbar.textFontSizeErr": "Daxil edilmiş dəyər yanlışdır. <br> 1 ilə 300 arasında rəqəmsal dəyər daxil edin",
