@@ -749,7 +749,12 @@
       "textYen": "Jen",
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortiraj najviše ka najnižem ",
-      "txtSortLow2High": "Sortiraj najniže ka najvišem"
+      "txtSortLow2High": "Sortiraj najniže ka najvišem",
+      "txtCustom": "Prilagođeno",
+      "textCurrentFont": "Glavni tekst",
+      "textSheets": "Listovi",
+      "textLinkTo": "Link do",
+      "textDefinedName": "Definisano ime"
     },
     "Settings": {
       "advCSVOptions": "Odaberi CSV opcije",
