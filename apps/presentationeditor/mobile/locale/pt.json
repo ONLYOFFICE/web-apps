@@ -33,7 +33,8 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textEnterComment": "Insira o comentário"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
