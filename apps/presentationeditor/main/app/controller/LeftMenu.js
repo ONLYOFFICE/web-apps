@@ -180,6 +180,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',            _.bind(this.onApiCountPages, this));
             this.onApiCountPages(this.api.getCountPages());
             this.leftMenu.getMenu('file').setApi(api);
+            this.leftMenu.getMenu('file').setSaveFormats(this.getSaveFormats());
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
 
@@ -190,6 +191,11 @@ define([
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
+        },
+
+        getSaveFormats: function() {
+            var formats = this.api ? this.api.getSaveFormats() : undefined;
+            return formats != undefined && !_.isArray(formats) ? [formats] : formats;
         },
 
         setMode: function(mode) {

@@ -103,8 +103,8 @@ class DownloadController extends Component {
 
     getAllowedFormats() {
         const api = Common.EditorApi.get();
-        const formats = api && api.getSaveFormats ? api.getSaveFormats() : undefined;
-        return Array.isArray(formats) ? formats : undefined;
+        const formats = api ? api.getSaveFormats() : undefined;
+        return formats != undefined && !Array.isArray(formats) ? [formats] : formats;
     }
 
     render() {

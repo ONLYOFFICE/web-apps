@@ -60,50 +60,62 @@ const Download = props => {
     const isForm = props.isForm;
     const canFillForms = props.canFillForms;
     const isEditableForms = isForm && canFillForms;
+    const isVisibleFormat = type => !props.allowedFormats || props.allowedFormats.indexOf(type) !== -1;
 
     return (
         <Page>
             <Navbar title={isEditableForms ? t('Settings.textExport') : _t.textDownload} backLink={_t.textBack} />
             <BlockTitle>{isEditableForms ? t('Settings.textExportAs') : _t.textDownloadAs}</BlockTitle>
             <List>
-                {!isDjvuFormat &&
+                {!isDjvuFormat && isVisibleFormat(Asc.c_oAscFileType.DOCX) &&
                     <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                         <SvgIcon slot="media" symbolId={SvgDocx.id} className={'icon icon-svg '} />
                     </ListItem>
                 }
-                <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                    <SvgIcon slot="media" symbolId={SvgPdf.id} className={'icon icon-svg '} />
-                </ListItem>
-                {isDjvuFormat &&
+                {isVisibleFormat(Asc.c_oAscFileType.PDF) &&
+                    <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
+                        <SvgIcon slot="media" symbolId={SvgPdf.id} className={'icon icon-svg '} />
+                    </ListItem>
+                }
+                {isDjvuFormat && isVisibleFormat(Asc.c_oAscFileType.DJVU) &&
                     <ListItem title="DJVU" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DJVU)}>
                         <SvgIcon slot="media" symbolId={SvgDjvu.id} className={'icon icon-svg '} />
                     </ListItem>
                 }
                 {!isEditableForms && !isDjvuFormat ? [
+                    isVisibleFormat(Asc.c_oAscFileType.PDFA) &&
                     <ListItem title="PDF/A" key="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
                         <SvgIcon slot="media" symbolId={SvgPdfa.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.TXT) &&
                     <ListItem title="TXT" key="TXT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.TXT)}>
                         <SvgIcon slot="media" symbolId={SvgTxt.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.RTF) &&
                     <ListItem title="RTF" key="RTF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.RTF)}>
                         <SvgIcon slot="media" symbolId={SvgRtf.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.ODT) &&
                     <ListItem title="ODT" key="ODT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODT)}>
                         <SvgIcon slot="media" symbolId={SvgOdt.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.HTML) &&
                     <ListItem title="HTML" key="HTML" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.HTML)}>
                         <SvgIcon slot="media" symbolId={SvgHtml.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.DOTX) &&
                     <ListItem title="DOTX" key="DOTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOTX)}>
                         <SvgIcon slot="media" symbolId={SvgDotx.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.OTT) &&
                     <ListItem title="OTT" key="OTT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTT)}>
                         <SvgIcon slot="media" symbolId={SvgOtt.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.FB2) &&
                     <ListItem title="FB2" key="FB2" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.FB2)}>
                         <SvgIcon slot="media" symbolId={SvgFb2.id} className={'icon icon-svg '} />
                     </ListItem>,
+                    isVisibleFormat(Asc.c_oAscFileType.EPUB) &&
                     <ListItem title="EPUB" key="EPUB" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.EPUB)}>
                         <SvgIcon slot="media" symbolId={SvgEpub.id} className={'icon icon-svg '} />
                     </ListItem>,
