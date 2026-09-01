@@ -559,7 +559,9 @@
       "textZoomOut": "Zumiraj Spolja",
       "textZoomRotate": "Zumiraj i rotiraj",
       "txtHeight": "Visina",
-      "txtWidth": "Širina "
+      "txtWidth": "Širina ",
+      "txtCustom": "Prilagođeno",
+      "textCurrentFont": "Glavni tekst"
     },
     "Settings": {
       "mniSlideLandscape": "Pejzaž",
