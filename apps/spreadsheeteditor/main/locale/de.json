@@ -5383,7 +5383,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionFillDown": "Füllen Sie den Inhalt von der obersten Zelle (bzw. den obersten Zellen) des angegebenen Bereichs bis zum unteren Ende dieses Bereichs nach unten aus.",
   "Common.Controllers.Shortcuts.txtLabelFillDown": "Nach unten ausfüllen",
   "SSE.Controllers.Toolbar.helpChartTabHeader": "Registerkarte Diagrammdesign",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Ungültiges Zeitformat. Beispiel: ",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Ungültiges Zeitformat. Beispiel:",
   "SSE.Views.ChartTab.textDataTable": "Datentabelle",
   "SSE.Views.ChartTab.textShowDataTable": "Datentabelle anzeigen",
   "SSE.Views.ChartTab.textShowLegendKeys": "Legenden-Symbole anzeigen",
