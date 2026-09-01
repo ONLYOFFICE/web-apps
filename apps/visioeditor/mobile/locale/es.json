@@ -123,7 +123,9 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No se ha cargado ninguna imagen.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -214,7 +216,8 @@
       "textVersion": "Versión ",
       "textVisioInfo": "Información del visor de diagramas",
       "textVisioSettings": "Configuración del visor de diagramas",
-      "textVisioTitle": "Título del visor de diagramas"
+      "textVisioTitle": "Título del visor de diagramas",
+      "textOpenLocation": "Abrir ubicación"
     }
   }
 }
