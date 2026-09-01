@@ -170,6 +170,8 @@ define([
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                         this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
                     }
+                } else if(settingsType == Common.Utils.documentSettingsType.Annotation) {
+                    this._settings[settingsType].hidden = this.mode.isPDFFill ? 1 : 0;
                 }
             }
 

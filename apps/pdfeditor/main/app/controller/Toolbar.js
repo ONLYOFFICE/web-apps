@@ -1473,7 +1473,7 @@ define([
 
         onFillRequiredFields: function(isFilled) {
             // this.toolbar && this.toolbar.btnSubmit && this.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.toolbar.btnSubmit]});
-            if (this.mode.canSubmitForms && this.toolbar.btnSubmit) {
+            if (this.mode.canSubmitForms && this.toolbar.btnSubmit && this.toolbar.btnSubmit.cmpEl) {
                 this.toolbar.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
                 isFilled && this.closeHelpTip('submit-required');
             }
