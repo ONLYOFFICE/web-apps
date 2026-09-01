@@ -55,5 +55,7 @@
   "PE.ApplicationView.txtFullScreen": "Pantalla completa",
   "PE.ApplicationView.txtPrint": "Imprimir",
   "PE.ApplicationView.txtSearch": "Buscar",
-  "PE.ApplicationView.txtShare": "Compartir"
+  "PE.ApplicationView.txtShare": "Compartir",
+  "PE.ApplicationController.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "PE.ApplicationController.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
 }
