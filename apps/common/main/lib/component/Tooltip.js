@@ -94,7 +94,7 @@
         init: function(opts) {
             this.$element  = opts.owner instanceof Backbone.View ? opts.owner.$el : $(opts.owner);
             this.placement = opts.placement;
-            this.speechScreenReader = opts.speechScreenReader ?? true; // whether to announce 'text' via aria-live for screen readers
+            this.speechScreenReader = opts.speechScreenReader || true; // whether to announce 'text' via aria-live for screen readers
 
             if (this.$element.data('bs.tooltip'))
                 this.$element.removeData('bs.tooltip');
