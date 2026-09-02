@@ -1711,6 +1711,7 @@ define([
                 var config = Common.UI.simpleColorsConfig;
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
+                    ariaLabel: this.textFillColor,
                     transparent: true,
                     color: 'transparent',
                     // eyeDropper: true,
@@ -1733,6 +1734,7 @@ define([
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-foreground-color-btn'),
+                    ariaLabel: this.strForeground,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -1754,6 +1756,7 @@ define([
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-background-color-btn'),
+                    ariaLabel: this.strBackground,
                     color: 'ffffff',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -1775,6 +1778,7 @@ define([
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-gradient-color-btn'),
+                    ariaLabel: this.strColor,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -1796,6 +1800,7 @@ define([
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-border-color-btn'),
+                    ariaLabel: this.textBorderColor,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,

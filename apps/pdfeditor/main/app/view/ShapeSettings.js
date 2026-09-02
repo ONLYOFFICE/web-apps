@@ -2030,6 +2030,7 @@ define([
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-back-color-btn'),
+                    ariaLabel: this.strColor,
                     transparent: true,
                     color: 'transparent',
                     // eyeDropper: true,
@@ -2052,6 +2053,7 @@ define([
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-foreground-color-btn'),
+                    ariaLabel: this.strForeground,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -2073,6 +2075,7 @@ define([
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-background-color-btn'),
+                    ariaLabel: this.strBackground,
                     color: 'ffffff',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -2094,6 +2097,7 @@ define([
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-gradient-color-btn'),
+                    ariaLabel: this.strColor,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,
@@ -2115,6 +2119,7 @@ define([
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-border-color-btn'),
+                    ariaLabel: this.textBorderColor,
                     color: '000000',
                     // eyeDropper: true,
                     colors: config.colors,

@@ -98,6 +98,7 @@ define([
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $markup.findById('#annotation-color-btn'),
+                ariaLabel: this.textColor,
                 colors: colorConfig.colors,
                 dynamiccolors: colorConfig.dynamiccolors,
                 themecolors: colorConfig.themecolors,
@@ -172,6 +173,7 @@ define([
 
             this.btnBackgroundColor = new Common.UI.ColorButton({
                 parentEl: $markup.findById('#annotation-background-color-btn'),
+                ariaLabel: this.textFillColor,
                 additionalItemsBefore: [
                     this.mnuBackgroundColorTransparent = new Common.UI.MenuItem({
                         style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',

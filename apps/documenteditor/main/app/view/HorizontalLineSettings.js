@@ -191,6 +191,7 @@ define([
                 parentEl: $('#hl-dlg-btn-color'),
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
+                ariaLabel: this.textColor,
                 takeFocusOnClose: true
             });
             this.colorPicker = this.btnColor.getPicker();

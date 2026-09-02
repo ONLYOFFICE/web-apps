@@ -407,6 +407,7 @@ define([
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
+                ariaLabel: this.textBorderColor,
                 takeFocusOnClose: true
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -450,6 +451,7 @@ define([
                 parentEl: $('#paragraphadv-back-color-btn'),
                 transparent: true,
                 additionalAlign: this.menuAddAlign,
+                ariaLabel: this.textBackColor,
                 takeFocusOnClose: true
             });
             this.colorsBack = this.btnBackColor.getPicker();

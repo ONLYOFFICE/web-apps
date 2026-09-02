@@ -1953,6 +1953,7 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
+                    ariaLabel: this.textColor,
                     additionalItemsBefore: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
                             style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
@@ -1981,6 +1982,7 @@ define([
             if (!this.btnBGColor) {
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#form-background-color-btn'),
+                    ariaLabel: this.textBackgroundColor,
                     transparent: true,
                     color: 'transparent',
                     // eyeDropper: true,

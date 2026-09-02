@@ -635,6 +635,7 @@ define([
                 var config = Common.UI.simpleColorsConfig;
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#table-border-color-btn'),
+                    ariaLabel: this.textBorderColorLabel,
                     color: 'auto',
                     auto: true,
                     // eyeDropper: true,
@@ -656,6 +657,7 @@ define([
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#table-back-color-btn'),
+                    ariaLabel: this.textBackColor,
                     transparent: true,
                     // eyeDropper: true,
                     colors: config.colors,

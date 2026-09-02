@@ -347,6 +347,7 @@ define([], function () { 'use strict';
                 columns: config.columns,
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
+                ariaLabel: this.txtColor,
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));

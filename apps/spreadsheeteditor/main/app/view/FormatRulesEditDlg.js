@@ -921,6 +921,7 @@ define([
                 style: "width:45px;",
                 menu        : true,
                 color       : '638EC6',
+                ariaLabel   : this.textFillColor,
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosFill);
@@ -930,6 +931,7 @@ define([
                 style: "width:45px;",
                 menu        : true,
                 color       : 'FF0000',
+                ariaLabel   : this.textFillColor,
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegFill);
@@ -976,6 +978,7 @@ define([
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
+                ariaLabel   : this.textBorderColor,
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosBorder);
@@ -985,6 +988,7 @@ define([
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
+                ariaLabel   : this.textBorderColor,
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegBorder);
@@ -1049,6 +1053,7 @@ define([
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
+                ariaLabel   : this.textAxisColor,
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnAxisColor);
@@ -1106,6 +1111,7 @@ define([
                     menu        : true,
                     type        : i,
                     color       : '000000',
+                    ariaLabel   : this.textPointColor,
                     takeFocusOnClose: true
                 });
                 Common.UI.FocusManager.add(this, color);

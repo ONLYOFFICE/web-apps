@@ -151,6 +151,7 @@ define([
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
+                ariaLabel: this.textBorderColor,
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
@@ -165,6 +166,7 @@ define([
                 parentEl: $('#drop-advanced-button-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
+                ariaLabel: this.textBackColor,
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(function(btn, color) {

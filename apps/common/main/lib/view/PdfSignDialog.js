@@ -268,6 +268,7 @@ define([], function () { 'use strict';
                 color: 'auto',
                 auto: true,
                 menu: true,
+                ariaLabel: this.textColor,
                 takeFocusOnClose: true
             });
 
