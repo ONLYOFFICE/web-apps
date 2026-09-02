@@ -191,6 +191,11 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
 
+            const dirLeft = Common.UI.isRTL() ? 'right' : 'left';
+            this._helpTips = {
+                'submit-required': this.mode.canSubmitForms ? {placement: 'bottom-' + dirLeft, text: this.textRequired, link: false, target: '#slot-btn-header-form-submit', closable: true} : undefined
+            };
+
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 // 'tipChartTab' : {name: 'pdfe-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                 //     automove: true, closable: false, isNewFeature: true},
@@ -400,6 +405,7 @@ define([
             this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
+            this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
         },
 
         attachPDFAnnotateApiEvents: function() {
@@ -1466,7 +1472,11 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.toolbar && this.toolbar.btnSubmit && this.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.toolbar.btnSubmit]});
+            // this.toolbar && this.toolbar.btnSubmit && this.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.toolbar.btnSubmit]});
+            if (this.mode.canSubmitForms && this.toolbar.btnSubmit && this.toolbar.btnSubmit.cmpEl) {
+                this.toolbar.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+                isFilled && this.closeHelpTip('submit-required');
+            }
         },
 
         onClearClick: function() {
@@ -1480,8 +1490,13 @@ define([
         },
 
         onSubmitClick: function() {
+            if (!this.api.asc_IsAllRequiredFormsFilled()) {
+                this.showHelpTip('submit-required');
+                this.api.asc_MoveToFillingForm(true, true, true);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                return;
+            }
             this.api && this.api.asc_SendForm();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onSaveFormClick: function() {
@@ -1590,6 +1605,9 @@ define([
         onApiCoAuthoringDisconnect: function(enableDownload) {
             (this.mode.isEdit || this.mode.isRestrictedEdit) && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
+            Common.NotificationCenter.trigger('editing:disable', true, {
+                header: {docmode: true},
+            }, 'Disconnect');
             this.DisableToolbar(true, true);
         },
 
@@ -1817,7 +1835,7 @@ define([
             toolbar.setVisible('forms', (this.mode.isPDFEdit || this.mode.isViewForm) && this.mode.canFeatureForms);
 
             const formsController = this.getApplication().getController('FormsTab');
-            formsController.view.setPreviewMode(this.mode.isViewForm);
+            formsController && formsController.view && formsController.view.setPreviewMode(this.mode.isViewForm);
 
             !this.mode.isPDFEdit && $host.find('.annotate').addClass('transparent');
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
@@ -1840,32 +1858,21 @@ define([
                 me.toolbar && me.toolbar.btnHandTool && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
                 if (config.canSubmitForms && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
-                    me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});
-                    if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
-                        me.requiredTooltip = new Common.UI.SynchronizeTip({
-                            extCls: 'colored',
-                            placement: Common.UI.isRTL() ? 'bottom-left' : 'bottom-right',
-                            target: me.toolbar.btnSubmit.$el,
-                            text: me.textRequired,
-                            showLink: false,
-                            closable: false,
-                            showButton: true,
-                            textButton: me.textGotIt
-                        });
-                        var onclose = function () {
-                            me.requiredTooltip.hide();
-                            me.api.asc_MoveToFillingForm(true, true, true);
-                            me.toolbar.btnSubmit.updateHint(me.textRequired);
-                        };
-                        me.requiredTooltip.on('buttonclick', function () {
-                            onclose();
-                            Common.localStorage.setItem("pdfe-embed-hide-submittip", 1);
-                        });
-                        me.requiredTooltip.on('closeclick', onclose);
-                        me.requiredTooltip.show();
-                    } else {
-                        me.toolbar.btnSubmit.updateHint(me.textRequired);
+                    // me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});
+                    me.toolbar.btnSubmit.updateHint(me.textRequired);
+                }
+
+                if (config.isPDFFill) {
+                    var oform = me.api.asc_GetOForm(),
+                        role = new AscCommon.CRestrictionSettings();
+                    if (oform && me.appOptions.user.roles) {
+                        if (me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
+                            role.put_OFormRole(me.appOptions.user.roles[0]);
+                        } else {
+                            role.put_OFormNoRole(true);
+                        }
                     }
+                    me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
 
                 if (me.toolbar) {
@@ -1905,6 +1912,62 @@ define([
             });
         },
 
+        closeHelpTip: function(step, force) {
+            var props = this._helpTips[step];
+            if (props) {
+                props.tip && props.tip.close();
+                props.tip = undefined;
+                force && props.name && Common.localStorage.setItem(props.name, 1);
+            }
+        },
+
+        showHelpTip: function(step) {
+            if (!this._helpTips[step]) return;
+            if (!(this._helpTips[step].name && Common.localStorage.getItem(this._helpTips[step].name))) {
+                var props = this._helpTips[step],
+                    target = props.target;
+
+                if (props.tip && props.tip.isVisible())
+                    return true;
+                
+                if (typeof target === 'string')
+                    target = $(target);
+                if (!(target && target.length && target.is(':visible')))
+                    return false;
+
+                props.tip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: props.placement,
+                    target: target,
+                    text: props.text,
+                    showLink: !!props.link,
+                    textLink: props.link ? props.link.text : '',
+                    closable: !!props.closable,
+                    showButton: !!props.showButton,
+                    textButton: this.textGotIt
+                });
+                props.tip.on({
+                    'buttonclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
+                    },
+                    'dontshowclick': function() {
+                        Common.NotificationCenter.trigger('file:help', props.link.src);
+                    },
+                    'close': function() {
+                        props.name && Common.localStorage.setItem(props.name, 1);
+                        props.callback && props.callback();
+                    },
+                    'closeclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
+                    }
+                });
+                props.tip.show();
+            }
+            return true;
+        },
+
         getView: function (name) {
             return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
         },
@@ -1920,11 +1983,6 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab !== 'file' && tab !== 'home' && this.requiredTooltip) {
-                this.requiredTooltip.close();
-                this.requiredTooltip = undefined;
-            }
-
             if (tab == 'charttab')
                 Common.UI.TooltipManager.closeTip('tipChartTab');
 
@@ -2935,6 +2993,36 @@ define([
                 me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
             });
             this._state.customPluginData = null;
+
+            this.mode.isPDFFill && this.api && this.showSignatureTooltip(this.api.asc_getSignatures());
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._isDocReady) return;
+
+            this.showSignatureTooltip(valid);
+        },
+
+        showSignatureTooltip: function(valid) {
+            if (!this.toolbar) return;
+
+            var hasForm = false;
+            valid && _.each(valid, function(item, index){
+                item.asc_getIsForm() && (hasForm = true);
+            });
+
+            if (!hasForm)
+                Common.UI.TooltipManager.closeTip('formSigned');
+            else {
+                Common.UI.TooltipManager.showTip({ 
+                    step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
+                    maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true
+                });
+            }
+            Common.Utils.lockControls(
+                Common.enumLock.formSigned, hasForm, 
+                {array: [this.toolbar.btnNextForm, this.toolbar.btnPrevForm, this.toolbar.btnSubmit, this.toolbar.btnClear]}
+            );
         },
 
         textWarning: 'Warning',
@@ -2945,7 +3033,8 @@ define([
         txtSaveCopy: 'Save copy',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
         txtUntitled: 'Untitled',
-        textRequired: 'Fill all required fields to send form.',
+        textRequired: 'To submit the form, you must fill in all required fields.',
+        txtSignedForm: 'This document has been signed and cannot be edited.',
         textGotIt: 'Got it',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
