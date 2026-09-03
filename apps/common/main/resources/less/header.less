@@ -501,7 +501,7 @@
     left: 100%;
     margin-left: -285px;
 
-    padding: 14px;
+    padding: 14px 0;
     width: 285px;
     .font-size-medium();
 
@@ -513,6 +513,7 @@
 
     > label {
         white-space: normal;
+        padding: 0 14px;
     }
 
     label {
@@ -521,7 +522,7 @@
     }
 
     .cousers-list {
-        margin-top: 15px;
+        margin-top: 10px;
 
         ul {
             margin: 0;
@@ -532,51 +533,16 @@
 
             li {
                 list-style: none;
-                margin-top: 12px;
                 overflow: hidden;
+
+                &.selectable:hover:not(.disabled) {
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
+                }
 
                 &.offline, &.viewmode {
                     display: none;
                 }
-            }
-
-            li:first-child {
-                margin-top: 0px;
-            }
-        }
-
-        .color {
-            width: 26px;
-            height: 26px;
-            border-radius: 20px;
-            border-width: @scaled-two-px-value;
-            display: inline-block;
-            vertical-align: middle;
-            background-color: #ffffff;
-            background-size: cover;
-            background-position: center;
-            .margin-right-8();
-
-            line-height: 26px;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .user-name {
-            color: @text-normal-ie;
-            color: @text-normal;
-            .font-size-medium();
-            .font-weight-bold();
-            .text-align-left();
-            white-space: nowrap;
-            cursor: default;
-
-            label {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                vertical-align: middle;
-                max-width: 200px;
-                .font-weight-bold();
             }
         }
     }
@@ -593,6 +559,129 @@
             margin-left: 0;
             margin-right: -285px;
         }
+    }
+}
+
+#user-follow-tip {
+    position: absolute;
+    right: 20px;
+    top: calc(8px - var(--content-padding-top, 0px));
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-style: solid;
+    border-width: @scaled-one-px-value-ie;
+    border-width: @scaled-one-px-value;
+    border-color: @border-regular-control-ie;
+    border-color: @border-regular-control;
+    border-radius: @border-radius-dropdown-menu-ie;
+    border-radius: @border-radius-dropdown-menu;
+    box-shadow: @shadow-toolbar-ie;
+    box-shadow: @shadow-toolbar;
+    z-index: 10;
+
+    .rtl & {
+        right: auto;
+        left: 20px;
+    }
+
+    display: flex;
+    align-items: center;
+    color: @text-normal-ie;
+    color: @text-normal;
+    .font-size-medium();
+    .font-weight-bold();
+    .text-align-left();
+    white-space: nowrap;
+    cursor: default;
+
+    .color {
+        width: 26px;
+        height: 26px;
+        border-radius: 20px;
+        border-width: @scaled-two-px-value;
+        display: inline-block;
+        vertical-align: middle;
+        background-color: #ffffff;
+        background-size: cover;
+        background-position: center;
+        .margin-right-8();
+
+        line-height: 26px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        max-width: 200px;
+        .font-weight-bold();
+    }
+
+    .unfollow-btn {
+        float: right;
+        .margin-left-10
+    }
+}
+
+
+#user-follow-tip .user-name, 
+.cousers-list .user-name {
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    color: @text-normal-ie;
+    color: @text-normal;
+    .font-size-medium();
+    .font-weight-bold();
+    .text-align-left();
+    white-space: nowrap;
+    cursor: default;
+
+    .color {
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+        border-radius: 20px;
+        border-width: @scaled-two-px-value;
+        display: inline-block;
+        vertical-align: middle;
+        background-color: #ffffff;
+        background-size: cover;
+        background-position: center;
+        .margin-right-8();
+
+        line-height: 26px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        max-width: 200px;
+        .font-weight-bold();
+    }
+
+    .count-label {
+        flex-shrink: 0;
+    }
+
+    .btns-group {
+        .margin-left(auto);
+        & > * {
+            .margin-left-6
+        }
+    }
+
+    .follow-btn {
+        display: none;
+    }
+    &:hover .follow-btn {
+        display: block;
     }
 }
 

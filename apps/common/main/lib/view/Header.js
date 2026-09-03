@@ -59,26 +59,42 @@ define([
             isSSEEditor = !!window.SSE,
             isPEEditor  = !!window.PE,
             isVisioEditor = !!window.VE;
+        const isUserFollowSupport = window.DE;
+            
+        const templateUserName = 
+            '<div class="user-name">' +
+                '<div class="color"' + 
+                    '<% if (user.get("avatar")) { %>' +
+                        'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                    '<% } else { %>' +
+                        'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                    '<% } %>' +
+                '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
+                '<label><%= fnEncode(user.get("username")) %></label>' +
+                '<% if (len>1) { %><label class="count-label margin-left-3">(<%=len%>)</label><% } %>' +
+                '<div class="btns-group">' + 
+                    '<% if (isUserFollowSupport && user.get("isFollow")) { %>' +
+                        '<button class="unfollow-btn btn btn-text-default auto"><%= scope.textStopFollowing %></button>' +
+                    '<% } else if(isUserFollowSupport) { %>' +
+                        '<button class="follow-btn btn btn-text-default auto"><%= scope.textFollow %></button>' +
+                    '<% } %>' +
+                '</div>' +
+            '</div>';
 
-        var templateUserItem =
-                '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
-                    '<div class="user-name">' +
-                        '<div class="color"' + 
-                            '<% if (user.get("avatar")) { %>' +
-                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
-                            '<% } else { %>' +
-                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
-                            '<% } %>' +
-                        '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
-                        '<label><%= fnEncode(user.get("username")) %></label>' +
-                        '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
-                    '</div>'+
-                '</li>';
+        const templateUserItem =
+            '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %> <%= isUserFollowSupport ? "selectable" : "" %>"">' +
+                templateUserName + 
+            '</li>';
+
+        const templateUserFollowTip = 
+            '<div id="user-follow-tip">' +
+                templateUserName + 
+            '</div>';
 
         var templateUserList = _.template(
                 '<ul>' +
                     '<% for (originalId in users) { %>' +
-                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length}) %>' +
+                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length, scope: scope, isUserFollowSupport: isUserFollowSupport}) %>' +
                     '<% } %>' +
                 '</ul>');
 
@@ -145,7 +161,7 @@ define([
                                 '<div id="header-logo"><i></i></div>' +
                             '</section>';
 
-            var templateTitleBox = '<section id="box-document-title">' +
+        var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
                                 '<div class="hedset" role="menubar" aria-label="<%= scope.ariaQuickAccessToolbar %>">' +
                                     '<div class="btn-slot" id="slot-btn-dt-home"></div>' +
@@ -176,16 +192,29 @@ define([
                             '</section>';
 
         function onResetUsers(collection, opts) {
-            var usercount = collection.getVisibleEditingCount();
+            const me = this;
+            const usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
                 if (appConfig && (usercount > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || usercount >0 && appConfig.canLiveView)) {
                     $userList.html(templateUserList({
+                        scope: me,
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) { return item.get('idOriginal'); }).value(),
+                        isUserFollowSupport: isUserFollowSupport,
                         usertpl: _.template(templateUserItem),
                         fnEncode: function(username) {
                             return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
                         }
                     }));
+
+                    const $items = $userList.find('.user-name');
+                    $items.tooltip({
+                        title: me.textGoToUserCursor, 
+                        placement: 'cursor',
+                        zIndex : parseInt($('#tlb-box-users .cousers-menu').css('z-index')) + 1
+                    });
+                    $items.each(function(idx, item){
+                        $(item).data('bs.tooltip').tip();
+                    });
 
                     $userList.scroller = new Common.UI.Scroller({
                         el: $userList.find('ul'),
@@ -203,7 +232,7 @@ define([
         };
 
         function onUsersChanged(model) {
-            onResetUsers(model.collection);
+            onResetUsers.call(this, model.collection);
         };
 
         function applyUsers(count, originalCount) {
@@ -458,7 +487,7 @@ define([
                 });
 
             if ( $panelUsers ) {
-                onResetUsers(storeUsers);
+                onResetUsers.call(this, storeUsers);
 
                 $panelUsers.on('shown.bs.dropdown', function () {
                     $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
@@ -861,9 +890,9 @@ define([
 
                 storeUsers = this.options.storeUsers;
                 storeUsers.bind({
-                    add     : onUsersChanged,
-                    change  : onUsersChanged,
-                    reset   : onResetUsers
+                    add     : onUsersChanged.bind(this),
+                    change  : onUsersChanged.bind(this),
+                    reset   : onResetUsers.bind(this)
                 });
 
                 me.btnSearch = new Common.UI.Button({
@@ -1087,6 +1116,38 @@ define([
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
                     $panelUsers.hide();
+
+
+                    if(isUserFollowSupport) {
+                        const getUserFromClickEvent = function(el) {
+                            const $li = $(el).closest('li');
+                            const iid = $li.attr('id');
+                            return storeUsers.find(function(m){ return m.get('iid') == iid; });
+                        };
+    
+                        $userList.off('click', '.user-name').on('click', '.user-name', function (e) {
+                            const model = getUserFromClickEvent(this);
+                            if(!model) return;
+    
+                            $('#tlb-box-users').click();    // hide users dropdown
+                            me.fireEvent('user-go-to-cursor', [model.id]);
+                        });
+    
+                        $userList.off('click', '.follow-btn').on('click', '.follow-btn', function (e) {
+                            e && e.stopPropagation();
+                            const model = getUserFromClickEvent(this);
+                            if(!model) return;
+    
+                            $('#tlb-box-users').click();    // hide users dropdown
+                            me.fireEvent('user-follow', [model.id]);
+                        });
+    
+                        $userList.off('click', '.unfollow-btn').on('click', '.unfollow-btn', function (e) {
+                            e && e.stopPropagation();
+                            me.fireEvent('user-follow', [null]);
+                        });
+                    }
+
                     return $html;
                 } else
                 if ( role == 'title' ) {
@@ -1457,6 +1518,38 @@ define([
                 this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
+            setUserFollow: function(userId, isFollow) {
+                const userModel = storeUsers.find(function(m){ return m.get('id') == userId; });
+                userModel.set('isFollow', isFollow);
+
+                if(isFollow) {
+                    this.showUserFollowTip(userModel);
+                } else {
+                    this.hideUserFollowTip();
+                }
+            },
+
+            showUserFollowTip: function(userModel) {
+                const me = this;
+                const $tip = $(_.template(templateUserFollowTip)({
+                    user: userModel,
+                    len: 1,
+                    scope: this,
+                    isUserFollowSupport: isUserFollowSupport,
+                    fnEncode: function(username) {
+                        return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
+                    }
+                }));
+                $tip.find('.unfollow-btn').on('click', function() {
+                    me.fireEvent('user-follow', [null]);
+                });
+                $('#editor-container').append($tip);
+            },
+
+            hideUserFollowTip: function() {
+                $('#user-follow-tip').remove();
+            },
+
             getButton: function(type) {
                 if (type == 'save')
                     return this.btnSave;
@@ -1574,7 +1667,10 @@ define([
             ariaQuickAccessToolbar: 'Quick access toolbar',
             textAnnotateDesc: 'Fill forms or annotate',
             textDownload: 'Download',
-            tipFillStatus: 'Filling status'
+            tipFillStatus: 'Filling status',
+            textFollow: 'Follow',
+            textStopFollowing: 'Stop following',
+            textGoToUserCursor: 'Go to user cursor'
         }
     }(), Common.Views.Header || {}))
 });

@@ -175,7 +175,13 @@ define([
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
-                    }
+                    },
+                    'user-go-to-cursor': function(userId) {
+                        me.api.asc_scrollToUserCursor(userId);
+                    },
+                    'user-follow': function(userId) {
+                        me.api.asc_followUser(userId || null);
+                    },
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
@@ -537,6 +543,8 @@ define([
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onFollowUser', this.onFollowUser.bind(this, true));
+            this.api.asc_registerCallback('asc_onUnfollowUser', this.onFollowUser.bind(this, false));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
@@ -4093,6 +4101,11 @@ define([
                 }
             }
             this.isFromFormSaveAs = false;
+        },
+
+        onFollowUser: function(isFollow, userId) {
+            const headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
+            headerView && headerView.setUserFollow(userId, isFollow);
         },
 
         getView: function (name) {
