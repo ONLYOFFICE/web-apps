@@ -638,7 +638,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
-                showDownload: this.mode.canDownload && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader && (!this.mode.isDesktopApp || !this.mode.isOffline),
                 mode: this.mode,
                 props: {
                     print: Common.localStorage.getBool('ve-quick-access-print', true),

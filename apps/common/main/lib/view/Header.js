@@ -396,7 +396,7 @@ define([
                 this.btnStartOver[props.startOver ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-start-over', props.startOver);
             }
-            if (props.download !== undefined) {
+            if (props.download !== undefined && this.btnDownload) {
                 this.btnDownload[props.download ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-download', props.download);
             }
@@ -1170,7 +1170,7 @@ define([
                             label: me.tipStartOver
                         };
                     }
-                    if (config.canDownload) {
+                    if (config.canDownload && (!config.isDesktopApp || !config.isOffline)) {
                         me.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-btn-dt-download'), false, undefined, undefined, 'D');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false) && me.btnDownload.hide();
                     }
