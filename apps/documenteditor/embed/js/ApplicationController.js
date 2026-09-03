@@ -505,8 +505,8 @@ DE.ApplicationController = new(function(){
 
         api.asc_setViewerTargetType(config.customization && config.customization.pointerMode==='hand' ? 'hand' : 'select');
 
-        var dividers = $('#box-tools .divider');
-        var itemsCount = $('#box-tools a').length;
+        var dividers = $('#box-tools > .dropdown-menu > .divider');
+        var itemsCount = $('#box-tools > .dropdown-menu > li > a').not('#idt-zoom > a').length;
 
         if ( permissions.print === false) {
             $('#idt-print').hide();
@@ -665,6 +665,8 @@ DE.ApplicationController = new(function(){
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
         $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
+
+        $('#idt-zoom-menu > li > a').on('click', onMenuZoomClick);
 
         var $pagenum = $('#page-number');
         $pagenum.on({
@@ -853,6 +855,46 @@ DE.ApplicationController = new(function(){
         if (requireUserAction) {
             Common.Gateway.userActionRequired();
             requireUserAction = false;
+        }
+    }
+
+    function onApiZoomChange(percent, type) {
+        var $items = $('#idt-zoom-menu > li');
+
+        $items.filter('[data-value="zoom:page"]').toggleClass('checked', type == 2);
+        $items.filter('[data-value="zoom:width"]').toggleClass('checked', type == 1);
+        $items.filter('[data-group="zoom-list"]').each(function(){
+            $(this).toggleClass('checked', parseInt($(this).attr('data-value')) === percent);
+        });
+    }
+
+    function onMenuZoomClick() {
+        var $item = $(this).parent(),
+            value = $item.attr('data-value'),
+            checked = !$item.hasClass('checked');
+
+        switch (value) {
+            case 'zoom:page':
+            case 'zoom:width':
+                if (checked) {
+                    api.GetMultipageViewMode() && api.SetMultipageViewMode(false);
+                    (value === 'zoom:page') ? api.zoomFitToPage() : api.zoomFitToWidth();
+                    $('#idt-zoom-menu > li[data-value="zoom:multi"]').removeClass('checked');
+                } else {
+                    api.zoomCustomMode();
+                }
+                break;
+            case 'zoom:multi':
+                if (checked) {
+                    api.zoomCustomMode();
+                    api.SetMultipageViewMode(true);
+                } else {
+                    api.SetMultipageViewMode(false);
+                }
+                $item.toggleClass('checked', checked);
+                break;
+            default:
+                api.zoom(parseInt(value));
         }
     }
 
@@ -1205,6 +1247,7 @@ DE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
             api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
+            api.asc_registerCallback('asc_onZoomChange',            onApiZoomChange);
 
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
