@@ -981,6 +981,7 @@
   "Common.Views.Header.textBack": "Open file location",
   "Common.Views.Header.textClose": "Close file",
   "Common.Views.Header.textCompactView": "Hide Toolbar",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textHideLines": "Hide Rulers",
   "Common.Views.Header.textHideStatusBar": "Combine sheet and status bars",
   "Common.Views.Header.textPrint": "Print",

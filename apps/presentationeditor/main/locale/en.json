@@ -1093,6 +1093,7 @@
   "Common.Views.Header.textBack": "Open file location",
   "Common.Views.Header.textClose": "Close file",
   "Common.Views.Header.textCompactView": "Hide Toolbar",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textHideLines": "Hide Rulers",
   "Common.Views.Header.textHideNotes": "Hide notes",
   "Common.Views.Header.textHideStatusBar": "Hide Status Bar",
