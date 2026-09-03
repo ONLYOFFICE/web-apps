@@ -251,7 +251,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionSpeechWorker":"Habilita/desabilita a transmissão de ações realizadas no aplicativo para leitores de tela.",
   "Common.Controllers.Shortcuts.txtDescriptionStartIndent":"Aumentar o nível de lista/recuo (com o cursor no início de um parágrafo).",
   "Common.Controllers.Shortcuts.txtDescriptionStartUnIndent":"Diminua o nível da lista/recuo (com o cursor no início de um parágrafo).",
-  "Common.Controllers.Shortcuts.txtDescriptionStrikeout":"Faça com que o fragmento de texto selecionado seja riscado com uma linha passando pelas letras.",
+  "Common.Controllers.Shortcuts.txtDescriptionStrikeout":"Faça com que o trecho de texto selecionado fique riscado, com uma linha passando pelas letras.",
   "Common.Controllers.Shortcuts.txtDescriptionSubscript":"Reduza o tamanho do trecho de texto selecionado e posicione-o na parte inferior da linha de texto, por exemplo, como em fórmulas químicas.",
   "Common.Controllers.Shortcuts.txtDescriptionSuperscript":"Reduza o tamanho do trecho de texto selecionado e posicione-o na parte superior da linha de texto, por exemplo, como em frações.",
   "Common.Controllers.Shortcuts.txtDescriptionTrademarkSign":"Insira o sinal de marca registrada na posição atual do cursor.",
