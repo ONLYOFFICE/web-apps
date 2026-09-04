@@ -385,6 +385,64 @@ DE.ApplicationController = new(function(){
         $tip && (helpTips[step] = $tip);
     }
 
+    function onShowFormsPDFActions(obj) {
+        switch (obj.type) {
+            case AscPDF.FIELD_TYPES.combobox:
+                setTimeout(function() {
+                    onShowListActionsPDF(obj);
+                }, 1);
+                break;
+        }
+    }
+
+    function onHidePdfFormsActions() {
+        var menuContainer = DE.ApplicationView.getMenuForm();
+        var $listControlMenu = menuContainer.find('ul');
+        $listControlMenu && $listControlMenu.hide();
+    }
+
+    function onShowListActionsPDF(obj) {
+        var menuContainer = DE.ApplicationView.getMenuForm();
+        var $listControlMenu = menuContainer.find('ul');
+
+        me._listObjPdf = obj;
+
+        $listControlMenu.off('click').on('click', 'li a', function(e) {
+            var value = $(e.target).attr('value');
+            if (value !== undefined) {
+                value = parseInt(value);
+                setTimeout(function(){
+                    (value!==-1) && api.asc_SelectPDFFormListItem(value);
+                    onHidePdfFormsActions();
+                }, 1);
+            }
+        });
+
+        $listControlMenu.find('li').remove();
+
+        var options = obj.getOptions();
+        var count = options.length;
+
+        for (var i = 0; i < count; i++) {
+            $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + i + '">' +
+                common.utils.htmlEncode(Array.isArray(options[i]) ? options[i][0] : options[i]) +
+                '</a></li>');
+        }
+
+        if (count < 1) {
+            $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="-1">' +
+                me.txtEmpty +
+                '</a></li>');
+        }
+
+        var pagepos = obj.getPagePos();
+        var oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+        menuContainer.css({left: oGlobalCoords.X, top: oGlobalCoords.Y});
+        me._preventClick = true;
+        $listControlMenu.show();
+    }
+
     function onShowContentControlsActions(obj, x, y) {
         switch (obj.type) {
             case Asc.c_oAscContentControlSpecificType.Picture:
@@ -584,6 +642,8 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
         api.asc_registerCallback('asc_onUpdateSignatures',    onApiUpdateSignatures);
         if (appOptions.canFillForms) {
+            isPDF && api.asc_registerCallback('asc_onShowPDFFormsActions', onShowFormsPDFActions);
+            isPDF && api.asc_registerCallback('asc_onHidePdfFormsActions', onHidePdfFormsActions);
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
             api.asc_SetHighlightRequiredFields(true);
