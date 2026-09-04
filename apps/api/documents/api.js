@@ -277,6 +277,7 @@
                     mentionShare : true // customize tooltip for mention,
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
+                    ai: true // false - disable AI in editor: hide AI plugins and block AI requests
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
@@ -432,6 +433,14 @@
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
+        if (_config.editorConfig.customization && _config.editorConfig.customization.ai === false) {
+            // customization.ai=false is a shortcut for plugins.disable with the AI plugin guid
+            var _aiPluginGuid = "asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}",
+                _plugins = _config.editorConfig.plugins = _config.editorConfig.plugins || {},
+                _disable = _plugins.disable instanceof Array ? _plugins.disable : [];
+            if (_disable.indexOf(_aiPluginGuid) < 0)
+                _plugins.disable = _disable.concat(_aiPluginGuid);
+        }
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
