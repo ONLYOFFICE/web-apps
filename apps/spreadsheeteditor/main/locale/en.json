@@ -2750,7 +2750,7 @@
   "SSE.Views.ChartSettingsDlg.textInnerBottom": "Inner bottom",
   "SSE.Views.ChartSettingsDlg.textInnerTop": "Inner top",
   "SSE.Views.ChartSettingsDlg.textInvalidRange": "ERROR! Invalid cells range",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Invalid time format. Example:",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Invalid time format. Example: ",
   "SSE.Views.ChartSettingsDlg.textLabelDist": "Axis label distance",
   "SSE.Views.ChartSettingsDlg.textLabelInterval": "Interval between labels ",
   "SSE.Views.ChartSettingsDlg.textLabelOptions": "Label options",
