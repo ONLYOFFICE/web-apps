@@ -5383,7 +5383,7 @@
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
   "Common.Controllers.Shortcuts.txtDescriptionFillDown": "Rellenar desde la celda o celdas superiores del rango especificado hasta el final del rango.",
   "Common.Controllers.Shortcuts.txtLabelFillDown": "FillDown",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Formato de hora no válido. Ejemplo:",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Formato de hora no válido. Ejemplo: ",
   "SSE.Views.ChartTab.textDataTable": "Tabla de datos",
   "SSE.Views.ChartTab.textShowDataTable": "Mostrar la tabla de datos",
   "SSE.Views.ChartTab.textShowLegendKeys": "Mostrar las claves de la leyenda",
