@@ -92,6 +92,16 @@
   width: 98px;
   height: 125px;
   cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: none;
+
+  &:focus {
+    outline: 2px solid @border-control-focus-ie;
+    outline: 2px solid @border-control-focus;
+    outline-offset: 1px;
+  }
+
   .svg-format- {
     &docx {
       background: ~"url('@{common-image-const-path}/doc-formats/large/docx.svg') no-repeat center";

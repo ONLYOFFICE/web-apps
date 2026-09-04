@@ -95,6 +95,15 @@
   width: 98px;
   height: 125px;
   cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: none;
+
+  &:focus {
+    outline: 2px solid @border-control-focus-ie;
+    outline: 2px solid @border-control-focus;
+    outline-offset: 1px;
+  }
 
   .svg-format- {
     &vsdx {
