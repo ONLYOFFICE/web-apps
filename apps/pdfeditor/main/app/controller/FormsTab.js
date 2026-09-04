@@ -265,7 +265,7 @@ define([
         onPreviewClick: function(isPreview, lastViewRole) {
             isPreview && lastViewRole && (this._state.lastViewRole = lastViewRole);
             this.view._state.lastViewRole = lastViewRole;
-            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'view-form' : 'edit');
+            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'view-form' : 'edit', 'forms');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

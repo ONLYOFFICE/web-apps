@@ -702,7 +702,7 @@ define([
                     items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
-                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value);
+                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value, item.value == 'view-form' ? 'forms' : null);
                 });
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
                 item && item.setChecked(true);
