@@ -348,9 +348,9 @@ define([
             }
             if (this.header.btnSearch.pressed) {
                 var selectedText = this.api.asc_GetSelectedText(),
-                    searchController = this.getApplication().getController('Search'),
-                    resultsNumber = searchController.getResultsNumber();
+                    searchController = this.getApplication().getController('Search');
                 this.searchBar.show(selectedText && selectedText.trim() || searchController.getSearchText());
+                var resultsNumber = searchController.getResultsNumber();
                 this.searchBar.updateResultsNumber(resultsNumber[0], resultsNumber[1]);
             } else {
                 this.searchBar.hide();
