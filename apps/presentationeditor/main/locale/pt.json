@@ -3763,5 +3763,6 @@
   "PE.Views.ViewTab.tipOutlineView": "Visualização de esboço",
   "PE.Views.ViewTab.tipHandoutMaster": "Modelo de folheto",
   "PE.Views.ViewTab.tipNotesMaster": "Mestre das anotações",
-  "PE.Views.ViewTab.tipReadingView": "Visualização de leitura"
+  "PE.Views.ViewTab.tipReadingView": "Visualização de leitura",
+  "Common.Views.Header.textDownload": "Download"
 }
