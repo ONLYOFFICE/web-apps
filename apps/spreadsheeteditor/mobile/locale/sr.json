@@ -34,7 +34,8 @@
       "textSharingSettings": "Deljenje Podešavanja",
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUsers": "Korisnici",
-      "textEnterComment": "Unesite komentar"
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Prilagođene Boje",
