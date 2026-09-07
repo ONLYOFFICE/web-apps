@@ -532,7 +532,7 @@ define([
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                     this.rightmenu.btnFillingStatus && this.rightmenu.btnFillingStatus.setDisabled(disabled);
                     this.rightmenu.setDisabledAllMoreMenuItems(disabled);
-                } else {
+                } else if(!this.rightmenu.isPluginButtonPressed()) {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings") && // user didn't close panel
