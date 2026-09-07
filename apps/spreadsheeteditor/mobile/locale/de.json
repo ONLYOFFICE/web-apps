@@ -34,7 +34,8 @@
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUsers": "Benutzer",
-      "textEnterComment": "Kommentar eingeben"
+      "textEnterComment": "Kommentar eingeben",
+      "textMention": "Kommentieren oder erwähnen mit + oder @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -45,7 +46,7 @@
       "dark": "Dunkel",
       "light": "Hell",
       "system": "Wie im System",
-      "textTheme": "Thema"
+      "textTheme": "Thema der Benutzeroberfläche"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -89,7 +90,12 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
+    "menuAddColumn": "Spalte hinzufügen",
+    "menuAddRow": "Zeile hinzufügen",
+    "menuDeleteColumn": "Spalte löschen",
+    "menuDeleteRow": "Zeile löschen",
+    "menuSelectAll": "Alle auswählen"
   },
   "Controller": {
     "Main": {
@@ -385,7 +391,8 @@
     "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "errorCopyRangeTooLarge": "Dieser ausgewählte Bereich ist zu groß, um vollständig kopiert zu werden. Nur ein Teil davon wurde in die Zwischenablage kopiert. Wählen Sie einen kleineren Bereich aus und versuchen Sie es erneut."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -544,7 +551,9 @@
       "txtYes": "Ja",
       "textSheets": "Arbeitsblätter",
       "textLinkTo": "Link zu",
-      "textDefinedName": "Definierter Name"
+      "textDefinedName": "Definierter Name",
+      "textStyle": "Stil",
+      "textTable": "Tabelle"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -757,7 +766,19 @@
       "textCurrentFont": "Haupttext",
       "textSheets": "Arbeitsblätter",
       "textLinkTo": "Link zu",
-      "textDefinedName": "Definierter Name"
+      "textDefinedName": "Definierter Name",
+      "textTotalRow": "Gesamtzeile",
+      "textTable": "Tabelle",
+      "textStyleOptions": "Stileinstellungen",
+      "textRow": "Zeile",
+      "textLastColumn": "Letzte Spalte",
+      "textHeaderRow": "Kopfzeile",
+      "textFilterButton": "Schaltfläche Filter",
+      "textDeleteTable": "Tabelle löschen",
+      "textColumn": "Spalte",
+      "textBandedColumns": "Verbundene Spalten",
+      "textBandedRows": "Verbundene Zeilen",
+      "textFirstColumn": "Erste Spalte"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -807,7 +828,7 @@
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
       "textEncoding": "Codierung ",
       "textExample": "Beispiel",
-      "textFeedback": "Feedback und Support",
+      "textFeedback": "Support kontaktieren",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",
@@ -835,7 +856,7 @@
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOpenLocation": "Speicherort öffnen",
-      "textOrientation": "Orientierung",
+      "textOrientation": "Seitenausrichtung",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
       "textPortrait": "Hochformat",
@@ -864,7 +885,7 @@
       "textSpreadsheetTitle": "Titel der Tabelle",
       "textSubject": "Betreff",
       "textTel": "Tel.",
-      "textTheme": "Thema",
+      "textTheme": "Thema der Benutzeroberfläche",
       "textTitle": "Titel",
       "textTop": "Oben",
       "textUnitOfMeasurement": "Maßeinheit",
@@ -921,7 +942,24 @@
       "txtZhtw": "Chinesisch (traditionell)",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
       "warnDownloadCsv": "Das CSV-Format unterstützt nicht das Speichern einer Datei mit mehreren Blättern und allen Elementen außer Text.<br>Um nur das aktive Blatt als CSV zu speichern, drücken Sie OK.<br>Um die gesamte Tabelle und alle Funktionen zu speichern, klicken Sie auf Abbrechen und wählen Sie ein anderes Format aus.",
-      "warnDownloadOds": "Das Speichern dieser Datei kann aufgrund eingeschränkter Formatunterstützung zum Verlust einiger Formeln, Zellformatierungen oder eingebetteter Objekte führen.<br>Möchten Sie fortfahren?"
+      "warnDownloadOds": "Das Speichern dieser Datei kann aufgrund eingeschränkter Formatunterstützung zum Verlust einiger Formeln, Zellformatierungen oder eingebetteter Objekte führen.<br>Möchten Sie fortfahren?",
+      "textPreferences": "Einstellungen",
+      "textHelpCenter": "Hilfe-Center",
+      "textSaveACopy": "Kopie speichern",
+      "textSaveACopyAs": "Kopie speichern als",
+      "textTools": "Tools",
+      "textSettingsGroup": "Einstellungen",
+      "textAboutGroup": "Info",
+      "textHelpAndFeedback": "Hilfe & Feedback",
+      "textShare": "Freigeben",
+      "textStyleGroup": "Stil",
+      "textSaveACopyHeader": "Kopie speichern",
+      "textSaveConnectedStorage": "Die Datei wird auf dem verbundenen Speicher gespeichert",
+      "textGridlines": "Gitternetzlinien",
+      "textHeadings": "Überschriften",
+      "textSpreadsheetSetup": "Tabelleneinrichtung",
+      "textViewGroup": "Anzeigen",
+      "textLanguageAndRegion": "Sprache & Region"
     }
   }
 }
