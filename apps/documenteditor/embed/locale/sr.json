@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Prikaz celog ekrana",
   "DE.ApplicationView.txtPrint": "Štampaj",
   "DE.ApplicationView.txtSearch": "Pretraga",
-  "DE.ApplicationView.txtShare": "Podeli"
+  "DE.ApplicationView.txtShare": "Podeli",
+  "DE.ApplicationController.textSubmitOk": "Vaš PDF obrazac je uspešno popunjen.",
+  "DE.ApplicationController.textFilled": "Popunjeno",
+  "DE.ApplicationView.textFitToPage": "Prilagodi stranici",
+  "DE.ApplicationView.textFitToWidth": "Prilagodi širinu",
+  "DE.ApplicationView.textMultiplePages": "Više stranica",
+  "DE.ApplicationView.textZoom": "Zumiraj"
 }
