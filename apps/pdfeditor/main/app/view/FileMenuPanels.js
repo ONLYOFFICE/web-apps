@@ -122,6 +122,7 @@ define([], function () {
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PDFE.Views.FileMenu', default:this.textDownloadAs})}));
 
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -171,6 +172,20 @@ define([], function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) { 
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -259,6 +274,7 @@ define([], function () {
                 fileType: (this.fileType || 'docx').toLowerCase(),
                 header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PDFE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -308,6 +324,20 @@ define([], function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) {
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
