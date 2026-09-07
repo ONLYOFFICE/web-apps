@@ -854,11 +854,18 @@ body {
     padding: 5px 8px;
 }
 
+.dropdown-menu li > a.pdf-saved-signature-clear {
+    padding: 5px 8px 5px 30px;
+    .rtl & {
+        padding: 5px 30px 5px 8px;
+    }
+}
+
 .pdf-saved-signature-create-icon {
     position: relative;
     width: 16px;
     height: 16px;
-    margin-right: 6px;
+    .margin-right-6();
 
     &:before,
     &:after {

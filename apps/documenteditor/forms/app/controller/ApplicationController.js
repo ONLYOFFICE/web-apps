@@ -1375,11 +1375,20 @@ define([
             }
         },
 
+        clearSignatureField: function(signProps) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
+            if (signatureId) {
+                this.api.asc_ClearContentControl(signatureId);
+                Common.localStorage.removeItem('dialog-signature-' + signatureId);
+            }
+        },
+
         onShowSignatureActions: function(obj) {
             Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
                 rootEl: this.boxSdk,
                 openDialog: this.openSignatureDialog,
-                applySignature: this.applyStoredSignature
+                applySignature: this.applyStoredSignature,
+                clearField: this.clearSignatureField
             });
         },
 

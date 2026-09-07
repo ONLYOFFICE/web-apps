@@ -1796,11 +1796,21 @@ define([], function () {
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         };
 
+        dh.clearSignatureField = function(signProps) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
+            if (signatureId) {
+                this.api.asc_ClearContentControl(signatureId);
+                Common.localStorage.removeItem('dialog-signature-' + signatureId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        };
+
         dh.onShowSignatureActions = function(obj) {
             Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
                 rootEl: this.documentHolder.cmpEl,
                 openDialog: this.openSignatureDialog,
-                applySignature: this.applyStoredSignature
+                applySignature: this.applyStoredSignature,
+                clearField: this.clearSignatureField
             });
         };
 

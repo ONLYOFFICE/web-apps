@@ -914,6 +914,7 @@
   "Common.Views.PasswordDialog.txtRepeat": "Repeat password",
   "Common.Views.PasswordDialog.txtTitle": "Set password",
   "Common.Views.PasswordDialog.txtWarning": "Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.",
+  "Common.Views.PdfSavedSignatureMenu.txtClearSignatureField": "Clear signature field",
   "Common.Views.PdfSavedSignatureMenu.txtCreateNewSignature": "Create a new signature",
   "Common.Views.PdfSavedSignatureMenu.txtDeleteSavedSignature": "Delete saved signature",
   "Common.Views.PdfSignDialog.textBefore": "Before signing this document, verify that the content you are signing is correct",

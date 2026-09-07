@@ -133,7 +133,8 @@ define([], function () { 'use strict';
             });
         },
 
-        getMenuItems: function() {
+        getMenuItems: function(options) {
+            options = options || {};
             var items = [];
 
             for (var i = 0; i < 3; i++) {
@@ -163,6 +164,18 @@ define([], function () { 'use strict';
                 ].join(''))
             });
 
+            if (options.onClearField) {
+                items.push({
+                    caption: this.txtClearSignatureField,
+                    value: 'clear',
+                    template: _.template([
+                        '<a id="<%= id %>" class="menu-item pdf-saved-signature-clear" data-no-icon tabindex="-1" type="menuitem">',
+                            '<%- caption %>',
+                        '</a>'
+                    ].join(''))
+                });
+            }
+
             return items;
         },
 
@@ -176,6 +189,8 @@ define([], function () { 'use strict';
                     options.onApply && options.onApply(item.options.signatureData, menu);
                 } else if (item.value === 'new') {
                     options.onCreateNew && options.onCreateNew(menu);
+                } else if (item.value === 'clear') {
+                    options.onClearField && options.onClearField(menu);
                 }
             });
 
@@ -206,7 +221,7 @@ define([], function () { 'use strict';
             var menu = new Common.UI.Menu({
                 menuAlign: 'tl-bl',
                 style: 'width: 200px;',
-                items: this.getMenuItems()
+                items: this.getMenuItems(options)
             });
             var menuContainer = this.createMenuContainer(rootEl, menu);
 
@@ -337,6 +352,10 @@ define([], function () { 'use strict';
                             options.openDialog && options.openDialog.call(scope, scope.currentSignatureProps);
                         });
                     },
+                    onClearField: options.clearField ? function(menu) {
+                        options.clearField.call(scope, scope.currentSignatureProps);
+                        closeMenu(menu);
+                    } : null,
                     onHideAfter: function() {
                         if (!scope._fromShowContentControls)
                             uncheck();
