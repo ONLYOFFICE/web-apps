@@ -82,7 +82,7 @@ define([
             '</div>';
 
         const templateUserItem =
-            '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %> <%= isUserFollowSupport ? "selectable" : "" %>"">' +
+            '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %> <%= isUserFollowSupport ? "selectable" : "" %>">' +
                 templateUserName + 
             '</li>';
 
@@ -206,15 +206,17 @@ define([
                         }
                     }));
 
-                    const $items = $userList.find('.user-name');
-                    $items.tooltip({
-                        title: me.textGoToUserCursor, 
-                        placement: 'cursor',
-                        zIndex : parseInt($('#tlb-box-users .cousers-menu').css('z-index')) + 1
-                    });
-                    $items.each(function(idx, item){
-                        $(item).data('bs.tooltip').tip();
-                    });
+                    if (isUserFollowSupport) {
+                        const $items = $userList.find('.user-name');
+                        $items.tooltip({
+                            title: me.textGoToUserCursor, 
+                            placement: 'cursor',
+                            zIndex : parseInt($('#tlb-box-users .cousers-menu').css('z-index')) + 1
+                        });
+                        $items.each(function(idx, item){
+                            $(item).data('bs.tooltip').tip();
+                        });
+                    }
 
                     $userList.scroller = new Common.UI.Scroller({
                         el: $userList.find('ul'),
@@ -1519,11 +1521,14 @@ define([
             },
 
             setUserFollow: function(userId, isFollow) {
-                const userModel = storeUsers.find(function(m){ return m.get('id') == userId; });
-                userModel.set('isFollow', isFollow);
-
-                if(isFollow) {
-                    this.showUserFollowTip(userModel);
+                const userModel = storeUsers.findUser(userId);
+                if (userModel) {
+                    userModel.set('isFollow', isFollow);
+                    if (isFollow) {
+                        this.showUserFollowTip(userModel);
+                    } else {
+                        this.hideUserFollowTip();
+                    }
                 } else {
                     this.hideUserFollowTip();
                 }
