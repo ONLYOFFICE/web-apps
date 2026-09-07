@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Во весь экран",
   "DE.ApplicationView.txtPrint": "Печать",
   "DE.ApplicationView.txtSearch": "Поиск",
-  "DE.ApplicationView.txtShare": "Поделиться"
+  "DE.ApplicationView.txtShare": "Поделиться",
+  "DE.ApplicationController.textSubmitOk": "Ваша PDF-форма успешно заполнена.",
+  "DE.ApplicationController.textFilled": "Заполнено",
+  "DE.ApplicationView.textFitToPage": "По размеру страницы",
+  "DE.ApplicationView.textFitToWidth": "По ширине",
+  "DE.ApplicationView.textMultiplePages": "Несколько страниц",
+  "DE.ApplicationView.textZoom": "Масштаб"
 }
