@@ -5379,7 +5379,7 @@
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
   "Common.Controllers.Shortcuts.txtDescriptionFillDown": "Preencha a partir da célula ou células superiores do intervalo especificado até o final do intervalo.",
   "Common.Controllers.Shortcuts.txtLabelFillDown": "Preenchimento descendente",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Formato de hora inválido. Exemplo:",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Formato de hora inválido. Exemplo: ",
   "SSE.Views.ChartTab.textDataTable": "Tabela de dados",
   "SSE.Views.ChartTab.textShowDataTable": "Mostrar tabela de dados",
   "SSE.Views.ChartTab.textShowLegendKeys": "Mostrar as legendas",
@@ -5388,5 +5388,11 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Ativar a cópia de imagens para células",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Recortar, copiar e colar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Ativar o preenchimento automático para valores de células",
-  "SSE.Views.ImageSettings.textConvertToShape": "Converter em forma"
+  "SSE.Views.ImageSettings.textConvertToShape": "Converter em forma",
+  "Common.Views.Header.textDownload": "Download",
+  "SSE.Controllers.Main.errorCopyRangeTooLarge": "O intervalo selecionado é grande demais para ser copiado na íntegra.<br>Apenas uma parte dele foi colocada na área de transferência. Selecione um intervalo menor e tente novamente.",
+  "SSE.Views.FormatRulesEditDlg.textAxisColor": "Cor do eixo",
+  "SSE.Views.FormatRulesEditDlg.textBorderColor": "Cor da borda",
+  "SSE.Views.FormatRulesEditDlg.textFillColor": "Cor de preenchimento",
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Cor"
 }
