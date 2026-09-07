@@ -168,7 +168,8 @@
       "textUnderline": "Podvuci",
       "textUsers": "Korisnici",
       "textWidow": "Kontrola udovice",
-      "textEnterComment": "Unesite komentar"
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -835,7 +836,25 @@
     "txtDownloadTxt": "Preuzmite TXT",
     "txtIncorrectPwd": "Lozinka je netačna",
     "txtOk": "OK",
-    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
+    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana",
+    "textAboutGroup": "O",
+    "textDocumentSetup": "Podešavanje dokumenta",
+    "textHelpCenter": "Centar za pomoć",
+    "textHeadings": "Naslovi",
+    "textSaveCopy": "Sačuvaj kopiju",
+    "textSaveACopy": "Sačuvaj kopiju",
+    "textSaveACopyAs": "Sačuvaj kopiju kao",
+    "textTools": "Alati",
+    "textView": "Prikaz",
+    "textSettingsGroup": "Podešavanja",
+    "textPreferences": "Podešavanja",
+    "textHelpAndFeedback": "Pomoć i povratne informacije",
+    "textShare": "Podeli",
+    "textMobileViewWarning": "Deo sadržaja ovog dokumenta biće sakriven u mobilnom prikazu.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Pravopis",
+    "textDisplayGroup": "Ekran",
+    "textSaveACopyHeader": "Sačuvaj kopiju"
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",
