@@ -479,5 +479,7 @@
   "VE.Views.ViewTab.textZoom": "Ampliación",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a la página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar al ancho",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "VE.Controllers.Main.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "VE.Controllers.Main.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
 }

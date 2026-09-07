@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUnderline": "Podvuci",
       "textUsers": "Korisnici",
-      "textWidow": "Kontrola udovice"
+      "textWidow": "Kontrola udovice",
+      "textEnterComment": "Unesite komentar"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -426,7 +427,9 @@
     "textWrapText": "Upakuj tekst",
     "textYourOption": "Tvoja opcija",
     "txtHeight": "Visina",
-    "txtWidth": "Širina "
+    "txtWidth": "Širina ",
+    "txtCustom": "Prilagođeno",
+    "textCurrentFont": "Glavni tekst"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
@@ -848,6 +851,11 @@
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
     "textSwitchToDesktop": "Prebaci na Desktop verziju",
-    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   }
 }

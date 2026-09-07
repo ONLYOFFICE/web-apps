@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
       "textUnderline": "Подчёркнутый",
       "textUsers": "Пользователи",
-      "textWidow": "Запрет висячих строк"
+      "textWidow": "Запрет висячих строк",
+      "textEnterComment": "Введите комментарий"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заливки"
@@ -426,7 +427,9 @@
     "textWrapText": "Перенос текста",
     "textYourOption": "Ваш вариант",
     "txtHeight": "Высота",
-    "txtWidth": "Ширина"
+    "txtWidth": "Ширина",
+    "textCurrentFont": "Основной текст",
+    "txtCustom": "Пользовательский"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",

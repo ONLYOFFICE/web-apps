@@ -33,7 +33,8 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textEnterComment": "Insira o comentário"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -323,7 +324,7 @@
       "textLastSlide": "Último slide",
       "textLink": "Link",
       "textLinkSettings": "Configurações de link",
-      "textLinkTo": "Vincular a",
+      "textLinkTo": "Link para",
       "textLinkType": "Tipo de link",
       "textNextSlide": "Próximo slide",
       "textOk": "OK",
@@ -412,7 +413,7 @@
       "textExternalLink": "Link externo",
       "textFade": "Esmaecer",
       "textFill": "Preencher",
-      "textFinalMessage": "Fim da pré-visualização de slide. Clique para sair.",
+      "textFinalMessage": "Fim da apresentação de slides. Deslize para a frente para sair.",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFirstColumn": "Primeira Coluna",
@@ -441,7 +442,7 @@
       "textLineSpacing": "Espaçamento entre linhas",
       "textLink": "Link",
       "textLinkSettings": "Configurações de link",
-      "textLinkTo": "Vincular a",
+      "textLinkTo": "Link para",
       "textLinkType": "Tipo de link",
       "textLtrTextDirection": "Da esquerda para a direita",
       "textMorph": "Morfologia",
@@ -558,7 +559,13 @@
       "textSwitch": "Trocar",
       "textVertical": "Vertical",
       "textVortex": "Vórtice",
-      "textWindow": "Janela"
+      "textWindow": "Janela",
+      "textClose": "Fechar",
+      "textPause": "Pausa",
+      "textPlay": "Reproduzir",
+      "textSlideXofY": "Slide {0} de {1}",
+      "txtCustom": "Personalizado",
+      "textCurrentFont": "Texto principal"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

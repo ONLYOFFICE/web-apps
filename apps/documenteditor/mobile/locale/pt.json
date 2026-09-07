@@ -167,7 +167,8 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas."
+      "textWidow": "Controle de linhas órfãs/viúvas.",
+      "textEnterComment": "Insira o comentário"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -426,7 +427,9 @@
     "textWrapText": "Quebrar texto ",
     "textYourOption": "Sua opção",
     "txtHeight": "Altura",
-    "txtWidth": "Largura"
+    "txtWidth": "Largura",
+    "txtCustom": "Personalizado",
+    "textCurrentFont": "Texto Principal"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",

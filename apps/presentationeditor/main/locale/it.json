@@ -43,7 +43,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectLeft": "Utilizza la freccia della tastiera per spostare l'oggetto selezionato di un grande passo verso sinistra.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectRight": "Utilizza la freccia della tastiera per spostare l'oggetto selezionato di un grande passo verso destra.",
   "Common.Controllers.Shortcuts.txtDescriptionBigMoveObjectUp": "Utilizza la freccia della tastiera per spostare l'oggetto selezionato di un grande passo verso l'alto.",
-  "Common.Controllers.Shortcuts.txtDescriptionBold": "Rendi in grassetto il carattere del frammento di testo selezionato, conferendogli un aspetto più pesante.",
+  "Common.Controllers.Shortcuts.txtDescriptionBold": "Rendi il carattere del frammento di testo selezionato più scuro e grassetto per un aspetto più deciso.",
   "Common.Controllers.Shortcuts.txtDescriptionBulletList": "Crea un elenco puntato non ordinato dal frammento di testo selezionato oppure iniziane uno nuovo.",
   "Common.Controllers.Shortcuts.txtDescriptionCenterPara": "Centra il testo tra i bordi sinistro e destro.",
   "Common.Controllers.Shortcuts.txtDescriptionCloseFile": "Chiude la finestra di presentazione corrente.",
@@ -158,7 +158,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionStrikeout": "Sbarra il frammento di testo selezionato con una linea che attraversa le lettere.",
   "Common.Controllers.Shortcuts.txtDescriptionSubscript": "Rimpicciolisci il frammento di testo selezionato, posizionandolo nella parte inferiore della riga di testo, ad es. come nelle formule chimiche.",
   "Common.Controllers.Shortcuts.txtDescriptionSuperscript": "Rimpicciolisci il frammento di testo selezionato, posizionandolo nella parte superiore della riga di testo, ad es. come nelle frazioni.",
-  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Sottolinea il frammento di testo selezionato con una linea che va sotto le lettere.",
+  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Sottolinea il frammento di testo selezionato con una linea sotto le lettere.",
   "Common.Controllers.Shortcuts.txtDescriptionUnGroup": "Separa il gruppo di oggetti selezionato.",
   "Common.Controllers.Shortcuts.txtDescriptionUnIndent": "Diminuisce il rientro sinistro del paragrafo di una posizione di tabulazione.",
   "Common.Controllers.Shortcuts.txtDescriptionUseDestinationTheme": "Applica la formattazione specificata dal tema della presentazione corrente.",
@@ -3691,5 +3691,8 @@
   "PE.Views.ViewTab.tipResumeMacro": "Riprendi la registrazione",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.ViewTab.tipStopMacro": "Ferma la registrazione"
+  "PE.Views.ViewTab.tipStopMacro": "Ferma la registrazione",
+  "Common.Views.ChartTab.textDataTable": "Tabella dati",
+  "Common.Views.ChartTab.textShowDataTable": "Mostra tabella dati",
+  "Common.Views.ChartTab.textShowLegendKeys": "Mostra chiavi della legenda"
 }

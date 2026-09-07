@@ -33,7 +33,8 @@
       "textResolve": "Lösen",
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textEnterComment": "Kommentar eingeben"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -469,7 +470,12 @@
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
-    "textSwitchToDesktop": "In den Desktopmodus wechseln"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   },
   "View": {
     "Add": {
@@ -535,7 +541,10 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textSheets": "Arbeitsblätter",
+      "textLinkTo": "Link zu",
+      "textDefinedName": "Definierter Name"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -743,7 +752,12 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "txtCustom": "Benutzerdefiniert",
+      "textCurrentFont": "Haupttext",
+      "textSheets": "Arbeitsblätter",
+      "textLinkTo": "Link zu",
+      "textDefinedName": "Definierter Name"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -820,7 +834,7 @@
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
-      "textOpenLocation": "Ordner öffnen",
+      "textOpenLocation": "Speicherort öffnen",
       "textOrientation": "Orientierung",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",

@@ -33,7 +33,8 @@
       "textResolve": "Reši",
       "textSharingSettings": "Deljenje Podešavanja",
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
-      "textUsers": "Korisnici"
+      "textUsers": "Korisnici",
+      "textEnterComment": "Unesite komentar"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Prilagođene Boje",
@@ -469,7 +470,12 @@
     "textEnterNewFileName": "Unesi novo ime fajla",
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
-    "textSwitchToDesktop": "Prebaci na Desktop verziju"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   },
   "View": {
     "Add": {
@@ -743,7 +749,12 @@
       "textYen": "Jen",
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortiraj najviše ka najnižem ",
-      "txtSortLow2High": "Sortiraj najniže ka najvišem"
+      "txtSortLow2High": "Sortiraj najniže ka najvišem",
+      "txtCustom": "Prilagođeno",
+      "textCurrentFont": "Glavni tekst",
+      "textSheets": "Listovi",
+      "textLinkTo": "Link do",
+      "textDefinedName": "Definisano ime"
     },
     "Settings": {
       "advCSVOptions": "Odaberi CSV opcije",

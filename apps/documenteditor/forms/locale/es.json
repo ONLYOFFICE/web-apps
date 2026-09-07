@@ -209,5 +209,12 @@
   "DE.Views.ApplicationView.txtPrint": "Imprimir",
   "DE.Views.ApplicationView.txtSearch": "Buscar",
   "DE.Views.ApplicationView.txtShare": "Compartir",
-  "DE.Views.ApplicationView.txtTheme": "Tema de interfaz"
+  "DE.Views.ApplicationView.txtTheme": "Tema de interfaz",
+  "DE.Controllers.ApplicationController.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "DE.Controllers.ApplicationController.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo.",
+  "DE.Views.FillingStatusSettings.txtComplete": "Completado",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "El documento está firmado",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Estado de rellenado",
+  "DE.Views.RightMenu.ariaRightMenu": "Menú de la derecha",
+  "DE.Views.RightMenu.txtFillingStatus": "Estado de rellenado"
 }

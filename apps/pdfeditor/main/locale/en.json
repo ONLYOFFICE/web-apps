@@ -174,7 +174,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionSubscript": "Make the selected text fragment smaller and place it to the lower part of the text line, e.g. as in chemical formulas.",
   "Common.Controllers.Shortcuts.txtDescriptionSuperscript": "Make the selected text fragment smaller and place it to the upper part of the text line, e.g. as in fractions.",
   "Common.Controllers.Shortcuts.txtDescriptionTrademarkSign": "Insert the trademark sign at the current cursor position.",
-  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Make the selected text fragment underlined with a line going below the letters.",
+  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Make the selected text fragment underlined with a line going under the letters.",
   "Common.Controllers.Shortcuts.txtDescriptionUnIndent": "Remove a paragraph indent from the left incrementally.",
   "Common.Controllers.Shortcuts.txtDescriptionUpdateFields": "Update fields (e.g., Table of Contents).",
   "Common.Controllers.Shortcuts.txtDescriptionVisitHyperlink": "Visit a link (with the cursor in the link).",
@@ -3354,7 +3354,7 @@
   "PDFE.Views.RemoveMetaDlg.textHiddenText": "Hidden text",
   "PDFE.Views.RemoveMetaDlg.textHiddenLayers": "Hidden layers",
   "PDFE.Views.RemoveMetaDlg.textDeletedTrimmed": "Deleted or trimmed content",
-  "PDFE.Views.RemoveMetaDlg.textLinksActions": "Links, actions and JavaScripts scripts",
+  "PDFE.Views.RemoveMetaDlg.textLinksActions": "Links, actions and JavaScript scripts",
   "PDFE.Views.RemoveMetaDlg.textOverlappingObjects": "Overlapping objects",
   "PDFE.Views.RemoveMetaDlg.textRemoveInformationDescription": "The Remove Hidden Information feature will search for and remove the following document information:"
 }

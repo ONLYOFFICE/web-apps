@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textEnterComment": "Kommentar eingeben"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -426,7 +427,9 @@
     "textWrapText": "Textumbruch",
     "textYourOption": "Ihre Option",
     "txtHeight": "Höhe",
-    "txtWidth": "Breite"
+    "txtWidth": "Breite",
+    "txtCustom": "Benutzerdefiniert",
+    "textCurrentFont": "Haupttext"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -848,6 +851,11 @@
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
     "textSwitchToDesktop": "In den Desktopmodus wechseln",
-    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   }
 }

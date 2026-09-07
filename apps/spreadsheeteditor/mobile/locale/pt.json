@@ -33,7 +33,8 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textEnterComment": "Insira o comentário"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -540,7 +541,10 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textSheets": "Folhas",
+      "textLinkTo": "Link para",
+      "textDefinedName": "Nome definido"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -748,7 +752,12 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "txtCustom": "Personalizado",
+      "textCurrentFont": "Texto principal",
+      "textSheets": "Folhas",
+      "textLinkTo": "Link para",
+      "textDefinedName": "Nome definido"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

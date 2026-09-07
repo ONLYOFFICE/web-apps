@@ -33,7 +33,8 @@
       "textResolve": "Lösen",
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen \"Rückgängig machen\" bzw. \"Wiederholen\" sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textEnterComment": "Kommentar eingeben"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -293,7 +294,12 @@
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
-    "textSwitchToDesktop": "In den Desktopmodus wechseln"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   },
   "View": {
     "Add": {
@@ -318,7 +324,7 @@
       "textLastSlide": "Letzte Folie",
       "textLink": "Link",
       "textLinkSettings": "Link Einstellungen",
-      "textLinkTo": "Verknüpfen mit",
+      "textLinkTo": "Link zu",
       "textLinkType": "Linktyp",
       "textNextSlide": "Nächste Folie",
       "textOk": "OK",
@@ -422,7 +428,7 @@
       "textFade": "Verblassen",
       "textFerris": "Riesenrad",
       "textFill": "Füllung",
-      "textFinalMessage": "Ende der Folienvorschau. Zum Schließen bitte klicken.",
+      "textFinalMessage": "Ende der Diashow. Zum Beenden nach vorne wischen.",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFirstColumn": "Erste Spalte",
@@ -464,7 +470,7 @@
       "textLineSpacing": "Zeilenabstand",
       "textLink": "Link",
       "textLinkSettings": "Link Einstellungen",
-      "textLinkTo": "Verknüpfen mit",
+      "textLinkTo": "Link zu",
       "textLinkType": "Linktyp",
       "textLtrTextDirection": "Von links nach rechts",
       "textMorph": "Morphen",
@@ -553,7 +559,13 @@
       "textZoomOut": "Verkleinern",
       "textZoomRotate": "Vergrößern und drehen",
       "txtHeight": "Höhe",
-      "txtWidth": "Breite"
+      "txtWidth": "Breite",
+      "textClose": "Schließen",
+      "textPause": "Pause",
+      "textPlay": "Abspielen",
+      "textSlideXofY": "Folie {0} von {1}",
+      "txtCustom": "Benutzerdefiniert",
+      "textCurrentFont": "Haupttext"
     },
     "Settings": {
       "mniSlideLandscape": "Querformat",
@@ -602,7 +614,7 @@
       "textMacrosSettings": "Einstellungen von Makros",
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
-      "textOpenLocation": "Ordner öffnen",
+      "textOpenLocation": "Speicherort öffnen",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
       "textPoweredBy": "Unterstützt von",

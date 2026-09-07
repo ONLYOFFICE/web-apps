@@ -33,7 +33,8 @@
       "textResolve": "Решить",
       "textSharingSettings": "Настройки доступа",
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
-      "textUsers": "Пользователи"
+      "textUsers": "Пользователи",
+      "textEnterComment": "Введите комментарий"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Пользовательские цвета",
@@ -540,7 +541,10 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "textLinkTo": "Связать с",
+      "textDefinedName": "Определенное имя",
+      "textSheets": "Листы"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -748,7 +752,12 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию"
+      "txtSortLow2High": "Сортировка по возрастанию",
+      "txtCustom": "Пользовательский",
+      "textCurrentFont": "Основной текст",
+      "textLinkTo": "Связать с",
+      "textDefinedName": "Определенное имя",
+      "textSheets": "Листы"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",

@@ -216,7 +216,8 @@
       "textVersion": "Verzija",
       "textVisioInfo": "Informacije o pregledaču dijagrama",
       "textVisioSettings": "Podešavanja pregledača dijagrama",
-      "textVisioTitle": "Naslov pregledača dijagrama"
+      "textVisioTitle": "Naslov pregledača dijagrama",
+      "textOpenLocation": "Otvorena lokacija"
     }
   }
 }
