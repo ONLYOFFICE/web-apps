@@ -91,6 +91,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -130,26 +131,45 @@ define([], function () {
                 });
             }
 
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
             var itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
         },
 
@@ -209,6 +229,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -247,26 +268,45 @@ define([], function () {
                 });
             }
 
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
             var itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
         },
 
