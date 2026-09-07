@@ -466,6 +466,7 @@ define([], function () { 'use strict';
         saveSignature: function(result) {
             if (result === 'ok' && this.props) {
                 const serialized = this.props.serialize();
+                if (!serialized.signatureImage) return;
                 serialized.mode = this.mode;
                 var key = this.getKey();
                 if (this.chSave.getValue() === 'checked') {
