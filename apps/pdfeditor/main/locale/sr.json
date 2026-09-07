@@ -3325,5 +3325,6 @@
   "PDFE.Views.FormSettingsAdvanced.textValidateRange": "Vrednost polja je u opsegu",
   "PDFE.Views.FormSettingsAdvanced.textValidateScript": "Pokreni prilagođenu skriptu za validaciju",
   "PDFE.Views.FormSettingsAdvanced.textFrom": "Od",
-  "PDFE.Views.FormSettingsAdvanced.textTo": "Do"
+  "PDFE.Views.FormSettingsAdvanced.textTo": "Do",
+  "Common.Views.RoleEditDlg.textColor": "Boja"
 }
