@@ -3763,5 +3763,6 @@
   "PE.Views.ViewTab.tipNotesPage": "Страницы заметок",
   "PE.Views.ViewTab.tipHandoutMaster": "Образец раздаточных материалов",
   "PE.Views.ViewTab.tipNotesMaster": "Образец заметок",
-  "PE.Views.ViewTab.tipReadingView": "Режим чтения"
+  "PE.Views.ViewTab.tipReadingView": "Режим чтения",
+  "Common.Views.Header.textDownload": "Скачать"
 }
