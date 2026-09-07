@@ -34,7 +34,8 @@
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen \"Rückgängig machen\" bzw. \"Wiederholen\" sind für den Schnellmodus deaktiviert.",
       "textUsers": "Benutzer",
-      "textEnterComment": "Kommentar eingeben"
+      "textEnterComment": "Kommentar eingeben",
+      "textMention": "Kommentieren oder erwähnen mit + oder @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -48,7 +49,7 @@
       "dark": "Dunkel",
       "light": "Hell",
       "system": "Wie im System",
-      "textTheme": "Thema"
+      "textTheme": "Thema der Benutzeroberfläche"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -448,7 +449,7 @@
       "textFromTopRight": "Von oben rechts",
       "textFromURL": "Bild aus einer URL",
       "textGallery": "Galerie",
-      "textHeaderRow": "Überschriftszeile",
+      "textHeaderRow": "Kopfzeile",
       "textHighlight": "Ergebnisse hervorheben",
       "textHighlightColor": "Hervorhebungsfarbe",
       "textHoneycomb": "Bienenwabe",
@@ -543,7 +544,7 @@
       "textTop": "Oben",
       "textTopLeft": "Oben links",
       "textTopRight": "Oben rechts",
-      "textTotalRow": "Gesamtreihen",
+      "textTotalRow": "Gesamtzeile",
       "textTransitions": "Übergänge",
       "textType": "Typ",
       "textUnCover": "UnCover",
@@ -598,7 +599,7 @@
       "textEmail": "E-Mail: ",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
-      "textFeedback": "Feedback und Support",
+      "textFeedback": "Support kontaktieren",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",
@@ -640,7 +641,22 @@
       "textUnitOfMeasurement": "Maßeinheit",
       "textUploaded": "Hochgeladen",
       "textVersion": "Version",
-      "textVersionHistory": "Versionshistorie"
+      "textVersionHistory": "Versionshistorie",
+      "textPreferences": "Einstellungen",
+      "textHelpCenter": "Hilfe-Center",
+      "textPresentationSetup": "Präsentationsaufbau",
+      "textSaveACopy": "Kopie speichern",
+      "textSaveACopyAs": "Kopie speichern als",
+      "textTools": "Tools",
+      "textSettingsGroup": "Einstellungen",
+      "textAboutGroup": "Info",
+      "textHelpAndFeedback": "Hilfe & Feedback",
+      "textShare": "Freigeben",
+      "textStyleGroup": "Stil",
+      "textShowSettingsGroup": "Einstellungen anzeigen",
+      "textSpellingGroup": "Rechtschreibung",
+      "textSaveACopyHeader": "Kopie speichern",
+      "textSaveConnectedStorage": "Die Datei wird auf dem verbundenen Speicher gespeichert"
     }
   }
 }
