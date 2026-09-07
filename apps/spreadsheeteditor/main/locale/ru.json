@@ -5388,5 +5388,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Включить копирование изображений для ячеек",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Включить автозаполнение значений ячеек",
   "SSE.Views.ImageSettings.textConvertToShape": "Преобразовать в фигуру",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Вырезание, копирование и вставка"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Вырезание, копирование и вставка",
+  "Common.Views.Header.textDownload": "Скачать"
 }
