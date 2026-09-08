@@ -3794,5 +3794,8 @@
   "PE.Views.ExportAnimatedDialog.textUltraHD": "Ultra HD (4K)",
   "PE.Views.ExportAnimatedDialog.textVideo": "Видео",
   "PE.Views.ExportAnimatedDialog.txtAllSlides": "Все слайды",
-  "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Текущий слайд"
+  "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Текущий слайд",
+  "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Произвольный диапазон",
+  "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Неправильный номер слайда",
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Выбранные слайды"
 }
