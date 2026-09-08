@@ -1556,6 +1556,7 @@
   "SSE.Controllers.Main.confirmPutMergeRange": "Исходные данные содержали объединенные ячейки.<br>Перед вставкой этих ячеек в таблицу объединение было отменено.",
   "SSE.Controllers.Main.confirmReplaceFormulaInTable": "Формулы в строке заголовка будут удалены и преобразованы в статический текст.<br>Вы хотите продолжить?",
   "SSE.Controllers.Main.confirmReplaceHFPicture": "В каждый раздел заголовка можно вставить только одно изображение.<br>Нажмите \"Заменить\", чтобы заменить существующее изображение.<br>Нажмите \"Сохранить\", чтобы сохранить существующее изображение.",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Эта книга содержит данные за пределами допустимого диапазона формата XLS (65 536 строк, 256 столбцов). Эти данные будут потеряны при сохранении.",
   "SSE.Controllers.Main.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "SSE.Controllers.Main.criticalErrorExtText": "Нажмите \"OK\", чтобы вернуться к списку документов.",
   "SSE.Controllers.Main.criticalErrorExtTextClose": "Нажмите \"OK\", чтобы закрыть редактор.",

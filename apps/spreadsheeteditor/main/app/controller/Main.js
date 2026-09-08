@@ -2804,6 +2804,20 @@ define([
                             }, this)
                         });
                         break;
+                    case Asc.c_oAscConfirm.ConfirmXlsFormatLimit:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmXlsFormatLimit,
+                            buttons: ['ok', 'cancel'],
+                            primary: 'ok',
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                            }, this)
+                        });
+                        break;
                 }
             },
 

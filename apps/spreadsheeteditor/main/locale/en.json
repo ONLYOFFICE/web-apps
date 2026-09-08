@@ -1559,6 +1559,7 @@
   "SSE.Controllers.Main.confirmPutMergeRange": "The source data contained merged cells.<br>They had been unmerged before they were pasted into the table.",
   "SSE.Controllers.Main.confirmReplaceFormulaInTable": "Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?",
   "SSE.Controllers.Main.confirmReplaceHFPicture": "Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "This workbook contains data outside the row and column limits of the XLS format (65,536 rows, 256 columns). This data will be lost when saving.",
   "SSE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
   "SSE.Controllers.Main.criticalErrorExtText": "Press \"OK\" to return to document list.",
   "SSE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
