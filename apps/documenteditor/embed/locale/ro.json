@@ -50,8 +50,8 @@
   "DE.ApplicationController.textNext": "Câmpul următor",
   "DE.ApplicationController.textOf": "din",
   "DE.ApplicationController.textOk": "OK",
-  "DE.ApplicationController.textRequired": "Toate câmpurile din formular trebuie completate înainte de a-l trimite.",
-  "DE.ApplicationController.textSubmit": "Remitere",
+  "DE.ApplicationController.textRequired": "Înainte de a trimite formularul, trebuie să completați toate câmpurile.",
+  "DE.ApplicationController.textSubmit": "Completare și trimitere",
   "DE.ApplicationController.textSubmited": "<b>Formularul a fost remis cu succes</b><br>Faceţi clic pentru a închide sfatul",
   "DE.ApplicationController.titleLicenseExp": "Licența a expirat",
   "DE.ApplicationController.titleLicenseNotActive": "Licența nu este activă",
@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Ecran complet",
   "DE.ApplicationView.txtPrint": "Imprimare",
   "DE.ApplicationView.txtSearch": "Căutare",
-  "DE.ApplicationView.txtShare": "Partajează"
+  "DE.ApplicationView.txtShare": "Partajează",
+  "DE.ApplicationController.textSubmitOk": "Formularul PDF a fost completat cu succes.",
+  "DE.ApplicationController.textFilled": "Completat",
+  "DE.ApplicationView.textFitToPage": "Portivire la pagina",
+  "DE.ApplicationView.textFitToWidth": "Potrivire lățime",
+  "DE.ApplicationView.textMultiplePages": "Pagini multiple",
+  "DE.ApplicationView.textZoom": "Zoom"
 }
