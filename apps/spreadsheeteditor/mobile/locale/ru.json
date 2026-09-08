@@ -46,7 +46,7 @@
       "dark": "Темная",
       "light": "Светлая",
       "system": "Системная",
-      "textTheme": "Тема"
+      "textTheme": "Тема интерфейса"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
@@ -90,7 +90,12 @@
     "textDoNotShowAgain": "Больше не показывать",
     "textOk": "Ok",
     "txtWarnUrl": "Переход по этой ссылке может нанести вред вашему устройству и данным. Этот сайт может быть небезопасным:<br>{0}<br>Вы действительно хотите продолжить?",
-    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?"
+    "warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?",
+    "menuAddColumn": "Добавить столбец",
+    "menuAddRow": "Добавить строку",
+    "menuDeleteColumn": "Удалить столбец",
+    "menuDeleteRow": "Удалить строку",
+    "menuSelectAll": "Выделить все"
   },
   "Controller": {
     "Main": {
@@ -386,7 +391,8 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorCopyRangeTooLarge": "Выбранный диапазон слишком велик, чтобы скопировать его полностью.<br>В буфер обмена помещена только его часть. Выберите меньший диапазон и попробуйте еще раз."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
@@ -545,7 +551,9 @@
       "txtYes": "Да",
       "textLinkTo": "Связать с",
       "textDefinedName": "Определенное имя",
-      "textSheets": "Листы"
+      "textSheets": "Листы",
+      "textStyle": "Стиль",
+      "textTable": "Таблица"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -758,7 +766,19 @@
       "textCurrentFont": "Основной текст",
       "textLinkTo": "Связать с",
       "textDefinedName": "Определенное имя",
-      "textSheets": "Листы"
+      "textSheets": "Листы",
+      "textTotalRow": "Строка итогов",
+      "textTable": "Таблица",
+      "textStyleOptions": "Настройки стиля",
+      "textRow": "Строка",
+      "textLastColumn": "Последний столбец",
+      "textHeaderRow": "Строка заголовка",
+      "textFilterButton": "Кнопка фильтра",
+      "textDeleteTable": "Удалить таблицу",
+      "textColumn": "Столбец",
+      "textBandedColumns": "Чередовать столбцы",
+      "textBandedRows": "Чередовать строки",
+      "textFirstColumn": "Первый столбец"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",
@@ -808,7 +828,7 @@
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
       "textEncoding": "Кодировка",
       "textExample": "Пример",
-      "textFeedback": "Обратная связь и поддержка",
+      "textFeedback": "Связаться со службой поддержки",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFindAndReplaceAll": "Найти и заменить все",
@@ -836,7 +856,7 @@
       "textOk": "Ok",
       "textOpenFile": "Введите пароль для открытия файла",
       "textOpenLocation": "Открыть папку",
-      "textOrientation": "Ориентация",
+      "textOrientation": "Ориентация страницы",
       "textOwner": "Владелец",
       "textPoint": "Пункт",
       "textPortrait": "Книжная",
@@ -865,7 +885,7 @@
       "textSpreadsheetTitle": "Название таблицы",
       "textSubject": "Тема",
       "textTel": "Телефон",
-      "textTheme": "Тема",
+      "textTheme": "Тема интерфейса",
       "textTitle": "Название",
       "textTop": "Сверху",
       "textUnitOfMeasurement": "Единица измерения",
@@ -922,7 +942,24 @@
       "txtZhtw": "Китайский (традиционный)",
       "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
       "warnDownloadCsv": "Формат CSV не поддерживает сохранение многолистового файла и всех элементов, кроме текста.<br>Чтобы сохранить в CSV только активный лист, нажмите \"ОК\".<br>Чтобы сохранить всю электронную таблицу со всеми функциями, нажмите \"Отмена\" и выберите другой формат.",
-      "warnDownloadOds": "Сохранение этого файла может привести к потере некоторых формул, форматирования ячеек или встроенных объектов из-за ограниченной поддержки формата.<br>Вы действительно хотите продолжить?"
+      "warnDownloadOds": "Сохранение этого файла может привести к потере некоторых формул, форматирования ячеек или встроенных объектов из-за ограниченной поддержки формата.<br>Вы действительно хотите продолжить?",
+      "textPreferences": "Параметры",
+      "textHelpCenter": "Справочный центр",
+      "textSaveACopy": "Сохранить копию",
+      "textSaveACopyAs": "Сохранить копию как",
+      "textTools": "Инструменты",
+      "textSettingsGroup": "Настройки",
+      "textAboutGroup": "О программе",
+      "textHelpAndFeedback": "Справка и обратная связь",
+      "textShare": "Поделиться",
+      "textStyleGroup": "Стиль",
+      "textSaveACopyHeader": "Сохранить копию",
+      "textSaveConnectedStorage": "Файл будет сохранен в подключенное хранилище",
+      "textGridlines": "Линии сетки",
+      "textHeadings": "Заголовки",
+      "textSpreadsheetSetup": "Настройка электронной таблицы",
+      "textViewGroup": "Вид",
+      "textLanguageAndRegion": "Язык и регион"
     }
   }
 }
