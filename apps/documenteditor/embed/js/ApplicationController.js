@@ -218,6 +218,7 @@ DE.ApplicationController = new(function(){
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
             if (!_submitFail) {
+                Common.Gateway.submitForm();
                 btnSubmit.attr({disabled: true});
                 btnSubmit.find('.caption').text(me.textFilled);
                 if (!$submitedTooltip) {
