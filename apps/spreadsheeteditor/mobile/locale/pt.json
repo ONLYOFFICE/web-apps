@@ -34,7 +34,8 @@
       "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
       "textUsers": "Usuários",
-      "textEnterComment": "Insira o comentário"
+      "textEnterComment": "Insira o comentário",
+      "textMention": "Comente ou mencione usando + ou @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
