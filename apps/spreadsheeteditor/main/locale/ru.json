@@ -5389,5 +5389,10 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Включить автозаполнение значений ячеек",
   "SSE.Views.ImageSettings.textConvertToShape": "Преобразовать в фигуру",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Вырезание, копирование и вставка",
-  "Common.Views.Header.textDownload": "Скачать"
+  "Common.Views.Header.textDownload": "Скачать",
+  "SSE.Controllers.Main.errorCopyRangeTooLarge": "Выбранный диапазон слишком велик, чтобы скопировать его полностью.<br>В буфер обмена помещена только его часть. Выберите меньший диапазон и попробуйте еще раз.",
+  "SSE.Views.FormatRulesEditDlg.textAxisColor": "Цвет оси",
+  "SSE.Views.FormatRulesEditDlg.textBorderColor": "Цвет границ",
+  "SSE.Views.FormatRulesEditDlg.textFillColor": "Цвет заливки",
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Цвет"
 }
