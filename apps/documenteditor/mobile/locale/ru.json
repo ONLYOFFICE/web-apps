@@ -183,7 +183,7 @@
       "dark": "Темная",
       "light": "Светлая",
       "system": "Системная",
-      "textTheme": "Тема"
+      "textTheme": "Тема интерфейса"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
@@ -748,7 +748,7 @@
     "textExport": "Экспортировать",
     "textExportAs": "Экспортировать как",
     "textFastWV": "Быстрый веб-просмотр",
-    "textFeedback": "Обратная связь и поддержка",
+    "textFeedback": "Связаться со службой поддержки",
     "textFillingForms": "Заполнение форм",
     "textFind": "Поиск",
     "textFindAndReplace": "Поиск и замена",
@@ -780,7 +780,7 @@
     "textOk": "Ok",
     "textOpenFile": "Введите пароль для открытия файла",
     "textOpenLocation": "Открыть папку",
-    "textOrientation": "Ориентация",
+    "textOrientation": "Ориентация страницы",
     "textOwner": "Владелец",
     "textPages": "Страницы",
     "textPageSize": "Размер страницы",
