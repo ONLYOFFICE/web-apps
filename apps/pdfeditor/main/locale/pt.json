@@ -3328,5 +3328,6 @@
   "PDFE.Views.RemoveMetaDlg.textLinksActions": "Links, ações e scripts JavaScript",
   "PDFE.Views.RemoveMetaDlg.textOverlappingObjects": "Objetos sobrepostos",
   "PDFE.Views.RemoveMetaDlg.textRemoveInformationDescription": "O recurso Remover Informações Ocultas pesquisará e removerá as seguintes informações do documento:",
-  "PDFE.Views.AnnotationSettings.txtButt": "Alvo"
+  "PDFE.Views.AnnotationSettings.txtButt": "Alvo",
+  "Common.Views.RoleEditDlg.textColor": "Cor"
 }
