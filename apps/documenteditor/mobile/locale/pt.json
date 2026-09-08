@@ -168,7 +168,8 @@
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
       "textWidow": "Controle de linhas órfãs/viúvas.",
-      "textEnterComment": "Insira o comentário"
+      "textEnterComment": "Insira o comentário",
+      "textMention": "Comente ou mencione usando + ou @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
