@@ -150,7 +150,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Сохранить как PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Сохранить как...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Форма успешно отправлена</b><br>Нажмите, чтобы закрыть подсказку",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Ваша PDF-форма сохранена в разделе \"Готово\".",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Ваша PDF-форма успешно заполнена.",
   "DE.Controllers.ApplicationController.tipLicenseExceeded": "Документ открыт в режиме только для чтения, так как достигнуто максимальное количество одновременных подключений, разрешенное лицензией.<br><br>Повторите попытку позже или свяжитесь с владельцем документа, если вам нужен доступ для редактирования.",
   "DE.Controllers.ApplicationController.tipLicenseUsersExceeded": "Документ открыт в режиме только для чтения, так как достигнуто максимальное количество пользователей, которые могут редактировать документы, в соответствии с лицензией.<br><br>Повторите попытку позже или свяжитесь с владельцем документа, если вам нужен доступ для редактирования.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Истек срок действия лицензии",
