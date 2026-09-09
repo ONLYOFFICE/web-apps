@@ -46,7 +46,7 @@
       "dark": "Escuro",
       "light": "Claro",
       "system": "O mesmo que sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema da interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -90,7 +90,12 @@
     "textDoNotShowAgain": "Não volte a aparecer",
     "textOk": "OK",
     "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e aos seus dados. Este local pode não ser seguro:<br>{0}<br>Tem certeza de que deseja continuar?",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
+    "menuAddColumn": "Adicionar coluna",
+    "menuAddRow": "Adicionar linha",
+    "menuDeleteColumn": "Excluir coluna",
+    "menuDeleteRow": "Excluir linha",
+    "menuSelectAll": "Selecionar tudo"
   },
   "Controller": {
     "Main": {
@@ -386,7 +391,8 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorCopyRangeTooLarge": "O trecho selecionado é muito grande para ser copiado na íntegra. Apenas uma parte dele foi colocada na área de transferência. Selecione um trecho menor e tente novamente."
   },
   "LongActions": {
     "advDRMPassword": "Senha",
@@ -545,7 +551,9 @@
       "txtYes": "Sim",
       "textSheets": "Folhas",
       "textLinkTo": "Link para",
-      "textDefinedName": "Nome definido"
+      "textDefinedName": "Nome definido",
+      "textStyle": "Estilo",
+      "textTable": "Tabela"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -758,7 +766,19 @@
       "textCurrentFont": "Texto principal",
       "textSheets": "Folhas",
       "textLinkTo": "Link para",
-      "textDefinedName": "Nome definido"
+      "textDefinedName": "Nome definido",
+      "textTotalRow": "Total de linhas",
+      "textTable": "Tabela",
+      "textStyleOptions": "Opções de estilo",
+      "textRow": "Linha",
+      "textLastColumn": "Última coluna",
+      "textHeaderRow": "Linha de cabeçalho",
+      "textFilterButton": "Botão de filtro",
+      "textDeleteTable": "Excluir tabela",
+      "textColumn": "Coluna",
+      "textBandedColumns": "Colunas com faixas",
+      "textBandedRows": "Linhas agrupadas",
+      "textFirstColumn": "Primeira coluna"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -806,7 +826,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem uma notificação",
       "textEncoding": "Codificação",
       "textExample": "Exemplo",
-      "textFeedback": "Feedback e Suporte",
+      "textFeedback": "Entre em contato com o suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Localizar e Substituir Tudo",
@@ -834,7 +854,7 @@
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textOpenLocation": "Localização disponível",
-      "textOrientation": "Orientação",
+      "textOrientation": "Orientação da página",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPortrait": "Retrato ",
@@ -862,7 +882,7 @@
       "textSpreadsheetTitle": "Título da planilha",
       "textSubject": "Assunto",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema da interface",
       "textTitle": "Título",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unidade de medida",
@@ -922,7 +942,24 @@
       "warnDownloadOds": "Salvar este arquivo pode resultar na perda de algumas fórmulas, formatação de células ou objetos incorporados devido ao suporte limitado a formatos.<br>Tem certeza de que deseja continuar?",
       "textAutoSaveDocument": "Salvamento automático",
       "textSaveDocument": "Salvar",
-      "textDarkDocument": "Documento Escuro"
+      "textDarkDocument": "Documento Escuro",
+      "textPreferences": "Preferências",
+      "textHelpCenter": "Central de Ajuda",
+      "textSaveACopy": "Salvar uma cópia",
+      "textSaveACopyAs": "Salvar uma cópia como",
+      "textTools": "Ferramentas",
+      "textSettingsGroup": "Configurações",
+      "textAboutGroup": "Sobre",
+      "textHelpAndFeedback": "Ajuda e comentários",
+      "textShare": "Compartilhar",
+      "textStyleGroup": "Estilo",
+      "textSaveACopyHeader": "Salvar uma cópia",
+      "textSaveConnectedStorage": "O arquivo será salvo no dispositivo de armazenamento conectado",
+      "textGridlines": "Linhas de grade",
+      "textHeadings": "Cabeçalhos",
+      "textSpreadsheetSetup": "Configuração da planilha",
+      "textViewGroup": "Visualizar",
+      "textLanguageAndRegion": "Idioma e região"
     }
   }
 }
