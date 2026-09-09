@@ -278,7 +278,7 @@
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
                     ai: {
-                        disabled: true // false - disable AI in editor: hide AI plugins and block AI requests
+                        disabled: true // disable AI features in editor: hide AI Tools and block AI requests
                     },
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
                     trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
