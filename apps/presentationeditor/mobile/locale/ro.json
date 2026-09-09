@@ -34,7 +34,8 @@
       "textSharingSettings": "Setări partajare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUsers": "Utilizatori",
-      "textEnterComment": "Introducere comentariu"
+      "textEnterComment": "Introducere comentariu",
+      "textMention": "Comentariu sau mențiune (+ sau @)"
     },
     "HighlightColorPalette": {
       "textNoFill": "Fără umplere"
@@ -48,7 +49,7 @@
       "dark": "Întunecat",
       "light": "Luminos",
       "system": "La fel ca sistemul",
-      "textTheme": "Temă"
+      "textTheme": "Temă interfață"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
@@ -543,7 +544,7 @@
       "textTop": "Sus",
       "textTopLeft": "Stânga sus",
       "textTopRight": "Dreapta sus",
-      "textTotalRow": "Rând total",
+      "textTotalRow": "Rând totaluri",
       "textTransitions": "Tranziții",
       "textType": "Tip",
       "textUnCover": "Descoperire",
