@@ -34,7 +34,8 @@
       "textSharingSettings": "Setări partajare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUsers": "Utilizatori",
-      "textEnterComment": "Introducere comentariu"
+      "textEnterComment": "Introducere comentariu",
+      "textMention": "Comentariu sau mențiune (+ sau @)"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -45,7 +46,7 @@
       "dark": "Întunecat",
       "light": "Luminos",
       "system": "La fel ca sistemul",
-      "textTheme": "Temă"
+      "textTheme": "Temă interfață"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
@@ -89,7 +90,12 @@
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
     "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati?",
-    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
+    "menuAddColumn": "Adăugare coloană",
+    "menuAddRow": "Adăugare rând",
+    "menuDeleteColumn": "Ștergere coloană",
+    "menuDeleteRow": "Ștergere rând",
+    "menuSelectAll": "Selectare totală"
   },
   "Controller": {
     "Main": {
@@ -385,7 +391,8 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorCopyRangeTooLarge": "Zona selectată este prea mare pentru a fi copiată în întregime. Doar o parte din ea a fost copiată în clipboard. Selectați o zonă mai mică și încercați din nou."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -544,7 +551,9 @@
       "txtYes": "Da",
       "textSheets": "Foi de calcul",
       "textLinkTo": "Link către",
-      "textDefinedName": "Nume definit"
+      "textDefinedName": "Nume definit",
+      "textStyle": "Stil",
+      "textTable": "Tabel"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -757,7 +766,8 @@
       "textCurrentFont": "Text principal",
       "textSheets": "Foi de calcul",
       "textLinkTo": "Link către",
-      "textDefinedName": "Nume definit"
+      "textDefinedName": "Nume definit",
+      "textTotalRow": "Rând totaluri"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
