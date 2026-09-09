@@ -220,7 +220,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionSuperscript": "Reduza o tamanho do trecho de texto selecionado e posicione-o na parte superior da linha de texto, por exemplo, como em frações.",
   "Common.Controllers.Shortcuts.txtDescriptionToggleAutoFilter": "Habilite um filtro para um intervalo de células selecionado ou remova o filtro.",
   "Common.Controllers.Shortcuts.txtDescriptionTranspose": "Colar dados, alternando-os de colunas para linhas ou vice-versa. Esta opção está disponível para intervalos de dados regulares, mas não para tabelas formatadas.",
-  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Sublinhe o trecho de texto selecionado com uma linha passando por baixo das letras.",
+  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Faça com que o trecho de texto selecionado fique sublinhado, com uma linha passando por baixo das letras.",
   "Common.Controllers.Shortcuts.txtDescriptionVisitHyperlink": "Acesse um link (com o cursor sobre o link).",
   "Common.Controllers.Shortcuts.txtDescriptionZoom100": "Redefina o parâmetro 'Zoom' da planilha atual para o padrão 100%.",
   "Common.Controllers.Shortcuts.txtDescriptionZoomIn": "Amplie a planilha editada no momento.",
