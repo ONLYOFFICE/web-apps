@@ -50,8 +50,8 @@
   "DE.ApplicationController.textNext": "Champ suivant",
   "DE.ApplicationController.textOf": "de",
   "DE.ApplicationController.textOk": "OK",
-  "DE.ApplicationController.textRequired": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire.",
-  "DE.ApplicationController.textSubmit": "Envoyer",
+  "DE.ApplicationController.textRequired": "Pour envoyer le formulaire, veuillez remplir tous les champs obligatoires.",
+  "DE.ApplicationController.textSubmit": "Remplir et envoyer",
   "DE.ApplicationController.textSubmited": "<b>Le formulaire a été envoyé avec succès</b><br>Cliquez ici pour fermer le conseil",
   "DE.ApplicationController.titleLicenseExp": "Licence expirée",
   "DE.ApplicationController.titleLicenseNotActive": "Licence non active",
@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Plein écran",
   "DE.ApplicationView.txtPrint": "Imprimer",
   "DE.ApplicationView.txtSearch": "Rechercher",
-  "DE.ApplicationView.txtShare": "Partager"
+  "DE.ApplicationView.txtShare": "Partager",
+  "DE.ApplicationController.textSubmitOk": "Votre formulaire PDF a bien été rempli.",
+  "DE.ApplicationController.textFilled": "Rempli",
+  "DE.ApplicationView.textFitToPage": "Ajuster à la page",
+  "DE.ApplicationView.textFitToWidth": "Ajuster à la largeur",
+  "DE.ApplicationView.textMultiplePages": "Plusieurs pages",
+  "DE.ApplicationView.textZoom": "Zoom"
 }
