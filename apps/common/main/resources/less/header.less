@@ -183,9 +183,9 @@
         }
         .rtl & {
             padding: 6px 12px 6px 24px;
-            .compact-mode & {
-                padding-left: 6px;
-            }
+        }
+        .rtl.compact-mode & {
+            padding-left: 6px;
         }
 
         i {
@@ -210,13 +210,13 @@
         #box-document-title & {
             padding: 4px 24px 4px 12px;
             .compact-mode & {
-                padding-right: 6px;
+                padding-right: 12px;
             }
             .rtl & {
                 padding: 4px 12px 4px 24px;
-                .compact-mode & {
-                    padding-left: 6px;
-                }
+            }
+            .rtl.compact-mode & {
+                padding-left: 12px;
             }
         }
     }
