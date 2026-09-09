@@ -49,7 +49,7 @@
       "dark": "Escuro",
       "light": "Claro",
       "system": "O mesmo que sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema da interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -417,14 +417,14 @@
       "textFinalMessage": "Fim da apresentação de slides. Deslize para a frente para sair.",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
-      "textFirstColumn": "Primeira Coluna",
+      "textFirstColumn": "Primeira coluna",
       "textFirstSlide": "Primeiro slide",
       "textFontColor": "Cor da fonte",
       "textFontColors": "Cor da Fonte",
       "textFonts": "Fontes",
       "textFromLibrary": "Imagem da biblioteca",
       "textFromURL": "Imagem da URL",
-      "textHeaderRow": "Linha de Cabeçalho",
+      "textHeaderRow": "Linha de cabeçalho",
       "textHighlight": "Destacar resultados",
       "textHighlightColor": "Cor de realce",
       "textHorizontalIn": "Horizontal para dentro",
@@ -506,7 +506,7 @@
       "textTop": "Parte superior",
       "textTopLeft": "Parte superior esquerda",
       "textTopRight": "Parte superior direita",
-      "textTotalRow": "Linha total",
+      "textTotalRow": "Total de linhas",
       "textTransitions": "Transições",
       "textType": "Tipo",
       "textUnCover": "Descobrir",
@@ -596,7 +596,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Habilitar todos",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
-      "textFeedback": "Feedback e Suporte",
+      "textFeedback": "Entre em contato com o suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Encontrar e Substituir Tudo",
@@ -641,7 +641,22 @@
       "mniSlidePortrait": "Retrato",
       "textAutoSaveDocument": "Salvamento automático",
       "textSaveDocument": "Salvar",
-      "textSlideOrientation": "Orientação do slide"
+      "textSlideOrientation": "Orientação do slide",
+      "textPreferences": "Preferências",
+      "textHelpCenter": "Central de Ajuda",
+      "textPresentationSetup": "Configuração da apresentação",
+      "textSaveACopy": "Salvar uma cópia",
+      "textSaveACopyAs": "Salvar uma cópia como",
+      "textTools": "Ferramentas",
+      "textSettingsGroup": "Configurações",
+      "textAboutGroup": "Sobre",
+      "textHelpAndFeedback": "Ajuda e comentários",
+      "textShare": "Compartilhar",
+      "textStyleGroup": "Estilo",
+      "textShowSettingsGroup": "Mostrar configurações",
+      "textSpellingGroup": "Ortografia",
+      "textSaveACopyHeader": "Salvar uma cópia",
+      "textSaveConnectedStorage": "O arquivo será salvo no dispositivo de armazenamento conectado"
     }
   }
 }
