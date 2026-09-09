@@ -220,7 +220,7 @@
   "Common.Controllers.Shortcuts.txtDescriptionSuperscript": "Micșorare fragment de text selectat și plasare în partea superioară a rândului, de exemplu în fracții.",
   "Common.Controllers.Shortcuts.txtDescriptionToggleAutoFilter": "Activare filtru pentru un interval de celule selectat sau eliminare filtru.",
   "Common.Controllers.Shortcuts.txtDescriptionTranspose": "Lipire date transformând coloanele în rânduri sau invers. Această opțiune este disponibilă pentru intervalele de date obișnuite, dar nu și pentru tabelele formatate.",
-  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Subliniere fragment de text selectat cu o linie trasată sub litere.",
+  "Common.Controllers.Shortcuts.txtDescriptionUnderline": "Subliniere fragment de text selectat cu o linie sub litere.",
   "Common.Controllers.Shortcuts.txtDescriptionVisitHyperlink": "Accesare link (cu cursorul poziționat pe link-ul).",
   "Common.Controllers.Shortcuts.txtDescriptionZoom100": "Resetare nivel de Zoom pentru foaia de calcul curentă la valoarea implicită de 100%.",
   "Common.Controllers.Shortcuts.txtDescriptionZoomIn": "Mărire foaia de calcul în curs de editare.",
@@ -5388,5 +5388,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Activare copiere imagini pentru celule",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Decupare, copiere și lipire",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Activare Completare automată pentru valorile celulelor",
-  "SSE.Views.ImageSettings.textConvertToShape": "Conversie în formă"
+  "SSE.Views.ImageSettings.textConvertToShape": "Conversie în formă",
+  "Common.Views.Header.textDownload": "Descărcare"
 }
