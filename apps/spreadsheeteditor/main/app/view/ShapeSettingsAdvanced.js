@@ -61,7 +61,6 @@ define([
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
-                    {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
@@ -271,27 +270,6 @@ define([
                     this._changedProps.asc_getShapeProperties().asc_putVertOverflowType(field.getValue()=='checked' ? AscFormat.nOTOwerflow : AscFormat.nOTClip);
                 }
             }, this));
-
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#shape-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
 
             // Shape
             this._arrCapType = [
@@ -551,12 +529,11 @@ define([
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
                 this.spnWidth, this.btnRatio, this.spnHeight, // 0 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
-                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 2 tab
-                this.chAutofit, this.chOverflow, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
-                this.spnColumns, this.spnSpacing, // 4 tab
-                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 5 tab
-                this.inputAltTitle, this.textareaAltDescription  // 6 tab
+                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 1 tab
+                this.chAutofit, this.chOverflow, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 2 tab
+                this.spnColumns, this.spnSpacing, // 3 tab
+                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -570,21 +547,18 @@ define([
                         me.spnWidth.focus();
                         break;
                     case 1:
-                        me.spnAngle.focus();
-                        break;
-                    case 2:
                         me.cmbCapType.focus();
                         break;
-                    case 3:
+                    case 2:
                         me.spnMarginTop.focus();
                         break;
-                    case 4:
+                    case 3:
                         me.spnColumns.focus();
                         break;
-                    case 5:
+                    case 4:
                         me.radioTwoCell.focus();
                         break;
-                    case 6:
+                    case 5:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -604,14 +578,9 @@ define([
             if (props && props.asc_getShapeProperties()){
                 var shapeprops = props.asc_getShapeProperties();
 
-                if (shapeprops.asc_getFromSmartArt()) {
-                    this.btnsCategory[1].setDisabled(true);
-                }
                 if (shapeprops.asc_getFromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
                     this.chOverflow.setDisabled(true);
-                    this.chFlipHor.setDisabled(true);
-                    this.chFlipVert.setDisabled(true);
                     this.btnsCategory[0].setDisabled(true);
                 }
 
@@ -638,13 +607,13 @@ define([
                     val = margins.asc_getBottom();
                     this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                 }
-                this.btnsCategory[3].setDisabled(null === margins);   // Margins
+                this.btnsCategory[2].setDisabled(null === margins);   // Margins
 
                 this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
                 this.chOverflow.setValue(shapeprops.asc_getVertOverflowType()==AscFormat.nOTOwerflow);
 
                 var shapetype = shapeprops.asc_getType();
-                this.btnsCategory[4].setDisabled(shapeprops.asc_getFromSmartArtInternal()
+                this.btnsCategory[3].setDisabled(shapeprops.asc_getFromSmartArtInternal()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -661,11 +630,6 @@ define([
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
-
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                this.chFlipHor.setValue(props.asc_getFlipH());
-                this.chFlipVert.setValue(props.asc_getFlipV());
 
                 value = props.asc_getAnchor();
                 switch (value) {
@@ -691,10 +655,6 @@ define([
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
-            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            this._changedProps.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-            this._changedProps.asc_putFlipV(this.chFlipVert.getValue()=='checked');
-
             return { shapeProps: this._changedProps} ;
         },
 
@@ -702,7 +662,7 @@ define([
             if (props ){
                 var stroke = props.asc_getStroke();
                 if (stroke) {
-                    this.btnsCategory[2].setDisabled(stroke.asc_getType() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[1].setDisabled(stroke.asc_getType() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.asc_getLinejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -897,11 +857,6 @@ define([
         strColumns: 'Columns',
         textSpacing: 'Spacing between columns',
         textColNumber: 'Number of columns',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',

@@ -681,7 +681,6 @@ define([
         textEditObject: 'Edit Object',
         textEdit:       'Edit',
         textRotation: 'Rotation',
-        textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
         textHint270: 'Rotate 90° Counterclockwise',
         textHint90: 'Rotate 90° Clockwise',

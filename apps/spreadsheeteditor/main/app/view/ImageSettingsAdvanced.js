@@ -58,7 +58,6 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-snap',       panelCaption: this.textSnap},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
@@ -76,27 +75,6 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var me = this;
-
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#image-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
 
             // Snapping
             this.radioTwoCell = new Common.UI.RadioBox({
@@ -147,9 +125,8 @@ define([
 
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
-                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 1 tab
-                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 0 tab
+                this.inputAltTitle, this.textareaAltDescription  // 1 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -160,12 +137,9 @@ define([
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnAngle.focus();
-                        break;
-                    case 1:
                         me.radioTwoCell.focus();
                         break;
-                    case 2:
+                    case 1:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -194,11 +168,6 @@ define([
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
 
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                this.chFlipHor.setValue(props.asc_getFlipH());
-                this.chFlipVert.setValue(props.asc_getFlipV());
-
                 value = props.asc_getAnchor();
                 switch (value) {
                     case AscCommon.c_oAscCellAnchorType.cellanchorTwoCell:
@@ -212,9 +181,6 @@ define([
                         break;
                 }
 
-                var pluginGuid = props.asc_getPluginGuid();
-                this.btnsCategory[0].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
-
                 this._changedProps = new Asc.asc_CImgProperty();
             }
         },
@@ -226,10 +192,6 @@ define([
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
-            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            this._changedProps.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-            this._changedProps.asc_putFlipV(this.chFlipVert.getValue()=='checked');
-
             return { imageProps: this._changedProps} ;
         },
 
@@ -238,11 +200,6 @@ define([
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',
