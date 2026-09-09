@@ -1091,7 +1091,7 @@
   "Common.Views.RolesManagerDlg.textUp": "Pomeri ulogu gore",
   "Common.Views.RolesManagerDlg.txtTitle": "Upravljanje ulogama primalaca",
   "Common.Views.RolesManagerDlg.warnCantDelete": "Ne možeš da obrišeš ovu ulogu zato što ima povezana polja.",
-  "Common.Views.RolesManagerDlg.warnDelete": "Da li ste sigurni da želite da izbrišete ulogu {0}?",
+  "Common.Views.RolesManagerDlg.warnDelete": "Da li ste sigurni da želite da izbrišete primaoca {0}?",
   "Common.Views.SaveAsDlg.textLoading": "Učitavanje ",
   "Common.Views.SaveAsDlg.textTitle": "Folder za save",
   "Common.Views.SearchPanel.textCaseSensitive": "Osetljivo na velika i mala slova",
