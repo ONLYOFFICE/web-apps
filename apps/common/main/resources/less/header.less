@@ -222,6 +222,11 @@
         & > .btn-header {
             margin: @header-component-margin-ie;
             margin: @header-component-margin;
+
+            .compact-mode & {
+                margin: @header-component-margin-compact-ie;
+                margin: @header-component-margin-compact;
+            }
         }
     }
 }
@@ -657,6 +662,10 @@
         border: 0 none;
         cursor: default;
         .user-select(text);
+
+        .compact-mode & {
+            display: none;
+        }
 
         &:hover:not(:disabled):not(:focus){
             background-color: @highlight-header-input-hover-ie;

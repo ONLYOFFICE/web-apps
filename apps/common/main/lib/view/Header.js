@@ -763,6 +763,9 @@ define([
             if(app && app.getController('Common.Controllers.Shortcuts')) {
                 app.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
             }
+
+            me.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', me.onChangeCompactMode.bind(me));
         }
 
         function onFocusDocName(e){
@@ -1514,6 +1517,10 @@ define([
                 if (this._testCanvas)
                     this._testCanvas = undefined;
                 this.setDocTitle();
+            },
+
+            onChangeCompactMode: function(isCompact) {
+                btnMode && btnMode.$el && btnMode.$el.find('.caption')[isCompact ? 'hide' : 'show']();
             },
 
             textBack: 'Go to Documents',

@@ -174,6 +174,8 @@ define([
                     }, this)
                 }
             });
+            this.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', this.onChangeCompactMode.bind(this));
         },
 
         SetDisabled: function(state) {
@@ -520,6 +522,20 @@ define([
                     item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                 });
             }
+        },
+
+        onChangeCompactMode: function(isCompact) {
+            //Toolbar
+            const isHideToolbar = isCompact || Common.localStorage.getBool("pe-compact-toolbar");
+            this.view.chToolbar.setValue(!isHideToolbar, true);
+            this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
+            this.view.chToolbar.setDisabled(isCompact);            
+
+            //Statusbar
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("pe-hidden-status");
+            this.view.chStatusbar.setValue(!isHideStatusbar, true);
+            this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
+            this.view.chStatusbar.setDisabled(isCompact);
         },
 
         onAppReady: function (config) {

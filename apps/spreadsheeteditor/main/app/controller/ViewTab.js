@@ -137,6 +137,8 @@ define([
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
+            this.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', this.onChangeCompactMode.bind(this));
         },
 
         onAppReady: function () {
@@ -399,8 +401,27 @@ define([
                 this.view.btnViewPageBreak && this.view.btnViewPageBreak.toggle(value===Asc.c_oAscESheetViewType.pageBreakPreview, true);
                 this.view.btnViewNormal && this.view.btnViewNormal.toggle(value===Asc.c_oAscESheetViewType.normal, true);
             }
-        }
+        },
 
+        onChangeCompactMode: function(isCompact) {
+            //Toolbar
+            const isHideToolbar = isCompact || Common.localStorage.getBool("sse-compact-toolbar");
+            this.view.chToolbar.setValue(!isHideToolbar, true);
+            this.view.fireEvent('viewtab:showtoolbar', [this.view.chToolbar, isHideToolbar, true]);
+            this.view.chToolbar.setDisabled(isCompact);            
+
+            //Statusbar
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("sse-compact-statusbar");
+            this.view.chStatusbar.setValue(!isHideStatusbar, true);
+            this.view.fireEvent('statusbar:setcompact', [this.view.chStatusbar, isHideStatusbar, true]);
+            this.view.chStatusbar.setDisabled(isCompact);
+
+            //Formulabar
+            const isHideFormulabar = isCompact || Common.localStorage.getBool("sse-hidden-formula");
+            this.view.chFormula.setValue(!isHideFormulabar, true);
+            this.view.fireEvent('viewtab:formula', [this.view.chFormula, !isHideFormulabar, true]);
+            this.view.chFormula.setDisabled(isCompact);
+        },
 
     }, SSE.Controllers.ViewTab || {}));
 });

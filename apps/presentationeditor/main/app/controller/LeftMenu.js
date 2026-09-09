@@ -186,7 +186,7 @@ define([
 
             var value = Common.UI.LayoutManager.getInitValue('leftMenu');
             value = (value!==undefined) ? !value : false;
-            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value);
+            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value) && !Common.Utils.checkCompactMode();
             this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));

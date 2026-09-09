@@ -136,6 +136,7 @@ define([], function () {
             },
             isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
             needRepaint = undefined,
+            isCompactMode = undefined,  //Is compact mode enabled for WCAG 2.1 compliance (1.4.10 Reflow) 
             me = this,
             checkSize = function () {
                 var scale = {};
@@ -211,6 +212,16 @@ define([], function () {
                                                                             // commit title is "Fix jquery loading in the hidden frame". need to test
                     Common.NotificationCenter.trigger('app:repaint');
                 }
+        
+                const curIsCompactMode = checkCompactMode();
+                if(isCompactMode !== curIsCompactMode) {
+                    Common.NotificationCenter.trigger('app:compact-mode', curIsCompactMode);
+                    document.body && document.body.classList.toggle('compact-mode', !!curIsCompactMode);
+                    isCompactMode = curIsCompactMode;
+                }
+            },
+            checkCompactMode = function () {
+                return window.innerWidth <= 340 || window.innerHeight <= 256;
             },
             checkSizeIE = function () {
                 me.innerWidth = window.innerWidth;
@@ -299,6 +310,7 @@ define([], function () {
 
         return {
             checkSize: checkSize,
+            checkCompactMode: checkCompactMode,
 
             userAgent: userAgent,
             isStrict: isStrict,
