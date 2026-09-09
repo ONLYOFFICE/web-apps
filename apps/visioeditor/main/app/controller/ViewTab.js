@@ -65,6 +65,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -202,6 +203,30 @@ define([
                     item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                 });
             }
+        },
+
+        onChangeCompactMode: function(isCompact) {
+            //Toolbar
+            const isHideToolbar = isCompact || Common.localStorage.getBool("ve-view-compact-toolbar");
+            this.view.chToolbar.setValue(!isHideToolbar, true);
+            this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
+            this.view.chToolbar.setDisabled(isCompact);            
+
+            //Statusbar
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("ve-hidden-status");
+            this.view.chStatusbar.setValue(!isHideStatusbar, true);
+            this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
+            this.view.chStatusbar.setDisabled(isCompact);
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                setTimeout(function() { accept() }, 10);
+            })).then(function () {
+                me.onChangeCompactMode(Common.Utils.checkCompactMode());
+                Common.NotificationCenter.on('app:compact-mode', me.onChangeCompactMode.bind(me));
+            });
         }
 
     }, VE.Controllers.ViewTab || {}));

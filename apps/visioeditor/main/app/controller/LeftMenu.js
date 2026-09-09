@@ -147,7 +147,7 @@ define([
             }
             var value = Common.UI.LayoutManager.getInitValue('leftMenu');
             value = (value!==undefined) ? !value : false;
-            this.isThumbsShown = !Common.localStorage.getBool("ve-hidden-leftmenu", value);
+            this.isThumbsShown = !Common.localStorage.getBool("ve-hidden-leftmenu", value) && !Common.Utils.checkCompactMode();
             this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.leftMenu.getMenu('file').setApi(api);
             // this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
