@@ -66,10 +66,11 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="input-label"><%= scope.textRotate90 %></label>
+            <label class="input-label"><%= scope.textRotate %></label>
             <div>
                 <div id="image-button-270" class="margin-right-4"></div>
-                <div id="image-button-90"></div>
+                <div id="image-button-90" class="margin-right-4"></div>
+                <div id="image-spin-rotate"></div>
             </div>
         </td>
         <td class="padding-small padding-left-4">

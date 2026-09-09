@@ -928,6 +928,13 @@ define([
                 this._state.CanBeFlow=value;
                 this._state.FromGroup=fromgroup;
 
+                var rot = props.asc_getRot();
+                rot = (rot===undefined || rot===null) ? '' : Math.floor(rot*180/3.14159265358979 + 0.5);
+                if (this._state.Rot !== rot) {
+                    this.numRotate.setValue(rot, true);
+                    this._state.Rot = rot;
+                }
+
                 // background colors
                 var rec = null;
                 var fill = shapeprops.get_fill();
@@ -1725,6 +1732,22 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.numRotate = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-rotate'),
+                step: 1,
+                width: 50,
+                defaultUnit: '°',
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            this.numRotate.on('change', this.onRotateChange.bind(this));
+            this.numRotate.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.numRotate);
+
             var viewData = [
                 { icon: 'btn-wrap-inline',      data: Asc.c_oAscWrapStyle2.Inline,      tip: this.txtInline, selected: true },
                 { icon: 'btn-wrap-square',      data: Asc.c_oAscWrapStyle2.Square,      tip: this.txtSquare },
@@ -2129,6 +2152,14 @@ define([
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        onRotateChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putRot(field.getNumberValue() * 3.14159265358979 / 180);
+                this.api.ImgApply(properties);
+            }
         },
 
         onBtnFlipClick: function(btn) {
