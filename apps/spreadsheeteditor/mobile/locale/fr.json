@@ -34,7 +34,8 @@
       "textSharingSettings": "Paramètres de partage",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUsers": "Utilisateurs",
-      "textEnterComment": "Saisir un commentaire"
+      "textEnterComment": "Saisir un commentaire",
+      "textMention": "Commentaire ou mention avec + ou @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -45,7 +46,7 @@
       "dark": "Sombre",
       "light": "Clair",
       "system": "Identique au système",
-      "textTheme": "Thème"
+      "textTheme": "Thème d'interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Attention",
