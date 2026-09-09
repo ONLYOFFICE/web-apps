@@ -168,7 +168,8 @@
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
       "textWidow": "Éviter les veuves",
-      "textEnterComment": "Saisir un commentaire"
+      "textEnterComment": "Saisir un commentaire",
+      "textMention": "Commentaire ou mention avec + ou @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Aucun remplissage"
@@ -182,7 +183,7 @@
       "dark": "Sombre",
       "light": "Clair",
       "system": "Identique au système",
-      "textTheme": "Thème"
+      "textTheme": "Thème d'interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertissement",
@@ -745,7 +746,7 @@
     "textExport": "Exporter",
     "textExportAs": "Exporter sous",
     "textFastWV": "Affichage rapide sur le Web",
-    "textFeedback": "Commentaires & assistance",
+    "textFeedback": "Contacter l'assistance",
     "textFillingForms": "Remplissage des formulaires",
     "textFind": "Rechercher",
     "textFindAndReplace": "Rechercher et remplacer",
@@ -777,7 +778,7 @@
     "textOk": "OK",
     "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
     "textOpenLocation": "Ouvrir l'emplacement",
-    "textOrientation": "Orientation",
+    "textOrientation": "Orientation de la page",
     "textOwner": "Propriétaire",
     "textPages": "Pages",
     "textPageSize": "Taille de la page",
@@ -835,7 +836,20 @@
     "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé",
     "textDarkDocument": "Document sombre",
     "textSaveDocument": "Enregistrer",
-    "textAutoSaveDocument": "Enregistrement automatique"
+    "textAutoSaveDocument": "Enregistrement automatique",
+    "textAboutGroup": "À propos",
+    "textDocumentSetup": "Configuration du document",
+    "textHelpCenter": "Centre d'aide",
+    "textHeadings": "Titres",
+    "textSaveCopy": "Enregistrer une copie",
+    "textSaveACopy": "Enregistrer une copie",
+    "textSaveACopyAs": "Enregistrer une copie sous",
+    "textTools": "Outils",
+    "textView": "Affichage",
+    "textSettingsGroup": "Paramètres",
+    "textPreferences": "Préférences",
+    "textHelpAndFeedback": "Suggestions et assistance",
+    "textShare": "Partager"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
