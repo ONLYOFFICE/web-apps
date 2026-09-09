@@ -37,6 +37,12 @@
             width: auto;
         }
     }
+
+    .tabs {
+        .compact-mode & {
+            min-width: 70px;
+        }
+    }
 }
 
 .extra {
@@ -100,6 +106,10 @@
         padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
+
+        .compact-mode & {
+            display: none;
+        }
     }
 
     #rib-doc-name {
@@ -168,8 +178,14 @@
         //max-width: 200px;
         height: 100%;
         padding: 6px 24px 6px 12px;
+        .compact-mode & {
+            padding-right: 6px;
+        }
         .rtl & {
             padding: 6px 12px 6px 24px;
+            .compact-mode & {
+                padding-left: 6px;
+            }
         }
 
         i {
@@ -193,8 +209,14 @@
 
         #box-document-title & {
             padding: 4px 24px 4px 12px;
+            .compact-mode & {
+                padding-right: 6px;
+            }
             .rtl & {
                 padding: 4px 12px 4px 24px;
+                .compact-mode & {
+                    padding-left: 6px;
+                }
             }
         }
     }
