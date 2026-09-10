@@ -90,7 +90,12 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Cet emplacement peut être dangereux :<br>{0}<br>Voulez-vous continuer ?",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
+    "menuDeleteRow": "Supprimer la ligne",
+    "menuSelectAll": "Tout sélectionner",
+    "menuAddColumn": "Ajouter une colonne",
+    "menuAddRow": "Ajouter une ligne",
+    "menuDeleteColumn": "Supprimer une colonne"
   },
   "Controller": {
     "Main": {
@@ -364,7 +369,7 @@
     "errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie et que la page soit rafraichit.",
     "errorWrongBracketsCount": "Il y a une erreur dans la formule : Mauvais nombre de parenthèses.",
     "errorWrongOperator": "Une erreur dans la formule entrée. Opérateur utilisé est incorrect.<br>Veuillez corriger l'erreur.",
-    "errRemDuplicates": "Valeurs en double qui ont été retrouvées et supprimées: {0}, valeurs uniques restantes: {1}.",
+    "errRemDuplicates": "Valeurs en double qui ont été retrouvées et supprimées : {0}, valeurs uniques restantes : {1}.",
     "notcriticalErrorTitle": "Avertissement",
     "openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier",
     "pastInMergeAreaError": "Impossible de modifier une partie d'une cellule fusionnée",
@@ -386,16 +391,17 @@
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorCopyRangeTooLarge": "La plage sélectionnée est trop grande pour être copiée en entier. Seule une partie a été copiée dans le presse-papiers. Sélectionnez une plage plus petite et réessayez."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
     "applyChangesTextText": "Chargement des données en cours...",
     "applyChangesTitleText": "Chargement des données",
     "confirmMaxChangesSize": "La taille des actions dépasse la limitation fixée pour votre serveur.<br>Appuyez sur \"Annuler\" pour annuler votre dernière action ou sur \"Continuer\" pour maintenir l'action en local (vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu).",
-    "confirmMoveCellRange": "La plage de cellules finale peut contenir des données.Voulez-vous continuer?",
+    "confirmMoveCellRange": "La plage de cellules finale peut contenir des données.Voulez-vous continuer ?",
     "confirmPutMergeRange": "Les données source contiennent des cellules fusionnées.<br>La fusion sera annuléé avant le collage dans le tableau.",
-    "confirmReplaceFormulaInTable": "Les formules de la ligne en-tête seront supprimées et transformées en texte statique.<br>Voulez-vous continuer?",
+    "confirmReplaceFormulaInTable": "Les formules de la ligne en-tête seront supprimées et transformées en texte statique.<br>Voulez-vous continuer ?",
     "downloadTextText": "Téléchargement du document...",
     "downloadTitleText": "Téléchargement du document",
     "loadFontsTextText": "Chargement des données en cours...",
@@ -458,7 +464,7 @@
     "textTabColor": "Couleur d'onglet",
     "textUnhide": "Afficher",
     "textUnhideSheets": "Afficher les feuilles",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer ?",
     "warnAddSheetCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles. Seule la feuille active sera enregistrée. Pour conserver toutes les feuilles, veuillez enregistrer le fichier dans un autre format."
   },
   "Toolbar": {
@@ -480,7 +486,7 @@
   },
   "View": {
     "Add": {
-      "errorMaxRows": "ERREUR! Le nombre maximal de séries de données par diagramme est 255.",
+      "errorMaxRows": "ERREUR ! Le nombre maximal de séries de données par diagramme est 255.",
       "errorStockChart": "Ordre des lignes est incorrect. Pour créer un graphique boursier organisez vos données sur la feuille de calcul dans l'ordre suivant:<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
       "notcriticalErrorTitle": "Avertissement",
       "sCatDatabase": "Base de données",
@@ -516,7 +522,7 @@
       "textInsert": "Insertion",
       "textInsertImage": "Insérer une image",
       "textInternalDataRange": "Plage de données interne",
-      "textInvalidRange": "ERREUR! La plage de cellules n'est pas valide",
+      "textInvalidRange": "ERREUR ! La plage de cellules n'est pas valide",
       "textLink": "Lien",
       "textLinkSettings": "Paramètres de lien",
       "textLinkType": "Type de lien",
@@ -545,7 +551,9 @@
       "txtYes": "Oui",
       "textSheets": "Feuilles de calcul",
       "textLinkTo": "Lien vers",
-      "textDefinedName": "Nom défini"
+      "textDefinedName": "Nom défini",
+      "textStyle": "Style",
+      "textTable": "Tableu"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -758,17 +766,29 @@
       "textCurrentFont": "Corps de texte",
       "textSheets": "Feuilles de calcul",
       "textLinkTo": "Lien vers",
-      "textDefinedName": "Nom défini"
+      "textDefinedName": "Nom défini",
+      "textTotalRow": "Ligne des totaux",
+      "textTable": "Tableu",
+      "textStyleOptions": "Options de style",
+      "textRow": "Ligne",
+      "textLastColumn": "Dernière colonne",
+      "textHeaderRow": "Ligne d'en-tête",
+      "textFilterButton": "Bouton de filtre",
+      "textDeleteTable": "Supprimer le tableau",
+      "textColumn": "Colonne",
+      "textBandedColumns": "Colonnes à bandes",
+      "textBandedRows": "Lignes à bandes",
+      "textFirstColumn": "Première colonne"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",
-      "advDRMEnterPassword": "Veuillez saisir votre mot de passe:",
+      "advDRMEnterPassword": "Veuillez saisir votre mot de passe :",
       "advDRMOptions": "Fichier protégé",
       "advDRMPassword": "Mot de passe",
       "closeButtonText": "Fermer le fichier",
       "notcriticalErrorTitle": "Avertissement",
       "strFuncLocale": "Langage des formules",
-      "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "strFuncLocaleEx": "Example : SUM ; MIN ; MAX ; COUNT",
       "textAbout": "À propos",
       "textAddress": "Adresse",
       "textApplication": "Application",
@@ -806,7 +826,7 @@
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
       "textEncoding": "Encodage",
       "textExample": "Exemple",
-      "textFeedback": "Commentaires & assistance",
+      "textFeedback": "Contacter l'assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
       "textFindAndReplaceAll": "Rechercher et remplacer tout",
@@ -834,7 +854,7 @@
       "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textOpenLocation": "Ouvrir l'emplacement",
-      "textOrientation": "Orientation",
+      "textOrientation": "Orientation de la page",
       "textOwner": "Propriétaire",
       "textPoint": "Point",
       "textPortrait": "Portrait",
@@ -862,7 +882,7 @@
       "textSpreadsheetTitle": "Titre du classeur",
       "textSubject": "Sujet",
       "textTel": "Tél.",
-      "textTheme": "Thème",
+      "textTheme": "Thème d'interfaceThème",
       "textTitle": "Titre",
       "textTop": "En haut",
       "textUnitOfMeasurement": "Unité de mesure",
@@ -917,12 +937,29 @@
       "txtVi": "Vietnamien",
       "txtZh": "Chinois (simplifié)",
       "txtZhtw": "Chinois (traditionnel)",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Voulez-vous continuer ?",
       "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du classeur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format.",
       "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?",
       "textAutoSaveDocument": "Enregistrement automatique",
       "textDarkDocument": "Document sombre",
-      "textSaveDocument": "Enregistrer"
+      "textSaveDocument": "Enregistrer",
+      "textAboutGroup": "À propos",
+      "textHelpAndFeedback": "Assistance et suggestions",
+      "textPreferences": "Préférences",
+      "textHelpCenter": "Centre d'aide",
+      "textGridlines": "Quadrillage",
+      "textHeadings": "Titres",
+      "textSaveACopy": "Enregistrer une copie",
+      "textSaveACopyAs": "Enregistrer une copie sous",
+      "textSettingsGroup": "Paramètres",
+      "textSpreadsheetSetup": "Configuration de la feuille de calcul",
+      "textShare": "Partager",
+      "textTools": "Outils",
+      "textViewGroup": "Affichage",
+      "textLanguageAndRegion": "Langue et région",
+      "textStyleGroup": "Style",
+      "textSaveACopyHeader": "Enregistrer une copie",
+      "textSaveConnectedStorage": "Le fichier sera enregistré dans l'espace de stockage connecté"
     }
   }
 }
