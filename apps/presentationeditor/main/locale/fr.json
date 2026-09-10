@@ -3763,5 +3763,10 @@
   "PE.Views.ViewTab.tipNotesPage": "Pages de notes",
   "PE.Views.ViewTab.tipHandoutMaster": "Masque des documents à distribuer",
   "PE.Views.ViewTab.tipNotesMaster": "Masque des notes",
-  "PE.Views.ViewTab.tipReadingView": "Mode Lecture"
+  "PE.Views.ViewTab.tipReadingView": "Mode Lecture",
+  "Common.Views.Header.textDownload": "Télécharger",
+  "PE.Controllers.LeftMenu.textExporting": "Exportation en cours…",
+  "PE.Controllers.LeftMenu.textExportNotSupported": "Ce format d'exportation n'est pas pris en charge par votre navigateur.",
+  "PE.Controllers.Main.animatedExportTextText": "Exportation en cours…",
+  "PE.Controllers.Main.animatedExportTitleText": "Exportation"
 }
