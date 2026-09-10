@@ -5388,5 +5388,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Activer la saisie semi-automatique des valeurs de cellule",
   "SSE.Views.ImageSettings.textConvertToShape": "Convertir en forme",
   "Common.Controllers.Shortcuts.txtDescriptionFillDown": "Recopier vers le bas le contenu des cellules supérieures de la plage spécifiée, jusqu'au bas de celle-ci.",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Format d'heure non valide. Exemple :"
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Format d'heure non valide. Exemple :",
+  "Common.Views.Header.textDownload": "Télécharger"
 }
