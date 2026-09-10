@@ -5383,5 +5383,6 @@
   "SSE.Views.DocumentHolder.textConvertToShape": "Pretvori u oblik",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Omogući kopiranje slika za ćelije",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Iseci, kopiraj i nalepi",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Omogući automatsko dovršavanje vrednosti ćelija"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Omogući automatsko dovršavanje vrednosti ćelija",
+  "Common.Views.Header.textDownload": "Preuzimanje"
 }
