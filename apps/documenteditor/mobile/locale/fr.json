@@ -849,7 +849,13 @@
     "textSettingsGroup": "Paramètres",
     "textPreferences": "Préférences",
     "textHelpAndFeedback": "Suggestions et assistance",
-    "textShare": "Partager"
+    "textShare": "Partager",
+    "textMobileViewWarning": "Une partie de ce document sera masquée en affichage mobile.",
+    "textStyleGroup": "Style",
+    "textSpellingGroup": "Orthographe",
+    "textDisplayGroup": "Afficher",
+    "textSaveACopyHeader": "Enregistrer une copie",
+    "textSaveConnectedStorage": "Le fichier sera enregistré dans l'espace de stockage connecté"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
