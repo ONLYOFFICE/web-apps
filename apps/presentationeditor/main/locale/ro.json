@@ -3795,7 +3795,7 @@
   "PE.Views.ExportAnimatedDialog.textVideo": "Video",
   "PE.Views.ExportAnimatedDialog.txtAllSlides": "Toate diapozitivele",
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Diapozitivul curent",
-  "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Diapozitive personalizate",
+  "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Interval personalizat",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Numărul diapozitivului incorect",
   "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapozitive selectate"
 }
