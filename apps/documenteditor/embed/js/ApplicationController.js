@@ -559,7 +559,7 @@ DE.ApplicationController = new(function(){
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
+        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : 100);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
         api.asc_setViewerTargetType(config.customization && config.customization.pointerMode==='hand' ? 'hand' : 'select');
