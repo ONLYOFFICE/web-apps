@@ -237,7 +237,21 @@ DE.ApplicationController = new(function(){
         $('#id-btn-prev-field').attr({disabled: state});
         $('#id-btn-next-field').attr({disabled: state});
         $('#id-btn-clear-fields').attr({disabled: state});
-        api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
+        
+        var role = new AscCommon.CRestrictionSettings();
+        if(state) {
+            role.put_OFormNoRole(true);
+        } else {
+            var oform = api.asc_GetOForm();
+            if (oform && config.user.roles) {
+                if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                    role.put_OFormRole(config.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
+            }
+        }
+        api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
     }
 
     function onDocMouseMoveStart() {

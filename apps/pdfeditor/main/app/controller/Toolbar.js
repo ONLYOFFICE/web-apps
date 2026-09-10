@@ -1573,7 +1573,9 @@ define([
                         }, this);
                     }
                     this.submitedTooltip.show();
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    const role = new AscCommon.CRestrictionSettings();
+                    role.put_OFormNoRole(true);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
             }
         },
