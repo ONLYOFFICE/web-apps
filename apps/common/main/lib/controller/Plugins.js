@@ -837,6 +837,7 @@ define([
                 successClosed && (isIframePlugin = true);
             }
             !saveCustomControls && frameId && delete this.headerCustomControls[frameId];
+            this._removeAllFloatActionButtons(guid);
 
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
             this.runAutoStartPlugins();
@@ -1305,7 +1306,7 @@ define([
 
             // Add and remove in fab conainer
             const $fabContainer = $('#plugin-fab-container');
-            if($fabContainer) {
+            if($fabContainer && $fabContainer.length) {
                 Array.isArray(removed) && removed.forEach(function(btn) {
                     btn.$el.remove();
                 });
@@ -1359,6 +1360,13 @@ define([
                 }
             }
             return arr;
+        },
+
+        _removeAllFloatActionButtons: function(guid) {
+            const buttons = this.floatActionButtons[guid];
+            if (!buttons) return;
+            buttons.forEach(function(btn) { btn.$el.remove(); });
+            delete this.floatActionButtons[guid];
         },
 
         runAutoStartPlugins: function() {
