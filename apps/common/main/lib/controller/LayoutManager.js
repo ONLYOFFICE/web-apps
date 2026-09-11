@@ -273,7 +273,7 @@ Common.UI.LayoutManager = new(function() {
                             _set = Common.enumLock;
                         if (btn) { // change caption, hint, disable state, menu items
                             if (btn instanceof Common.UI.Button) {
-                                var caption = Common.Utils.String.htmlEncode(item.text || '');
+                                var caption = !!item.text ? Common.Utils.String.htmlEncode(item.text) : '';
                                 if (btn.options.caption !== (caption || ' ')) {
                                     btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('nocaption', !caption);
                                     btn.setCaption(caption || ' ');
