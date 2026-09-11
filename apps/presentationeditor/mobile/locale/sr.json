@@ -637,7 +637,12 @@
       "textUnitOfMeasurement": "Jedinica mere",
       "textUploaded": "Otpremljeno",
       "textVersion": "Verzija",
-      "textVersionHistory": "Istorija Verzija"
+      "textVersionHistory": "Istorija Verzija",
+      "textSaveACopy": "Sačuvaj kopiju",
+      "textSaveACopyAs": "Sačuvaj kopiju kao",
+      "textSettingsGroup": "Podešavanja",
+      "textShare": "Podelite",
+      "textTools": "Alati"
     }
   }
 }
