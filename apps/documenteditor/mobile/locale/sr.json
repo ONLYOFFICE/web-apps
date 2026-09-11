@@ -854,7 +854,8 @@
     "textStyleGroup": "Stil",
     "textSpellingGroup": "Pravopis",
     "textDisplayGroup": "Ekran",
-    "textSaveACopyHeader": "Sačuvaj kopiju"
+    "textSaveACopyHeader": "Sačuvaj kopiju",
+    "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju"
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",
