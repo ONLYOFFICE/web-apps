@@ -79,7 +79,7 @@
   "Common.Views.DocumentAccessDialog.textLoading": "Chargement...",
   "Common.Views.DocumentAccessDialog.textTitle": "Paramètres de partage",
   "Common.Views.Header.ariaQuickAccessToolbar": "Barre d'outils d'accès rapide",
-  "Common.Views.Header.labelCoUsersDescr": "Le document est en cours de modification par les utilisateurs suivants :",
+  "Common.Views.Header.labelCoUsersDescr": "Le document est en cours de modification par :",
   "Common.Views.Header.textAddFavorite": "Marquer en tant que favori",
   "Common.Views.Header.textAdvSettings": "Paramètres avancés",
   "Common.Views.Header.textBack": "Ouvrir l'emplacement du fichier",

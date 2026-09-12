@@ -34,7 +34,8 @@
       "textSharingSettings": "Podešavanja Deljenja",
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUsers": "Korisnici",
-      "textEnterComment": "Unesite komentar"
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -636,7 +637,12 @@
       "textUnitOfMeasurement": "Jedinica mere",
       "textUploaded": "Otpremljeno",
       "textVersion": "Verzija",
-      "textVersionHistory": "Istorija Verzija"
+      "textVersionHistory": "Istorija Verzija",
+      "textSaveACopy": "Sačuvaj kopiju",
+      "textSaveACopyAs": "Sačuvaj kopiju kao",
+      "textSettingsGroup": "Podešavanja",
+      "textShare": "Podelite",
+      "textTools": "Alati"
     }
   }
 }

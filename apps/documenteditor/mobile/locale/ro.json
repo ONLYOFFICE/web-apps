@@ -168,7 +168,8 @@
       "textUnderline": "Subliniat",
       "textUsers": "Utilizatori",
       "textWidow": "Control văduvă",
-      "textEnterComment": "Introducere comentariu"
+      "textEnterComment": "Introducere comentariu",
+      "textMention": "Comentariu sau mențiune (+ sau @)"
     },
     "HighlightColorPalette": {
       "textNoFill": "Fără umplere"
@@ -182,7 +183,7 @@
       "dark": "Întunecat",
       "light": "Luminos",
       "system": "La fel ca sistemul",
-      "textTheme": "Temă"
+      "textTheme": "Temă interfață"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
@@ -747,7 +748,7 @@
     "textExport": "Export",
     "textExportAs": "Export ca",
     "textFastWV": "Vizualizare rapidă web",
-    "textFeedback": "Feedback și asistența",
+    "textFeedback": "Contactați Serviciul de Asistență",
     "textFillingForms": "Completarea formularelor",
     "textFind": "Găsire",
     "textFindAndReplace": "Găsire și înlocuire",
@@ -779,7 +780,7 @@
     "textOk": "OK",
     "textOpenFile": "Introduceți parola pentru a deschide fișierul",
     "textOpenLocation": "Accesează locația",
-    "textOrientation": "Orientare",
+    "textOrientation": "Orientare pagină",
     "textOwner": "Proprietar",
     "textPages": "Pagini",
     "textPageSize": "Dimensiune pagină",
@@ -835,7 +836,26 @@
     "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
     "txtOk": "OK",
-    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
+    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis",
+    "textAboutGroup": "Despre",
+    "textDocumentSetup": "Configurare document",
+    "textHelpCenter": "Centru de ajutor",
+    "textHeadings": "Titluri",
+    "textSaveCopy": "Salvare copie",
+    "textSaveACopy": "Salvare copie",
+    "textSaveACopyAs": "Salvare copie ca",
+    "textTools": "Instrumente",
+    "textView": "Vizualizare",
+    "textSettingsGroup": "Setări",
+    "textPreferences": "Preferințe",
+    "textHelpAndFeedback": "Asistență și feedback",
+    "textShare": "Partajare",
+    "textMobileViewWarning": "O parte din conținutul acestui document va fi ascuns în vizualizarea mobilă.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Ortografie",
+    "textDisplayGroup": "Afișare",
+    "textSaveACopyHeader": "Salvare copie",
+    "textSaveConnectedStorage": "Fișierul va fi salvat în spațiul de stocare conectat"
   },
   "Toolbar": {
     "btnRestartNow": "Repornire acum",

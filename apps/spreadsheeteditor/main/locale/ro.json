@@ -4294,7 +4294,7 @@
   "SSE.Views.ProtectDialog.txtWBDescription": "Puteți proteja structura registrului de calcul prin parolă pentru împiedicarea utilizatorilor de a vizualiza registrele de calcul mascate, de a adăuga, deplasa, șterge, masca și redenumi registrele de calcul.",
   "SSE.Views.ProtectDialog.txtWBTitle": "Protecție structură registru de lucru",
   "SSE.Views.ProtectedRangesEditDlg.textAnonymous": "Anonim",
-  "SSE.Views.ProtectedRangesEditDlg.textAnyone": "Orice utilizator",
+  "SSE.Views.ProtectedRangesEditDlg.textAnyone": "Oricine",
   "SSE.Views.ProtectedRangesEditDlg.textCanEdit": "Editare",
   "SSE.Views.ProtectedRangesEditDlg.textCantView": "Refuzat",
   "SSE.Views.ProtectedRangesEditDlg.textCanView": "Vizualizare",
@@ -5379,7 +5379,7 @@
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Dezactivarea protejării registrului de calcul",
   "Common.Controllers.Shortcuts.txtDescriptionFillDown": "Umplere în jos, de la celula sau celulele din partea de sus a zonei specificate până la baza acesteia.",
   "Common.Controllers.Shortcuts.txtLabelFillDown": "FillDown",
-  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Format de oră nevalid. Exemplu:",
+  "SSE.Views.ChartSettingsDlg.textInvalidTimeFormat": "Format de oră nevalid. Exemplu: ",
   "SSE.Views.ChartTab.textDataTable": "Tabel de date",
   "SSE.Views.ChartTab.textShowDataTable": "Afișare tabel de date",
   "SSE.Views.ChartTab.textShowLegendKeys": "Afișare simboluri de legendă",
@@ -5388,5 +5388,11 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Activare copiere imagini pentru celule",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Decupare, copiere și lipire",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Activare Completare automată pentru valorile celulelor",
-  "SSE.Views.ImageSettings.textConvertToShape": "Conversie în formă"
+  "SSE.Views.ImageSettings.textConvertToShape": "Conversie în formă",
+  "Common.Views.Header.textDownload": "Descărcare",
+  "SSE.Controllers.Main.errorCopyRangeTooLarge": "Zona selectată este prea mare pentru a fi copiată în întregime.<br>Doar o parte din ea a fost copiată în clipboard. Selectați o zonă mai mică și încercați din nou.",
+  "SSE.Views.FormatRulesEditDlg.textAxisColor": "Culoare axă",
+  "SSE.Views.FormatRulesEditDlg.textBorderColor": "Culoare bordură",
+  "SSE.Views.FormatRulesEditDlg.textFillColor": "Culoare de umplere",
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Culoare"
 }

@@ -34,7 +34,8 @@
       "textSharingSettings": "Setări partajare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUsers": "Utilizatori",
-      "textEnterComment": "Introducere comentariu"
+      "textEnterComment": "Introducere comentariu",
+      "textMention": "Comentariu sau mențiune (+ sau @)"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -45,7 +46,7 @@
       "dark": "Întunecat",
       "light": "Luminos",
       "system": "La fel ca sistemul",
-      "textTheme": "Temă"
+      "textTheme": "Temă interfață"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
@@ -89,7 +90,12 @@
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
     "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati?",
-    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
+    "menuAddColumn": "Adăugare coloană",
+    "menuAddRow": "Adăugare rând",
+    "menuDeleteColumn": "Ștergere coloană",
+    "menuDeleteRow": "Ștergere rând",
+    "menuSelectAll": "Selectare totală"
   },
   "Controller": {
     "Main": {
@@ -385,7 +391,8 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorCopyRangeTooLarge": "Zona selectată este prea mare pentru a fi copiată în întregime. Doar o parte din ea a fost copiată în clipboard. Selectați o zonă mai mică și încercați din nou."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -544,7 +551,9 @@
       "txtYes": "Da",
       "textSheets": "Foi de calcul",
       "textLinkTo": "Link către",
-      "textDefinedName": "Nume definit"
+      "textDefinedName": "Nume definit",
+      "textStyle": "Stil",
+      "textTable": "Tabel"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -757,7 +766,19 @@
       "textCurrentFont": "Text principal",
       "textSheets": "Foi de calcul",
       "textLinkTo": "Link către",
-      "textDefinedName": "Nume definit"
+      "textDefinedName": "Nume definit",
+      "textTotalRow": "Rând totaluri",
+      "textBandedRows": "Rânduri alternante",
+      "textFirstColumn": "Prima coloană",
+      "textHeaderRow": "Rând antet",
+      "textFilterButton": "Butonul de filtrare",
+      "textDeleteTable": "Ștergere tabel",
+      "textColumn": "Coloană",
+      "textBandedColumns": "Coloane alternante",
+      "textTable": "Tabel",
+      "textStyleOptions": "Opțiuni de stil",
+      "textRow": "Rând",
+      "textLastColumn": "Ultima coloană"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -807,7 +828,7 @@
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
       "textExample": "Exemplu",
-      "textFeedback": "Feedback și asistența",
+      "textFeedback": "Contactați Serviciul de Asistență",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
       "textFindAndReplaceAll": "Găsire și înlocuire totală",
@@ -835,7 +856,7 @@
       "textOk": "OK",
       "textOpenFile": "Introduceți parola pentru a deschide fișierul",
       "textOpenLocation": "Accesează locația",
-      "textOrientation": "Orientare",
+      "textOrientation": "Orientare pagină",
       "textOwner": "Proprietar",
       "textPoint": "Punct",
       "textPortrait": "Portret",
@@ -864,7 +885,7 @@
       "textSpreadsheetTitle": "Titlu foaie de calcul",
       "textSubject": "Subiect",
       "textTel": "Tel",
-      "textTheme": "Temă",
+      "textTheme": "Temă interfață",
       "textTitle": "Titlu",
       "textTop": "Sus",
       "textUnitOfMeasurement": "Unitate de măsură",
@@ -921,7 +942,24 @@
       "txtZhtw": "Chineză (tradițională)",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
       "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format.",
-      "warnDownloadOds": "Salvarea acestui fișier poate duce la pierderea unor formule, formatării celulelor sau a obiectelor încorporate deoarece acceptarea acestui format este limitată.<br>Sigur doriți să continui?"
+      "warnDownloadOds": "Salvarea acestui fișier poate duce la pierderea unor formule, formatării celulelor sau a obiectelor încorporate deoarece acceptarea acestui format este limitată.<br>Sigur doriți să continui?",
+      "textAboutGroup": "Despre",
+      "textHelpAndFeedback": "Asistență și feedback",
+      "textPreferences": "Preferințe",
+      "textHelpCenter": "Centru de ajutor",
+      "textGridlines": "Linii de grilă",
+      "textHeadings": "Titluri",
+      "textSaveACopy": "Salvare copie",
+      "textSaveACopyAs": "Salvare copie ca",
+      "textSettingsGroup": "Setări",
+      "textSpreadsheetSetup": "Configurare foaie de calcul",
+      "textShare": "Partajare",
+      "textTools": "Instrumente",
+      "textViewGroup": "Vizualizare",
+      "textLanguageAndRegion": "Limbă și regiune",
+      "textStyleGroup": "Stil",
+      "textSaveACopyHeader": "Salvare copie",
+      "textSaveConnectedStorage": "Fișierul va fi salvat în spațiul de stocare conectat"
     }
   }
 }

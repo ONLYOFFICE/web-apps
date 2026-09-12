@@ -34,7 +34,8 @@
       "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUsers": "Usuarios",
-      "textEnterComment": "Escribir comentario"
+      "textEnterComment": "Escribir comentario",
+      "textMention": "Comente o mencione con + o @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -45,7 +46,7 @@
       "dark": "Oscuro",
       "light": "Claro",
       "system": "Igual que el sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema de la interfaz"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
@@ -89,7 +90,12 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
+    "menuAddColumn": "Añadir columna",
+    "menuAddRow": "Añadir fila",
+    "menuDeleteColumn": "Eliminar columna",
+    "menuDeleteRow": "Eliminar fila",
+    "menuSelectAll": "Seleccionar todo"
   },
   "Controller": {
     "Main": {
@@ -385,7 +391,8 @@
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
     "errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
-    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
+    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo.",
+    "errorCopyRangeTooLarge": "El rango seleccionado es demasiado grande para copiarlo en su totalidad. Solo se ha copiado una parte en el portapapeles. Seleccione un rango más pequeño e inténtelo de nuevo."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -544,7 +551,9 @@
       "txtYes": "Sí",
       "textSheets": "Hojas",
       "textLinkTo": "Vincular a",
-      "textDefinedName": "Nombre definido"
+      "textDefinedName": "Nombre definido",
+      "textStyle": "Estilo",
+      "textTable": "Tabla"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -757,7 +766,19 @@
       "textCurrentFont": "Texto principal",
       "textSheets": "Hojas",
       "textLinkTo": "Vincular a",
-      "textDefinedName": "Nombre definido"
+      "textDefinedName": "Nombre definido",
+      "textTotalRow": "Fila de totales",
+      "textTable": "Tabla",
+      "textStyleOptions": "Opciones de estilo",
+      "textRow": "Fila",
+      "textLastColumn": "Última columna",
+      "textHeaderRow": "Fila de encabezado",
+      "textFilterButton": "Botón de filtro",
+      "textDeleteTable": "Eliminar tabla",
+      "textColumn": "Columna",
+      "textBandedColumns": "Columnas con bandas",
+      "textBandedRows": "Filas con bandas",
+      "textFirstColumn": "Primera columna"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -805,7 +826,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
       "textEncoding": "Codificación",
       "textExample": "Ejemplo",
-      "textFeedback": "Comentarios y asistencia",
+      "textFeedback": "Contactar con el soporte técnico",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -832,7 +853,7 @@
       "textNoMatches": "No hay coincidencias",
       "textOk": "OK",
       "textOpenFile": "Introduzca una contraseña para abrir el archivo",
-      "textOrientation": "Orientación ",
+      "textOrientation": "Orientación de la página",
       "textOwner": "Propietario",
       "textPoint": "Punto",
       "textPortrait": "Vertical",
@@ -860,7 +881,7 @@
       "textSpreadsheetTitle": "Título de hoja de cálculo",
       "textSubject": "Asunto",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema de la interfaz",
       "textTitle": "Título",
       "textTop": "Arriba",
       "textUnitOfMeasurement": "Unidad de medida",
@@ -921,7 +942,24 @@
       "textAutoSaveDocument": "Guardado automático",
       "textOpenLocation": "Abrir ubicación",
       "textSaveDocument": "Guardar",
-      "textDarkDocument": "Documento oscuro"
+      "textDarkDocument": "Documento oscuro",
+      "textPreferences": "Preferencias",
+      "textHelpCenter": "Centro de Ayuda",
+      "textSaveACopy": "Guardar una copia",
+      "textSaveACopyAs": "Guardar una copia como",
+      "textTools": "Herramientas",
+      "textSettingsGroup": "Ajustes",
+      "textAboutGroup": "Acerca de",
+      "textHelpAndFeedback": "Ayuda y comentarios",
+      "textShare": "Compartir",
+      "textStyleGroup": "Estilo",
+      "textSaveACopyHeader": "Guardar una copia",
+      "textSaveConnectedStorage": "El archivo se guardará en el almacenamiento conectado",
+      "textGridlines": "Líneas de cuadrícula",
+      "textHeadings": "Encabezados",
+      "textSpreadsheetSetup": "Configuración de la hoja de cálculo",
+      "textViewGroup": "Vista",
+      "textLanguageAndRegion": "Idioma y región"
     }
   }
 }

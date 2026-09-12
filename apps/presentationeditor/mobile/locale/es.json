@@ -34,7 +34,8 @@
       "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUsers": "Usuarios",
-      "textEnterComment": "Escribir comentario"
+      "textEnterComment": "Escribir comentario",
+      "textMention": "Comente o mencione con + o @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sin relleno"
@@ -48,7 +49,7 @@
       "dark": "Oscuro",
       "light": "Claro",
       "system": "Igual que el sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema de la interfaz"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
@@ -595,7 +596,7 @@
       "textEmail": "correo: ",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
-      "textFeedback": "Comentarios y asistencia",
+      "textFeedback": "Contactar con el soporte técnico",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -640,7 +641,22 @@
       "textAutoSaveDocument": "Guardado automático",
       "textOpenLocation": "Abrir ubicación",
       "textSaveDocument": "Guardar",
-      "textSlideOrientation": "Orientación de la diapositiva"
+      "textSlideOrientation": "Orientación de la diapositiva",
+      "textPreferences": "Preferencias",
+      "textHelpCenter": "Centro de Ayuda",
+      "textPresentationSetup": "Configuración de la presentación",
+      "textSaveACopy": "Guardar una copia",
+      "textSaveACopyAs": "Guardar una copia como",
+      "textTools": "Herramientas",
+      "textSettingsGroup": "Ajustes",
+      "textAboutGroup": "Acerca de",
+      "textHelpAndFeedback": "Ayuda y comentarios",
+      "textShare": "Compartir",
+      "textStyleGroup": "Estilo",
+      "textShowSettingsGroup": "Mostrar los ajustes",
+      "textSpellingGroup": "Ortografía",
+      "textSaveACopyHeader": "Guardar una copia",
+      "textSaveConnectedStorage": "El archivo se guardará en el almacenamiento conectado"
     }
   }
 }

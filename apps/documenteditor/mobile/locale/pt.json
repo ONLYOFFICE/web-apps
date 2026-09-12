@@ -168,7 +168,8 @@
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
       "textWidow": "Controle de linhas órfãs/viúvas.",
-      "textEnterComment": "Insira o comentário"
+      "textEnterComment": "Insira o comentário",
+      "textMention": "Comente ou mencione usando + ou @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -182,7 +183,7 @@
       "dark": "Escuro",
       "light": "Claro",
       "system": "O mesmo que sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema da interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -745,7 +746,7 @@
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Visualização rápida da Web",
-    "textFeedback": "Comentários e suporte",
+    "textFeedback": "Entre em contato com o suporte",
     "textFillingForms": "Preenchimento de formulários",
     "textFind": "Localizar",
     "textFindAndReplace": "Localizar e substituir",
@@ -777,7 +778,7 @@
     "textOk": "OK",
     "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
     "textOpenLocation": "Abrir a localização",
-    "textOrientation": "Orientação",
+    "textOrientation": "Orientação da página",
     "textOwner": "Proprietário",
     "textPages": "Páginas",
     "textPageSize": "Tamanho da página",
@@ -835,7 +836,26 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
     "textAutoSaveDocument": "Salvamento automático",
     "textDarkDocument": "Documento Escuro",
-    "textSaveDocument": "Salvar"
+    "textSaveDocument": "Salvar",
+    "textAboutGroup": "Sobre",
+    "textDocumentSetup": "Configuração do documento",
+    "textHelpCenter": "Central de Ajuda",
+    "textSaveCopy": "Salvar uma cópia",
+    "textSaveACopy": "Salvar uma cópia",
+    "textSaveACopyAs": "Salvar uma cópia como",
+    "textTools": "Ferramentas",
+    "textView": "Visualizar",
+    "textSettingsGroup": "Configurações",
+    "textPreferences": "Preferências",
+    "textHelpAndFeedback": "Ajuda e comentários",
+    "textShare": "Compartilhar",
+    "textMobileViewWarning": "Parte do conteúdo deste documento ficará oculta na visualização para dispositivos móveis.",
+    "textStyleGroup": "Estilo",
+    "textSpellingGroup": "Ortografia",
+    "textDisplayGroup": "Exibição",
+    "textSaveACopyHeader": "Salvar uma cópia",
+    "textSaveConnectedStorage": "O arquivo será salvo no dispositivo de armazenamento conectado",
+    "textHeadings": "Cabeçalhos"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",

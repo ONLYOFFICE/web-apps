@@ -5388,5 +5388,11 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textImageCopying": "Habilitar la copia de imágenes para las celdas",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCutCopyPaste": "Cortar, copiar y pegar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCellAutoComplete": "Habilitar Autocompletar para los valores de celda",
-  "SSE.Views.ImageSettings.textConvertToShape": "Convertir en figura"
+  "SSE.Views.ImageSettings.textConvertToShape": "Convertir en figura",
+  "Common.Views.Header.textDownload": "Descargar",
+  "SSE.Controllers.Main.errorCopyRangeTooLarge": "El rango seleccionado es demasiado grande para copiarlo en su totalidad.<br>Solo se ha copiado una parte en el portapapeles. Seleccione un rango más pequeño e inténtelo de nuevo.",
+  "SSE.Views.FormatRulesEditDlg.textAxisColor": "Color del eje",
+  "SSE.Views.FormatRulesEditDlg.textBorderColor": "Color del borde",
+  "SSE.Views.FormatRulesEditDlg.textFillColor": "Color de relleno",
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Color"
 }

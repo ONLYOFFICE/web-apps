@@ -34,7 +34,8 @@
       "textSharingSettings": "Настройки доступа",
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
       "textUsers": "Пользователи",
-      "textEnterComment": "Введите комментарий"
+      "textEnterComment": "Введите комментарий",
+      "textMention": "Комментируйте или упоминайте с помощью + или @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заливки"
@@ -48,7 +49,7 @@
       "dark": "Темная",
       "light": "Светлая",
       "system": "Системная",
-      "textTheme": "Тема"
+      "textTheme": "Тема интерфейса"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
@@ -598,7 +599,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Включить все",
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
-      "textFeedback": "Обратная связь и поддержка",
+      "textFeedback": "Связаться со службой поддержки",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFindAndReplaceAll": "Найти и заменить все",
@@ -640,7 +641,22 @@
       "textUnitOfMeasurement": "Единица измерения",
       "textUploaded": "Загружена",
       "textVersion": "Версия",
-      "textVersionHistory": "История версий"
+      "textVersionHistory": "История версий",
+      "textPreferences": "Параметры",
+      "textHelpCenter": "Справочный центр",
+      "textPresentationSetup": "Настройка презентации",
+      "textSaveACopy": "Сохранить копию",
+      "textSaveACopyAs": "Сохранить копию как",
+      "textTools": "Инструменты",
+      "textSettingsGroup": "Настройки",
+      "textAboutGroup": "О программе",
+      "textHelpAndFeedback": "Справка и обратная связь",
+      "textShare": "Поделиться",
+      "textStyleGroup": "Стиль",
+      "textShowSettingsGroup": "Параметры показа слайдов",
+      "textSpellingGroup": "Орфография",
+      "textSaveACopyHeader": "Сохранить копию",
+      "textSaveConnectedStorage": "Файл будет сохранен в подключенное хранилище"
     }
   }
 }

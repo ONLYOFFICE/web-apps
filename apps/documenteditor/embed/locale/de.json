@@ -46,12 +46,12 @@
   "DE.ApplicationController.textDownloadPdf": "PDF herunterladen",
   "DE.ApplicationController.textGotIt": "OK",
   "DE.ApplicationController.textGuest": "Gast",
-  "DE.ApplicationController.textLoadingDocument": "Dokument wird geladen...",
+  "DE.ApplicationController.textLoadingDocument": "Dokument wird geladen",
   "DE.ApplicationController.textNext": "Nächstes Feld",
   "DE.ApplicationController.textOf": "von",
   "DE.ApplicationController.textOk": "OK",
-  "DE.ApplicationController.textRequired": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
-  "DE.ApplicationController.textSubmit": "Senden",
+  "DE.ApplicationController.textRequired": "Um das Formular abzusenden, müssen Sie alle erforderlichen Felder ausfüllen.",
+  "DE.ApplicationController.textSubmit": "Ausfüllen & Absenden",
   "DE.ApplicationController.textSubmited": "<b>Das Formular wurde erfolgreich abgesendet</b><br>Klicken Sie hier, um den Tipp auszublenden",
   "DE.ApplicationController.titleLicenseExp": "Lizenz ist abgelaufen",
   "DE.ApplicationController.titleLicenseNotActive": "Lizenz nicht aktiv",
@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Vollbild-Modus",
   "DE.ApplicationView.txtPrint": "Drucken",
   "DE.ApplicationView.txtSearch": "Suche",
-  "DE.ApplicationView.txtShare": "Freigeben"
+  "DE.ApplicationView.txtShare": "Freigeben",
+  "DE.ApplicationController.textSubmitOk": "Ihr PDF-Formular wurde erfolgreich ausgefüllt.",
+  "DE.ApplicationController.textFilled": "Ausgefüllt",
+  "DE.ApplicationView.textFitToPage": "An Seite anpassen",
+  "DE.ApplicationView.textFitToWidth": "An Breite anpassen",
+  "DE.ApplicationView.textMultiplePages": "Mehrere Seiten",
+  "DE.ApplicationView.textZoom": "Zoom"
 }
