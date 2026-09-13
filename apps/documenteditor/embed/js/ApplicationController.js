@@ -690,7 +690,7 @@ DE.ApplicationController = new(function(){
                     if(api.asc_CheckPrintPassword(val)) {
                         printCallback();
                     } else {
-                        common.controller.modals.createDlgPrintPassword(submitPassword, true);
+                        common.controller.modals.createDlgPrintPassword(submitPassword, { showError: true });
                     }
                 };
 
@@ -915,7 +915,7 @@ DE.ApplicationController = new(function(){
                     $('#loading-mask').removeClass("none-animation");
                 }
             };
-            common.controller.modals.createDlgPassword(submitPassword);
+            common.controller.modals.createDlgPassword(submitPassword, { showError: true });
             if(isCustomLoader) {
                 hidePreloader();
             } else {

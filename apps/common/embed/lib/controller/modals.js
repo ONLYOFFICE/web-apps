@@ -38,7 +38,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed, $dlgPassword, $dlgPrintPassword, $dlgWarning;
+        var $dlgShare, $dlgEmbed, $dlgWarning;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -107,78 +107,86 @@
             });
         };
 
-        var createDlgPassword = function (submitCallback) {
-            if(!$dlgPassword) {
+        var dialogManager = {};
+
+        /**
+         * Creates and shows a password dialog.
+         * @param {string} dialogKey - Unique key for the dialog instance.
+         * @param {Function} submitCallback - Callback invoked with the entered password after submit.
+         * @param {Object} [options] - Optional dialog configuration.
+         * @param {boolean} [options.allowClose=true] - Whether the dialog can be closed by the user.
+         * @param {boolean} [options.showError=false] - Whether to display an error state for the password input.
+         * @param {string} [options.label] - Custom label shown in the dialog header.
+         */
+        var createPasswordDialog = function (dialogKey, submitCallback, options) {
+            options = options || {};
+            var allowClose = options.allowClose || false;
+            var showError = options.showError || false;
+
+            if (!dialogManager[dialogKey]) {
+                dialogManager[dialogKey] = {};
+            }
+
+            var dialog = dialogManager[dialogKey];
+
+            if (!dialog.$elem) {
                 var submit = function() {
                     if (submitCallback) {
-                        $dlgPassword.modal('hide');
-                        $dlgPassword.find('#password-input').attr('disabled', true)
-                        $dlgPassword.find('#password-btn').attr('disabled', true)
+                        dialog.$elem.modal('hide');
+                        dialog.$elem.find('#password-input').attr('disabled', true);
+                        dialog.$elem.find('#password-btn').attr('disabled', true);
                         setTimeout(function() {
-                            submitCallback($dlgPassword.find('#password-input').val())
+                            submitCallback(dialog.$elem.find('#password-input').val());
                         }, 350);
                     }
                 };
-                $dlgPassword = common.view.modals.create('password');
-                $dlgPassword.modal({backdrop: 'static', keyboard: false})  
-                $dlgPassword.modal('show');
-                $dlgPassword.find('#password-btn').on('click', function() {
+
+                dialog.$elem = common.view.modals.create(dialogKey, 'body', {closable: allowClose, label: options.label});
+                dialog.$elem.modal({backdrop: 'static', keyboard: false});
+                dialog.$elem.modal('show');
+
+                dialog.$elem.find('#password-btn').on('click', function() {
                     submit();
                 });
-                $dlgPassword.find('#password-input').keyup(function(e){ 
-                    if(e.key == "Enter") {
+
+                dialog.$elem.find('#password-input').keyup(function(e) {
+                    if (e.key === "Enter") {
                         submit();
                     }
                 });
+
+                if (allowClose) {
+                    dialog.$elem.on('keydown', function (e) {
+                        if (e.key === 'Escape') {
+                            dialog.$elem.modal('hide');
+                        }
+                    });
+                }
             } else {
-                $dlgPassword.modal('show');
-                $dlgPassword.find('#password-input').attr('disabled', false).addClass('error').val('');
-                $dlgPassword.find('#password-label-error').addClass('error');
-                $dlgPassword.find('#password-btn').attr('disabled', false);
+                dialog.$elem.modal('show');
+                dialog.$elem.find('#password-input')
+                    .attr('disabled', false)
+                    [showError ? 'addClass' : 'removeClass']('error')
+                    .val('');
+                dialog.$elem.find('#password-label-error')[showError ? 'addClass' : 'removeClass']('error');
+                dialog.$elem.find('#password-btn').attr('disabled', false);
             }
+
             setTimeout(function() {
-                $dlgPassword.find('#password-input').focus();
+                dialog.$elem.find('#password-input').focus();
             }, 500);
+
+            return dialog.$elem;
         };
 
-        var createDlgPrintPassword = function (submitCallback, showError) {
-            if(!$dlgPrintPassword) {
-                var submit = function() {
-                    if (submitCallback) {
-                        $dlgPrintPassword.modal('hide');
-                        $dlgPrintPassword.find('#password-input').attr('disabled', true)
-                        $dlgPrintPassword.find('#password-btn').attr('disabled', true)
-                        setTimeout(function() {
-                            submitCallback($dlgPrintPassword.find('#password-input').val())
-                        }, 350);
-                    }
-                };
-                $dlgPrintPassword = common.view.modals.create('printPassword');
-                $dlgPrintPassword.modal({backdrop: 'static', keyboard: false})  
-                $dlgPrintPassword.modal('show');
-                $dlgPrintPassword.find('#password-btn').on('click', function() {
-                    submit();
-                });
-                $dlgPrintPassword.find('#password-input').keyup(function(e){ 
-                    if(e.key == "Enter") {
-                        submit();
-                    }
-                });
-                $dlgPrintPassword.on('keydown', function (e) {
-                    if (e.key === 'Escape') {
-                        $dlgPrintPassword.modal('hide');
-                    }
-                });
-            } else {
-                $dlgPrintPassword.modal('show');
-                $dlgPrintPassword.find('#password-input')[showError ? 'addClass' : 'removeClass']('error');
-                $dlgPrintPassword.find('#password-label-error')[showError ? 'addClass' : 'removeClass']('error');
-                $dlgPrintPassword.find('#password-input').attr('disabled', false).val('');
-                $dlgPrintPassword.find('#password-btn').attr('disabled', false);
-            }
-            setTimeout(function() {
-                $dlgPrintPassword.find('#password-input').focus();
-            }, 500);
+        var createDlgPassword = function (submitCallback, options) {
+            createPasswordDialog('password', submitCallback, options || {});
+        };
+
+        var createDlgPrintPassword = function (submitCallback, options) {
+            options = options || {};
+            options.allowClose = true;
+            createPasswordDialog('printPassword', submitCallback, options);
         };
 
         var showWarning = function(config) {

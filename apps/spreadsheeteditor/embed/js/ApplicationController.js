@@ -644,7 +644,7 @@ SSE.ApplicationController = new(function(){
                 me.loadMask && me.loadMask.show();
                 if(!isCustomLoader) $('#loading-mask').removeClass("none-animation");
             };
-            common.controller.modals.createDlgPassword(submitPassword);
+            common.controller.modals.createDlgPassword(submitPassword, { showError: true });
             if(isCustomLoader) hidePreloader();
             else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);

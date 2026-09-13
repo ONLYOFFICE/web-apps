@@ -117,28 +117,29 @@ common.view.modals = new(function() {
                             .replace(/\{footer}/, '<button id="btn-copyembed" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-embed');
-            } else if(name == 'password') {
+            } else if(name == 'password' || name == 'printPassword') {
+                var passwordConfig = {
+                    'password': {
+                        title: this.txtTitleProtected,
+                        label: this.txtOpenFile
+                    },
+                    'printPassword': {
+                        title: this.txtTitleProtectedPrint,
+                        label: this.txtPrintFile
+                    }
+                };
+                
+                var cfg = passwordConfig[name];
                 _$dlg = $(tplDialog
-                    .replace(/\{title}/, this.txtTitleProtected)
+                    .replace(/\{title}/, (config && config.title) || cfg.title)
                     .replace(/\{body}/, _tplbody_password)
-                    .replace(/\{label}/, this.txtOpenFile)
+                    .replace(/\{label}/, (config && config.label) || cfg.label)
                     .replace(/\{error}/, this.txtIncorrectPwd)
                     .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">OK</button>'))
                         .appendTo(parent)
                         .attr('id', 'dlg-password');
 
-                _$dlg.find('button.close').remove();
-                _$dlg.find('.modal-footer').remove();
-            } else if(name == 'printPassword') {
-                _$dlg = $(tplDialog
-                    .replace(/\{title}/, this.txtTitleProtectedPrint)
-                    .replace(/\{body}/, _tplbody_password)
-                    .replace(/\{label}/, this.txtPrintFile)
-                    .replace(/\{error}/, this.txtIncorrectPwd)
-                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">OK</button>'))
-                        .appendTo(parent)
-                        .attr('id', 'dlg-password');
-
+                !(config && config.closable) && _$dlg.find('button.close').remove();
                 _$dlg.find('.modal-footer').remove();
             } else if (name == 'warning') {
                 var footerBtns = (config && config.buttons || ['ok']).map(btn => 
