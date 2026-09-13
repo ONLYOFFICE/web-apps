@@ -183,6 +183,18 @@ DE.ApplicationController = new(function(){
         $('#page-number').val(number + 1);
     }
 
+    function onAskEditPassword(pwd) {
+        var submitPassword = function(val) {
+            if(!api.asc_CheckEditPassword(val)) {
+                common.controller.modals.createDlgPassword(submitPassword, { label: me.textUnprotectDocument, allowClose: true, showError: true });
+            }
+        };
+
+        if(api && api.asc_CheckEditPassword && api.asc_CheckEditPassword(pwd!==undefined ? pwd : null) === false) {
+            common.controller.modals.createDlgPassword(submitPassword,  { label: me.textUnprotectDocument, allowClose: true });
+        } 
+    }
+
     function onLongActionBegin(type, id) {
         var text = '';
         switch (id)
@@ -1327,6 +1339,7 @@ DE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
+            api.asc_registerCallback('asc_onAskEditPassword',       onAskEditPassword);
 
             if (isPDF) {
                 api.asc_registerCallback('asc_onOpenLinkPdfForm',          onOpenLinkPdfForm);
@@ -1404,6 +1417,7 @@ DE.ApplicationController = new(function(){
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
         txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
-        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.',
+        textUnprotectDocument: 'Enter a password to unprotect document'
     }
 })();
