@@ -3797,5 +3797,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Slide atual",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Slides personalizados",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Número do slide inválido",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Slides selecionados"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Slides selecionados",
+  "PE.Views.ImageSettings.textRotate": "Girar",
+  "PE.Views.ShapeSettings.textRotate": "Girar"
 }
