@@ -246,8 +246,7 @@
             margin: @header-component-margin;
 
             .compact-mode & {
-                margin: @header-component-margin-compact-ie;
-                margin: @header-component-margin-compact;
+                margin: 0;
             }
         }
     }
@@ -262,6 +261,13 @@
     border: 0;
     padding: @header-component-padding-y-ie @header-component-padding-x-ie;
     padding: @header-component-padding-y @header-component-padding-x;
+
+    .compact-mode & {
+        width: calc(@x-small-btn-size-ie + 3px * 2);
+        width: calc(@x-small-btn-size + 3px * 2);
+        padding-left: 3px;
+        padding-right: 3px;
+    }
 
     .icon {
         width: @x-small-btn-icon-size-ie;
@@ -447,7 +453,7 @@
     display: flex;
     align-items: center;
     padding: 0 6px;
-    width: auto;
+    width: auto !important;
 
     .caption {
         margin: 2px 4px 0 2px;
