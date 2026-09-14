@@ -46,6 +46,9 @@ define([
 ], function () {
     'use strict';
 
+    !Common.enumLock && (Common.enumLock = {});
+    Common.enumLock.compactMode = 'compact-mode';
+
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
@@ -262,7 +265,7 @@ define([
                 this.lockedControls.push(this.btnDarkDocument);
 
                 this.chStatusbar = new Common.UI.CheckBox({
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.compactMode],
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("de-hidden-status"),
                     dataHint: '1',
@@ -272,7 +275,7 @@ define([
                 this.lockedControls.push(this.chStatusbar);
 
                 this.chToolbar = new Common.UI.CheckBox({
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.compactMode],
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
                     dataHint    : '1',

@@ -482,13 +482,15 @@ define([
             const isHideToolbar = isCompact || Common.localStorage.getBool("de-compact-toolbar");
             this.view.chToolbar.setValue(!isHideToolbar, true);
             this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
-            this.view.chToolbar.setDisabled(isCompact);            
 
             //Statusbar
             const isHideStatusbar = isCompact || Common.localStorage.getBool("de-hidden-status");
             this.view.chStatusbar.setValue(!isHideStatusbar, true);
             this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
-            this.view.chStatusbar.setDisabled(isCompact);
+
+            Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
+                this.view.chToolbar, this.view.chStatusbar
+            ]});
         },
 
     }, DE.Controllers.ViewTab || {}));

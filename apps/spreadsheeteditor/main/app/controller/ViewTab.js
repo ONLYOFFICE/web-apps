@@ -408,19 +408,20 @@ define([
             const isHideToolbar = isCompact || Common.localStorage.getBool("sse-compact-toolbar");
             this.view.chToolbar.setValue(!isHideToolbar, true);
             this.view.fireEvent('viewtab:showtoolbar', [this.view.chToolbar, isHideToolbar, true]);
-            this.view.chToolbar.setDisabled(isCompact);            
 
             //Statusbar
             const isHideStatusbar = isCompact || Common.localStorage.getBool("sse-compact-statusbar");
             this.view.chStatusbar.setValue(!isHideStatusbar, true);
             this.view.fireEvent('statusbar:setcompact', [this.view.chStatusbar, isHideStatusbar, true]);
-            this.view.chStatusbar.setDisabled(isCompact);
 
             //Formulabar
             const isHideFormulabar = isCompact || Common.localStorage.getBool("sse-hidden-formula");
             this.view.chFormula.setValue(!isHideFormulabar, true);
             this.view.fireEvent('viewtab:formula', [this.view.chFormula, !isHideFormulabar, true]);
-            this.view.chFormula.setDisabled(isCompact);
+
+            Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
+                this.view.chToolbar, this.view.chStatusbar, this.view.chFormula
+            ]});
         },
 
     }, SSE.Controllers.ViewTab || {}));

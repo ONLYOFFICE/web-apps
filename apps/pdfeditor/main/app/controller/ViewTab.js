@@ -400,13 +400,15 @@ define([
             const isHideToolbar = isCompact || Common.localStorage.getBool("pdfe-compact-toolbar");
             this.view.chToolbar.setValue(!isHideToolbar, true);
             this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
-            this.view.chToolbar.setDisabled(isCompact);            
 
             //Statusbar
             const isHideStatusbar = isCompact || Common.localStorage.getBool("pdfe-hidden-status");
             this.view.chStatusbar.setValue(!isHideStatusbar, true);
             this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
-            this.view.chStatusbar.setDisabled(isCompact);
+
+            Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
+                this.view.chToolbar, this.view.chStatusbar
+            ]});
         }
 
     }, PDFE.Controllers.ViewTab || {}));
