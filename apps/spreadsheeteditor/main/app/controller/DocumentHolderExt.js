@@ -2182,12 +2182,13 @@ define([], function () {
             }
         };
 
-        dh.onSelectionChanged = function(info){
+        dh.onSelectionChanged = function(info, changedSheetId){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
-            if (this.dlgFilter && this.dlgFilter.isVisible())
+            if (this.dlgFilter && this.dlgFilter.isVisible() &&
+                (changedSheetId === undefined || changedSheetId == this.api.asc_getActiveWorksheetId()))
                 this.dlgFilter.close();
 
             if (this.permissions && this.permissions.isEdit) {
