@@ -3384,5 +3384,7 @@
   "PDFE.Views.TableSettings.textBorderColorLabel": "Цвет границ",
   "PDFE.Views.TextArtSettings.textBorderColor": "Цвет границ",
   "PDFE.Views.TextArtSettings.textFillColor": "Цвет заливки",
-  "PDFE.Controllers.Toolbar.textSubmitOk": "Ваша PDF-форма успешно заполнена."
+  "PDFE.Controllers.Toolbar.textSubmitOk": "Ваша PDF-форма успешно заполнена.",
+  "PDFE.Views.ImageSettings.textRotate": "Повернуть",
+  "PDFE.Views.ShapeSettings.textRotate": "Повернуть"
 }
