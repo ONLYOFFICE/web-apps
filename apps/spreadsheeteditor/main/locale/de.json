@@ -5395,5 +5395,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Achsenfarbe",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Rahmenfarbe",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Füllfarbe",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Farbe"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Farbe",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Diese Arbeitsmappe enthält Daten außerhalb der Zeilen- und Spaltenbegrenzungen des XLS-Formats (65.536 Zeilen, 256 Spalten). Diese Daten gehen beim Speichern verloren.",
+  "SSE.Views.ImageSettings.textRotate": "Drehen",
+  "SSE.Views.ShapeSettings.textRotate": "Drehen"
 }
