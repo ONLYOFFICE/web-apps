@@ -183,7 +183,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje",
@@ -748,7 +748,7 @@
     "textExport": "Izvoz",
     "textExportAs": "Izvezi kao",
     "textFastWV": "Brzi Mrežni Prikaz",
-    "textFeedback": "Povratne Informacije i Podrška",
+    "textFeedback": "Kontaktirajte podršku",
     "textFillingForms": "Popunjavanje formi",
     "textFind": "Pronađi",
     "textFindAndReplace": "Pronađi i Zameni",
@@ -780,7 +780,7 @@
     "textOk": "OK",
     "textOpenFile": "Unesi lozinku da otvoriš fajl",
     "textOpenLocation": "Otvorena lokacija",
-    "textOrientation": "Orijentacija ",
+    "textOrientation": "Orijentacija stranice",
     "textOwner": "Vlasnik",
     "textPages": "Stranice",
     "textPageSize": "Veličina stranice",
