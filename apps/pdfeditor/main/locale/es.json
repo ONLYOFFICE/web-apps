@@ -3384,5 +3384,7 @@
   "PFDE.Views.SignatureSettings.txtSignedInvalid": "Algunas de las firmas digitales del documento no son válidas o no se han podido verificar. El documento está protegido contra la edición.",
   "PDFE.Views.TableSettings.textBorderColorLabel": "Color del borde",
   "PDFE.Views.TextArtSettings.textBorderColor": "Color del borde",
-  "PDFE.Views.TextArtSettings.textFillColor": "Color de relleno"
+  "PDFE.Views.TextArtSettings.textFillColor": "Color de relleno",
+  "PDFE.Views.ImageSettings.textRotate": "Girar",
+  "PDFE.Views.ShapeSettings.textRotate": "Girar"
 }
