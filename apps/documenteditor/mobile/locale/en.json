@@ -198,6 +198,10 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "ZoomToast": {
+      "textMax": "Maximum",
+      "textMin": "Minimum"
     }
   },
   "ContextMenu": {
