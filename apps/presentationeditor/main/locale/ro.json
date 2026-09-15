@@ -487,7 +487,7 @@
   "Common.define.effectData.textSinkDown": "Scufundare",
   "Common.define.effectData.textSlideCenter": "Centrul diapozitivului",
   "Common.define.effectData.textSpecial": "Special",
-  "Common.define.effectData.textSpin": "Rotire",
+  "Common.define.effectData.textSpin": "Învârtire",
   "Common.define.effectData.textSpinner": "Incrementare/Decrementare",
   "Common.define.effectData.textSpiralIn": "Spirală spre interior",
   "Common.define.effectData.textSpiralLeft": "Spirală spre stânga",
@@ -3797,5 +3797,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Diapozitivul curent",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Interval personalizat",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Numărul diapozitivului incorect",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapozitive selectate"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapozitive selectate",
+  "PE.Views.ImageSettings.textRotate": "Rotire",
+  "PE.Views.ShapeSettings.textRotate": "Rotire"
 }
