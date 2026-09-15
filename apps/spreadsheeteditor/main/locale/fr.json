@@ -5394,5 +5394,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Couleur de l'axe",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Couleur de bordure",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Couleur de remplissage",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Couleur"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Couleur",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Ce classeur contient des données en dehors des limites de lignes et de colonnes du format XLS (65 536 lignes, 256 colonnes). Ces données seront définitivement perdues à l'enregistrement.",
+  "SSE.Views.ImageSettings.textRotate": "Faire pivoter",
+  "SSE.Views.ShapeSettings.textRotate": "Faire pivoter"
 }
