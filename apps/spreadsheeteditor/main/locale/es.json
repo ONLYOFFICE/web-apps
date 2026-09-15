@@ -5394,5 +5394,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Color del eje",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Color del borde",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Color de relleno",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Color"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Color",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Este libro contiene datos fuera de los límites de filas y columnas del formato XLS (65.536 filas, 256 columnas). Estos datos se perderán al guardar.",
+  "SSE.Views.ImageSettings.textRotate": "Girar",
+  "SSE.Views.ShapeSettings.textRotate": "Girar"
 }
