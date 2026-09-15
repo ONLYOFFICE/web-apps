@@ -3384,5 +3384,7 @@
   "Common.Views.RolesManagerDlg.txtTitle": "Gérer les rôles des destinataires",
   "Common.Views.RolesManagerDlg.warnCantDelete": "Impossible de supprimer ce destinataire : des champs lui sont associés.",
   "Common.Views.RolesManagerDlg.warnDelete": "Voulez-vous vraiment supprimer le destinataire « {0} » ?",
-  "PDFE.Controllers.Main.warnStartFilling": "Remplissage du formulaire en cours.<br>La modification du fichier est momentanément indisponible."
+  "PDFE.Controllers.Main.warnStartFilling": "Remplissage du formulaire en cours.<br>La modification du fichier est momentanément indisponible.",
+  "PDFE.Views.ImageSettings.textRotate": "Faire pivoter",
+  "PDFE.Views.ShapeSettings.textRotate": "Faire pivoter"
 }
