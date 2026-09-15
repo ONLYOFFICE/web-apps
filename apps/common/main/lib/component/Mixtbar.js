@@ -717,6 +717,10 @@ define([
                     var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
+                    btnsMore[tab].panelScroller = new Common.UI.Scroller({
+                        el: btnsMore[tab].panel.parent(),
+                        alwaysVisibleY: true
+                    });
                 } else if (btnsMore[tab].needRepaint && panel.is(':visible')) {
                     btnsMore[tab].cmpEl.closest('.more-box').css('top', Common.Utils.getPosition(panel).top);
                     btnsMore[tab].needRepaint = false;
@@ -1120,10 +1124,24 @@ define([
                     right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
                     top = showxy.top - parentxy.top + target.height() + 10;
 
-                var styles = Common.UI.isRTL() ? {left: '6px', right: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'} : {right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'}
+                const maxHeight = Math.max(Common.Utils.innerHeight() - top - parentxy.top - 10, 0);
+                const styles = Common.UI.isRTL() ? {
+                    left: '6px', 
+                    right: 'auto', 
+                    top : top, 
+                    'max-width': Common.Utils.innerWidth() + 'px',
+                    'max-height': maxHeight + 'px'
+                } : {
+                    right: right, 
+                    left: 'auto', 
+                    top : top, 
+                    'max-width': Common.Utils.innerWidth() + 'px',
+                    'max-height': maxHeight + 'px'
+                };
                 moreContainer.css(styles);
                 this.prefillMore(moreContainer, 1);
                 moreContainer.show();
+                btn.panelScroller && btn.panelScroller.update();
             },
 
             hideMoreBtns: function() {
