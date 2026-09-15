@@ -3797,5 +3797,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Diapositive actuelle",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Plage personnalisée",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Numéro de diapositive non valide",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapositives sélectionnées"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapositives sélectionnées",
+  "PE.Views.ImageSettings.textRotate": "Faire pivoter",
+  "PE.Views.ShapeSettings.textRotate": "Faire pivoter"
 }
