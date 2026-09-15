@@ -5394,5 +5394,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Culoare axă",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Culoare bordură",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Culoare de umplere",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Culoare"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Culoare",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Acest registru de lucru conține date care depășesc limitele de rânduri și coloane ale formatului XLS (65.536 de rânduri, 256 de coloane). Aceste date vor fi pierdute la salvare.",
+  "SSE.Views.ImageSettings.textRotate": "Rotire",
+  "SSE.Views.ShapeSettings.textRotate": "Rotire"
 }
