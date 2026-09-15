@@ -1233,7 +1233,8 @@ define([
                             label: me.tipStartOver
                         };
                     }
-                    if (config.canDownload && (!config.isDesktopApp || !config.isOffline)) {
+                    var saveIsDownload = config.showSaveButton && !config.canSaveToFile;
+                    if (config.canDownload && (!config.isDesktopApp || !config.isOffline) && !saveIsDownload) {
                         me.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-btn-dt-download'), false, undefined, undefined, 'D');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false) && me.btnDownload.hide();
                     }
