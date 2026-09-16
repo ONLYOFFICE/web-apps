@@ -33,6 +33,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+(function check_js_features_available(){
+    if (!Object.hasOwn) {
+        const script = document.createElement('script');
+        script.src = '../../common/main/lib/util/fix-ie-compat.js';
+        document.head.appendChild(script);
+    }
+})();
+
 var checkLocalStorage = (function () {
     try {
         localStorage.setItem('test', 1);   // for WebView checking !!window.localStorage not enough
