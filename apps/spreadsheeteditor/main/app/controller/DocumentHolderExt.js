@@ -171,6 +171,8 @@ define([], function () {
                 view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
                 view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
                 view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
+                view.pmiEntireShowBefore.on('click',                _.bind(me.onEntireShow, me));
+                view.pmiEntireShowAfter.on('click',                 _.bind(me.onEntireShow, me));
                 view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
                 view.pmiEntriesList.on('click',                     _.bind(me.onEntriesList, me));
                 /** coauthoring begin **/
@@ -1001,7 +1003,57 @@ define([], function () {
 
         dh.onEntireShow = function(item) {
             if (this.api)
-                this.api[item.isrowmenu ? 'asc_showRows' : 'asc_showColumns']();
+                this.api[item.isrowmenu ? 'asc_showRows' : 'asc_showColumns'](item.hiddenStart, item.hiddenEnd);
+        };
+
+        dh.fillHideShowMenuProps = function(info) {
+            var documentHolder = this.documentHolder,
+                hiddenBefore = info && info.asc_getHiddenBefore(),
+                hiddenAfter = info && info.asc_getHiddenAfter(),
+                hasHiddenInside = !!info && info.asc_getHasHiddenInside();
+
+            documentHolder.pmiEntireHide.setVisible(!!info);
+            documentHolder.pmiEntireShow.setVisible(hasHiddenInside);
+            documentHolder.pmiEntireShowBefore.setVisible(!!hiddenBefore);
+            documentHolder.pmiEntireShowAfter.setVisible(!!hiddenAfter);
+
+            if (!info) {
+                return false;
+            }
+
+            var isrow = info.asc_getIsRow(),
+                isall = info.asc_getIsAll(),
+                isSingle = info.asc_getCount() < 2 && !info.asc_getIsMultiselect();
+
+            documentHolder.pmiEntireHide.setCaption(isall ?
+                (isrow ? documentHolder.txtHideAllRows : documentHolder.txtHideAllColumns) :
+                (isrow ? (isSingle ? documentHolder.txtHideRow : documentHolder.txtHideRows) :
+                    (isSingle ? documentHolder.txtHideColumn : documentHolder.txtHideColumns)));
+            documentHolder.pmiEntireHide.isrowmenu = isrow;
+
+            if (hasHiddenInside) {
+                documentHolder.pmiEntireShow.setCaption(isall ?
+                    (isrow ? documentHolder.txtShowAllRows : documentHolder.txtShowAllColumns) :
+                    (isrow ? documentHolder.txtShowSelectedRows : documentHolder.txtShowSelectedColumns));
+                documentHolder.pmiEntireShow.isrowmenu = isrow;
+            }
+
+            var fillShowRange = function(item, range) {
+                if (!range) {
+                    return;
+                }
+                var template = range.asc_getCount() < 2 ?
+                    (isrow ? documentHolder.txtShowRow : documentHolder.txtShowColumn) :
+                    (isrow ? documentHolder.txtShowRows : documentHolder.txtShowColumns);
+                item.setCaption(Common.Utils.String.format(template, range.asc_getName()));
+                item.isrowmenu = isrow;
+                item.hiddenStart = range.asc_getStart();
+                item.hiddenEnd = range.asc_getEnd();
+            };
+            fillShowRange(documentHolder.pmiEntireShowBefore, hiddenBefore);
+            fillShowRange(documentHolder.pmiEntireShowAfter, hiddenAfter);
+
+            return isrow;
         };
 
         dh.onFreezePanes = function(item) {
@@ -2670,8 +2722,7 @@ define([], function () {
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
-                documentHolder.pmiEntireHide.setVisible(iscolmenu||isrowmenu);
-                documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
+                var ishideshowrow = this.fillHideShowMenuProps(cellinfo.asc_getHideShowInfo());
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
@@ -2681,8 +2732,6 @@ define([], function () {
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
-                documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
-                documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
                 commentsController && commentsController.blockPopover(true);
 
@@ -2735,8 +2784,11 @@ define([], function () {
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
                 documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
                 documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
-                documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
-                documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
+                var ishideshowlocked = isCellLocked || (ishideshowrow ? this._state.wsProps['FormatRows'] : this._state.wsProps['FormatColumns']);
+                documentHolder.pmiEntireHide.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShow.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShowBefore.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShowAfter.setDisabled(ishideshowlocked);
                 documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells'] || isUserProtected);
                 documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
                 documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);

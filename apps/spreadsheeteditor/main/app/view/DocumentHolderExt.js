@@ -639,6 +639,14 @@ define([], function () {
                 caption     : me.txtShow
             });
 
+            me.pmiEntireShowBefore = new Common.UI.MenuItem({
+                caption     : me.txtShow
+            });
+
+            me.pmiEntireShowAfter = new Common.UI.MenuItem({
+                caption     : me.txtShow
+            });
+
             me.pmiAddComment = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-add-comment',
                 id          : 'id-context-menu-item-add-comment',
@@ -861,6 +869,8 @@ define([], function () {
                     me.pmiColumnWidth,
                     me.pmiEntireHide,
                     me.pmiEntireShow,
+                    me.pmiEntireShowBefore,
+                    me.pmiEntireShowAfter,
                     me.pmiFreezeSeparator,
                     me.pmiFreezePanes
                 ]
