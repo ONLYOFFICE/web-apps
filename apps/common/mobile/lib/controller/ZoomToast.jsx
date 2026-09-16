@@ -85,7 +85,7 @@ function showToast(percent) {
         toast.$el.find('.toast-text').text(text);
     }
     if (isNewZoom) toast.$el.css({ left: `${midX}px`, top: `${midY - 40}px` });
-    toast.$el.css({ width: 'auto', 'min-width': '60px' });
+    toast.$el.css('width', text.endsWith('%') ? '60px' : 'auto');
     toast.open();
 
     clearTimeout(hideTimer);
