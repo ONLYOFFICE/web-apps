@@ -2728,16 +2728,23 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-
-            var editmode = config.isEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            var editmode = config.isEdit,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));

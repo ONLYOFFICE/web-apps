@@ -1647,16 +1647,23 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-
-            var editmode = config.isEdit || config.isRestrictedEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit || config.isRestrictedEdit;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "pdfe-compact-toolbar" : "pdfe-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "pdfe-compact-toolbar" : "pdfe-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            var editmode = config.isEdit || config.isRestrictedEdit,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({isCompactView: editmode ? compactview : true}, config));

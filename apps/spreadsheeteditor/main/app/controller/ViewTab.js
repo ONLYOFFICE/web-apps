@@ -405,7 +405,7 @@ define([
 
         onChangeCompactMode: function(isCompact) {
             //Toolbar
-            const isHideToolbar = isCompact || Common.localStorage.getBool("sse-compact-toolbar");
+            const isHideToolbar = isCompact || this.getApplication().getController('Toolbar').checkCompactView();
             this.view.chToolbar.setValue(!isHideToolbar, true);
             this.view.fireEvent('viewtab:showtoolbar', [this.view.chToolbar, isHideToolbar, true]);
 
