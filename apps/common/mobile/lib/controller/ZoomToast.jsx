@@ -35,6 +35,7 @@
 
 import { useEffect } from 'react';
 import { f7 } from 'framework7-react';
+import { Device } from '../../utils/device';
 
 let isTouch = false;
 let toast = null;
@@ -58,6 +59,8 @@ function showToast(percent) {
 
     if (!toast) {
         toast = f7.toast.create({ text: `${percent}%`, position: 'center' });
+        toast.$el.css({ width: '60px' });
+        if (Device.android) toast.$el.find('.toast-content').css('padding', '12px 16px');
     } else {
         toast.$el.find('.toast-text').text(`${percent}%`);
     }
@@ -65,7 +68,6 @@ function showToast(percent) {
         toast.$el.css({ left: `${midX}px`, top: `${midY - 40}px` });
         isNewZoom = false;
     }
-    toast.$el.css('width', '60px');
     toast.open();
 
     clearTimeout(hideTimer);
