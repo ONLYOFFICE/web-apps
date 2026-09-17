@@ -749,6 +749,7 @@ define([
                 }
                 if (btnsMore[tab]) {
                     var moreContainer = optsFold.$bar.find('.more-container[data-tab="' + tab + '"]');
+                    btnsMore[tab].panelScroller && btnsMore[tab].panelScroller.destroy();
                     moreContainer.remove();
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
@@ -1124,7 +1125,7 @@ define([
                     right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
                     top = showxy.top - parentxy.top + target.height() + 10;
 
-                const maxHeight = Math.max(Common.Utils.innerHeight() - top - parentxy.top - 10, 0);
+                const maxHeight = Math.max(Common.Utils.innerHeight() - top - parentxy.top - 10, 40);
                 const styles = Common.UI.isRTL() ? {
                     left: '6px', 
                     right: 'auto', 

@@ -417,7 +417,7 @@ define([
             //Formulabar
             const isHideFormulabar = isCompact || Common.localStorage.getBool("sse-hidden-formula");
             this.view.chFormula.setValue(!isHideFormulabar, true);
-            this.view.fireEvent('viewtab:formula', [this.view.chFormula, !isHideFormulabar, true]);
+            this.view.fireEvent('viewtab:formula', [0, !isHideFormulabar, true]);
 
             Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
                 this.view.chToolbar, this.view.chStatusbar, this.view.chFormula
