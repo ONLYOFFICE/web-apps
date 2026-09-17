@@ -35,57 +35,37 @@
 
 import { useEffect } from 'react';
 import { f7 } from 'framework7-react';
-import { useTranslation } from 'react-i18next';
 
 let isTouch = false;
 let toast = null;
 let hideTimer = null;
-let _t = {};
-
-let lastPercent = null;
-let currentDistance = null;
-let lastDistance = null;
+let isNewZoom = true;
 let midX = null;
 let midY = null;
 
 function updateTouches(touches) {
-    const dx = touches[0].clientX - touches[1].clientX;
-    const dy = touches[0].clientY - touches[1].clientY;
-    currentDistance = Math.sqrt(dx * dx + dy * dy);
     midX = (touches[0].clientX + touches[1].clientX) / 2;
     midY = (touches[0].clientY + touches[1].clientY) / 2;
 }
 
 function resetTracking(touches) {
-    lastPercent = null;
     updateTouches(touches);
-    lastDistance = currentDistance;
+    isNewZoom = true;
 }
 
 function showToast(percent) {
     if (!isTouch) return;
 
-    const isNewZoom = lastPercent === null;
-    let text = `${percent}%`;
-
-    if (percent >= 300) {
-        text = _t.textMax;
-    } else if (window.editorType === 'sse') {
-        if (percent <= 50) text = _t.textMin;
-    } else if (percent !== lastPercent) {
-        lastDistance = currentDistance;
-    } else if (currentDistance - lastDistance <= -5) {
-        text = _t.textMin;
-    }
-    lastPercent = percent;
-
     if (!toast) {
-        toast = f7.toast.create({ text, position: 'center' });
+        toast = f7.toast.create({ text: `${percent}%`, position: 'center' });
     } else {
-        toast.$el.find('.toast-text').text(text);
+        toast.$el.find('.toast-text').text(`${percent}%`);
     }
-    if (isNewZoom) toast.$el.css({ left: `${midX}px`, top: `${midY - 40}px` });
-    toast.$el.css('width', text.endsWith('%') ? '60px' : 'auto');
+    if (isNewZoom) {
+        toast.$el.css({ left: `${midX}px`, top: `${midY - 40}px` });
+        isNewZoom = false;
+    }
+    toast.$el.css('width', '60px');
     toast.open();
 
     clearTimeout(hideTimer);
@@ -93,9 +73,6 @@ function showToast(percent) {
 }
 
 const ZoomToast = () => {
-    const { t } = useTranslation();
-    _t = {textMin: t('Common.ZoomToast.textMin'), textMax: t('Common.ZoomToast.textMax')};
-
     useEffect(() => {
         const onTouchStart = e => {
             if (e.touches && e.touches.length > 1) {
