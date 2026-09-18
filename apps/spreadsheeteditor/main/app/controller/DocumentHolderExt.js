@@ -1007,10 +1007,10 @@ define([], function () {
         };
 
         dh.fillHideShowMenuProps = function(info) {
-            var documentHolder = this.documentHolder,
-                hiddenBefore = info && info.asc_getHiddenBefore(),
-                hiddenAfter = info && info.asc_getHiddenAfter(),
-                hasHiddenInside = !!info && info.asc_getHasHiddenInside();
+            const documentHolder = this.documentHolder;
+            const hiddenBefore = info && info.asc_getHiddenBefore();
+            const hiddenAfter = info && info.asc_getHiddenAfter();
+            const hasHiddenInside = !!info && info.asc_getHasHiddenInside();
 
             documentHolder.pmiEntireHide.setVisible(!!info);
             documentHolder.pmiEntireShow.setVisible(hasHiddenInside);
@@ -1021,28 +1021,37 @@ define([], function () {
                 return false;
             }
 
-            var isrow = info.asc_getIsRow(),
-                isall = info.asc_getIsAll(),
-                isSingle = info.asc_getCount() < 2 && !info.asc_getIsMultiselect();
+            const isrow = info.asc_getIsRow();
+            const isall = info.asc_getIsAll();
+            const isSingle = info.asc_getCount() < 2 && !info.asc_getIsMultiselect();
 
-            documentHolder.pmiEntireHide.setCaption(isall ?
-                (isrow ? documentHolder.txtHideAllRows : documentHolder.txtHideAllColumns) :
-                (isrow ? (isSingle ? documentHolder.txtHideRow : documentHolder.txtHideRows) :
-                    (isSingle ? documentHolder.txtHideColumn : documentHolder.txtHideColumns)));
+            let hideCaption;
+            if (isall)
+                hideCaption = isrow ? documentHolder.txtHideAllRows : documentHolder.txtHideAllColumns;
+            else if (isrow)
+                hideCaption = isSingle ? documentHolder.txtHideRow : documentHolder.txtHideRows;
+            else
+                hideCaption = isSingle ? documentHolder.txtHideColumn : documentHolder.txtHideColumns;
+            
+            documentHolder.pmiEntireHide.setCaption(hideCaption);
             documentHolder.pmiEntireHide.isrowmenu = isrow;
 
             if (hasHiddenInside) {
-                documentHolder.pmiEntireShow.setCaption(isall ?
-                    (isrow ? documentHolder.txtShowAllRows : documentHolder.txtShowAllColumns) :
-                    (isrow ? documentHolder.txtShowSelectedRows : documentHolder.txtShowSelectedColumns));
+                let showCaption;
+                if(isall)
+                    showCaption = (isrow ? documentHolder.txtShowAllRows : documentHolder.txtShowAllColumns);
+                else
+                    showCaption = (isrow ? documentHolder.txtShowSelectedRows : documentHolder.txtShowSelectedColumns);
+
+                documentHolder.pmiEntireShow.setCaption(showCaption);
                 documentHolder.pmiEntireShow.isrowmenu = isrow;
             }
 
-            var fillShowRange = function(item, range) {
+            const fillShowRange = function(item, range) {
                 if (!range) {
                     return;
                 }
-                var template = range.asc_getCount() < 2 ?
+                const template = range.asc_getCount() < 2 ?
                     (isrow ? documentHolder.txtShowRow : documentHolder.txtShowColumn) :
                     (isrow ? documentHolder.txtShowRows : documentHolder.txtShowColumns);
                 item.setCaption(Common.Utils.String.format(template, range.asc_getName()));
