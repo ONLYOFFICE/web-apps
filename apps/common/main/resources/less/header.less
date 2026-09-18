@@ -37,6 +37,12 @@
             width: auto;
         }
     }
+
+    .tabs {
+        .compact-mode & {
+            min-width: 70px;
+        }
+    }
 }
 
 .extra {
@@ -100,6 +106,10 @@
         padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
+
+        .compact-mode & {
+            display: none;
+        }
     }
 
     #rib-doc-name {
@@ -168,8 +178,14 @@
         //max-width: 200px;
         height: 100%;
         padding: 6px 24px 6px 12px;
+        .compact-mode & {
+            padding-right: 6px;
+        }
         .rtl & {
             padding: 6px 12px 6px 24px;
+        }
+        .rtl.compact-mode & {
+            padding-left: 6px;
         }
 
         i {
@@ -193,8 +209,14 @@
 
         #box-document-title & {
             padding: 4px 24px 4px 12px;
+            .compact-mode & {
+                padding-right: 12px;
+            }
             .rtl & {
                 padding: 4px 12px 4px 24px;
+            }
+            .rtl.compact-mode & {
+                padding-left: 12px;
             }
         }
     }
@@ -222,6 +244,10 @@
         & > .btn-header {
             margin: @header-component-margin-ie;
             margin: @header-component-margin;
+
+            .compact-mode & {
+                margin: 0;
+            }
         }
     }
 }
@@ -235,6 +261,13 @@
     border: 0;
     padding: @header-component-padding-y-ie @header-component-padding-x-ie;
     padding: @header-component-padding-y @header-component-padding-x;
+
+    .compact-mode & {
+        width: calc(@x-small-btn-size-ie + 3px * 2);
+        width: calc(@x-small-btn-size + 3px * 2);
+        padding-left: 3px;
+        padding-right: 3px;
+    }
 
     .icon {
         width: @x-small-btn-icon-size-ie;
@@ -420,7 +453,7 @@
     display: flex;
     align-items: center;
     padding: 0 6px;
-    width: auto;
+    width: auto !important;
 
     .caption {
         margin: 2px 4px 0 2px;
@@ -746,6 +779,10 @@
         border: 0 none;
         cursor: default;
         .user-select(text);
+
+        .compact-mode & {
+            display: none;
+        }
 
         &:hover:not(:disabled):not(:focus){
             background-color: @highlight-header-input-hover-ie;

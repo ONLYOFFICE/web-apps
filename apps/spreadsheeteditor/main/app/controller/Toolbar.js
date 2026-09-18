@@ -4642,18 +4642,27 @@ define([
             }
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-            me.appConfig = config;
-
-            var editmode = config.isEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit;
+            let compactview = !editmode;
             if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle) {
                 if ( Common.localStorage.itemExists(editmode ? "sse-compact-toolbar" : "sse-view-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool(editmode ? "sse-compact-toolbar" : "sse-view-compact-toolbar");
                 } else if (config.customization) {
                     compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
                 }
+            }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+            me.appConfig = config;
+
+            var editmode = config.isEdit,
+                compactview = this.checkCompactView();
+            if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle) {
                 Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
             }
 

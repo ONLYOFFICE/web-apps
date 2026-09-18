@@ -46,6 +46,9 @@ define([
 ], function () {
     'use strict';
 
+    !Common.enumLock && (Common.enumLock = {});
+    Common.enumLock.compactMode = 'compact-mode';
+
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template = '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group sheet-views">' +
@@ -412,7 +415,7 @@ define([
                 this.chFormula = new Common.UI.CheckBox({
                     labelText: this.textFormula,
                     value: !Common.localStorage.getBool('sse-hidden-formula'),
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -422,7 +425,7 @@ define([
                 this.chStatusbar = new Common.UI.CheckBox({
                     labelText: this.textCombineSheetAndStatusBars,
                     value       : Common.localStorage.getBool('sse-compact-statusbar', true),
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -432,7 +435,7 @@ define([
                 this.chToolbar = new Common.UI.CheckBox({
                     labelText: this.textAlwaysShowToolbar,
                     value       : !options.compactToolbar,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'

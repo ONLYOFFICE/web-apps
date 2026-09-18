@@ -3833,17 +3833,24 @@ define([
             this.onBtnChangeState('print:disabled', null, !this.mode.canPrint);
         },
 
-        onAppShowed: function (config) {
-            var me = this,
-                application = this.getApplication();
-
-            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this,
+                application = this.getApplication();
+
+            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({isCompactView: editmode ? compactview : true}, config));

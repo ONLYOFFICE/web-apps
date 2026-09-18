@@ -69,9 +69,9 @@ define([
                     'layout:resizedrag': _.bind(this.onLayoutResize, this)
                 },
                 'ViewTab': {
-                    'viewtab:formula': function (type, state) {
+                    'viewtab:formula': function (type, state, suppressSave) {
                         this.editor.setVisible(state);
-                        Common.localStorage.setBool('sse-hidden-formula', !state);
+                        !suppressSave && Common.localStorage.setBool('sse-hidden-formula', !state);
                         Common.NotificationCenter.trigger('layout:changed', 'celleditor', !state?'hidden':'showed');
                     }.bind(this)
                 }

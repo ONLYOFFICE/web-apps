@@ -2,6 +2,11 @@
 #toolbar {
     padding: @layout-padding-toolbar-ie;
     padding: @layout-padding-toolbar;
+
+    .compact-mode & {
+        padding: 0;
+    }
+
     &.style-off-tabs {
         padding: 0;
     }
@@ -178,6 +183,9 @@
             > a {
                 display: inline-block;
                 padding: 0 12px;
+                .compact-mode & {
+                    padding: 0 6px;
+                }
                 .ie &,
                 .winxp & {
                     margin-bottom: @toolbar-tab-text-margin-ie;

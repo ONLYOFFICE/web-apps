@@ -46,6 +46,9 @@ define([
 ], function () {
     'use strict';
 
+    !Common.enumLock && (Common.enumLock = {});
+    Common.enumLock.compactMode = 'compact-mode';
+    
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
@@ -418,7 +421,7 @@ define([
                 this.chStatusbar = new Common.UI.CheckBox({
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("pe-hidden-status"),
-                    lock: [_set.disableOnStart],
+                    lock: [_set.disableOnStart, _set.compactMode],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -428,7 +431,7 @@ define([
                 this.chToolbar = new Common.UI.CheckBox({
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
-                    lock: [_set.disableOnStart],
+                    lock: [_set.disableOnStart, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
