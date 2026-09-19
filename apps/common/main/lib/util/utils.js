@@ -215,7 +215,7 @@ define([], function () {
         
                 const curIsCompactMode = checkCompactMode();
                 if(isCompactMode !== curIsCompactMode) {
-                    Common.NotificationCenter.trigger('app:compact-mode', curIsCompactMode);
+                    !!Common.NotificationCenter && Common.NotificationCenter.trigger('app:compact-mode', curIsCompactMode);
                     document.body && document.body.classList.toggle('compact-mode', !!curIsCompactMode);
                     isCompactMode = curIsCompactMode;
                 }
