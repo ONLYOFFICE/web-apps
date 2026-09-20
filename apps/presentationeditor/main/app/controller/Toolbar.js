@@ -2018,6 +2018,7 @@ define([
             }
             if (in_text && type=='slidenum') {
                 this.api.asc_addSlideNumber();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (in_text && type=='datetime') {
                 //insert date time
                 var me = this;
