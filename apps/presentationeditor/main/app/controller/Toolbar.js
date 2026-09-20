@@ -3059,7 +3059,7 @@ define([
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 if (this.isSlideMasterTab || this.isHandoutMasterTab || this.isNotesMasterTab) {
-                    this.toolbar.setTab('home');
+                    this.toolbar.setTab('view');
                 }
                 this.isSlideMasterTab = false;
                 this.isHandoutMasterTab = false;
