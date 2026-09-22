@@ -53,6 +53,7 @@ import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 import {DrawController} from "../../../../common/mobile/lib/controller/Draw";
+import ZoomToast from '../../../../common/mobile/lib/controller/ZoomToast';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconEditMode from '@icons/icon-edit-mode.svg';
 
@@ -355,6 +356,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                         closeCallback={() => handleOptionsViewClosed('snackbar')}
                         message={appOptions.isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}
                     />
+                    <ZoomToast />
                     <SearchSettings useSuspense={false} />
                     {!state.editOptionsVisible ? null : <EditView />}
                     {!state.addOptionsVisible ? null : <AddOptions />}
