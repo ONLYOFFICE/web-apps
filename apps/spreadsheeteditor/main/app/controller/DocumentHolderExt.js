@@ -1012,7 +1012,7 @@ define([], function () {
             const hiddenAfter = info && info.asc_getHiddenAfter();
             const hasHiddenInside = !!info && info.asc_getHasHiddenInside();
 
-            documentHolder.pmiEntireHide.setVisible(!!info);
+            documentHolder.pmiEntireHide.setVisible(!!info && !info.asc_getIsAllHidden());
             documentHolder.pmiEntireShow.setVisible(hasHiddenInside);
             documentHolder.pmiEntireShowBefore.setVisible(!!hiddenBefore);
             documentHolder.pmiEntireShowAfter.setVisible(!!hiddenAfter);
