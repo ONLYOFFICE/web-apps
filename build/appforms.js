@@ -40,7 +40,7 @@ module.exports = (grunt) => {
             grunt.log.ok('no package file'.red);
         else {
             let configpath;
-            if (!!process.env['OO_BRANDING']) {
+            if (global.isBranding) {
                 configpath = `../../${process.env['OO_BRANDING']}/web-apps/build/appforms.json`;
                 if (!grunt.file.exists(configpath))
                     configpath = null;
