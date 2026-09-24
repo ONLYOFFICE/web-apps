@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#VÝPOČET!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Chyba: Prázdné",
+			"div": "Chyba: Dělení nulou",
+			"value": "Chyba: Hodnota",
+			"ref": "Chyba: Neplatný odkaz na buňku",
+			"name": "Chyba: Neplatný název",
+			"num": "Chyba: Číslo",
+			"na": "Chyba: Hodnota není dostupná",
+			"calc": "Prázdné pole",
+			"spill": "Oblast pro přesahující data není prázdná"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "odkaz",
 			"col": "sloupec",

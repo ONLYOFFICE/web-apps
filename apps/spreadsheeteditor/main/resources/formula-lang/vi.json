@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Lỗi null",
+			"div": "Lỗi chia cho 0",
+			"value": "Lỗi trong giá trị",
+			"ref": "Lỗi tham chiếu ô không hợp lệ",
+			"name": "Lỗi tên không hợp lệ",
+			"num": "Lỗi số",
+			"na": "Lỗi không có giá trị",
+			"calc": "Mảng trống",
+			"spill": "Dải ô tràn không trống"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "địa chỉ",
 			"col": "cột",

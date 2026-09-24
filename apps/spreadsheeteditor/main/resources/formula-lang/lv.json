@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Nulles kļūda",
+			"div": "Kļūda, dalot ar nulli",
+			"value": "Kļūda vērtībā",
+			"ref": "Šūnas atsauces nederīguma kļūda",
+			"name": "Nederīga nosaukuma kļūda",
+			"num": "Skaitļa kļūda",
+			"na": "Vērtības nepieejamības kļūda",
+			"calc": "Tukšs masīvs",
+			"spill": "Izplešanās diapazons nav tukšs"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adrese",
 			"col": "kolonna",
