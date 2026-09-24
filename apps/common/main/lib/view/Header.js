@@ -73,10 +73,12 @@ define([
                 '<label><%= fnEncode(user.get("username")) %></label>' +
                 '<% if (len>1) { %><label class="count-label margin-left-3">(<%=len%>)</label><% } %>' +
                 '<div class="btns-group">' + 
-                    '<% if (isUserFollowSupport && user.get("isFollow")) { %>' +
-                        '<button class="unfollow-btn btn btn-text-default auto"><%= scope.textStopFollowing %></button>' +
-                    '<% } else if(isUserFollowSupport) { %>' +
-                        '<button class="follow-btn btn btn-text-default auto"><%= scope.textFollow %></button>' +
+                    '<% if(isUserFollowSupport) { %>' +
+                        '<% if (user.get("isFollow")) { %>' +
+                            '<button class="unfollow-btn btn btn-text-default auto"><%= scope.textStopFollowing %></button>' +
+                        '<% } else { %>' +
+                            '<button class="follow-btn btn btn-text-default auto"><%= scope.textFollow %></button>' +
+                        '<% } %>' +
                     '<% } %>' +
                 '</div>' +
             '</div>';
@@ -94,7 +96,7 @@ define([
         var templateUserList = _.template(
                 '<ul>' +
                     '<% for (originalId in users) { %>' +
-                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length, scope: scope, isUserFollowSupport: isUserFollowSupport}) %>' +
+                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length, scope: scope, isUserFollowSupport: isUserFollowSupport && originalId != configUserId}) %>' +
                     '<% } %>' +
                 '</ul>');
 
@@ -198,6 +200,7 @@ define([
                 if (appConfig && (usercount > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || usercount >0 && appConfig.canLiveView)) {
                     $userList.html(templateUserList({
                         scope: me,
+                        configUserId: appConfig.user && appConfig.user.id, 
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) { return item.get('idOriginal'); }).value(),
                         isUserFollowSupport: isUserFollowSupport,
                         usertpl: _.template(templateUserItem),
@@ -207,7 +210,7 @@ define([
                     }));
 
                     if (isUserFollowSupport) {
-                        const $items = $userList.find('.user-name');
+                        const $items = $userList.find('li.selectable .user-name');
                         $items.tooltip({
                             title: me.textGoToUserCursor, 
                             placement: 'cursor',
@@ -1132,7 +1135,7 @@ define([
     
                         $userList.off('click', '.user-name').on('click', '.user-name', function (e) {
                             const model = getUserFromClickEvent(this);
-                            if(!model) return;
+                            if(!model || model.get('idOriginal') == (config.user && config.user.id)) return;
     
                             $('#tlb-box-users').click();    // hide users dropdown
                             me.fireEvent('user-go-to-cursor', [model.id]);
