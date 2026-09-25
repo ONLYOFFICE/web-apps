@@ -115,7 +115,7 @@ define([
                                         '<% } %>',
                                     '</div>',
                                     '<div class="user-name">',
-                                        '<%= Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username)) %>',
+                                        '<%- AscCommon.UserInfoParser.getParsedName(username) %>',
                                     '</div>',
                                 '</div>',
                             '</div>',
