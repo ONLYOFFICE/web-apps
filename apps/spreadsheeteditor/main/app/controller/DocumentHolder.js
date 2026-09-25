@@ -149,7 +149,6 @@ define([
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
             $(document).on('mousemove',     _.bind(me.onDocumentMouseMove, me));
-            $(document).on('wheel',         function() { me.hideCellErrorTip && me.hideCellErrorTip(true); });
             $(window).on('resize',          _.bind(me.onDocumentResize, me));
             var viewport = SSE.getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag', _.bind(me.onDocumentResize, me));
@@ -167,7 +166,7 @@ define([
                     me.hideHyperlinkTip();
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
-                    me.hideCellErrorTip && me.hideCellErrorTip(true);
+                    me.onHideCellErrorTip();
                     me.onDocumentResize();
                     if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
                         me.changeInputMessagePosition(me.tooltips.input_msg);
@@ -338,6 +337,7 @@ define([
         },
 
         onDocumentWheel: function(e) {
+            this.onHideCellErrorTip();
             if (this.api && !this.isEditCell) {
                 var delta = (_.isUndefined(e.originalEvent)) ?  e.wheelDelta : e.originalEvent.wheelDelta;
                 if (_.isUndefined(delta)) {
@@ -620,8 +620,12 @@ define([
             this.disableChartElementButton();
         },
 
-        clearSelection: function() {
+        onHideCellErrorTip: function() {
             this.hideCellErrorTip && this.hideCellErrorTip(true);
+        },
+
+        clearSelection: function() {
+            this.onHideCellErrorTip();
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
             this.onHideChartElementButton();

@@ -2088,6 +2088,7 @@ define([], function () {
                 me.showCellErrorTip(data, pos);
                 return;
             }
+            if (tip.el) me.hideCellErrorTip(true);
             if (tip.showTimer && tip.showKey === key) {
                 return;
             }
