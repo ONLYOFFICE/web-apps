@@ -773,6 +773,12 @@ define([
             return state[guid];
         },
         
+        // The right menu is not rendered in every mode (the document viewer has
+        // none), so panels meant for it dock on the left instead.
+        isRightMenuAvailable: function () {
+            return $('#slot-right-menu-more').length > 0;
+        },
+
         openUIPlugin: function (id) {
             var model = this.viewPlugins.storePlugins.findWhere({guid: id}),
                 menu = model ? model.get('menu') : (this.viewPlugins.customPluginPanels[id] && this.viewPlugins.customPluginPanels[id].menu);
@@ -796,6 +802,7 @@ define([
                 }
 
                 !menu && (menu = 'left');
+                (menu === 'right') && !this.isRightMenuAvailable() && (menu = 'left');
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
                 if (urlAddition)
                     url += urlAddition;
@@ -1313,6 +1320,7 @@ define([
             var guid = variation.guid,
                 menu = (variation.dockedPlace||variation.type) == 'panelRight' ? 'right' : 'left';
             !menu && (menu = 'left');
+            (menu === 'right') && !this.isRightMenuAvailable() && (menu = 'left');
 
             var description = variation.description;
             if (typeof variation.descriptionLocale == 'object')
