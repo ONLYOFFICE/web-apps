@@ -880,6 +880,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:'reconnected'});
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -974,6 +975,7 @@ define([
                         this.disableEditing(true, 'reconnect');
                         var me = this;
                             me._state.timerDisconnect = setTimeout(function(){
+                                Common.Gateway.sendInfo({connection:'disconnected'});
                             Common.UI.TooltipManager.showTip('disconnect');
                             }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -2158,6 +2160,8 @@ define([
                 appHeader.setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings, options) {
