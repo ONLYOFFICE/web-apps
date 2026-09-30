@@ -833,7 +833,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
-                    Common.Gateway.sendInfo({connection:"reconnected"});
+                    Common.Gateway.sendInfo({connection:"connected"});
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
                     this.disableEditing(false, 'background-open');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
@@ -929,9 +929,10 @@ define([
                         text     = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection: 'disconnected'});
                         var me = this;
                         me._state.timerDisconnect = setTimeout(function(){
-                            Common.Gateway.sendInfo({connection: 'disconnected'});
+                            Common.Gateway.sendInfo({connection: 'reconnecting'});
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -1195,7 +1196,7 @@ define([
                 Common.Gateway.on('setfavorite',  _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose', _.bind(me.onRequestClose, me));
                 Common.Gateway.on('refreshhistory',_.bind(me.onRefreshHistory, me));
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection:"connected"});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 //                    me.getViewport().getEl().un('keypress', me.lockEscapeKey, me);
