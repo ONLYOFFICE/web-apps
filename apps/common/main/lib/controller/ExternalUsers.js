@@ -85,7 +85,7 @@ Common.UI.ExternalUsers = new( function() {
             user = _.findWhere(externalUsersInfo, {id: id})
         user && (image = user.image);
         request && (image===undefined) && _get('info', [id]);
-        return image;
+        return Common.Utils.String.htmlEncode(image);
     };
 
     var _setImage = function(id, image) {
