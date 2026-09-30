@@ -46,7 +46,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje ",
@@ -90,7 +90,12 @@
     "textDoNotShowAgain": "Ne pokazuj ponovo",
     "textOk": "Ok",
     "txtWarnUrl": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?",
-    "warnMergeLostData": "Samo podatak iz gornje-leve ćelije će da ostane u spojenoj ćeliji.<br>Da li ste sigurni da želite da nastavite?"
+    "warnMergeLostData": "Samo podatak iz gornje-leve ćelije će da ostane u spojenoj ćeliji.<br>Da li ste sigurni da želite da nastavite?",
+    "menuAddColumn": "Dodaj kolonu",
+    "menuAddRow": "Dodaj red",
+    "menuDeleteColumn": "Izbriši kolonu",
+    "menuDeleteRow": "Izbriši red",
+    "menuSelectAll": "Odaberi sve"
   },
   "Controller": {
     "Main": {
@@ -386,7 +391,8 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
+    "errorCopyRangeTooLarge": "Izabrani opseg je prevelik da bi se u potpunosti kopirao. Samo deo opsega je postavljen u privremenu memoriju. Izaberite manji opseg i pokušajte ponovo."
   },
   "LongActions": {
     "advDRMPassword": "Lozinka",
@@ -542,7 +548,12 @@
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSorting": "Sortiranje",
       "txtSortSelected": "Sortiraj odabrano",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "textSheets": "Listovi",
+      "textLinkTo": "Link do",
+      "textDefinedName": "Definisano ime",
+      "textStyle": "Stil",
+      "textTable": "Tabela"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozorenje ",
@@ -755,7 +766,19 @@
       "textCurrentFont": "Glavni tekst",
       "textSheets": "Listovi",
       "textLinkTo": "Link do",
-      "textDefinedName": "Definisano ime"
+      "textDefinedName": "Definisano ime",
+      "textTotalRow": "Ceo Red",
+      "textTable": "Tabela",
+      "textStyleOptions": "Opcije stila",
+      "textRow": "Red",
+      "textLastColumn": "Poslednja Kolona",
+      "textHeaderRow": "Red zaglavlja",
+      "textFilterButton": "Dugme za filter",
+      "textDeleteTable": "Izbriši tabelu",
+      "textColumn": "Kolona",
+      "textBandedColumns": "Naizmenično obojene kolone",
+      "textBandedRows": "Naizmenično obojeni redovi",
+      "textFirstColumn": "Prva Kolona"
     },
     "Settings": {
       "advCSVOptions": "Odaberi CSV opcije",
@@ -805,7 +828,7 @@
       "textEnableAllMacrosWithoutNotification": "Omogući sve makroe bez notifikacije",
       "textEncoding": "Enkodiranje",
       "textExample": "Primer",
-      "textFeedback": "Povratne Informacije i Podrška",
+      "textFeedback": "Kontaktirajte podršku",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
       "textFindAndReplaceAll": "Pronađi i Zameni Sve",
@@ -833,7 +856,7 @@
       "textOk": "Ok",
       "textOpenFile": "Unesi lozinku da otvoriš fajl",
       "textOpenLocation": "Otvorena lokacija",
-      "textOrientation": "Orijentacija ",
+      "textOrientation": "Orijentacija stranice",
       "textOwner": "Vlasnik",
       "textPoint": "Tačka ",
       "textPortrait": "Portret",
@@ -862,7 +885,7 @@
       "textSpreadsheetTitle": "Naslov proračunske tabele",
       "textSubject": "Subjekat",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema interfejsa",
       "textTitle": "Naslov",
       "textTop": "Vrh",
       "textUnitOfMeasurement": "Jedinica Mere",
@@ -928,7 +951,15 @@
       "textSpreadsheetSetup": "Podešavanje tabele",
       "textShare": "Podelite",
       "textTools": "Alati",
-      "textViewGroup": "Prikaz"
+      "textViewGroup": "Prikaz",
+      "textStyleGroup": "Stil",
+      "textSaveACopyHeader": "Sačuvaj kopiju",
+      "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju",
+      "textAboutGroup": "O",
+      "textHelpAndFeedback": "Pomoć i povratne informacije",
+      "textPreferences": "Podešavanja",
+      "textHelpCenter": "Centar za pomoć",
+      "textLanguageAndRegion": "Jezik i region"
     }
   }
 }

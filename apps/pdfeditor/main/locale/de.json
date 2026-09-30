@@ -3384,5 +3384,7 @@
   "PFDE.Views.SignatureSettings.txtSignedInvalid": "Einige der digitalen Signaturen im Dokument sind ungültig oder konnten nicht verifiziert werden. Das Dokument ist vor der Bearbeitung geschützt.",
   "PDFE.Views.TableSettings.textBorderColorLabel": "Rahmenfarbe",
   "PDFE.Views.TextArtSettings.textBorderColor": "Rahmenfarbe",
-  "PDFE.Views.TextArtSettings.textFillColor": "Füllfarbe"
+  "PDFE.Views.TextArtSettings.textFillColor": "Füllfarbe",
+  "PDFE.Views.ImageSettings.textRotate": "Drehen",
+  "PDFE.Views.ShapeSettings.textRotate": "Drehen"
 }

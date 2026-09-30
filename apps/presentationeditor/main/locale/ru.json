@@ -3797,5 +3797,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Текущий слайд",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Произвольный диапазон",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Неправильный номер слайда",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Выбранные слайды"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Выбранные слайды",
+  "PE.Views.ImageSettings.textRotate": "Повернуть",
+  "PE.Views.ShapeSettings.textRotate": "Повернуть"
 }

@@ -3045,7 +3045,7 @@
   "PDFE.Views.Toolbar.textTabFile": "Файл",
   "PDFE.Views.Toolbar.textTabHome": "Главная",
   "PDFE.Views.Toolbar.textTabInsert": "Вставка",
-  "PDFE.Views.Toolbar.textTabRedact": "Исправление",
+  "PDFE.Views.Toolbar.textTabRedact": "Скрытие данных",
   "PDFE.Views.Toolbar.textTabView": "Вид",
   "PDFE.Views.Toolbar.textUnderline": "Подчёркнутый",
   "PDFE.Views.Toolbar.tipAddComment": "Добавить комментарий",
@@ -3183,7 +3183,7 @@
   "PDFE.Views.FormSettingsAdvanced.textSSN": "Номер социального страхования",
   "Common.Controllers.Comments.textStrikeout": "Зачёркивание",
   "Common.Controllers.Comments.textUnderline": "Подчёркивание",
-  "Common.Controllers.Comments.textRedact": "Исправление",
+  "Common.Controllers.Comments.textRedact": "Скрытие данных",
   "PDFE.Views.FormSettingsAdvanced.textDecimal": "Десятичные знаки",
   "PDFE.Views.FormSettingsAdvanced.textLocation": "Положение символа",
   "PDFE.Views.FormSettingsAdvanced.textNegative": "Стиль отрицательных чисел",
@@ -3384,5 +3384,7 @@
   "PDFE.Views.TableSettings.textBorderColorLabel": "Цвет границ",
   "PDFE.Views.TextArtSettings.textBorderColor": "Цвет границ",
   "PDFE.Views.TextArtSettings.textFillColor": "Цвет заливки",
-  "PDFE.Controllers.Toolbar.textSubmitOk": "Ваша PDF-форма успешно заполнена."
+  "PDFE.Controllers.Toolbar.textSubmitOk": "Ваша PDF-форма успешно заполнена.",
+  "PDFE.Views.ImageSettings.textRotate": "Повернуть",
+  "PDFE.Views.ShapeSettings.textRotate": "Повернуть"
 }

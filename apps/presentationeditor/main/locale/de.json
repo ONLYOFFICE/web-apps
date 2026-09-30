@@ -3797,5 +3797,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Aktuelle Folie",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Benutzerdefinierte Folien",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Foliennummer ungültig",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Ausgewählte Folien"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Ausgewählte Folien",
+  "PE.Views.ImageSettings.textRotate": "Drehen",
+  "PE.Views.ShapeSettings.textRotate": "Drehen"
 }

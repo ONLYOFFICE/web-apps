@@ -3384,5 +3384,7 @@
   "PFDE.Views.SignatureSettings.txtSignedInvalid": "Algumas das assinaturas digitais no documento são inválidas ou não puderam ser verificadas. O documento está protegido contra edições.",
   "PDFE.Views.TableSettings.textBorderColorLabel": "Cor da borda",
   "PDFE.Views.TextArtSettings.textBorderColor": "Cor da borda",
-  "PDFE.Views.TextArtSettings.textFillColor": "Cor de preenchimento"
+  "PDFE.Views.TextArtSettings.textFillColor": "Cor de preenchimento",
+  "PDFE.Views.ImageSettings.textRotate": "Girar",
+  "PDFE.Views.ShapeSettings.textRotate": "Girar"
 }

@@ -5395,5 +5395,7 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Цвет оси",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Цвет границ",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Цвет заливки",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Цвет"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Цвет",
+  "SSE.Views.ImageSettings.textRotate": "Повернуть",
+  "SSE.Views.ShapeSettings.textRotate": "Повернуть"
 }

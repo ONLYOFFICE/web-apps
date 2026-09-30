@@ -3384,5 +3384,7 @@
   "PFDE.Views.SignatureSettings.txtContinueEditing": "Editare oricum",
   "PFDE.Views.SignatureSettings.txtEditWarning": "Editarea va elimina semnăturile din document.<br>Doriți să continuați?",
   "PFDE.Views.SignatureSettings.txtRemoveWarning": "Doriți să eliminați această semnătură?<br>Acțiunea nu poate fi anulată.",
-  "PFDE.Views.SignatureSettings.txtRequestedSignatures": "Acest document trebuie să fie semnat."
+  "PFDE.Views.SignatureSettings.txtRequestedSignatures": "Acest document trebuie să fie semnat.",
+  "PDFE.Views.ImageSettings.textRotate": "Rotire",
+  "PDFE.Views.ShapeSettings.textRotate": "Rotire"
 }

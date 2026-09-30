@@ -3968,7 +3968,7 @@
   "SSE.Views.ParagraphSettingsAdvanced.strParagraphIndents": "Recuos e Posicionamento",
   "SSE.Views.ParagraphSettingsAdvanced.strSmallCaps": "Versalete",
   "SSE.Views.ParagraphSettingsAdvanced.strSpacing": "Espaçamento",
-  "SSE.Views.ParagraphSettingsAdvanced.strStrike": "Taxado",
+  "SSE.Views.ParagraphSettingsAdvanced.strStrike": "Tachado",
   "SSE.Views.ParagraphSettingsAdvanced.strSubscript": "Subscrito",
   "SSE.Views.ParagraphSettingsAdvanced.strSuperscript": "Sobrescrito",
   "SSE.Views.ParagraphSettingsAdvanced.strTabs": "Aba",
@@ -5394,5 +5394,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Cor do eixo",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Cor da borda",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Cor de preenchimento",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Cor"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Cor",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Esta pasta de trabalho contém dados que ultrapassam os limites de linhas e colunas do formato XLS (65.536 linhas, 256 colunas). Esses dados serão perdidos ao salvar.",
+  "SSE.Views.ImageSettings.textRotate": "Girar",
+  "SSE.Views.ShapeSettings.textRotate": "Girar"
 }

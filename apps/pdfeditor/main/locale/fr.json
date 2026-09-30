@@ -2742,7 +2742,7 @@
   "PDFE.Views.ShapeSettings.textMoreColors": "Plus de couleurs",
   "PDFE.Views.ShapeSettings.textNoFill": "Aucun remplissage",
   "PDFE.Views.ShapeSettings.textNoShadow": "Aucune ombre",
-  "PDFE.Views.ShapeSettings.textPatternFill": "Style de motif",
+  "PDFE.Views.ShapeSettings.textPatternFill": "Motif",
   "PDFE.Views.ShapeSettings.textPosition": "Position",
   "PDFE.Views.ShapeSettings.textRadial": "Radial",
   "PDFE.Views.ShapeSettings.textRecentlyUsed": "Récemment utilisés",
@@ -2751,7 +2751,7 @@
   "PDFE.Views.ShapeSettings.textSelectImage": "Sélectionner l'image",
   "PDFE.Views.ShapeSettings.textSelectTexture": "Sélectionner",
   "PDFE.Views.ShapeSettings.textShadow": "Ombre",
-  "PDFE.Views.ShapeSettings.textStretch": "Étirer",
+  "PDFE.Views.ShapeSettings.textStretch": "Étirement",
   "PDFE.Views.ShapeSettings.textStyle": "Style",
   "PDFE.Views.ShapeSettings.textTexture": "Avec texture",
   "PDFE.Views.ShapeSettings.textTile": "Mosaïque",
@@ -2950,7 +2950,7 @@
   "PDFE.Views.TextArtSettings.textPosition": "Position",
   "PDFE.Views.TextArtSettings.textRadial": "Radial",
   "PDFE.Views.TextArtSettings.textSelectTexture": "Sélectionner",
-  "PDFE.Views.TextArtSettings.textStretch": "Étirer",
+  "PDFE.Views.TextArtSettings.textStretch": "Étirement",
   "PDFE.Views.TextArtSettings.textStyle": "Style",
   "PDFE.Views.TextArtSettings.textTemplate": "Modèle",
   "PDFE.Views.TextArtSettings.textTexture": "Avec texture",
@@ -3384,5 +3384,7 @@
   "Common.Views.RolesManagerDlg.txtTitle": "Gérer les rôles des destinataires",
   "Common.Views.RolesManagerDlg.warnCantDelete": "Impossible de supprimer ce destinataire : des champs lui sont associés.",
   "Common.Views.RolesManagerDlg.warnDelete": "Voulez-vous vraiment supprimer le destinataire « {0} » ?",
-  "PDFE.Controllers.Main.warnStartFilling": "Remplissage du formulaire en cours.<br>La modification du fichier est momentanément indisponible."
+  "PDFE.Controllers.Main.warnStartFilling": "Remplissage du formulaire en cours.<br>La modification du fichier est momentanément indisponible.",
+  "PDFE.Views.ImageSettings.textRotate": "Faire pivoter",
+  "PDFE.Views.ShapeSettings.textRotate": "Faire pivoter"
 }
