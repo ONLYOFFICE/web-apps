@@ -936,8 +936,6 @@ define([
                     // };
 
                     var trackChanges = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.trackChanges : undefined;
-                    (trackChanges===undefined) && (trackChanges = me.appConfig.customization ? me.appConfig.customization.trackChanges : undefined);
-
                     if (config.isReviewOnly || trackChanges!==undefined)
                         me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
                     else
@@ -947,7 +945,6 @@ define([
                     var val = Common.localStorage.getItem(me.appPrefix + "review-mode-editor");
                     if (val===null) {
                         val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
-                        !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
                         val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                     }
                     if(val) {
@@ -985,8 +982,9 @@ define([
                         me.view.turnDisplayMode(val);
                     }
 
-                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
-                        (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
+                    if ( typeof (me.appConfig.customization) == 'object' &&
+                            me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true )
+                    {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
                             popoverChanges  : me.popoverChanges,
                             mode            : me.appConfig,
@@ -1002,7 +1000,6 @@ define([
                         var val = Common.localStorage.getItem(me.appPrefix + (config.isEdit || config.isRestrictedEdit ? "review-mode-editor" : "review-mode"));
                         if (val===null) {
                             val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
-                            !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
                             val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                         }
                         val && me.turnDisplayMode(val);

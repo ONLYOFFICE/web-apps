@@ -56,7 +56,6 @@ class InitReview extends Component {
             const isProtected = appOptions.isProtected;
 
             let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
-            (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
             trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
                 && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
 
@@ -73,7 +72,6 @@ class InitReview extends Component {
                 let viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? null : LocalStorage.getItem("de-view-review-mode");
                 if (viewReviewMode === null) {
                     viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
-                    !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
                     viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : undefined;
                 }
 
@@ -132,7 +130,6 @@ class Review extends Component {
         this.editorPrefix = window.editorType || '';
 
         let trackChanges = this.appConfig.customization && this.appConfig.customization.review ? this.appConfig.customization.review.trackChanges : undefined;
-        (trackChanges===undefined) && (trackChanges = this.appConfig.customization ? this.appConfig.customization.trackChanges : undefined);
         trackChanges = this.appConfig.isReviewOnly || trackChanges === true || trackChanges !== false
             && LocalStorage.getBool(`${this.editorPrefix}-mobile-track-changes-${this.appConfig.fileKey || ''}`);
 
