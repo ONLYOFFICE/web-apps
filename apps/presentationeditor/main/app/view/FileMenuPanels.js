@@ -2954,6 +2954,8 @@ define([], function () {
                 var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.$el.find('.main-header').outerHeight(true);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
+                this.cmbSlidesOnPage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbPaperSize.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
