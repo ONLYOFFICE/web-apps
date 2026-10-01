@@ -222,9 +222,10 @@ define([
             }
 
             if (!this.rightmenu.minimizedMode || open) {
-                var active;
+                var active,
+                    pluginActive = !this.rightmenu.minimizedMode && (!!this.rightmenu.GetActivePluginPane() || this.rightmenu.isPluginButtonPressed());
 
-                if (priorityactive<0 && !this.rightmenu.GetActivePluginPane()) {
+                if (priorityactive<0 && !pluginActive) {
                     if (this._priorityArr.length>0) {
                         for (i=0; i<this._priorityArr.length; i++) {
                             var type = this._priorityArr[i],
@@ -242,9 +243,9 @@ define([
 
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
-                else if (lastactive>=0 && !this.rightmenu.GetActivePluginPane()) active = lastactive;
+                else if (lastactive>=0 && !pluginActive) active = lastactive;
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else if (!this.rightmenu.GetActivePluginPane()) active = Common.Utils.documentSettingsType.Slide;
+                else if (!pluginActive) active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
