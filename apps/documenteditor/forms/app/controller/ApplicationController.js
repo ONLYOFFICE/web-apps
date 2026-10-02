@@ -1332,6 +1332,47 @@ define([
             Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.boxSdk, rect);
         },
 
+        onOpenLinkPDFForm: function(sURI, onAllow, onCancel) {
+            let id = 'pdf-link',
+                config = {
+                    closable: true,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok', 'cancel'],
+                    msg: Common.Utils.String.format(this.txtSecurityWarningLinkOk, sURI || ''),
+                    maxwidth: 600,
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            onAllow();
+                        }
+                        else
+                            onCancel();
+                    }, this)
+                };
+
+            Common.UI.alert(config).$window.attr('data-value', id);
+        },
+
+        onOpenFilePDFForm: function(onAllow, onCancel) {
+            let id = 'pdf-form',
+                config = {
+                    closable: true,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok', 'cancel'],
+                    msg: this.txtSecurityWarningOpenFile,
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            onAllow();
+                        }
+                        else
+                            onCancel();
+                    }, this)
+            };
+
+            Common.UI.alert(config).$window.attr('data-value', id);
+        },
+
         openPDFSignatureDialog: function(fieldId) {
             Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
 
@@ -1941,12 +1982,14 @@ define([
             this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
             this.api.asc_registerCallback('asc_onContextMenu',           _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onOpenLinkPdfForm', this.onOpenLinkPDFForm.bind(this));
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowPDFFormsActions', this.onShowPDFFormsActions.bind(this));
                 this.api.asc_registerCallback('asc_onHidePdfFormsActions', this.onHidePDFFormsActions.bind(this));
                 this.api.asc_registerCallback('asc_onShowFieldSignature', this.onShowPDFSignatureActions.bind(this));
                 this.api.asc_registerCallback('asc_onHideFieldSignature', this.onHidePDFSignatureActions.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateFieldSignature', this.onUpdatePDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onOpenFilePdfForm', this.onOpenFilePDFForm.bind(this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
@@ -2743,7 +2786,9 @@ define([
         titleReadOnly: 'Read-Only Mode',
         textContinue: 'Continue',
         txtSignedForm: 'This document has been signed and cannot be edited.',
-        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to {0}.<br>If you trust this site, press \"OK\".',
+        txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.'
 
     }, DE.Controllers.ApplicationController));
 });

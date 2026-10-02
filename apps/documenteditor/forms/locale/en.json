@@ -182,6 +182,8 @@
   "DE.Controllers.ApplicationController.warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
+  "DE.Controllers.ApplicationController.txtSecurityWarningLinkOk": "This document is trying to connect to {0}.<br>If you trust this site, press \"OK\".",
+  "DE.Controllers.ApplicationController.txtSecurityWarningOpenFile": "This document is trying to open file dialog, press \"OK\" to open.",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
   "DE.Views.ApplicationView.textClose": "Close file",
