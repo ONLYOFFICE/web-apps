@@ -107,6 +107,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.FillingStatus] = {panelId: "id-filling-status-settings",  panel: rightMenu.fillingStatusSettings, btn: rightMenu.btnFillingStatus,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panelId: "id-smartart-text-settings", panel: rightMenu.smartArtTextSettings, btn: rightMenu.btnSmartArtText, hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -222,6 +223,12 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked || isProtected;
+                        }
+                        // Show SmartArt text pane when a SmartArt or its internal shape is selected
+                        if (value.get_ShapeProperties().asc_getFromSmartArt() || isSmartArtInternal) {
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].props = value;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].hidden = 0;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].locked = value.get_Locked() || content_locked || isProtected;
                         }
                     }
                     control_lock = control_lock || value.get_Locked();

@@ -64,6 +64,7 @@ define([
     'documenteditor/main/app/view/FormSettings',
     'documenteditor/main/app/view/SendForSigningSettings',
     'documenteditor/main/app/view/FillingStatusSettings',
+    'common/main/lib/view/SmartArtTextPane',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -326,6 +327,21 @@ define([
                 this.fillingStatusSettings = new DE.Views.FillingStatusSettings();
             }
 
+            // SmartArt Text Pane
+            this.btnSmartArtText = new Common.UI.Button({
+                hint: this.txtSmartArtTextSettings,
+                asctype: Common.Utils.documentSettingsType.SmartArtText,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-smart-hierarchy',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panel: "id-smartart-text-settings", btn: this.btnSmartArtText};
+            this.btnSmartArtText.setElement($markup.findById('#id-right-menu-smartart-text'), false); this.btnSmartArtText.render().setVisible(true);
+            this.btnSmartArtText.on('click', this.onBtnMenuClick.bind(this));
+            this.smartArtTextSettings = new Common.Views.SmartArtTextPane({el: '#id-smartart-text-settings'});
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -363,6 +379,7 @@ define([
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
             if (this.sendForSigningSettings) this.sendForSigningSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
             if (this.fillingStatusSettings) this.fillingStatusSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
+            if (this.smartArtTextSettings) this.smartArtTextSettings.setApi(api);
         },
 
         setMode: function(mode) {
@@ -507,7 +524,7 @@ define([
 
         setButtons: function () {
             var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnShape, this.btnTextArt,
-                    this.btnMailMerge, this.btnSignature, this.btnForm, this.btnSendForSigning, this.btnFillingStatus];
+                    this.btnMailMerge, this.btnSignature, this.btnForm, this.btnSendForSigning, this.btnFillingStatus, this.btnSmartArtText];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -543,6 +560,7 @@ define([
         txtFormSettings:            'Form Settings',
         txtSendForSigning:          'Send for signing',
         txtFillingStatus:           'Filling status',
+        txtSmartArtTextSettings:    'SmartArt Text',
         ariaRightMenu:              'Right menu'
     }, DE.Views.RightMenu || {}));
 });
