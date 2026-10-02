@@ -132,7 +132,9 @@ define([
                     Common.UI.Menu.Manager.hideAll();
             });
             this.boxSdk.on('wheel mousewheel DOMMouseScroll', function(){
-                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateFormPosition(me, me.boxSdk);
+                if(window.isPDFForm) {
+                    Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateFormPosition(me, me.boxSdk);
+                }
             });
 
             this.editorConfig = {};
@@ -1291,7 +1293,6 @@ define([
         },
 
         onHidePDFFormsActions: function() {
-            console.log('321');
             this.listControlMenuPdf && this.listControlMenuPdf.isVisible() && this.listControlMenuPdf.hide();
             const controlsContainer = this.boxSdk.find('#calendar-control-container-pdf');
             if (controlsContainer.is(':visible'))
@@ -1299,7 +1300,6 @@ define([
         },
 
         onShowPDFFormsActions: function(obj, x, y) {
-            console.log('123');
             const me = this;
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
@@ -1312,6 +1312,66 @@ define([
                         me.onShowDateActionsPDF(obj, x, y);
                     }, 1);
                     break;
+            }
+        },
+
+        onShowPDFSignatureActions: function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
+                rootEl: this.boxSdk,
+                openDialog: this.openPDFSignatureDialog,
+                applySignature: this.applyStoredPDFSignature,
+                clearField: this.clearPDFSignatureField
+            });
+        },
+
+        onHidePDFSignatureActions: function() {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+        },
+
+        onUpdatePDFSignatureActions: function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.boxSdk, rect);
+        },
+
+        openPDFSignatureDialog: function(fieldId) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+
+            var me = this,
+                signProps = this.api.GetSignatureImageProps(),
+                win = (new Common.Views.PdfSignDialog({
+                    api: me.api,
+                    props: signProps,
+                    hasField: false,
+                    signatureId: fieldId,
+                    disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                    storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: this.getCollection('Common.Collections.Fonts'),
+                    iconType: 'svg',
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
+                        }
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        },
+
+        applyStoredPDFSignature: function(fieldId, data) {
+            var imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && fieldId) {
+                Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
+                this.api.SetSignatureToField({imageData: imageData}, fieldId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        clearPDFSignatureField: function(signatureId) {
+            if (signatureId) {
+                this.api.asc_ClearAllSpecialForms([signatureId]);
+                Common.localStorage.removeItem('dialog-signature-' + signatureId);
             }
         },
 
@@ -1884,6 +1944,9 @@ define([
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowPDFFormsActions', this.onShowPDFFormsActions.bind(this));
                 this.api.asc_registerCallback('asc_onHidePdfFormsActions', this.onHidePDFFormsActions.bind(this));
+                this.api.asc_registerCallback('asc_onShowFieldSignature', this.onShowPDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onHideFieldSignature', this.onHidePDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onUpdateFieldSignature', this.onUpdatePDFSignatureActions.bind(this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
