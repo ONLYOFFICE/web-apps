@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Null hiba",
+			"div": "Hiba: osztás nullával",
+			"value": "Értékhiba",
+			"ref": "Hiba, érvénytelen cellahivatkozás",
+			"name": "Hiba: érvénytelen név",
+			"num": "Számhiba",
+			"na": "Hiba: nem elérhető érték",
+			"calc": "Üres tömb",
+			"spill": "Nem üres a kibontási tartomány"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "cím",
 			"col": "oszlop",

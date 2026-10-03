@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CÁLC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Erro de Nulidade",
+			"div": "Erro de Divisão por Zero",
+			"value": "Erro no Valor",
+			"ref": "Erro de Referência de Célula Inválida",
+			"name": "Erro de Nome Inválido",
+			"num": "Erro de Número",
+			"na": "Erro de Valor Não Disponível",
+			"calc": "Matriz Vazia",
+			"spill": "O intervalo de transposição de limites não está em branco"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "endereço",
 			"col": "col",

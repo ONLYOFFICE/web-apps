@@ -508,6 +508,17 @@
 			"uf": "#NIEOBSŁUGIWANE_FUNKCJA!",
 			"calc": "#OBL!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Błąd zera",
+			"div": "Błąd dzielenia przez zero",
+			"value": "Błąd wartości",
+			"ref": "Błąd nieprawidłowego odwołania do komórki",
+			"name": "Błąd nieprawidłowej nazwy",
+			"num": "Błąd liczby",
+			"na": "Błąd wartości niedostępnej",
+			"calc": "Pusta tablica",
+			"spill": "Zakres rozlania nie jest pusty"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adres",
 			"col": "kolumna",

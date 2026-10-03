@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#KALK!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Fel: Null",
+			"div": "Fel: Division med noll",
+			"value": "Fel i värde",
+			"ref": "Fel: Ogiltig cellreferens",
+			"name": "Fel: Ogiltigt namn",
+			"num": "Fel: Nummer",
+			"na": "Fel: Värdet är inte tillgängligt",
+			"calc": "Tom matris",
+			"spill": "Spillområdet är tomt"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adress",
 			"col": "kol",

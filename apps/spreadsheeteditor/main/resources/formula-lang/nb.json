@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#BEREGN!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Nullfeil",
+			"div": "Kan ikke dele på null",
+			"value": "Feil i verdi",
+			"ref": "Ugyldig cellereferanse",
+			"name": "Ugyldig navn",
+			"num": "Tallfeil",
+			"na": "Verdi ikke tilgjengelig-feil",
+			"calc": "Tom matrise",
+			"spill": "Overflytområdet er ikke tomt"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresse",
 			"col": "kol",

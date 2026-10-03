@@ -100,7 +100,8 @@ define([
                 eyedropper: {
                     isHidden: true
                 },
-                placeholder: {}
+                placeholder: {},
+                cell_error: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -165,6 +166,7 @@ define([
                     me.hideHyperlinkTip();
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
+                    me.onHideCellErrorTip();
                     me.onDocumentResize();
                     if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
                         me.changeInputMessagePosition(me.tooltips.input_msg);
@@ -335,6 +337,7 @@ define([
         },
 
         onDocumentWheel: function(e) {
+            this.onHideCellErrorTip();
             if (this.api && !this.isEditCell) {
                 var delta = (_.isUndefined(e.originalEvent)) ?  e.wheelDelta : e.originalEvent.wheelDelta;
                 if (_.isUndefined(delta)) {
@@ -617,7 +620,12 @@ define([
             this.disableChartElementButton();
         },
 
+        onHideCellErrorTip: function() {
+            this.hideCellErrorTip && this.hideCellErrorTip(true);
+        },
+
         clearSelection: function() {
+            this.onHideCellErrorTip();
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
             this.onHideChartElementButton();
