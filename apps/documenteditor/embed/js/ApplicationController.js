@@ -842,7 +842,7 @@ DE.ApplicationController = new(function(){
 
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         // appOptions.canFillForms   = false; // use forms editor for filling forms
-        appOptions.canFillForms   = isPDF;
+        appOptions.canFillForms   = false;
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);
