@@ -167,7 +167,8 @@
           }
 
           var params = getUrlParams(),
-              lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            isPDFForm = params["isPDFForm"];
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
@@ -295,10 +296,15 @@
                 script.src = "../../../vendor/requirejs/require.js";
                 document.body.appendChild(script);
             }
-            listenApiMsg(function (isform) {
-                window.isPDFForm = !!isform;
+            if (isPDFForm===undefined) {
+                listenApiMsg(function (isform) {
+                    window.isPDFForm = !!isform;
+                    startApp();
+                });
+            } else {
+                window.isPDFForm = isPDFForm==='true';
                 startApp();
-            });
+            }
         </script>
   </body>
 </html>
