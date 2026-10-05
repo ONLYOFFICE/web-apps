@@ -213,6 +213,15 @@ define([
             this.shapeSettings = new PE.Views.ShapeSettings();
             this.textartSettings = new PE.Views.TextArtSettings();
 
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnTable, this.btnImage, this.btnSlide, this.btnChart, 
+                    this.btnShape, this.btnTextArt,
+                ].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
+            }
+
             if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
@@ -339,6 +348,10 @@ define([
         GetActivePluginPane: function() {
             var active = this.$el.find(".plugin-panel.active");
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
+        },
+
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
         },
 
         clearSelection: function() {

@@ -231,6 +231,15 @@ define([
             this.cellSettings = new SSE.Views.CellSettings();
             this.slicerSettings = new SSE.Views.SlicerSettings();
 
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnImage, this.btnChart, this.btnShape, this.btnTextArt, this.btnPivot, 
+                    this.btnCell, this.btnSlicer
+                ].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
+            }
+
             if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
@@ -352,6 +361,10 @@ define([
         GetActivePane: function() {
             var active = this.$el.find(".settings-panel.active");
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
+        },
+
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
         },
 
         clearSelection: function() {
