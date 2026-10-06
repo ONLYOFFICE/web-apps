@@ -113,7 +113,8 @@
                     "findNestedDependencies": false,
                     "optimizeAllPluginResources": false,
                     "paths": {
-                        "text": "../vendor/requirejs-text/text"
+                        "text": "../vendor/requirejs-text/text",
+                        "common/main/lib/component/BaseView": "empty:"
                     }
                 }
             },
