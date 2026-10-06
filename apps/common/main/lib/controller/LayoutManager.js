@@ -254,7 +254,7 @@ Common.UI.LayoutManager = new(function() {
             plugin.tabs && plugin.tabs.forEach(function(tab) {
                 if (tab) {
                     let _set = Common.enumLock,
-                        lockInViewModeKeys = [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
+                        lockInViewModeKeys = [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula].filter(function(key) { return !!key; }), // keys not defined in this editor would match any undefined lock
                         added = [],
                         addedWithViewModeLock = [],
                         removed = preventRemove ? [] : _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
