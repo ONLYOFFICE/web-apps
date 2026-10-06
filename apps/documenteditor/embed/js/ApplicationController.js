@@ -125,6 +125,7 @@ DE.ApplicationController = new(function(){
                 user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
                                                  common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
             user.anonymous && common.localStorage.setItem("guest-id", user.id);
+            config.user = user; 
 
             _user.put_Id(user.id);
             _user.put_FullName(user.fullname);
