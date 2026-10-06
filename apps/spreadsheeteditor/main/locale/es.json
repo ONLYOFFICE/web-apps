@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "El número máximo de puntos en serie por gráfico es 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "¡ERROR! El número máximo de series de datos por gráfico es 225",
   "SSE.Controllers.Toolbar.errorStockChart": "Orden de las filas incorrecto. Para crear un gráfico de cotizaciones introduzca los datos en la hoja de la forma siguiente:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+  "SSE.Controllers.Toolbar.helpAITools": "La IA le ayuda a crear y editar sus documentos.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Herramientas de IA",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Corchetes",
   "SSE.Controllers.Toolbar.textDirectional": "Direccional",

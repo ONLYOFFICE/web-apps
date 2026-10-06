@@ -246,8 +246,10 @@ define([
             if ( has_edit_users ) {
                 $panelUsers['show']();
                 $btnUsers.find('.caption').html(originalCount);
+                isUserFollowSupport && count > 2 && Common.UI.TooltipManager && Common.UI.TooltipManager.showTip('followUser');
             } else {
                 $panelUsers['hide']();
+                isUserFollowSupport && Common.UI.TooltipManager && Common.UI.TooltipManager.closeTip('followUser');
             }
             updateDocNamePosition();
         }

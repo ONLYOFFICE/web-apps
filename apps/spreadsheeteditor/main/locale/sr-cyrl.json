@@ -1875,6 +1875,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Максималан број тачака у серијама по графикону је 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ГРЕШКА! Максималан број серије података по графикону је 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Нетачан ред редова. За израду графикона берзанске трговине, поставите податке на листу у следећем редоследу:<br> отварајућа цена, макс цена, мин цена, затварајућа цена.",
+  "SSE.Controllers.Toolbar.helpAITools": "ВИ вам помаже да креирате и уређујете своје документе.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "ВИ алати",
   "SSE.Controllers.Toolbar.textAccent": "Нагласци",
   "SSE.Controllers.Toolbar.textBracket": "Заграде",
   "SSE.Controllers.Toolbar.textDirectional": "Усмерено",

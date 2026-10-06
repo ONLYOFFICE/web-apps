@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "چارٹ کے مطابق سیریز میں پوائنٹس کی زیادہ سے زیادہ تعداد ۴۰۹۶ ہے.",
   "SSE.Controllers.Toolbar.errorMaxRows": "غلطی! اس طرح کے عنوان کے ساتھ رینج پہلے سے موجود ہے۔",
   "SSE.Controllers.Toolbar.errorStockChart": "غلط صف آرڈر۔ اسٹاک چارٹ بنانے کے لئےڈیٹا کو درج ذیل ترتیب میں شیٹ پر رکھیں: قیمت ، زیادہ سے زیادہ قیمت ، کم سے کم قیمت ، اختتامی قیمت۔",
+  "SSE.Controllers.Toolbar.helpAITools": "AI آپ کی دستاویزات بنانے اور ان میں ترمیم کرنے میں مدد کرتا ہے۔",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI ٹولز",
   "SSE.Controllers.Toolbar.textAccent": "لہجے",
   "SSE.Controllers.Toolbar.textBracket": "بریکٹ",
   "SSE.Controllers.Toolbar.textDirectional": "دشاتمک",

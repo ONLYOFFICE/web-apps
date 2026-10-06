@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>连接失败</b><br>正在尝试连接。请检查连接设置。",
   "VE.Controllers.Statusbar.zoomText": "缩放 {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "您正在尝试进行您没有权限的操作。<br>请联系您的文档服务器管理员。",
+  "VE.Controllers.Toolbar.helpAITools": "AI 帮助您创建和编辑文档。",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI 工具",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "VE.Controllers.Toolbar.txtUntitled": "无标题",
   "VE.Views.DocumentHolder.guestText": "访客",

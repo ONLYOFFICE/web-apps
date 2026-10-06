@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle in Reihen beträgt 4096 Punkte.",
   "SSE.Controllers.Toolbar.errorMaxRows": "FEHLER! Die maximale Anzahl der Datenreihen per Diagramm ist 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, ordnen Sie die Daten auf dem Blatt folgendermaßen an:<br> Eröffnungspreis, Höchstpreis, Tiefstpreis, Schlusskurs.",
+  "SSE.Controllers.Toolbar.helpAITools": "KI hilft Ihnen beim Erstellen und Bearbeiten Ihrer Dokumente.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "KI-Tools",
   "SSE.Controllers.Toolbar.textAccent": "Akzente",
   "SSE.Controllers.Toolbar.textBracket": "Klammern",
   "SSE.Controllers.Toolbar.textDirectional": "Direktional",

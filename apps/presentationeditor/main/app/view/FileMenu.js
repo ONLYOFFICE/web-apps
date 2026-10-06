@@ -83,6 +83,7 @@ define([
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {
+                            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                             this.$el.find('.content-box:visible').hide();
                             this.active = item.options.action;
                             panel.show();
@@ -410,6 +411,7 @@ define([
 
         hide: function() {
             this.$el.hide();
+            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
             this.fireEvent('menu:hide', [this]);
             // this.api && this.api.asc_enableKeyEvents(true);
         },
@@ -669,6 +671,7 @@ define([
                     $('.fm-btn',this.el).removeClass('active');
                     item.$el.addClass('active');
 
+                    Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                     this.$el.find('.content-box:visible').hide();
                     panel.show(opts);
 

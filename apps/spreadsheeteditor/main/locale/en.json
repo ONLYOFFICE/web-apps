@@ -2116,6 +2116,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERROR! The maximum number of data series per chart is 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
+  "SSE.Controllers.Toolbar.helpAITools": "AI helps you create and edit your documents.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI Tools",
   "SSE.Controllers.Toolbar.textAccent": "Accents",
   "SSE.Controllers.Toolbar.textBracket": "Brackets",
   "SSE.Controllers.Toolbar.textDirectional": "Directional",

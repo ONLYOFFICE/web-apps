@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "O máximo número de pontos em séries por gráfico é 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordem da linha incorreta. Para criar um gráfico de ações coloque os dados na planilha na seguinte ordem:<br> preço de abertura, preço máx., preço mín., preço de fechamento.",
+  "SSE.Controllers.Toolbar.helpAITools": "A IA ajuda você a criar e editar seus documentos.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Ferramentas de IA",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Parênteses",
   "SSE.Controllers.Toolbar.textDirectional": "Direcional",

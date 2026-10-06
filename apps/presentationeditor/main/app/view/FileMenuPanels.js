@@ -174,6 +174,7 @@ define([], function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateFormats();
             this.scroller && this.scroller.update();
+            Common.UI.TooltipManager.showTip('videoFormatsSaveAs');
         },
 
         onFormatKeyDown: function(e) { 
@@ -318,6 +319,7 @@ define([], function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateFormats();
             this.scroller && this.scroller.update();
+            Common.UI.TooltipManager.showTip('videoFormatsSaveCopy');
         },
 
         onFormatKeyDown: function(e) {
@@ -2807,6 +2809,7 @@ define([], function () {
             }
             this.updateScroller();
             this.fireEvent('show', this);
+            Common.UI.TooltipManager.showTip('printSlidesOnPage');
         },
 
         updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {

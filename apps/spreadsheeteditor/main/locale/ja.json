@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "グラフごとの直列のポイントの最大数は4096です。",
   "SSE.Controllers.Toolbar.errorMaxRows": "エラー！使用可能なデータ系列の数は、1グラフあたり最大255個です。",
   "SSE.Controllers.Toolbar.errorStockChart": "行の順序が正しくありません。この株価チャートを作成するには、<br>始値、高値、安値、終値の順でシートのデータを配置してください。",
+  "SSE.Controllers.Toolbar.helpAITools": "AI がドキュメントの作成と編集をサポートします。",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI ツール",
   "SSE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "SSE.Controllers.Toolbar.textBracket": "括弧",
   "SSE.Controllers.Toolbar.textDirectional": "方向",

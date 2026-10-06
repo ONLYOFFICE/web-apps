@@ -1356,6 +1356,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Максімальная колькасць кропак у шэрагу для дыяграмы - 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ПАМЫЛКА! максімальная колькасць шэрагаў даных у адной дыяграме - 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Хібны парадак радкоў. Каб стварыць біржавую дыяграму размясціце даныя ў наступным парадку:<br>кошт адкрыцця, максімальны кошт, мінімальны кошт, кошт закрыцця.",
+  "SSE.Controllers.Toolbar.helpAITools": "ШІ дапаможа вам ствараць і рэдагаваць дакументы.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Інструменты ШІ",
   "SSE.Controllers.Toolbar.textAccent": "Дыякрытычныя знакі",
   "SSE.Controllers.Toolbar.textBracket": "Дужкі",
   "SSE.Controllers.Toolbar.textDirectional": "Кірункі",

@@ -309,6 +309,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Połączenie zostało przerwane</b><br>Trwa próba ponownego połączenia. Sprawdź ustawienia połączenia.",
   "VE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Próbujesz wykonać działanie, do którego nie masz uprawnień.<br>Proszę skontaktować się z administratorem Serwera Dokumentów.",
+  "VE.Controllers.Toolbar.helpAITools": "AI pomoże Ci tworzyć i edytować dokumenty.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Narzędzia AI",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Ostrzeżenie",
   "VE.Controllers.Toolbar.txtUntitled": "Nienazwany",
   "VE.Views.DocumentHolder.guestText": "Gość",

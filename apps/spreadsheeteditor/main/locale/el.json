@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Ο μέγιστος αριθμός σημείων σε σειρά ανά γράφημα είναι 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ΣΦΑΛΜΑ! Ο μέγιστος αριθμός σειρών δεδομένων ανά γράφημα είναι 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Λανθασμένη διάταξη γραμμών. Για να δημιουργήσετε ένα γράφημα μετοχών τοποθετήστε τα δεδομένα στο φύλλο με την ακόλουθη σειρά:<br>τιμή ανοίγματος, μέγιστη τιμή, ελάχιστη τιμή, τιμή κλεισίματος.",
+  "SSE.Controllers.Toolbar.helpAITools": "Η τεχνητή νοημοσύνη σάς βοηθά να δημιουργείτε και να επεξεργάζεστε τα έγγραφά σας.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Εργαλεία ΤΝ",
   "SSE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "SSE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "SSE.Controllers.Toolbar.textDirectional": "Κατευθυντικό",

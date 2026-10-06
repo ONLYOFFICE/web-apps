@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Le nombre maximum de points en série par graphique est de 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERREUR ! Maximum de 255 séries de données par graphique",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordre lignes incorrect. Pour créer un diagramme boursier, positionnez les données sur la feuille de calcul dans l'ordre suivant :<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
+  "SSE.Controllers.Toolbar.helpAITools": "L'IA vous aide à créer et à modifier vos documents.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Outils d'IA",
   "SSE.Controllers.Toolbar.textAccent": "Caractères diacritiques",
   "SSE.Controllers.Toolbar.textBracket": "Parenthèses",
   "SSE.Controllers.Toolbar.textDirectional": "Directionnel",

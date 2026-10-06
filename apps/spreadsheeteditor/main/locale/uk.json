@@ -1268,6 +1268,8 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Для створення комбінованої діаграми виберіть щонайменше два ряди даних.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ПОМИЛКА! Максимальна кількість даних на кожну діаграму становить 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Невірний порядок рядків. Щоб побудувати фондову діаграму, помістіть дані на аркуші в наступному порядку: ціна відкриття, максимальна ціна, мінімальна ціна, ціна закриття.",
+  "SSE.Controllers.Toolbar.helpAITools": "ШІ допоможе вам створювати й редагувати документи.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Інструменти ШІ",
   "SSE.Controllers.Toolbar.textAccent": "Акценти",
   "SSE.Controllers.Toolbar.textBracket": "Дужки",
   "SSE.Controllers.Toolbar.textDirectional": "Напрямок",

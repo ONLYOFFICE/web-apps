@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Trying to connect. Please check connection settings.",
   "VE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
+  "VE.Controllers.Toolbar.helpAITools": "AI helps you create and edit your documents.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI Tools",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "VE.Controllers.Toolbar.txtUntitled": "Untitled",
   "VE.Views.DocumentHolder.guestText": "Guest",

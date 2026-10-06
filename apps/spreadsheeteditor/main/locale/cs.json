@@ -2059,6 +2059,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Nejvyšší možný počet bodů v řadě na graf je 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "CHYBA! Nejvyšší možný počet datových řad v každém grafu je 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
+  "SSE.Controllers.Toolbar.helpAITools": "AI vám pomůže vytvářet a upravovat dokumenty.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Nástroje AI",
   "SSE.Controllers.Toolbar.textAccent": "Zvýraznění",
   "SSE.Controllers.Toolbar.textBracket": "Závorky",
   "SSE.Controllers.Toolbar.textDirectional": "Směrové",

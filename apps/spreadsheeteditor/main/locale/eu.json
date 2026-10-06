@@ -1418,6 +1418,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Diagrama bakoitzak gehienez ere 4096 puntu izan ditzake serieko.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERROREA! Diagrama bakoitzak gehienez ere 255 datu-serie izan ditzake.",
   "SSE.Controllers.Toolbar.errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, ezarri orriko datuak ordena honetan:<br>Irekierako prezioa, gehienezko prezioa, gutxienezko prezioa, eta itxierako prezioa.",
+  "SSE.Controllers.Toolbar.helpAITools": "AAk zure dokumentuak sortzen eta editatzen laguntzen dizu.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AA tresnak",
   "SSE.Controllers.Toolbar.textAccent": "Azentuak",
   "SSE.Controllers.Toolbar.textBracket": "Parentesiak",
   "SSE.Controllers.Toolbar.textDirectional": "Norabidezkoa",

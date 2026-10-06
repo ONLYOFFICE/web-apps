@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>연결이 끊어졌습니다</b><br>연결을 재시도 중입니다. 연결 설정을 확인해 주세요.",
   "VE.Controllers.Statusbar.zoomText": "확대 / 축소 {0} %",
   "VE.Controllers.Toolbar.errorAccessDeny": "권한이 없는 작업을 시도하고 있습니다.<br>문서 서버 관리자에게 문의하십시오.",
+  "VE.Controllers.Toolbar.helpAITools": "AI가 문서 작성과 편집을 도와줍니다.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI 도구",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "경고",
   "VE.Controllers.Toolbar.txtUntitled": "제목 없음",
   "VE.Views.DocumentHolder.guestText": "게스트",

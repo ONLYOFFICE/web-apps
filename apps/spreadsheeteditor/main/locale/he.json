@@ -2110,6 +2110,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "מספר הנקודות המרבי בסדרה לכל תרשים הוא 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255",
   "SSE.Controllers.Toolbar.errorStockChart": "סדר שורה שגוי. <br>כדי לבנות תרשים מלאי מקם את הנתונים על הגיליון בסדר הבא: מחיר פתיחה, מחיר מקסימלי, מחיר מינימלי, מחיר סגירה.",
+  "SSE.Controllers.Toolbar.helpAITools": "הבינה המלאכותית עוזרת לכם ליצור ולערוך את המסמכים שלכם.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "כלי בינה מלאכותית",
   "SSE.Controllers.Toolbar.textAccent": "הדגשות",
   "SSE.Controllers.Toolbar.textBracket": "סוגריים",
   "SSE.Controllers.Toolbar.textDirectional": "כיווני",

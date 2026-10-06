@@ -365,7 +365,7 @@ define([
                 !props.noHighlight && targetEl.addClass('highlight-tip');
 
                 if (props.isNewFeature) {
-                    props.header = '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>' + props.header;
+                    props.header = props.header + '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>';
                 }
 
                 props.tip = new Common.UI.SynchronizeTip({

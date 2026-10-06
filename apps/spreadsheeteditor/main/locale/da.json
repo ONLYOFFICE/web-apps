@@ -1131,6 +1131,8 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "For at lave et kombinationsdiagram, vælg mindst to serier med data.",
   "SSE.Controllers.Toolbar.errorMaxRows": "FEJL! Det maksimale antal af dataserier pr. diagram er 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Forkert rækkefølge. For at bygge et aktiediagram placer dataen på arket i følgende orden:<br>Åbningspris, maks pris, min. pris, lukke pris. ",
+  "SSE.Controllers.Toolbar.helpAITools": "AI hjælper dig med at oprette og redigere dine dokumenter.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI-værktøjer",
   "SSE.Controllers.Toolbar.textAccent": "Accenter",
   "SSE.Controllers.Toolbar.textBracket": "Beslag",
   "SSE.Controllers.Toolbar.textDirectional": "Retningsbestemt",

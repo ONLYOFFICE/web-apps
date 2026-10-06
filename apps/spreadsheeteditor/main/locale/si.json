@@ -1614,6 +1614,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "ප්‍රස්ථාරයකට ශ්‍රේණියේ උපරිම ලකුණු සංඛ්‍යාව 4096 කි.",
   "SSE.Controllers.Toolbar.errorMaxRows": "දෝෂයකි! ප්‍රස්ථාරයකට උපරිම දත්ත ශ්‍රේණි ගණන 255 කි",
   "SSE.Controllers.Toolbar.errorStockChart": "වැරදි පේළි අනුපිළිවෙලකි. කොටස් ප්‍රස්ථාරයක් තැනීමට පහත අනුපිළිවෙලට පත්‍රයේ දත්ත තබන්න:<br> ආරම්භක මිල, උපරිම මිල, අවම මිල, අවසාන මිල.",
+  "SSE.Controllers.Toolbar.helpAITools": "ඔබේ ලේඛන සෑදීමට සහ සංස්කරණය කිරීමට AI ඔබට උදව් කරයි.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI මෙවලම්",
   "SSE.Controllers.Toolbar.textAccent": "උදාත්ත",
   "SSE.Controllers.Toolbar.textBracket": "වරහන්",
   "SSE.Controllers.Toolbar.textDirectional": "දිශාමය",

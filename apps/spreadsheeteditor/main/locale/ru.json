@@ -2112,6 +2112,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Максимальное число точек в серии для диаграммы составляет 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ОШИБКА! Максимальное число рядов данных для одной диаграммы - 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Неверный порядок строк. Чтобы создать биржевую диаграмму, расположите данные на листе в следующем порядке:<br> цена открытия, максимальная цена, минимальная цена, цена закрытия.",
+  "SSE.Controllers.Toolbar.helpAITools": "ИИ поможет вам создавать и редактировать документы.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Инструменты ИИ",
   "SSE.Controllers.Toolbar.textAccent": "Диакритические знаки",
   "SSE.Controllers.Toolbar.textBracket": "Скобки",
   "SSE.Controllers.Toolbar.textDirectional": "Направления",

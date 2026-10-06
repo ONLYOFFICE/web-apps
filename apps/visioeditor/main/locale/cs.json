@@ -334,6 +334,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Spojení je ztraceno</b><br>Pokus o opětovné připojení. Zkontrolujte nastavení připojení.",
   "VE.Controllers.Statusbar.zoomText": "Přiblížení {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Prosím, kontaktujte administrátora vašeho Dokumentového serveru.",
+  "VE.Controllers.Toolbar.helpAITools": "AI vám pomůže vytvářet a upravovat dokumenty.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Nástroje AI",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Varování",
   "VE.Controllers.Toolbar.txtUntitled": "Bez názvu",
   "VE.Views.DocumentHolder.guestText": "Návštěvník",

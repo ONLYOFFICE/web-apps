@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Maksimalan broj točaka u seriji po grafikonu je 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "GREŠKA! Maksimalan broj nizova podataka po grafikonu je 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Netočan raspored redova. Za izradu tabele dionica stavite posložite podatke u radnu knjigu ovim redoslijedom:<br>cijena na otvaranju, maks. cijena, min. cijena, cijena na zatvaranju.",
+  "SSE.Controllers.Toolbar.helpAITools": "Umjetna inteligencija pomaže vam stvarati i uređivati dokumente.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Alati umjetne inteligencije",
   "SSE.Controllers.Toolbar.textAccent": "Naglasci",
   "SSE.Controllers.Toolbar.textBracket": "Zagrade",
   "SSE.Controllers.Toolbar.textDirectional": "Usmjerno",

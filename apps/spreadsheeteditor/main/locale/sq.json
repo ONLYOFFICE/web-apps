@@ -2111,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Numri maksimal i pikëve në seri për grafik është 4096",
   "SSE.Controllers.Toolbar.errorMaxRows": "GABIM! Numri maksimal i serive të të dhënave për çdo diagram është 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Rendi i gabuar i rreshtave. Për të ndërtuar një grafik aksionesh vendosni të dhënat në fletë në rendin e mëposhtëm:<br> çmimi i hapjes, çmimi maksimal, çmimi minimal, çmimi i mbylljes.",
+  "SSE.Controllers.Toolbar.helpAITools": "IA ju ndihmon të krijoni dhe redaktoni dokumentet tuaja.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Mjetet e IA-së",
   "SSE.Controllers.Toolbar.textAccent": "Akcente",
   "SSE.Controllers.Toolbar.textBracket": "Kllapa",
   "SSE.Controllers.Toolbar.textDirectional": "Direktorial",

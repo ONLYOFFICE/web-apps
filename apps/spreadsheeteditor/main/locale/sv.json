@@ -1256,6 +1256,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Max antal punkter i serie är 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "FEL! Det maximala antalet dataserier per diagram är 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Felaktig radordning. Att bygga en börsdiagram plats data på arket i följande ordning: <br> öppningspris, max pris, min pris, slutkurs.",
+  "SSE.Controllers.Toolbar.helpAITools": "AI hjälper dig att skapa och redigera dina dokument.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "AI-verktyg",
   "SSE.Controllers.Toolbar.textAccent": "Accenter",
   "SSE.Controllers.Toolbar.textBracket": "Parenteser",
   "SSE.Controllers.Toolbar.textDirectional": "Riktning",
