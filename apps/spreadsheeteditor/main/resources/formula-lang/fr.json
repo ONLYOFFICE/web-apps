@@ -507,6 +507,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Erreur de valeur nulle",
+			"div": "Erreur lors de la division par zéro",
+			"value": "Erreur de valeur",
+			"ref": "Erreur due à une référence de cellule non valide",
+			"name": "Erreur due à un nom non valide",
+			"num": "Erreur de nombre",
+			"na": "Erreur due à une valeur non disponible",
+			"calc": "Tableau vide",
+			"spill": "La plage propagée n’est pas vide"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresse",
 			"col": "col",

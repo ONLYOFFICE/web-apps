@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#LASKE!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Nollavirhe",
+			"div": "Jakaminen nollalla -virhe",
+			"value": "Virhe arvossa",
+			"ref": "Virheellinen soluviittaus -virhe",
+			"name": "Nimi ei kelpaa -virhe",
+			"num": "Lukuvirhe",
+			"na": "Arvo ei käytettävissä -virhe",
+			"calc": "Tyhjä matriisi",
+			"spill": "Levittymisalue ei ole tyhjä"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "osoite",
 			"col": "sarake",

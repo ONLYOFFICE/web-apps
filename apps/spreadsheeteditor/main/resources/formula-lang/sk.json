@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#VÝPOČET!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Chyba: null",
+			"div": "Chyba delenia nulou",
+			"value": "Chyba hodnoty",
+			"ref": "Chyba: Neplatné prepojenie na bunku",
+			"name": "Chyba: Neplatný názov",
+			"num": "Chyba čísla",
+			"na": "Chyba: Hodnota nie je k dispozícii",
+			"calc": "Prázdne pole",
+			"spill": "Rozsah presahu nie je prázdny"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresa",
 			"col": "stĺpec",

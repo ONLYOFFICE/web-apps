@@ -265,12 +265,10 @@
                     statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
                     forcesave: false,
-                    showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
                     toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
@@ -281,7 +279,6 @@
                         disabled: true // disable AI features in editor: hide AI Tools and block AI requests
                     },
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
@@ -1300,7 +1297,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture;");
 
 		if (config.type == "mobile")
 		{

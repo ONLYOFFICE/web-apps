@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Die Verbindung wurde unterbrochen</b><br>Verbindungsversuch. Bitte Verbindungseinstellungen überprüfen.",
   "VE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Sie versuchen, eine Aktion durchzuführen, für die Sie keine Rechte haben.<br>Wenden Sie sich bitte an Ihren Document Server-Administrator.",
+  "VE.Controllers.Toolbar.helpAITools": "KI hilft Ihnen beim Erstellen und Bearbeiten Ihrer Dokumente.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "KI-Tools",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Achtung",
   "VE.Controllers.Toolbar.txtUntitled": "Unbenannt",
   "VE.Views.DocumentHolder.guestText": "Gast",

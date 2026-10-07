@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Η σύνδεση χάθηκε</b><br>Απόπειρα επανασύνδεσης. Παρακαλούμε, ελέγξτε τις ρυθμίσεις σύνδεσης.",
   "VE.Controllers.Statusbar.zoomText": "Εστίαση {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα.<br>Παρακαλούμε να επικοινωνήστε με τον διαχειριστή του διακομιστή εγγράφων.",
+  "VE.Controllers.Toolbar.helpAITools": "Η τεχνητή νοημοσύνη σάς βοηθά να δημιουργείτε και να επεξεργάζεστε τα έγγραφά σας.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Εργαλεία ΤΝ",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "VE.Controllers.Toolbar.txtUntitled": "Άτιτλο",
   "VE.Views.DocumentHolder.guestText": "Επισκέπτης",

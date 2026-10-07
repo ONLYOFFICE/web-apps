@@ -1781,6 +1781,7 @@ define([
 
                 this._state.internalId = this.internalId;
                 this.chSpellcheck && this.cmbFormat && this.chSpellcheck.$el.closest('tr').toggle(
+                    !formTextPr ||
                     this._state.FormatType === Asc.TextFormFormatType.None ||
                     this._state.FormatType === Asc.TextFormFormatType.Letter
                 );

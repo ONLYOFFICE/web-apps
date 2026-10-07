@@ -284,7 +284,8 @@ class MainController extends Component {
 
                 if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
-                        this.permissions.fillForms = this.permissions.edit !== false;
+                        // take the integrator's edit right, the viewer-only format branch above has already reset this.permissions.edit
+                        this.permissions.fillForms = !(data.doc.permissions && data.doc.permissions.edit === false);
                     }
 
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;

@@ -410,7 +410,7 @@ define([
             this.view.fireEvent('viewtab:showtoolbar', [this.view.chToolbar, isHideToolbar, true]);
 
             //Statusbar
-            const isHideStatusbar = isCompact || Common.localStorage.getBool("sse-compact-statusbar");
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("sse-compact-statusbar", true);
             this.view.chStatusbar.setValue(!isHideStatusbar, true);
             this.view.fireEvent('statusbar:setcompact', [this.view.chStatusbar, isHideStatusbar, true]);
 

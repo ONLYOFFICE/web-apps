@@ -333,6 +333,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>連線失敗</b><br>正在嘗試連線。請檢查網路連線設定。",
   "VE.Controllers.Statusbar.zoomText": "縮放至{0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "您正在嘗試執行一個您無權限進行的操作。<br>請聯絡您的文件伺服器管理員。",
+  "VE.Controllers.Toolbar.helpAITools": "AI 協助您建立和編輯文件。",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI 工具",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "VE.Controllers.Toolbar.txtUntitled": "無標題",
   "VE.Views.DocumentHolder.guestText": "來賓",

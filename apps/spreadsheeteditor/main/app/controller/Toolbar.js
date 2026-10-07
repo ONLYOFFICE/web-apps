@@ -285,6 +285,8 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 // 'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                 //                     automove: true, closable: false, isNewFeature: true},
+                'aiTools' : {name: 'sse-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},

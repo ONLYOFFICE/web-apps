@@ -1129,6 +1129,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:'connected'});
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -1237,8 +1238,10 @@ define([
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection:'disconnected'});
                         var me = this;
                         me._state.timerDisconnect = setTimeout(function(){
+                            Common.Gateway.sendInfo({connection:'reconnecting'});
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -1556,7 +1559,7 @@ define([
                     }
                 });
 
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection: 'connected'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
@@ -1740,11 +1743,11 @@ define([
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if (typeof (this.editorConfig.customization) == 'object') {
                     if (this.editorConfig.customization.showReviewChanges!==undefined)
-                        console.log("Obsolete: The 'showReviewChanges' parameter of the 'customization' section is deprecated. Please use 'showReviewChanges' parameter in the 'customization.review' section instead.");
+                        console.log("Obsolete: The 'showReviewChanges' parameter of the 'customization' section has been removed. Please use 'showReviewChanges' parameter in the 'customization.review' section instead.");
                     if (this.editorConfig.customization.reviewDisplay!==undefined)
-                        console.log("Obsolete: The 'reviewDisplay' parameter of the 'customization' section is deprecated. Please use 'reviewDisplay' parameter in the 'customization.review' section instead.");
+                        console.log("Obsolete: The 'reviewDisplay' parameter of the 'customization' section has been removed. Please use 'reviewDisplay' parameter in the 'customization.review' section instead.");
                     if (this.editorConfig.customization.trackChanges!==undefined)
-                        console.log("Obsolete: The 'trackChanges' parameter of the 'customization' section is deprecated. Please use 'trackChanges' parameter in the 'customization.review' section instead.");
+                        console.log("Obsolete: The 'trackChanges' parameter of the 'customization' section has been removed. Please use 'trackChanges' parameter in the 'customization.review' section instead.");
                 }
 
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
@@ -2496,6 +2499,8 @@ define([
                 appHeader.setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings, options) {

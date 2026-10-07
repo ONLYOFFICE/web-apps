@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>接続が切断されました</b><br>接続を試みています。接続設定を確認してください。",
   "VE.Controllers.Statusbar.zoomText": "ズーム{0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "利用権限がない操作をしようとしました。<br>文書サーバーの管理者までご連絡ください。",
+  "VE.Controllers.Toolbar.helpAITools": "AI がドキュメントの作成と編集をサポートします。",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI ツール",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": " 警告",
   "VE.Controllers.Toolbar.txtUntitled": "無題",
   "VE.Views.DocumentHolder.guestText": "ゲスト",

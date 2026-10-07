@@ -125,6 +125,7 @@ DE.ApplicationController = new(function(){
                 user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
                                                  common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
             user.anonymous && common.localStorage.setItem("guest-id", user.id);
+            config.user = user; 
 
             _user.put_Id(user.id);
             _user.put_FullName(user.fullname);
@@ -845,7 +846,8 @@ DE.ApplicationController = new(function(){
         appOptions.canFillForms   = isPDF;
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
-        appOptions.canBranding && setBranding(config.customization);
+        // appOptions.canBranding && setBranding(config.customization);
+        setBranding(config.customization);
 
         var type = /^(?:(docxf|oform))$/.exec(docConfig.fileType);
         appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
@@ -1212,7 +1214,8 @@ DE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
+                const logourl = common.utils.htmlEncode(value.logo.image || value.logo.imageEmbedded);
+                logo.html('<img src="'+logourl+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");

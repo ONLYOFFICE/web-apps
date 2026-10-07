@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Null エラー",
+			"div": "0 除算のエラー",
+			"value": "値のエラー",
+			"ref": "セル範囲が無効のエラー",
+			"name": "無効な名前のエラー",
+			"num": "数値のエラー",
+			"na": "無効な値のエラー",
+			"calc": "空の配列",
+			"spill": "スピル範囲が空白ではありません"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "アドレス",
 			"col": "列",

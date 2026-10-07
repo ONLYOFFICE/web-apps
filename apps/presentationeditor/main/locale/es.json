@@ -1875,8 +1875,16 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Se ha perdido la conexión</b><br>Intentando conectar. Por favor, compruebe la configuración de la conexión.",
   "PE.Controllers.Statusbar.zoomText": "Ampliación {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "La fuente que va a guardar no está disponible en este dispositivo. <br>El estilo del texto se mostrará usando una de las fuentes encontradas en el dispositivo, la fuente guardada se usará cuando esté disponible.<br>¿Desea continuar?",
+  "PE.Controllers.Toolbar.helpAITools": "La IA le ayuda a crear y editar sus documentos.",
+  "PE.Controllers.Toolbar.helpAIToolsHeader": "Herramientas de IA",
   "PE.Controllers.Toolbar.helpChartElements": "Cambie fácilmente la visibilidad de los elementos del gráfico con unos pocos clics.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Visualización de elementos del gráfico",
+  "PE.Controllers.Toolbar.helpMastersView": "Edite los patrones de folletos y de notas. Vea las diapositivas en nuevos modos.",
+  "PE.Controllers.Toolbar.helpMastersViewHeader": "Patrones y vista",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPage": "Imprima varias diapositivas en una sola página.",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPageHeader": "Diapositivas por página",
+  "PE.Controllers.Toolbar.helpVideoFormats": "Formatos de salida GIF, mp4, ...",
+  "PE.Controllers.Toolbar.helpVideoFormatsHeader": "Formatos de vídeo",
   "PE.Controllers.Toolbar.textAccent": "Acentos",
   "PE.Controllers.Toolbar.textBracket": "Corchetes",
   "PE.Controllers.Toolbar.textFontSizeErr": "El valor introducido es incorrecto.<br>Por favor, introduzca un valor numérico entre 1 y 300",
@@ -3797,5 +3805,7 @@
   "PE.Views.ExportAnimatedDialog.txtCurrentSlide": "Diapositiva actual",
   "PE.Views.ExportAnimatedDialog.txtCustomSlides": "Diapositivas personalizadas",
   "PE.Views.ExportAnimatedDialog.txtRangeInvalid": "Número de diapositiva no válido",
-  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapositivas seleccionadas"
+  "PE.Views.ExportAnimatedDialog.txtSelectedSlides": "Diapositivas seleccionadas",
+  "PE.Views.ImageSettings.textRotate": "Girar",
+  "PE.Views.ShapeSettings.textRotate": "Girar"
 }

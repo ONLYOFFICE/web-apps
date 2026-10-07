@@ -1515,7 +1515,8 @@ define([], function () {
                     index_slicer,
                     index_foreign,
                     index_eyedropper,
-                    index_placeholder;
+                    index_placeholder,
+                    index_cellerror;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1549,6 +1550,9 @@ define([], function () {
                             break;
                         case Asc.c_oAscMouseMoveType.Placeholder:
                             index_placeholder = i;
+                            break;
+                        case Asc.c_oAscMouseMoveType.CellError:
+                            index_cellerror = i;
                             break;
                     }
                 }
@@ -1628,6 +1632,11 @@ define([], function () {
                 }
                 if (!index_eyedropper) {
                     me.hideEyedropperTip();
+                }
+                if (!index_cellerror || me.popupmenu) {
+                    me.hideCellErrorTip();
+                } else {
+                    me.scheduleCellErrorTip(dataarray[index_cellerror-1], pos);
                 }
                 // show tooltips
 
@@ -2062,6 +2071,150 @@ define([], function () {
                     }
                 }
             }
+        };
+
+        // the pointer clips a neighbouring cell on its way to the Fix button
+        var CELL_ERROR_TIP_HIDE_DELAY = 300;
+        // dwell on the cell before the plaque appears, so it does not flash while moving across
+        var CELL_ERROR_TIP_SHOW_DELAY = 500;
+
+        dh.scheduleCellErrorTip = function(data, pos) {
+            var me = this,
+                tip = me.tooltips.cell_error,
+                info = data.asc_getCellError(),
+                key = info.asc_getCol() + ':' + info.asc_getRow();
+
+            if (tip.el && tip.key === key) {
+                me.showCellErrorTip(data, pos);
+                return;
+            }
+            if (tip.el) me.hideCellErrorTip(true);
+            if (tip.showTimer && tip.showKey === key) {
+                return;
+            }
+            if (tip.showTimer) {
+                clearTimeout(tip.showTimer);
+            }
+            tip.showKey = key;
+            tip.showTimer = setTimeout(function() {
+                tip.showTimer = undefined;
+                tip.showKey = undefined;
+                me.showCellErrorTip(data, pos);
+            }, CELL_ERROR_TIP_SHOW_DELAY);
+        };
+
+        dh.showCellErrorTip = function(data, pos) {
+            var me = this,
+                tip = me.tooltips.cell_error,
+                info = data.asc_getCellError(),
+                key = info.asc_getCol() + ':' + info.asc_getRow();
+
+            if (tip.hideTimer) {
+                clearTimeout(tip.hideTimer);
+                tip.hideTimer = undefined;
+            }
+            if (tip.el && tip.key === key) {
+                return;
+            }
+            me.hideCellErrorTip(true);
+
+            // the label comes from sdkjs (formula-lang ERROR_DESCRIPTIONS);
+            // a formula the parser refused has no description - fall back to the code
+            var errText = info.asc_getErrorText(),
+                errType = info.asc_getErrorType(),
+                message = info.asc_getErrorDescription() || errText;
+
+            var el = $('<div class="cell-error-tip"><div class="cell-error-tip-title"></div></div>');
+            el.find('.cell-error-tip-title').text(message || '');
+
+            if (info.asc_getCanFix()) {
+                var prompt = (errType ? (me.textFixFormulaPrompt || '').replace('%2', errType)
+                                      : (me.textFixFormulaPromptInvalid || ''))
+                        .replace('%1', info.asc_getCellName() || '');
+                var btn = $('<button type="button" class="cell-error-tip-fix"></button>');
+                btn.text(me.textFixFormula || 'Fix with AI');
+                btn.on('click', function() {
+                    me.hideCellErrorTip(true);
+                    me.api && me.api.asc_fixFormulaWithAI(prompt);
+                });
+                el.append(btn);
+            }
+
+            el.on('mouseenter', function() {
+                if (tip.hideTimer) {
+                    clearTimeout(tip.hideTimer);
+                    tip.hideTimer = undefined;
+                }
+                tip.overPopup = true;
+            });
+            el.on('mouseleave', function() {
+                tip.overPopup = false;
+                me.hideCellErrorTip(true);
+            });
+
+            el.appendTo(document.body);
+            tip.el = el;
+            tip.key = key;
+            tip.overPopup = false;
+
+            // x is the cell left edge, reverseX the right one, y the cell top
+            me.changeCellErrorTipPosition(data.asc_getX(), data.asc_getY(), data.asc_getReverseX(), pos);
+        };
+
+        dh.changeCellErrorTipPosition = function(x, y, reverseX, pos) {
+            var tip = this.tooltips.cell_error;
+            if (!tip.el) {
+                return;
+            }
+            var width = tip.el.outerWidth(),
+                height = tip.el.outerHeight(),
+                // top right corner of the plaque on the top left corner of the cell
+                left = x + pos[0] - width,
+                top = y + pos[1];
+
+            if (left < 0) {
+                left = reverseX + pos[0];
+            }
+            if (left + width > $(window).width()) {
+                left = $(window).width() - width;
+            }
+            if (top + height > $(window).height()) {
+                top = $(window).height() - height;
+            }
+            if (top < pos[1]) {
+                top = pos[1];
+            }
+            tip.el.css({top: top + 'px', left: left + 'px'});
+        };
+
+        dh.hideCellErrorTip = function(immediately) {
+            var me = this,
+                tip = me.tooltips.cell_error;
+            if (tip.showTimer) {
+                clearTimeout(tip.showTimer);
+                tip.showTimer = undefined;
+                tip.showKey = undefined;
+            }
+            if (tip.hideTimer) {
+                clearTimeout(tip.hideTimer);
+                tip.hideTimer = undefined;
+            }
+            if (!tip.el) {
+                return;
+            }
+            if (immediately) {
+                tip.el.remove();
+                tip.el = undefined;
+                tip.key = undefined;
+                tip.overPopup = false;
+                return;
+            }
+            tip.hideTimer = setTimeout(function() {
+                tip.hideTimer = undefined;
+                if (!tip.overPopup) {
+                    me.hideCellErrorTip(true);
+                }
+            }, CELL_ERROR_TIP_HIDE_DELAY);
         };
 
         dh.onApiHyperlinkClick = function(url) {

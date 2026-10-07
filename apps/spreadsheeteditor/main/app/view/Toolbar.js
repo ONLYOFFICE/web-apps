@@ -75,6 +75,7 @@ define([
         selChartText:   'sel-chart-txt',
         selRange:       'sel-range',
         selRangeEdit:   'sel-range-edit',
+        inLightTheme:   'light-theme',
         lostConnect:    'disconnect',
         coAuth:         'co-auth',
         coAuthText:     'co-auth-text',
