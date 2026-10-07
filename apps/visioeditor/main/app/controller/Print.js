@@ -256,6 +256,7 @@ define([
                 box.focus(); // for IE
 
                 this.changeCurrentPreviewPage(page - 1);
+                this.updateNavigationButtons(page - 1, this._navigationPreview.pageCount);
                 return false;
             }
         },
