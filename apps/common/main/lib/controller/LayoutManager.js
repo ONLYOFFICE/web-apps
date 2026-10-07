@@ -254,7 +254,7 @@ Common.UI.LayoutManager = new(function() {
             plugin.tabs && plugin.tabs.forEach(function(tab) {
                 if (tab) {
                     let _set = Common.enumLock,
-                        lockInViewModeKeys = [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula].filter(function(key) { return !!key; }), // keys not defined in this editor would match any undefined lock
+                        lockInViewModeKeys = [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
                         added = [],
                         addedWithViewModeLock = [],
                         removed = preventRemove ? [] : _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
@@ -340,7 +340,7 @@ Common.UI.LayoutManager = new(function() {
                     // A lock key is considered active if at least one existing control has it in its keepState
                     if (addedWithViewModeLock.length) {
                         const lockedKeys = lockInViewModeKeys.filter(function(lockKey) {
-                            return _arrControls.some(function(ctrl) {
+                            return lockKey && _arrControls.some(function(ctrl) {
                                 return ctrl && ctrl.keepState && _.contains(ctrl.keepState, lockKey);
                             });
                         });
