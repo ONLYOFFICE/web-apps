@@ -394,6 +394,7 @@ define([], function () { 'use strict';
         },
 
         txtDeleteSavedSignature: 'Delete saved signature',
-        txtCreateNewSignature: 'Create a new signature'
+        txtCreateNewSignature: 'Create a new signature',
+        txtClearSignatureField: 'Clear signature field'
     }, Common.Views.PdfSavedSignatureMenu || {});
 });

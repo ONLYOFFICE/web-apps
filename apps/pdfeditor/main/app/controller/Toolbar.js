@@ -1582,6 +1582,11 @@ define([
                     const role = new AscCommon.CRestrictionSettings();
                     role.put_OFormNoRole(true);
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+
+                    const rightMenuController = PDFE.getController('RightMenu');
+                    const rightMenuView = rightMenuController && rightMenuController.getView('RightMenu');
+                    const fillingStatusSettings = rightMenuView && rightMenuView.fillingStatusSettings;
+                    fillingStatusSettings && fillingStatusSettings.updateRoles();
                 }
             }
         },

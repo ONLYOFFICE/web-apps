@@ -96,6 +96,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.FillingStatus] = {panelId: "id-filling-status-settings",  panel: rightMenu.fillingStatusSettings, btn: rightMenu.btnFillingStatus,  hidden: 1, props: {}, locked: false};
             rightMenu.btnAnnotation.on('click', function() {
                 Common.UI.TooltipManager.closeTip('annotationSettings');
             });
@@ -147,6 +148,10 @@ define([
             var needhide = true;
             for (var i=0; i<this._settings.length; i++) {
                 if (i==Common.Utils.documentSettingsType.Signature) continue;
+                if (i==Common.Utils.documentSettingsType.FillingStatus) {
+                    this._settings[i].hidden = 0;
+                    continue;
+                }
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = undefined;
@@ -196,7 +201,7 @@ define([
                         pnl.btn.setDisabled(false);
                         this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
                     }
-                    if ( i!=Common.Utils.documentSettingsType.Signature)
+                    if ( i!=Common.Utils.documentSettingsType.Signature && i!=Common.Utils.documentSettingsType.FillingStatus)
                         lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -273,6 +278,9 @@ define([
                 this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
                 // this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.annotationSettings.disableControls(disabled);
+
+                this.rightmenu.fillingStatusSettings && this.rightmenu.fillingStatusSettings.disableControls(disabled);
+                this.rightmenu.sendForSigningSettings && this.rightmenu.sendForSigningSettings.disableControls(disabled);
 
                 if (this.rightmenu.signatureSettings && this.rightmenu.btnSignature) {
                     if(allowSignature) {

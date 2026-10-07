@@ -40,7 +40,7 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/FillingStatusSettings.template',
+    'text!common/main/lib/template/FillingStatusSettings.template',
     'jquery',
     'underscore',
     'backbone',
@@ -48,7 +48,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.FillingStatusSettings = Backbone.View.extend(_.extend({
+    Common.Views.FillingStatusSettings = Backbone.View.extend(_.extend({
         el: '#id-filling-status-settings',
 
         // Compile our stats template
@@ -246,5 +246,5 @@ define([
         txtDocumentIsSigned: 'Document is signed',
         txtComplete: 'Complete'
 
-    }, DE.Views.FillingStatusSettings || {}));
+    }, Common.Views.FillingStatusSettings || {}));
 });

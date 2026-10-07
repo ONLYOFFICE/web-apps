@@ -63,6 +63,7 @@ define([
     'pdfeditor/main/app/view/AnnotationSettings',
     'pdfeditor/main/app/view/FormSettings',
     'pdfeditor/main/app/view/SignatureSettings',
+    'common/main/lib/view/FillingStatusSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -303,6 +304,26 @@ define([
                 });
             }
 
+            if(mode && mode.isPDFFill && !mode.canRequestFillingStatus && 
+                (mode.user && mode.user.roles && mode.user.roles.length > 0)
+            ) {
+                this.btnFillingStatus = new Common.UI.Button({
+                    hint: this.txtFillingStatus,
+                    asctype: Common.Utils.documentSettingsType.FillingStatus,
+                    enableToggle: true,
+                    disabled: false,
+                    iconCls: 'btn-filling-status',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
+                });
+                this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
+                this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 
+                this.btnFillingStatus.render().setVisible(true);
+                this.btnFillingStatus.on('click', this.onBtnMenuClick.bind(this));
+                this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -332,6 +353,7 @@ define([
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
             if (this.sendForSigningSettings) this.sendForSigningSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
+            if (this.fillingStatusSettings) this.fillingStatusSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
 
         setMode: function(mode) {
@@ -342,6 +364,7 @@ define([
             this.annotationSettings && this.annotationSettings.setMode(mode);
             this.signatureSettings && this.signatureSettings.setMode(mode);
             this.sendForSigningSettings && this.sendForSigningSettings.setMode(mode);
+            this.fillingStatusSettings && this.fillingStatusSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -461,7 +484,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart, this.btnSignature, this.btnForm, this.btnAnnotation];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart, this.btnSignature, this.btnForm, this.btnAnnotation, this.btnSendForSigning, this.btnFillingStatus];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -515,6 +538,8 @@ define([
         txtSignatureSettings:       'Signature Settings',
         ariaRightMenu:              'Right menu',
         txtFormSettings:            'Form Settings',
-        txtAnnotationSettings:      'Annotation Settings'
+        txtAnnotationSettings:      'Annotation Settings',
+        txtSendForSigning:          'Send for signing',
+        txtFillingStatus:           'Filling status'
     }, PDFE.Views.RightMenu || {}));
 });

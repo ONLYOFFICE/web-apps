@@ -608,7 +608,9 @@
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
-            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
+            const isFormUndefined = !!_config.document && (_config.document.isForm !== true && _config.document.isForm !== false);
+            const isEmbeddedPdf = _config.documentType == 'pdf' && _config.type == 'embedded';
+            if (isFormUndefined || isEmbeddedPdf) {
                 iframe.onload = function() {
                     _sendCommand({
                         command: 'checkParams',

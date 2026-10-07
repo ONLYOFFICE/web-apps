@@ -64,7 +64,7 @@ define([
     'documenteditor/main/app/view/TextArtSettings',
     'documenteditor/main/app/view/SignatureSettings',
     'documenteditor/main/app/view/FormSettings',
-    'documenteditor/main/app/view/FillingStatusSettings',
+    'common/main/lib/view/FillingStatusSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -334,7 +334,7 @@ define([
                 this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 
                 this.btnFillingStatus.render().setVisible(true);
                 this.btnFillingStatus.on('click', this.onBtnMenuClick.bind(this));
-                this.fillingStatusSettings = new DE.Views.FillingStatusSettings();
+                this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
             }
 
             if (_.isUndefined(this.scroller)) {
