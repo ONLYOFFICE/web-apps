@@ -505,6 +505,17 @@
 			"uf": "#NEPODRŽANA_FUNKCIJA!",
 			"calc": "#RAČUNANJE!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Greška „Null“",
+			"div": "Greška „Deljenje nulom“",
+			"value": "Greška u vrednosti",
+			"ref": "Greška „Referenca na ćeliju je nevažeća“",
+			"name": "Greška „Nevažeće ime“",
+			"num": "Greška „Broj“",
+			"na": "Greška „Nedostupna vrednost“",
+			"calc": "Prazan niz",
+			"spill": "Opseg prelivanja nije prazan"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresa",
 			"col": "kolona",

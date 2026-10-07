@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Lidhja ka humbur</b><br>Po përpiqemi të lidhemi. Ju lutem kontrolloni cilësimet e lidhjes.",
   "VE.Controllers.Statusbar.zoomText": "Zmadhoj {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
+  "VE.Controllers.Toolbar.helpAITools": "IA ju ndihmon të krijoni dhe redaktoni dokumentet tuaja.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Mjetet e IA-së",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Paralajmërim",
   "VE.Controllers.Toolbar.txtUntitled": "Pa titull",
   "VE.Views.DocumentHolder.guestText": "Vizitor",

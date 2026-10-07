@@ -334,6 +334,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Verbinding verbroken</b><br>Bezig met verbinden. Controleer de netwerkinstellingen.",
   "VE.Controllers.Statusbar.zoomText": "Zoomen {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem alstublieft contact op met de beheerder van de documentserver.",
+  "VE.Controllers.Toolbar.helpAITools": "AI helpt u bij het maken en bewerken van uw documenten.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI-hulpmiddelen",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Waarschuwing",
   "VE.Controllers.Toolbar.txtUntitled": "Naamloos",
   "VE.Views.DocumentHolder.guestText": "Gast",

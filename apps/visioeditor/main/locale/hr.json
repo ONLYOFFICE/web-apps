@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Veza je izgubljena.</b><br>Pokušaj spajanja. Molimo provjerite postavke veze.",
   "VE.Controllers.Statusbar.zoomText": "Zumiraj {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Pokušavate izvršiti radnju za koju nemate prava.<br>Molimo kontaktirajte svog administratora poslužitelja dokumenata.",
+  "VE.Controllers.Toolbar.helpAITools": "Umjetna inteligencija pomaže vam stvarati i uređivati dokumente.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Alati umjetne inteligencije",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Upozorenje",
   "VE.Controllers.Toolbar.txtUntitled": "Bez naslova",
   "VE.Views.DocumentHolder.guestText": "Gost",

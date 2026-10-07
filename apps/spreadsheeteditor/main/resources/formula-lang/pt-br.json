@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Erro nulo",
+			"div": "Erro ao dividir por zero",
+			"value": "Erro no valor",
+			"ref": "Erro de referência de célula inválida",
+			"name": "Erro de nome inválido",
+			"num": "Erro no número",
+			"na": "Erro de valor não disponível",
+			"calc": "Matriz Vazia",
+			"spill": "O intervalo de despejo não está em branco"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "endereço",
 			"col": "col",

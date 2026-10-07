@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Соединение потеряно</b><br>Попытка подключения. Проверьте настройки подключения.",
   "VE.Controllers.Statusbar.zoomText": "Масштаб {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
+  "VE.Controllers.Toolbar.helpAITools": "ИИ поможет вам создавать и редактировать документы.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Инструменты ИИ",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Внимание",
   "VE.Controllers.Toolbar.txtUntitled": "Без имени",
   "VE.Views.DocumentHolder.guestText": "Гость",

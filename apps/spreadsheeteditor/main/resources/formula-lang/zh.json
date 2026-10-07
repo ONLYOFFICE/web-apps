@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "“空值”错误",
+			"div": "“除以零”错误",
+			"value": "“值”错误",
+			"ref": "“无效的单元格引用”错误",
+			"name": "“无效名称”错误",
+			"num": "“数字”错误",
+			"na": "“值不可用”错误",
+			"calc": "空数组",
+			"spill": "溢出区域不是空白区域"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "地址",
 			"col": "列",

@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>A kapcsolat megszakadt</b><br>Újrakapcsolódás. Ellenőrizze a kapcsolat beállításait.",
   "VE.Controllers.Statusbar.zoomText": "Nagyítás {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Olyan műveletet próbál végrehajtani, melyre nincs jogosultsága.<br>Vegye fel a kapcsolatot a dokumentumkiszolgáló rendszergazdájával.",
+  "VE.Controllers.Toolbar.helpAITools": "A mesterséges intelligencia segít dokumentumai létrehozásában és szerkesztésében.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "MI-eszközök",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Figyelmeztetés",
   "VE.Controllers.Toolbar.txtUntitled": "Névtelen",
   "VE.Views.DocumentHolder.guestText": "Vendég",

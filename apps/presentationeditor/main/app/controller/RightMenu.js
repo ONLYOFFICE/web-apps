@@ -222,9 +222,10 @@ define([
             }
 
             if (!this.rightmenu.minimizedMode || open) {
-                var active;
+                var active,
+                    pluginActive = !this.rightmenu.minimizedMode && (!!this.rightmenu.GetActivePluginPane() || this.rightmenu.isPluginButtonPressed());
 
-                if (priorityactive<0 && !this.rightmenu.GetActivePluginPane()) {
+                if (priorityactive<0 && !pluginActive) {
                     if (this._priorityArr.length>0) {
                         for (i=0; i<this._priorityArr.length; i++) {
                             var type = this._priorityArr[i],
@@ -242,9 +243,9 @@ define([
 
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
-                else if (lastactive>=0 && !this.rightmenu.GetActivePluginPane()) active = lastactive;
+                else if (lastactive>=0 && !pluginActive) active = lastactive;
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else if (!this.rightmenu.GetActivePluginPane()) active = Common.Utils.documentSettingsType.Slide;
+                else if (!pluginActive) active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
@@ -469,6 +470,18 @@ define([
         },
 
         addNewPlugin: function (button, $button, $panel) {
+            if(!this.rightmenu.api) {
+                const mainController = this.getApplication().getController('Main');
+                this.setApi(mainController.api);
+                this.setMode(mainController.appOptions);
+                this.rightmenu.render(mainController.appOptions);
+                this.rightmenu.setApi(this.api);
+                this.rightmenu.setMode(mainController.appOptions);
+            }
+            if(this.rightmenu.$el.is(':hidden')) {
+                this.onRightMenuHide(undefined, true, false);
+            }
+            
             this.rightmenu.insertButton(button, $button);
             this.rightmenu.insertPanel($panel);
         },
@@ -482,6 +495,10 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+
+            if(this.rightmenu.getVisibleButtons().length == 0) {
+                this.onRightMenuHide(undefined, false, false);
+            }
         },
 
         onHidePlugins: function() {

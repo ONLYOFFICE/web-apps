@@ -199,6 +199,12 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 // 'tipChartTab' : {name: 'pdfe-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                 //     automove: true, closable: false, isNewFeature: true},
+                'signatureTip' : {name: 'pdfe-help-tip-signature', placement: 'bottom-left', text: this.helpSignature, header: this.helpSignatureHeader, target: '.panel[data-tab=comment] #slot-btn-signature', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true},
+                'annotationSettings' : {name: 'pdfe-help-tip-annotation-settings', placement: 'left-bottom', text: this.helpAnnotationSettings, header: this.helpAnnotationSettingsHeader, target: '#id-right-menu-annotation', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true},
+                'aiTools' : {name: 'pdfe-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -1999,7 +2005,7 @@ define([
         onActiveTab: function(tab) {
             if (tab == 'charttab')
                 Common.UI.TooltipManager.closeTip('tipChartTab');
-
+            (tab === 'comment') ? Common.UI.TooltipManager.showTip('signatureTip') : Common.UI.TooltipManager.closeTip('signatureTip');
         },
 
         onClickTab: function(tab) {

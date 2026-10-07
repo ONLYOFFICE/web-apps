@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>La connexion est perdue</b><br>Tentative de connexion. Veuillez vérifier les paramètres de connexion.",
   "VE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
+  "VE.Controllers.Toolbar.helpAITools": "L'IA vous aide à créer et à modifier vos documents.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Outils d'IA",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Attention",
   "VE.Controllers.Toolbar.txtUntitled": "Sans titre",
   "VE.Views.DocumentHolder.guestText": "Invité",

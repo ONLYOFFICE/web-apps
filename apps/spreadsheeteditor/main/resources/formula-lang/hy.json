@@ -508,6 +508,17 @@
 			"uf": "#ՉԱՋԱԿՑՎՈՂ_ՖՈՒՆԿՑԻԱ!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Null Error",
+			"div": "Divide by Zero Error",
+			"value": "Error in Value",
+			"ref": "Invalid Cell Reference Error",
+			"name": "Invalid Name Error",
+			"num": "Number Error",
+			"na": "Value Not Available Error",
+			"calc": "Empty Array",
+			"spill": "Spill range isn’t blank"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "Հասցե",
 			"col": "Սյունակ",

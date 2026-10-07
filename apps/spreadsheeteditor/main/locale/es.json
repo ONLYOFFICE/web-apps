@@ -1365,6 +1365,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Opciones de Autocorrección",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Ancho de columna {0} símbolos ({1} píxeles)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Altura de fila {0} puntos ({1} píxeles)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Corregir con IA",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Corrija la fórmula de la celda %1, devuelve %2. Aplique la fórmula corregida a la celda.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Corrija la fórmula de la celda %1, no es una fórmula válida. Aplique la fórmula corregida a la celda.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Haga clic en el enlace para abrirlo o haga clic y mantenga pulsado el botón del ratón para seleccionar la celda.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Insertar columna a la izquierda",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Insertar fila arriba",
@@ -2108,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "El número máximo de puntos en serie por gráfico es 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "¡ERROR! El número máximo de series de datos por gráfico es 225",
   "SSE.Controllers.Toolbar.errorStockChart": "Orden de las filas incorrecto. Para crear un gráfico de cotizaciones introduzca los datos en la hoja de la forma siguiente:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+  "SSE.Controllers.Toolbar.helpAITools": "La IA le ayuda a crear y editar sus documentos.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Herramientas de IA",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Corchetes",
   "SSE.Controllers.Toolbar.textDirectional": "Direccional",
@@ -5394,5 +5399,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Color del eje",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Color del borde",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Color de relleno",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Color"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Color",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Este libro contiene datos fuera de los límites de filas y columnas del formato XLS (65.536 filas, 256 columnas). Estos datos se perderán al guardar.",
+  "SSE.Views.ImageSettings.textRotate": "Girar",
+  "SSE.Views.ShapeSettings.textRotate": "Girar"
 }

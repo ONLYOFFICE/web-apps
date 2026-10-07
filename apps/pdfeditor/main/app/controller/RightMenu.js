@@ -97,6 +97,9 @@ define([
             this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.FillingStatus] = {panelId: "id-filling-status-settings",  panel: rightMenu.fillingStatusSettings, btn: rightMenu.btnFillingStatus,  hidden: 1, props: {}, locked: false};
+            rightMenu.btnAnnotation.on('click', function() {
+                Common.UI.TooltipManager.closeTip('annotationSettings');
+            });
         },
 
         setApi: function(api) {
@@ -245,6 +248,13 @@ define([
                     } else
                         this.rightmenu.clearSelection();
                 }
+            }
+
+            if (this._settings[Common.Utils.documentSettingsType.Annotation].hidden)
+                Common.UI.TooltipManager.closeTip('annotationSettings');
+            else {
+                Common.UI.TooltipManager.getNeedShow('annotationSettings') && Common.UI.TooltipManager.closeTip('signatureTip');
+                Common.UI.TooltipManager.showTip('annotationSettings');
             }
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;

@@ -1736,6 +1736,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Die Schriftart, die Sie speichern möchten, ist auf dem aktuellen Gerät nicht verfügbar.<br>Der Textstil wird mit einer der Geräteschriften angezeigt, die gespeicherte Schriftart wird verwendet, wenn sie verfügbar ist.<br>Sollen Sie fortfahren?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Sie haben versucht die Änderungen im Dokument, zu dem Sie keine Berechtigungen haben, vorzunehemen.<br>Wenden Sie sich an Ihren Serveradministrator.",
+  "PDFE.Controllers.Toolbar.helpAITools": "KI hilft Ihnen beim Erstellen und Bearbeiten Ihrer Dokumente.",
+  "PDFE.Controllers.Toolbar.helpAIToolsHeader": "KI-Tools",
+  "PDFE.Controllers.Toolbar.helpAnnotationSettings": "Passen Sie hier Ihre Anmerkungen und Markierungen an.",
+  "PDFE.Controllers.Toolbar.helpAnnotationSettingsHeader": "Anmerkungseinstellungen",
+  "PDFE.Controllers.Toolbar.helpSignature": "Fügen Sie Vereinbarungen, Verträgen und Formularen ganz einfach Ihre Unterschrift hinzu.",
+  "PDFE.Controllers.Toolbar.helpSignatureHeader": "Unterschrift",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warnung",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Der eingegebene Wert ist falsch.<br>Geben Sie bitte einen numerischen Wert zwischen 1 und 300 ein.",
   "PDFE.Controllers.Toolbar.textGotIt": "OK",
@@ -3384,5 +3390,7 @@
   "PFDE.Views.SignatureSettings.txtSignedInvalid": "Einige der digitalen Signaturen im Dokument sind ungültig oder konnten nicht verifiziert werden. Das Dokument ist vor der Bearbeitung geschützt.",
   "PDFE.Views.TableSettings.textBorderColorLabel": "Rahmenfarbe",
   "PDFE.Views.TextArtSettings.textBorderColor": "Rahmenfarbe",
-  "PDFE.Views.TextArtSettings.textFillColor": "Füllfarbe"
+  "PDFE.Views.TextArtSettings.textFillColor": "Füllfarbe",
+  "PDFE.Views.ImageSettings.textRotate": "Drehen",
+  "PDFE.Views.ShapeSettings.textRotate": "Drehen"
 }

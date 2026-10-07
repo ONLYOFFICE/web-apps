@@ -1365,6 +1365,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Opções de autocorreção",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Largura da coluna {0} símbolos ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Altura da linha {0} pontos ({1} pixels)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Corrigir com IA",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Corrija a fórmula na célula %1, ela retorna %2. Aplique a fórmula corrigida à célula.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Corrija a fórmula na célula %1, ela não é uma fórmula válida. Aplique a fórmula corrigida à célula.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Pressione CTRL e clique no link",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Inserir à esquerda",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Inserir acima",
@@ -2108,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "O máximo número de pontos em séries por gráfico é 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordem da linha incorreta. Para criar um gráfico de ações coloque os dados na planilha na seguinte ordem:<br> preço de abertura, preço máx., preço mín., preço de fechamento.",
+  "SSE.Controllers.Toolbar.helpAITools": "A IA ajuda você a criar e editar seus documentos.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Ferramentas de IA",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Parênteses",
   "SSE.Controllers.Toolbar.textDirectional": "Direcional",
@@ -3968,7 +3973,7 @@
   "SSE.Views.ParagraphSettingsAdvanced.strParagraphIndents": "Recuos e Posicionamento",
   "SSE.Views.ParagraphSettingsAdvanced.strSmallCaps": "Versalete",
   "SSE.Views.ParagraphSettingsAdvanced.strSpacing": "Espaçamento",
-  "SSE.Views.ParagraphSettingsAdvanced.strStrike": "Taxado",
+  "SSE.Views.ParagraphSettingsAdvanced.strStrike": "Tachado",
   "SSE.Views.ParagraphSettingsAdvanced.strSubscript": "Subscrito",
   "SSE.Views.ParagraphSettingsAdvanced.strSuperscript": "Sobrescrito",
   "SSE.Views.ParagraphSettingsAdvanced.strTabs": "Aba",
@@ -5394,5 +5399,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Cor do eixo",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Cor da borda",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Cor de preenchimento",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Cor"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Cor",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Esta pasta de trabalho contém dados que ultrapassam os limites de linhas e colunas do formato XLS (65.536 linhas, 256 colunas). Esses dados serão perdidos ao salvar.",
+  "SSE.Views.ImageSettings.textRotate": "Girar",
+  "SSE.Views.ShapeSettings.textRotate": "Girar"
 }

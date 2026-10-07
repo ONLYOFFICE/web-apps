@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Null 錯誤",
+			"div": "除以零錯誤",
+			"value": "錯誤的值",
+			"ref": "無效的儲存格參照錯誤",
+			"name": "無效的名稱錯誤",
+			"num": "數字錯誤",
+			"na": "值無法使用錯誤",
+			"calc": "空陣列",
+			"spill": "溢出範圍不是空白的"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "address",
 			"col": "col",

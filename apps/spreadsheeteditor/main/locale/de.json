@@ -1365,6 +1365,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Autokorrektur-Optionen",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Spaltenbreite {0} Symbole ({1} Pixel)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Zeilenhöhe {0} Punkte ({1} Pixel)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Mit KI korrigieren",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Korrigieren Sie die Formel in Zelle %1, sie liefert %2. Wenden Sie die korrigierte Formel auf die Zelle an.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Korrigieren Sie die Formel in Zelle %1, es handelt sich nicht um eine gültige Formel. Wenden Sie die korrigierte Formel auf die Zelle an.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Klicken Sie auf den Link, um ihn zu öffnen, oder halten Sie die Maustaste gedrückt, um die Zelle auszuwählen.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Links einfügen",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Oben einfügen",
@@ -2108,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle in Reihen beträgt 4096 Punkte.",
   "SSE.Controllers.Toolbar.errorMaxRows": "FEHLER! Die maximale Anzahl der Datenreihen per Diagramm ist 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, ordnen Sie die Daten auf dem Blatt folgendermaßen an:<br> Eröffnungspreis, Höchstpreis, Tiefstpreis, Schlusskurs.",
+  "SSE.Controllers.Toolbar.helpAITools": "KI hilft Ihnen beim Erstellen und Bearbeiten Ihrer Dokumente.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "KI-Tools",
   "SSE.Controllers.Toolbar.textAccent": "Akzente",
   "SSE.Controllers.Toolbar.textBracket": "Klammern",
   "SSE.Controllers.Toolbar.textDirectional": "Direktional",
@@ -5395,5 +5400,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Achsenfarbe",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Rahmenfarbe",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Füllfarbe",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Farbe"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Farbe",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Diese Arbeitsmappe enthält Daten außerhalb der Zeilen- und Spaltenbegrenzungen des XLS-Formats (65.536 Zeilen, 256 Spalten). Diese Daten gehen beim Speichern verloren.",
+  "SSE.Views.ImageSettings.textRotate": "Drehen",
+  "SSE.Views.ShapeSettings.textRotate": "Drehen"
 }

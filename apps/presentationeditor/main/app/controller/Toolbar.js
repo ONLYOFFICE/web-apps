@@ -308,6 +308,16 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
 //                'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
 //                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'mastersView' : {name: 'pe-help-tip-masters-view', placement: 'bottom-left', text: this.helpMastersView, header: this.helpMastersViewHeader, target: '#slot-btn-slide-master', maxwidth: 250,
+                    automove: true, closable: false, isNewFeature: true, offset: {x:25,y:0}},
+                'videoFormatsSaveAs' : {name: 'pe-help-tip-video-formats', placement: 'right-bottom', text: this.helpVideoFormats, header: this.helpVideoFormatsHeader, target: '#panel-saveas .svg-format-video', maxwidth: 300, extCls: 'inc-index',
+                    automove: true, closable: false, isNewFeature: true},
+                'videoFormatsSaveCopy' : {name: 'pe-help-tip-video-formats', placement: 'right-bottom', text: this.helpVideoFormats, header: this.helpVideoFormatsHeader, target: '#panel-savecopy .svg-format-video', maxwidth: 300, extCls: 'inc-index',
+                    automove: true, closable: false, isNewFeature: true},
+                'printSlidesOnPage' : {name: 'pe-help-tip-print-slides-on-page', placement: 'right-top', text: this.helpPrintSlidesOnPage, header: this.helpPrintSlidesOnPageHeader, target: '#print-slides-on-page', maxwidth: 300, extCls: 'inc-index',
+                    automove: true, closable: false, isNewFeature: true},
+                'aiTools' : {name: 'pe-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -3131,6 +3141,7 @@ define([
             }
             (tab === 'transit') ? Common.UI.TooltipManager.showTip('slideTransitions') : Common.UI.TooltipManager.closeTip('slideTransitions');
             (tab === 'design') ? Common.UI.TooltipManager.showTip('slideTheme') : Common.UI.TooltipManager.closeTip('slideTheme');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('mastersView') : Common.UI.TooltipManager.closeTip('mastersView');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('pasteOptions');
         },
 

@@ -1736,6 +1736,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Fontul pe care doriți să-l salvați nu este disponibil pe acest dispozitiv.<br>Textul va apărea scris cu fontul și stilul disponibil pe sistem, fontul salvat va fi aplicat de îndată ce devine disponibil.<br>Doriți să continuați?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dumneavoastră de Server Documente.",
+  "PDFE.Controllers.Toolbar.helpAITools": "IA vă ajută să creați și să editați documentele.",
+  "PDFE.Controllers.Toolbar.helpAIToolsHeader": "Instrumente IA",
+  "PDFE.Controllers.Toolbar.helpAnnotationSettings": "Personalizați aici adnotările și marcajele dvs.",
+  "PDFE.Controllers.Toolbar.helpAnnotationSettingsHeader": "Setări adnotare",
+  "PDFE.Controllers.Toolbar.helpSignature": "Adăugați cu ușurință semnătura dvs. pe acorduri, contracte și formulare.",
+  "PDFE.Controllers.Toolbar.helpSignatureHeader": "Semnătură",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Avertisment",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Am înțeles",
@@ -3384,5 +3390,7 @@
   "PFDE.Views.SignatureSettings.txtContinueEditing": "Editare oricum",
   "PFDE.Views.SignatureSettings.txtEditWarning": "Editarea va elimina semnăturile din document.<br>Doriți să continuați?",
   "PFDE.Views.SignatureSettings.txtRemoveWarning": "Doriți să eliminați această semnătură?<br>Acțiunea nu poate fi anulată.",
-  "PFDE.Views.SignatureSettings.txtRequestedSignatures": "Acest document trebuie să fie semnat."
+  "PFDE.Views.SignatureSettings.txtRequestedSignatures": "Acest document trebuie să fie semnat.",
+  "PDFE.Views.ImageSettings.textRotate": "Rotire",
+  "PDFE.Views.ShapeSettings.textRotate": "Rotire"
 }

@@ -753,7 +753,7 @@ define([
             window._event = e;  //  for FireFox only
 
             if(this.multiSelect) {
-                if (e && e.ctrlKey) {
+                if (e && (e.ctrlKey || e.metaKey)) {
                     this.pressedCtrl = true;
                 } else if (e && e.shiftKey) {
                     this.pressedShift = true;

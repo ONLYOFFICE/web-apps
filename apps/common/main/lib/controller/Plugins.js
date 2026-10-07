@@ -1313,6 +1313,7 @@ define([
                 Array.isArray(added) && added.forEach(function(btn) {
                     btn.$el.appendTo($fabContainer);
                 });
+                $fabContainer.children().length>0 ? Common.UI.TooltipManager.showTip('aiTools') : Common.UI.TooltipManager.closeTip('aiTools');
             }
         },
 

@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Conexiunea a fost pierdută</b><br>Încercare de conectare. Verificați setările conexiunii.",
   "VE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dumneavoastră de Server Documente.",
+  "VE.Controllers.Toolbar.helpAITools": "IA vă ajută să creați și să editați documentele.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Instrumente IA",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Avertisment",
   "VE.Controllers.Toolbar.txtUntitled": "Fără titlu",
   "VE.Views.DocumentHolder.guestText": "Invitat",

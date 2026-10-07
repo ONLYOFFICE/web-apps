@@ -1365,6 +1365,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Opțiuni AutoCorecție",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Lățimea coloanei {0} simboluri ({1} pixeli)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Înălțime rând {0} puncte ({1} pixeli)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Corectează cu AI",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Corectați formula din celula %1, aceasta returnează %2. Aplicați formula corectată celulei.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Corectați formula din celula %1, aceasta nu este o formulă validă. Aplicați formula corectată celulei.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Faceți clic pe link pentu a-l deschide sau apăsați și țineți apăsat butonul mouse-ului pentru a selecta celula.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Inserare coloane la stânga",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Inserare rând deasupra",
@@ -2108,6 +2111,8 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Numărul maxim de puncte de date pe serie în diagramă este limitat la 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "EROARE! Numărul maxim de serii de date dintr-o diagramă este 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
+  "SSE.Controllers.Toolbar.helpAITools": "IA vă ajută să creați și să editați documentele.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Instrumente IA",
   "SSE.Controllers.Toolbar.textAccent": "Accente",
   "SSE.Controllers.Toolbar.textBracket": "Paranteze",
   "SSE.Controllers.Toolbar.textDirectional": "Direcțional",
@@ -5394,5 +5399,8 @@
   "SSE.Views.FormatRulesEditDlg.textAxisColor": "Culoare axă",
   "SSE.Views.FormatRulesEditDlg.textBorderColor": "Culoare bordură",
   "SSE.Views.FormatRulesEditDlg.textFillColor": "Culoare de umplere",
-  "SSE.Views.FormatRulesEditDlg.textPointColor": "Culoare"
+  "SSE.Views.FormatRulesEditDlg.textPointColor": "Culoare",
+  "SSE.Controllers.Main.confirmXlsFormatLimit": "Acest registru de lucru conține date care depășesc limitele de rânduri și coloane ale formatului XLS (65.536 de rânduri, 256 de coloane). Aceste date vor fi pierdute la salvare.",
+  "SSE.Views.ImageSettings.textRotate": "Rotire",
+  "SSE.Views.ShapeSettings.textRotate": "Rotire"
 }
