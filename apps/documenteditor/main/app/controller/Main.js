@@ -1341,11 +1341,6 @@ define([
                 } else if (zf == -3) {
                     if (lastZoom > 0) {
                         this.api.zoom(lastZoom);
-
-                        if (Common.localStorage.getBool("de-zoom-multipage", false)) {
-                            this.api.zoomCustomMode();
-                            this.api.SetMultipageViewMode(true);
-                        }
                     } else if (lastZoom == -1) {
                         this.api.zoomFitToPage();
                     } else if (lastZoom == -2) {
@@ -1353,6 +1348,11 @@ define([
                     }
                 } else {
                     this.api.zoom(zf > 0 ? zf : 100);
+                }
+
+                if (Common.localStorage.getBool("de-zoom-multipage", false)) {
+                    this.api.zoomCustomMode();
+                    this.api.SetMultipageViewMode(true);
                 }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
