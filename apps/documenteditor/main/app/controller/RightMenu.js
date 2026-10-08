@@ -309,9 +309,10 @@ define([
                 this._settings[Common.Utils.documentSettingsType.Signature].panel.setProtected(isProtected);
 
             if (!this.rightmenu.minimizedMode || open || this._openRightMenu) {
-                var active;
+                var active,
+                    pluginActive = !this.rightmenu.minimizedMode && (!!this.rightmenu.GetActivePluginPane() || this.rightmenu.isPluginButtonPressed());
 
-                if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
+                if (priorityactive<0 && !pluginActive && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
                     (!this._settings[Common.Utils.documentSettingsType.Paragraph].hidden || !this._settings[Common.Utils.documentSettingsType.Image].hidden
                     || !this._settings[Common.Utils.documentSettingsType.Shape].hidden)) {
                     var imageactive = Common.Utils.InternalSettings.get("de-rightpanel-active-image") || 0,
