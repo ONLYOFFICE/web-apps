@@ -1828,7 +1828,8 @@ define([
         onPluginPanelShow: function (frameId, variation, lang) {
             var guid = variation.guid,
                 menu = (variation.dockedPlace||variation.type) == 'panelRight' ? 'right' : 'left';
-            !menu && (menu = 'left');
+            if (!menu) menu = 'left';
+            else if (menu == 'right') Common.UI.TooltipManager.closeTip('aiTools');
 
             var description = variation.description;
             if (typeof variation.descriptionLocale == 'object')
