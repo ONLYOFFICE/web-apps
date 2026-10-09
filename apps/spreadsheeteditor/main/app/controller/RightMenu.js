@@ -479,7 +479,7 @@ define([
             this.onSelectionChanged(this.api.asc_getCellInfo());
         },
 
-        onRightMenuHide: function (view, status) {
+        onRightMenuHide: function (view, status, preventSave) {
             if (this.rightmenu) {
                 if (!status)  { // remember last active pane
                     var active = this.rightmenu.GetActivePane(),
@@ -502,8 +502,10 @@ define([
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                     this._lastVisibleSettings = undefined;
                 }
+                if (!preventSave) {
+                    Common.localStorage.setBool('sse-hidden-rightmenu', !status);
+                }
                 !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
-                Common.localStorage.setBool('sse-hidden-rightmenu', !status);
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
@@ -535,7 +537,7 @@ define([
                 this.rightmenu.setMode(mainController.appOptions);
             }
             if(this.rightmenu.$el.is(':hidden')) {
-                this.onRightMenuHide(undefined, true, false);
+                this.onRightMenuHide(undefined, true, true);
             }
             
             this.rightmenu.insertButton(button, $button);
@@ -553,7 +555,7 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
 
             if(this.rightmenu.getVisibleButtons().length == 0) {
-                this.onRightMenuHide(undefined, false, false);
+                this.onRightMenuHide(undefined, false, true);
             }
         },
 

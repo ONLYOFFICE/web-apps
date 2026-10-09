@@ -570,11 +570,11 @@ define([
             }
         },
 
-        onRightMenuHide: function (view, status, notSaveInStorage) { // status = true when show panel
+        onRightMenuHide: function (view, status, preventSave) { // status = true when show panel
             if (this.rightmenu) {
                 !status && this.rightmenu.clearSelection();
                 status ? this.rightmenu.show() : this.rightmenu.hide();
-                if(!notSaveInStorage) {
+                if(!preventSave) {
                     Common.localStorage.setBool('de-hidden-rightmenu', !status);
                     Common.Utils.InternalSettings.set("de-hidden-rightmenu", !status);
                 }
@@ -619,7 +619,7 @@ define([
                 this.rightmenu.setMode(mainController.appOptions);
             }
             if(this.rightmenu.$el.is(':hidden')) {
-                this.onRightMenuHide(undefined, true, false);
+                this.onRightMenuHide(undefined, true, true);
             }
 
             this.rightmenu.insertButton(button, $button);
@@ -637,7 +637,7 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
             
             if(this.rightmenu.getVisibleButtons().length == 0) {
-                this.onRightMenuHide(undefined, false, false);
+                this.onRightMenuHide(undefined, false, true);
             }
         },
 
