@@ -519,7 +519,8 @@ define([
                     });
                 }
 
-                this.api.asc_resetAllShortcutTypes();
+                if (this.api.asc_resetAllShortcutTypes)
+                    this.api.asc_resetAllShortcutTypes();
                 
                 const modifiedShortcuts = _.flatten(_.values(storage));
                 if(modifiedShortcuts.length) {
