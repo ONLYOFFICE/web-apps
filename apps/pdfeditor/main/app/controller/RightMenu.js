@@ -466,8 +466,16 @@ define([
         },
 
         addNewPlugin: function (button, $button, $panel) {
+            if(!this.rightmenu.api) {
+                const mainController = this.getApplication().getController('Main');
+                this.setApi(mainController.api);
+                this.setMode(mainController.appOptions);
+                this.rightmenu.render(mainController.appOptions);
+                this.rightmenu.setApi(this.api);
+                this.rightmenu.setMode(mainController.appOptions);
+            }
             if(this.rightmenu.$el.is(':hidden')) {
-                this.onRightMenuHide(undefined, true, false);
+                this.onRightMenuHide(undefined, true, true);
             }
 
             this.rightmenu.insertButton(button, $button);
@@ -483,6 +491,10 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu)
+
+            if(this.rightmenu.getVisibleButtons().length == 0) {
+                this.onRightMenuHide(undefined, false, true);
+            }
         },
 
         openSendForSigning: function() {
