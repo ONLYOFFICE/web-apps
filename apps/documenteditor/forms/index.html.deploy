@@ -276,7 +276,7 @@
                 (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
                 document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
       </script>
-      <script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+      <script type="text/javascript" src="../../common/checkExtendedPDF.js?__inline=true"></script>
       <script>
           function startApp() {
               var script = document.createElement("script");
