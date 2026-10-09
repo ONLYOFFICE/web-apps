@@ -324,6 +324,14 @@ define([
                 this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
             }
 
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnTable, this.btnImage, this.btnChart, this.btnShape, this.btnTextArt, 
+                    this.btnAnnotation, this.btnForm, this.btnSendForSigning, this.btnFillingStatus].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -428,6 +436,10 @@ define([
         GetActivePane: function() {
             var active = this.$el.find(".settings-panel.active");
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
+        },
+
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
         },
 
         clearSelection: function() {
