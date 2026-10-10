@@ -170,7 +170,7 @@ define([
                     this.onPreview(this.api.getCurrentPage(), false, true);
                     break;
                 case 2:
-                    this.onPreview(0, true, false);
+                    this.onPreview(this.api.getCurrentPage(), true, true);
                     break;
             }
         },
