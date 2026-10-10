@@ -55,7 +55,7 @@
       <script>
           listenApiMsg(function (isform) {
               var match = window.location.href.match(/(.*)common\/index.html/i);
-              match && window.location.replace(match[1] + (isform || embed ? 'documenteditor' : 'pdfeditor') + '/' + (isform && embed ? 'forms' : embed ? 'embed' : 'main') + '/index' + (isform && embed ? '' : postfix) + '.html' +
+              match && window.location.replace(match[1] + (isform || embed ? 'documenteditor' : 'pdfeditor') + '/' + (isform && embed ? 'forms' : embed ? 'forms' : 'main') + '/index' + (isform && embed ? '' : postfix) + '.html' +
                        window.location.search + ("&isForm=" + !!isform) + (params.fileType == 'pdf' ? "&isPDFForm=" + isform : ''));
           });
       </script>
