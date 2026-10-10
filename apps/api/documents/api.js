@@ -1176,7 +1176,7 @@
         path += appMap[appType];
 
         const path_type = corrected_type === "mobile" ? "mobile" :
-                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+                          corrected_type === "embedded" ? (fillForms && config.document.fileType === 'pdf' ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 
