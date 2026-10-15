@@ -1299,7 +1299,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture;");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; local-network-access;");
 
 		if (config.type == "mobile")
 		{
