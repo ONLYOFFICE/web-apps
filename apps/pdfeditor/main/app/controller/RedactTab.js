@@ -95,6 +95,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onRedactState',          _.bind(this.onRedactionStateToggle, this));
+                this.api.asc_registerCallback('asc_onCanRedact',          _.bind(this.onCanRedactaction, this));
             }
             return this;
         },
@@ -109,6 +110,7 @@ define([
             });
             this.addListeners({
                 'RedactTab': {
+                    'hiddeninfo:remove' :this.onRemoveHiddenInfo.bind(this),
                     'redact:start'   : this.onStartRedact.bind(this),
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
@@ -118,6 +120,68 @@ define([
                     'tab:active': this.onActiveTab
                 }
             });
+        },
+
+        onRemoveMeta: function (props) {
+            var me = this;
+            if (me.api) {
+                me.api.RedactMeta({
+                    metadata: props[0],
+                    fileAttachments: props[1],
+                    bookmarks: props[2],
+                    embedSearchIdx: props[3],
+                    comments: props[4],
+                    fields: props[5],
+                    hiddenText: props[6],
+                    hiddenLayers: props[7],
+                    delCropContent: props[8],
+                    linksAndActions: props[9],
+                    overlapping: props[10]
+                });
+            }
+            if (!Common.localStorage.getBool("pdfe-hide-metadata-info")) {
+                Common.UI.info({
+                    msg: me.textHiddenInfoWarn,
+                    dontshow: true,
+                    callback: function (btn, dontshow) {
+                        if (dontshow) Common.localStorage.setItem("pdfe-hide-metadata-info", 1);
+                    }
+                })
+            }
+        },
+
+        onRemoveHiddenInfo: function(btn) {
+            var me = this;
+
+            var handlerDlg = function (dlg, result) {
+                if (result === 'ok') {
+                    var props = dlg.getSettings();
+                    if (props[4] || props[5] || props[9]) {
+                        var isLocked = me.api.IsAnyAnnotLocked() || me.api.IsAnyFieldLocked();
+                        if (isLocked) {
+                            Common.UI.warning({
+                                width: 500,
+                                msg: me.textCommentsFieldsEdited,
+                                buttons: ['yes', 'no'],
+                                primary: 'yes',
+                                callback: function(btn) {
+                                    if (btn == 'yes') {
+                                        me.onRemoveMeta(props);
+                                    }
+                                }
+                            });
+                        } else {
+                            me.onRemoveMeta(props);
+                        }
+                    } else {
+                        me.onRemoveMeta(props);
+                    }
+                }
+            }
+            var win = new PDFE.Views.RemoveMetaDlg({
+                handler: handlerDlg
+            });
+            win.show();
         },
 
         onApplyRedact: function() {
@@ -268,6 +332,10 @@ define([
             this.view.btnMarkForRedact.toggle(isRedaction);
             if (this.toolbar)
                 isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
+        },
+
+        onCanRedactaction: function(isActive) {
+            Common.Utils.lockControls(Common.enumLock.canRedact, !isActive, {array: [this.view.btnApplyRedactions]});
         },
 
         SetDisabled: function(state) {

@@ -833,6 +833,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:"connected"});
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
                     this.disableEditing(false, 'background-open');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
@@ -928,8 +929,10 @@ define([
                         text     = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection: 'disconnected'});
                         var me = this;
                         me._state.timerDisconnect = setTimeout(function(){
+                            Common.Gateway.sendInfo({connection: 'reconnecting'});
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -1050,6 +1053,11 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
                 this.api.asc_setDefaultDirection(value);
 
+                value = Common.localStorage.getItem("sse-settings-image-copying");
+                if (value===null) value = '1';
+                Common.Utils.InternalSettings.set("sse-settings-image-copying", parseInt(value));
+                me.api.asc_setPutImageToClipboard(!!parseInt(value))
+
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(me.onActiveSheetChanged, me));
@@ -1097,7 +1105,7 @@ define([
 
                 statusbarView.update();
 
-                this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
+                this.formulaInput = celleditorController.getView('CellEditor').$el.find('#ce-cell-content');
 
                 SSE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
@@ -1118,6 +1126,10 @@ define([
                     value = Common.localStorage.getItem("sse-settings-function-tooltip");
                     if (value===null) value = '1';
                     Common.Utils.InternalSettings.set("sse-settings-function-tooltip", parseInt(value));
+
+                    value = Common.localStorage.getBool("sse-settings-cell-autocomplete", true);
+                    Common.Utils.InternalSettings.set("sse-settings-cell-autocomplete", value);
+                    me.api.asc_setAutoCompleteEnabled(value);
 
                     me.loadAutoCorrectSettings();
 
@@ -1184,7 +1196,7 @@ define([
                 Common.Gateway.on('setfavorite',  _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose', _.bind(me.onRequestClose, me));
                 Common.Gateway.on('refreshhistory',_.bind(me.onRefreshHistory, me));
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection:"connected"});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 //                    me.getViewport().getEl().un('keypress', me.lockEscapeKey, me);
@@ -2319,6 +2331,10 @@ define([
                         config.msg = this.errorForcedViewMode;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyRangeTooLarge:
+                        config.msg = this.errorCopyRangeTooLarge;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
@@ -2388,6 +2404,8 @@ define([
                 this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings, options) {
@@ -2783,6 +2801,20 @@ define([
                             title: this.notcriticalErrorTitle,
                             msg: this.confirmReplaceHFPicture,
                             buttons: [{value: 'ok', caption: this.textReplace, primary: true}, {value: 'cancel', caption: this.textKeep}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmXlsFormatLimit:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmXlsFormatLimit,
+                            buttons: ['ok', 'cancel'],
+                            primary: 'ok',
                             maxwidth: 600,
                             callback: _.bind(function(btn) {
                                 if (apiCallback)  {

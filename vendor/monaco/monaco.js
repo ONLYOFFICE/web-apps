@@ -67,6 +67,7 @@
             options[i] = this.options[i];
 
         this._registerLanguage(options.language);
+        if(options.language == 'javascript-clear') options.language = 'javascript';
         this.editor = monaco.editor.create(document.getElementById(this.parent), options);
         this._loadLibraries();
         this._loadEvents();
@@ -138,6 +139,13 @@
                         [/'.*$/, 'comment']
                     ]
                 }
+            });
+        } else if(language == 'javascript-clear') {
+            // ECMAScript only — no DOM browser APIs
+            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                lib: ["ES2020"],
+                target: monaco.languages.typescript.ScriptTarget.ES2020,
+                allowNonTsExtensions: true,
             });
         }
     };

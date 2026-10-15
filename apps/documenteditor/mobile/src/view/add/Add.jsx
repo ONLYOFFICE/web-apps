@@ -40,7 +40,7 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { AddImageController } from "../../controller/add/AddImage";
 import { AddLinkController } from "../../controller/add/AddLink";
 import { PageImageLinkSettings } from "../add/AddImage";
-import { PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote } from "../add/AddOther";
+import { PageAddNumber, PageAddBreak, PageAddFootnote } from "../add/AddOther";
 import AddTableContentsController from '../../controller/add/AddTableContents';
 import EditHyperlink from '../../controller/edit/EditHyperlink';
 import AddingPage from './AddingPage';
@@ -76,10 +76,6 @@ const routes = [
     {
         path: '/add-break/',
         component: PageAddBreak,
-    },
-    {
-        path: '/add-section-break/',
-        component: PageAddSectionBreak,
     },
     {
         path: '/add-footnote/',

@@ -354,32 +354,22 @@ define([
             Common.localStorage.getBool("pdfe-hidden-leftmenu", value) && this.getApplication().getController('LeftMenu').getView('LeftMenu').hide();
         },
 
-        applyEditorMode: function(forceShowRightMenu) {
-            if (!this.viewport) return;
+        applyEditorMode: function() {
+            if (!this.viewport || !this._initEditing) return;
 
-            if ((this.mode.isPDFEdit || forceShowRightMenu) && this._initEditing) {
-                var rightmenuController = this.getApplication().getController('RightMenu'),
-                    rightMenuView   = rightmenuController.getView('RightMenu');
+            var rightmenuController = this.getApplication().getController('RightMenu'),
+                rightMenuView   = rightmenuController.getView('RightMenu');
 
-                rightmenuController.setMode(this.mode);
-                rightmenuController.setApi(this.api);
+            rightmenuController.setMode(this.mode);
+            rightmenuController.setApi(this.api);
 
-                this._rightMenu   = rightMenuView.render(this.mode);
-                var value = Common.UI.LayoutManager.getInitValue('rightMenu');
-                value = (value!==undefined) ? !value : false;
-                Common.localStorage.getBool("pdfe-hidden-rightmenu", value) && this._rightMenu.hide();
-                Common.Utils.InternalSettings.set("pdfe-hidden-rightmenu", Common.localStorage.getBool("pdfe-hidden-rightmenu", value));
+            this._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("pdfe-hidden-rightmenu", value) && this._rightMenu.hide();
+            Common.Utils.InternalSettings.set("pdfe-hidden-rightmenu", Common.localStorage.getBool("pdfe-hidden-rightmenu", value));
 
-                rightMenuView.setApi(this.api);
-                rightMenuView.setMode(this.mode);
-
-                this._initEditing = false;
-            }
-            if (!this._initEditing && !this._forceShowRightMenu) {
-                const needShow = (this.mode.isPDFEdit || forceShowRightMenu) && !Common.Utils.InternalSettings.get("pdfe-hidden-rightmenu");
-                this.getApplication().getController('RightMenu').onRightMenuHide(undefined, needShow, true);
-                this._forceShowRightMenu = (forceShowRightMenu && needShow);
-            }
+            this._initEditing = false;
         },
 
         onTabStyleChange: function (style) {

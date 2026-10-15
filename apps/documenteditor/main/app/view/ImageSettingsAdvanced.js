@@ -70,7 +70,6 @@ define([
                     {panelId: 'id-chart-settings-dlg-hor-sec',      panelCaption: this.textHorAxisSec},
                     {panelId: 'id-adv-image-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-size',       panelCaption: this.textSize},
-                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textWeightArrows},
@@ -190,7 +189,6 @@ define([
                 el: $('#image-advanced-button-original-size')
             });
             this.btnOriginalSize.on('click', _.bind(function(btn, e) {
-                this.spnAngle.setValue(0);
                 this.spnWidth.setValue(this.sizeOriginal.width, true);
                 this.spnHeight.setValue(this.sizeOriginal.height, true);
                 this._nRatio = this.sizeOriginal.width/this.sizeOriginal.height;
@@ -397,27 +395,6 @@ define([
             this.cmbHeightPc.setDisabled(true);
             this.cmbHeightPc.setValue(this._state.ShapeHeightPcFrom);
             this.cmbHeightPc.on('selected', _.bind(this.onCmbHeightPcSelect, this));
-
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#image-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
 
             // Wrapping
 
@@ -1043,10 +1020,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1064,10 +1041,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1085,10 +1062,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1106,10 +1083,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -1323,9 +1300,6 @@ define([
                             me.spnShapeWidthPc.focus();
                         break;
                     case 7:
-                        me.spnAngle.focus();
-                        break;
-                    case 8:
                         if (!me.spnTop.isDisabled())
                             me.spnTop.focus();
                         else if (!me.spnLeft.isDisabled())
@@ -1333,7 +1307,7 @@ define([
                         else if (!me.btnWrapInline.isDisabled())
                             me.btnWrapInline.focus();
                         break;
-                    case 9:
+                    case 8:
                         if (!me.cmbHAlign.isDisabled())
                             me.cmbHAlign.focus();
                         else if (!me.spnX.isDisabled())
@@ -1341,13 +1315,13 @@ define([
                         else
                             me.spnXPc.focus();
                         break;
-                    case 10:
+                    case 9:
                         me.cmbCapType.focus();
                         break;
-                    case 11:
+                    case 10:
                         me.chAutofit.focus();
                         break;
-                    case 12:
+                    case 11:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -1542,11 +1516,10 @@ define([
                 this.isShape = !!shapeprops;
                 this.btnOriginalSize.setVisible(!(this.isShape || this.isChart));
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
-                this.btnsCategory[10].setVisible(this.isShape && !shapeprops.get_FromChart() && !fixed_size);   // Shapes
-                this.btnsCategory[11].setVisible(this.isShape && !shapeprops.get_FromChart() && !fixed_size);   // Margins
-                this.btnsCategory[12].setVisible(!fixed_size);   // Alt
-                this.btnsCategory[7].setVisible(!this.isChart && (pluginGuid === null || pluginGuid === undefined)); // Rotation
-                this.btnsCategory[8].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr()); // Wrapping
+                this.btnsCategory[9].setVisible(this.isShape && !shapeprops.get_FromChart() && !fixed_size);   // Shapes
+                this.btnsCategory[10].setVisible(this.isShape && !shapeprops.get_FromChart() && !fixed_size);   // Margins
+                this.btnsCategory[11].setVisible(!fixed_size);   // Alt
+                this.btnsCategory[7].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr()); // Wrapping
                 this.btnsCategory[5].setVisible(!this.isShape && !this.isChart);
                 this.btnsCategory[6].setVisible(this.isShape && !this.isChart);
                 for (var i=0; i<5; i++) {
@@ -1615,8 +1588,8 @@ define([
 
                     this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
 
-                    this.btnsCategory[11].setDisabled(null === margins);   // Margins
-                    this.btnsCategory[10].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[10].setDisabled(null === margins);   // Margins
+                    this.btnsCategory[9].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                 } else if (this.isChart) {
                     this._setChartDefaults(this.chartSettings);
@@ -1634,12 +1607,6 @@ define([
                     this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
                 }
 
-                if (!this.isChart) {
-                    value = props.asc_getRot();
-                    this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                    this.chFlipHor.setValue(props.asc_getFlipH());
-                    this.chFlipVert.setValue(props.asc_getFlipV());
-                }
 
                 value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
@@ -1652,14 +1619,13 @@ define([
                 Common.UI.FocusManager.add(this, [this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, // 6 tab
                     this.radioHSize, this.spnShapeWidth , this.spnShapeWidthPc, this.radioHSizePc, this.cmbWidthPc,
                     this.radioVSize, this.spnShapeHeight, this.spnShapeHeightPc, this.radioVSizePc, this.cmbHeightPc, this.chRatio, // 7 tab
-                    this.spnAngle, this.chFlipHor, this.chFlipVert, // 8 tab
                     this.btnWrapInline, this.btnWrapSquare, this.btnWrapTight, this.btnWrapThrough, this.btnWrapTopBottom, this.btnWrapInFront, this.btnWrapBehind,
-                    this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 9 tab
+                    this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 8 tab
                     this.radioHAlign, this.radioHPosition, this.radioHPositionPc, this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition, this.spnXPc, this.cmbHPositionPc,
-                    this.radioVAlign, this.radioVPosition, this.radioVPositionPc, this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, this.chMove, this.chOverlap, // 10 tab
-                    this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 11 tab
-                    this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 12 tab
-                    this.inputAltTitle, this.textareaAltDescription ]); // 13 tab
+                    this.radioVAlign, this.radioVPosition, this.radioVPositionPc, this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, this.chMove, this.chOverlap, // 9 tab
+                    this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 10 tab
+                    this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 11 tab
+                    this.inputAltTitle, this.textareaAltDescription ]); // 12 tab
             }
             Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
@@ -1696,11 +1662,7 @@ define([
                 }
             }
 
-            if (!this.isChart) {
-                properties.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-                properties.asc_putFlipH(this.chFlipHor.getValue() == 'checked');
-                properties.asc_putFlipV(this.chFlipVert.getValue() == 'checked');
-            } else {
+            if (this.isChart) {
                 var type = this.currentChartType;
                 this.chartSettings.putType(type);
 
@@ -1745,13 +1707,10 @@ define([
                 if (props.get_FromSmartArt()) {
                     this.radioHSizePc.setDisabled(true);
                     this.radioVSizePc.setDisabled(true);
-                    this.btnsCategory[7].setDisabled(true);
                     this._isSmartArt = true;
                 }
                 if (props.get_FromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
-                    this.chFlipHor.setDisabled(true);
-                    this.chFlipVert.setDisabled(true);
                     this.btnsCategory[6].setDisabled(true);
                 }
 
@@ -1897,7 +1856,7 @@ define([
             this.spnTop.setDisabled(disabledTB);
             this.spnBottom.setDisabled(disabledTB);
 
-            this.btnsCategory[9].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
+            this.btnsCategory[8].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
         },
 
         onHAlignSelect: function(combo, record){
@@ -3236,11 +3195,6 @@ define([
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
         textWeightArrows: 'Weights & Arrows',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textTextBox: 'Text Box',
         textAutofit: 'AutoFit',
         textResizeFit: 'Resize shape to fit text',

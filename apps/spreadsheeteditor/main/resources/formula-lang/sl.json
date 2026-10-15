@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Napaka »Nič«",
+			"div": "Napaka »Deljenje z nič«",
+			"value": "Napaka v vrednosti",
+			"ref": "Napaka »Neveljaven sklic na celico«",
+			"name": "Napaka »Neveljavno ime«",
+			"num": "Napaka »Število«",
+			"na": "Napaka »Vrednost ni na voljo«",
+			"calc": "Prazno polje",
+			"spill": "Obseg prelivanja ni prazen"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "naslov",
 			"col": "stolpec",

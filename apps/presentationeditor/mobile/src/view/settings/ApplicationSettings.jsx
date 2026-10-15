@@ -64,18 +64,10 @@ const PageApplicationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPreferences} backLink={_t.textBack} />
             {_isEdit &&
                 <Fragment>
-                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
-                    <List>
-                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
-                                  onChange={() => changeMeasureSettings(0)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
-                                  onChange={() => changeMeasureSettings(1)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
-                                  onChange={() => changeMeasureSettings(2)}></ListItem>
-                    </List>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
                     <List>
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
@@ -86,16 +78,25 @@ const PageApplicationSettings = props => {
                             />
                         </ListItem>
                     </List>
+                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
+                    <List>
+                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
+                                  onChange={() => changeMeasureSettings(0)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
+                                  onChange={() => changeMeasureSettings(1)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
+                                  onChange={() => changeMeasureSettings(2)}></ListItem>
+                    </List>
                 </Fragment>
             }
             {!!isConfigSelectTheme &&
-                <List mediaList>
+                <List>
                     <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
                     }}></ListItem>
                 </List>
             }
-            <List mediaList>
+            <List>
                 <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>

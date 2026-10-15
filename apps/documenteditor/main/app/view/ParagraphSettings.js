@@ -197,6 +197,7 @@ define([
                 transparent: true,
                 menu: true,
                 eyeDropper: true,
+                ariaLabel: this.textBackColor,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'medium'

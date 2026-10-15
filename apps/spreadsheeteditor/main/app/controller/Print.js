@@ -33,7 +33,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([
-    'core'
+    'core',
+    'common/main/lib/util/Print'
 ], function () {
     'use strict';
 
@@ -220,19 +221,13 @@ define([
                 panel.setOriginalPageSize(w, h);
 
             var store = panel.cmbPaperSize.store;
-            let item = null;
-            for (var i=0; i<store.length; i++) {
-                var rec = store.at(i),
-                    size = rec.get('size'),
-                    pagewidth = size[0],
-                    pageheight = size[1];
-                if (Math.abs(pagewidth - w) < 0.1 && Math.abs(pageheight - h) < 0.1) {
-                    item = rec;
-                    break;
-                }
-            }
+            // Try to resolve a name from the toolbar's default size list
+            const toolbarView = this.getApplication().getController('Toolbar').getView();
+            const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+            let item = Common.util.Print.findPaperSizeOptionBySize(store.toJSON(), w, h, '', defaultSizes);
+            
             if (item)
-                panel.cmbPaperSize.setValue(item.get('value'));
+                panel.cmbPaperSize.setValue(item.value);
             else {
                 if (panel.$el.prop('id') === 'panel-print') {
                     panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
@@ -243,6 +238,8 @@ define([
                     panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
                 }
+
+                if(panel.setCustomPageSize) panel.setCustomPageSize(w, h);
             }
 
             this.fitWidth = opt.asc_getFitToWidth();

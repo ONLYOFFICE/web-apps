@@ -80,6 +80,7 @@ define([
                 CheckColBanded: false,
                 BackColor: '#000000',
                 RepeatRow: false,
+                CanSplitRow: false,
                 DisabledControls: false,
                 Width: null,
                 Height: null,
@@ -153,6 +154,15 @@ define([
             if (this.api) {
                 var properties = new Asc.CTableProp();
                 properties.put_TableLayout((field.getValue()=='checked') ? Asc.c_oAscTableLayout.AutoFit : Asc.c_oAscTableLayout. Fixed);
+                this.api.tblApply(properties);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCheckSplitRowChange: function (field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CanSplitRow(field.getValue()=='checked');
                 this.api.tblApply(properties);
             }
             this.fireEvent('editcomplete', this);
@@ -317,6 +327,16 @@ define([
             });
             this.chAutofit.on('change', _.bind(this.onCheckAutofitChange, this));
             this.lockedControls.push(this.chAutofit);
+
+            this.chSplitRow = new Common.UI.CheckBox({
+                el: $('#table-checkbox-split-row'),
+                labelText: this.textSplitRow,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chSplitRow.on('change', _.bind(this.onCheckSplitRowChange, this));
+            this.lockedControls.push(this.chSplitRow);
 
             this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, 0));
             this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, 1));
@@ -643,6 +663,14 @@ define([
                     this._state.RepeatRow=value;
                 }
                 this.chRepeatRow.setDisabled(this._state.RepeatRow === null || this._locked);
+
+                value = props.get_CanSplitRow();
+                if (this._state.CanSplitRow !== value) {
+                    this.chSplitRow.setValue(!!value, true);
+                    this._state.CanSplitRow = value;
+                }
+                this.chSplitRow.setDisabled(this._state.CanSplitRow === null || this._locked);
+
                 var autoFit = props.get_TableLayout();
                 this.chAutofit.setDisabled(autoFit === undefined || this._locked);
                 this.chAutofit.setValue(autoFit===Asc.c_oAscTableLayout.AutoFit, true);

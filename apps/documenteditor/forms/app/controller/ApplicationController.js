@@ -107,7 +107,7 @@ define([
             },
                 hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
             hcolor && (config['headings-color'] = '#' + hcolor[1]);
-            this.api = new Asc.asc_docs_api(config);
+            this.api = window.isPDFForm ? new Asc.asc_docs_api(config) : new Asc.PDFEditorApi(config);
 
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
@@ -130,6 +130,11 @@ define([
             this.boxSdk.on('mousedown', function(e){
                 if (e.target.localName == 'canvas')
                     Common.UI.Menu.Manager.hideAll();
+            });
+            this.boxSdk.on('wheel mousewheel DOMMouseScroll', function(){
+                if(window.isPDFForm) {
+                    Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateFormPosition(me, me.boxSdk);
+                }
             });
 
             this.editorConfig = {};
@@ -777,7 +782,6 @@ define([
                     me.onEditComplete();
                 });
                 me.view.btnFillStatus.on('click', function(){
-                    Common.UI.TooltipManager.closeTip('showFillStatus');
                     Common.Gateway.requestFillingStatus(me.appOptions.user.roles && me.appOptions.user.roles.length>0 ? me.appOptions.user.roles[0] : undefined);
                 });
 
@@ -978,7 +982,7 @@ define([
 
             if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
                 if (!this.loadMask)
-                    this.loadMask = new Common.UI.LoadMask({owner: $(document.body)});
+                    this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
                 this.loadMask.setTitle(text);
                 this.loadMask.show();
@@ -1020,7 +1024,14 @@ define([
                         }
                         this.submitedTooltip.show();
                     }
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
+
+                    if(window.isPDFForm) {
+                        this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
+                    } else {
+                        const role = this.api.asc_getRestrictionSettings();
+                        role.put_OFormNoRole(true);
+                        this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                    }
                     this.onApiServerDisconnect(true);
 
                     const rightMenuController = DE.getController('RightMenu');
@@ -1288,6 +1299,275 @@ define([
             }
         },
 
+        onHidePDFFormsActions: function() {
+            this.listControlMenuPdf && this.listControlMenuPdf.isVisible() && this.listControlMenuPdf.hide();
+            const controlsContainer = this.boxSdk.find('#calendar-control-container-pdf');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowPDFFormsActions: function(obj, x, y) {
+            const me = this;
+            switch (obj.type) {
+                case AscPDF.FIELD_TYPES.combobox:
+                    setTimeout(function() {
+                        me.onShowListActionsPDF(obj, x, y);
+                    }, 1);
+                    break;
+                case AscPDF.FIELD_TYPES.text:
+                    setTimeout(function() {
+                        me.onShowDateActionsPDF(obj, x, y);
+                    }, 1);
+                    break;
+            }
+        },
+
+        onShowPDFSignatureActions: function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
+                rootEl: this.boxSdk,
+                openDialog: this.openPDFSignatureDialog,
+                applySignature: this.applyStoredPDFSignature,
+                clearField: this.clearPDFSignatureField
+            });
+        },
+
+        onHidePDFSignatureActions: function() {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+        },
+
+        onUpdatePDFSignatureActions: function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.boxSdk, rect);
+        },
+
+        onOpenLinkPDFForm: function(sURI, onAllow, onCancel) {
+            let id = 'pdf-link',
+                config = {
+                    closable: true,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok', 'cancel'],
+                    msg: Common.Utils.String.format(this.txtSecurityWarningLinkOk, sURI || ''),
+                    maxwidth: 600,
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            onAllow();
+                        }
+                        else
+                            onCancel();
+                    }, this)
+                };
+
+            Common.UI.alert(config).$window.attr('data-value', id);
+        },
+
+        onOpenFilePDFForm: function(onAllow, onCancel) {
+            let id = 'pdf-form',
+                config = {
+                    closable: true,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok', 'cancel'],
+                    msg: this.txtSecurityWarningOpenFile,
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            onAllow();
+                        }
+                        else
+                            onCancel();
+                    }, this)
+            };
+
+            Common.UI.alert(config).$window.attr('data-value', id);
+        },
+
+        openPDFSignatureDialog: function(fieldId) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+
+            var me = this,
+                signProps = this.api.GetSignatureImageProps(),
+                win = (new Common.Views.PdfSignDialog({
+                    api: me.api,
+                    props: signProps,
+                    hasField: false,
+                    signatureId: fieldId,
+                    disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                    storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: this.getCollection('Common.Collections.Fonts'),
+                    iconType: 'svg',
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
+                        }
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        },
+
+        applyStoredPDFSignature: function(fieldId, data) {
+            var imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && fieldId) {
+                Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
+                this.api.SetSignatureToField({imageData: imageData}, fieldId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        clearPDFSignatureField: function(signatureId) {
+            if (signatureId) {
+                this.api.asc_ClearAllSpecialForms([signatureId]);
+                Common.localStorage.removeItem('dialog-signature-' + signatureId);
+            }
+        },
+
+        onShowListActionsPDF: function(obj) {
+            let isForm = true,
+                menu = this.listControlMenuPdf,
+                menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            me._listObjPdf = obj;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenuPdf = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        (item.value!==-1) && me.api.asc_SelectPDFFormListItem(item.value);
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.boxSdk.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenuPdf.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+
+            let options = obj.getOptions(),
+                count = options.length;
+            for (let i=0; i<count; i++) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption     : Array.isArray(options[i]) ? options[i][0] : options[i],
+                    value       : i,
+                    template    : _.template([
+                        '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                        '<%= Common.Utils.String.htmlEncode(caption) %>',
+                        '</a>'
+                    ].join(''))
+                }));
+            }
+            if (!isForm && menu.items.length<1) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption     : this.documentHolder.txtEmpty,
+                    value       : -1
+                }));
+            }
+
+            let pagepos = obj.getPagePos(),
+                oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+            menuContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onShowDateActionsPDF: function(obj, x, y) {
+            let controlsContainer = this.boxSdk.find('#calendar-control-container-pdf'),
+                me = this;
+
+            this._dateObjPdf = obj;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container-pdf" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control-pdf" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                this.boxSdk.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            let pagepos = obj.getPagePos(),
+                oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+            controlsContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendarPdf) {
+                this.cmpCalendarPdf = new Common.UI.Calendar({
+                    el: this.boxSdk.find('#id-document-calendar-control-pdf'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendarPdf.on('date:click', function (cmp, date) {
+                    let specProps = new AscCommon.CSdtDatePickerPr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetTextFormDatePickerDate(specProps);
+                    controlsContainer.hide();
+                });
+                this.cmpCalendarPdf.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                    }
+                });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                    }
+                });
+
+            }
+            let val = this._dateObjPdf ? this._dateObjPdf.asc_GetValue() : undefined;
+            if (val) {
+                val = new Date(val);
+                if (Object.prototype.toString.call(val) !== '[object Date]' || isNaN(val))
+                    val = undefined;
+            }
+            !val && (val = new Date());
+            this.cmpCalendarPdf.setDate(val);
+
+            // align
+            let offset  = Common.Utils.getOffset(controlsContainer),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendarPdf.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendarPdf.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendarPdf.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
+        },
+
         onShowContentControlsActions: function(obj, x, y) {
             if (this._isDisabled) return;
 
@@ -1314,25 +1594,9 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    var signProps = obj.asc_getSignatureProps(me.api);
-                    var win = (new Common.Views.PdfSignDialog({
-                        props: signProps,
-                        api: me.api,
-                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
-                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
-                        fontStore: this.getCollection('Common.Collections.Fonts'),
-                        iconType: 'svg',
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                me.api.asc_SetSignatureProps(signProps.getResult());
-                            }
-                        }
-                        })).on('close', function(obj){
-                            setTimeout(function(){
-                                me.api.asc_UncheckContentControlButtons();
-                            }, 100);
-                        });
-                    win.show();
+                    setTimeout(function() {
+                        me.onShowSignatureActions(obj);
+                    }, 1);
                     // me.api.asc_addImage(obj.pr);
                     // setTimeout(function(){
                     //     me.api.asc_UncheckContentControlButtons();
@@ -1350,9 +1614,60 @@ define([
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
             this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
+            this.signatureControlMenu && this.signatureControlMenu.isVisible() && this.signatureControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        },
+
+        openSignatureDialog: function(signProps) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+
+            var me = this,
+                win = (new Common.Views.PdfSignDialog({
+                    props: signProps,
+                    api: me.api,
+                    disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                    storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: this.getCollection('Common.Collections.Fonts'),
+                    iconType: 'svg',
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_SetSignatureProps(signProps.getResult());
+                        }
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        },
+
+        applyStoredSignature: function(signProps, data) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '',
+                imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && signatureId) {
+                Common.localStorage.setItem('dialog-signature-' + signatureId, JSON.stringify(data));
+                this.api.asc_SetSignatureProps({imageData: imageData, internalId: signatureId});
+            }
+        },
+
+        clearSignatureField: function(signProps) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
+            if (signatureId) {
+                this.api.asc_ClearContentControl(signatureId);
+                Common.localStorage.removeItem('dialog-signature-' + signatureId);
+            }
+        },
+
+        onShowSignatureActions: function(obj) {
+            Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
+                rootEl: this.boxSdk,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature,
+                clearField: this.clearSignatureField
+            });
         },
 
         onShowImageActions: function(obj, x, y) {
@@ -1646,9 +1961,6 @@ define([
                         me.showFillingForms(true);
                     } else {
                         role.put_OFormNoRole(true);
-                        me.view.btnFillStatus && me.view.btnFillStatus.isVisible() && Common.UI.TooltipManager.addTips({
-                            'showFillStatus': { name: 'de-help-tip-fill-status', text: me.helpTextFillStatus, target: '#id-btn-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300 }
-                        });
                     }
                 } else // can fill all fields
                     me.showFillingForms(true);
@@ -1677,7 +1989,14 @@ define([
             this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
             this.api.asc_registerCallback('asc_onContextMenu',           _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onOpenLinkPdfForm', this.onOpenLinkPDFForm.bind(this));
             if (this.appOptions.canFillForms) {
+                this.api.asc_registerCallback('asc_onShowPDFFormsActions', this.onShowPDFFormsActions.bind(this));
+                this.api.asc_registerCallback('asc_onHidePdfFormsActions', this.onHidePDFFormsActions.bind(this));
+                this.api.asc_registerCallback('asc_onShowFieldSignature', this.onShowPDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onHideFieldSignature', this.onHidePDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onUpdateFieldSignature', this.onUpdatePDFSignatureActions.bind(this));
+                this.api.asc_registerCallback('asc_onOpenFilePdfForm', this.onOpenFilePDFForm.bind(this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
@@ -1706,7 +2025,6 @@ define([
             Common.Gateway.sendInfo({mode:'view'});
             Common.Gateway.documentReady();
             Common.NotificationCenter.trigger('document:ready');
-            Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
         },
 
@@ -2223,16 +2541,25 @@ define([
                 this.view.btnOptions.menu.items[1].setDisabled(state || !this.api.asc_getCanRedo()); // redo
                 this.view.btnOptions.menu.items[3].setDisabled(); // clear
             }
-            var oform = this.api.asc_GetOForm(),
-                role = new AscCommon.CRestrictionSettings();
-            if (oform && this.appOptions.user.roles) {
-                if (this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
-                    role.put_OFormRole(this.appOptions.user.roles[0]);
-                } else {
-                    role.put_OFormNoRole(true);
+
+            const role = new AscCommon.CRestrictionSettings();
+            let type;
+            
+            if(!window.isPDFForm && state) {
+                role.put_OFormNoRole(true);
+                type = Asc.c_oAscRestrictionType.OnlyForms;
+            } else {
+                const oform = this.api.asc_GetOForm();
+                if (oform && this.appOptions.user.roles) {
+                    if (this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
+                        role.put_OFormRole(this.appOptions.user.roles[0]);
+                    } else {
+                        role.put_OFormNoRole(true);
+                    }
                 }
+                type = state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms;
             }
-            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
+            this.api.asc_setRestriction(type, role);
         },
 
         showFillingForms: function(visible) {
@@ -2475,7 +2802,9 @@ define([
         titleReadOnly: 'Read-Only Mode',
         textContinue: 'Continue',
         txtSignedForm: 'This document has been signed and cannot be edited.',
-        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to {0}.<br>If you trust this site, press \"OK\".',
+        txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.'
 
     }, DE.Controllers.ApplicationController));
 });

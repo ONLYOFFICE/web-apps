@@ -56,15 +56,23 @@ class EncodingController extends Component {
             });
         });
 
-        Common.Notifications.on('openEncoding', (type, advOptions, mode, formatOptions) => {
-            this.initEncoding(type, advOptions, mode, formatOptions);
+        Common.Notifications.on('openEncoding', (type, advOptions, mode, formatOptions, fromSaveAs) => {
+            this.initEncoding(type, advOptions, mode, formatOptions, fromSaveAs);
         });
     }
 
-    initEncoding(type, advOptions, mode, formatOptions) {
+    componentDidMount() {
+        Common.Notifications.on('fromsaveas', () => {
+            this.isFromSaveACopy = true;
+        })
+    }
+
+    initEncoding(type, advOptions, mode, formatOptions, fromSaveAs) {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
-        
+
+        this.isFromSaveACopy = !!fromSaveAs;
+
         if(type === Asc.c_oAscAdvancedOptionsID.CSV) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
@@ -100,6 +108,7 @@ class EncodingController extends Component {
     closeModal() {
         f7.sheet.close('.encoding-popup', true);
         this.setState({isOpen: false});
+        this.isFromSaveACopy = false;
     }
 
     onSaveFormat(valueEncoding, valueDelimeter) {
@@ -109,6 +118,7 @@ class EncodingController extends Component {
 
         if(this.mode === 2) {
             this.formatOptions && this.formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
+            Common.Notifications.trigger('fromencoding');
             api.asc_DownloadAs(this.formatOptions);
         } else {
             api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, new Asc.asc_CTextOptions(valueEncoding, valueDelimeter));
@@ -127,6 +137,7 @@ class EncodingController extends Component {
                     valueEncoding={this.valueEncoding}
                     valueDelimeter={this.valueDelimeter}
                     valuesDelimeter={this.valuesDelimeter}
+                    isFromSaveACopy = {this.isFromSaveACopy}
                 /> 
         );
     }

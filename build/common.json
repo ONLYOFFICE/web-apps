@@ -240,6 +240,10 @@
                         "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
                     },
                     {
+                        "src": "../vendor/underscore/underscore-umd.js.map",
+                        "dest": "../deploy/web-apps/vendor/underscore/underscore-umd.js.map"
+                    },
+                    {
                         "src": "../vendor/underscore/underscore.js",
                         "dest": "../deploy/web-apps/vendor/underscore/underscore.js"
                     }

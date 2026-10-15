@@ -345,29 +345,38 @@ define([], function () {
                                 ]
                             })
                         },
-                        // { 
-                        //     caption: me.textDataTable, 
-                        //     value: 'dataTable', 
-                        //     disabled: false,
-                        //     menu: new Common.UI.Menu({
-                        //         cls: 'shifted-right',  
-                        //         menuAlign: 'tl-tr',
-                        //         items: [
-                        //             { 
-                        //                 caption: me.textNone, 
-                        //                 value: 'bShowDataNone'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowDataTable, 
-                        //                 value: 'bShowDataTable'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowLegendKeys, 
-                        //                 value: 'bShowLegendKeys' 
-                        //             }
-                        //         ]
-                        //     })
-                        // },
+                        {
+                            caption: me.textDataTable,
+                            value: 'dataTable',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone,
+                                        value: 'bShowDataNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowDataTable,
+                                        value: 'bShowDataTable',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowLegendKeys,
+                                        value: 'bShowLegendKeys',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
                         {
                             caption: me.textErrorBars,
                             value: 'errorBars',
@@ -710,6 +719,10 @@ define([], function () {
                 caption : me.originalSizeText
             });
 
+            me.menuImgConvertToShape = new Common.UI.MenuItem({
+                caption: me.textConvertToShape
+            });
+
             me.menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
@@ -865,6 +878,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -877,6 +894,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPic,
+                        me.menuCopyHyperlinkPic,
                         me.menuRemoveHyperlinkPic
                     ]
                 })
@@ -965,8 +983,8 @@ define([], function () {
                         me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText));
                         me.menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
-
-                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
+                    me.menuImageAdvanced.setVisible(!value.imgProps.isChart || !!me.api.asc_getChartSettings(true));
+                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps && !!me.api.asc_getChartSettings(true));
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
                     var in_control = me.api.asc_IsContentControl(),
@@ -1077,14 +1095,21 @@ define([], function () {
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(islocked);
 
+                    var canConvert = me.api && me.api.asc_canConvertImageToShapes();
+                    me.menuImgConvertToShape.setVisible(canConvert);
+                    canConvert && me.menuImgConvertToShape.setDisabled(islocked);
+
                     var text = null;
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
                     }
                     me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
+                    me.menuCopyHyperlinkPic.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
+                    menuHyperlinkPicSeparator.setVisible((me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible()) && 
+                        (me.menuChartEdit.isVisible() || me.menuImageAdvanced.isVisible()));
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;
                     if (text !== false) {
                         me.menuAddHyperlinkPic.hyperProps = {};
@@ -1131,7 +1156,113 @@ define([], function () {
                     me.menuChartEdit,
                     me.menuImgStretchContentControl,
                     me.menuImgEditPoints,
+                    me.menuImgConvertToShape,
                     me.menuImageAdvanced
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
+
+            /* horizontal line menu */
+
+            me.menuHLCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+            me.menuHLPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption: me.textPaste,
+                value: 'paste'
+            });
+            me.menuHLCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption: me.textCut,
+                value: 'cut'
+            });
+            me.menuHLPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
+                caption: me.txtPrintSelection
+            });
+
+            me.menuHLInsertCaption = new Common.UI.MenuItem({
+                caption: me.txtInsertCaption
+            });
+
+            var menuHLInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLHyperlinkSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLAdvancedSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            me.menuHLAdvanced = new Common.UI.MenuItem({
+                caption: me.textHorizontalLineSettings
+            });
+
+            me.menuAddHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText
+            });
+            me.menuEditHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.editHyperlinkText
+            });
+            me.menuRemoveHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.removeHyperlinkText
+            });
+            var menuHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuEditHyperlinkHL,
+                        me.menuRemoveHyperlinkHL
+                    ]
+                })
+            });
+
+            this.hlMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var islocked = false; 
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuHLCut.setDisabled(islocked || !cancopy);
+                    me.menuHLCopy.setDisabled(!cancopy);
+                    me.menuHLPaste.setDisabled(islocked);
+                    me.menuHLPrint.setVisible(me.mode.canPrint);
+                    me.menuHLPrint.setDisabled(!cancopy);
+
+                    var text = null;
+                    if (me.api) text = me.api.can_AddHyperlink();
+                    me.menuAddHyperlinkHL.setVisible(value.hyperProps === undefined && text !== false);
+                    menuHyperlinkHL.setVisible(value.hyperProps !== undefined);
+                    menuHLHyperlinkSeparator.setVisible(me.menuAddHyperlinkHL.isVisible() || menuHyperlinkHL.isVisible());
+                    me.menuEditHyperlinkHL.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkHL.hyperProps = value.hyperProps;
+                    if (text !== false) {
+                        me.menuAddHyperlinkHL.hyperProps = {};
+                        me.menuAddHyperlinkHL.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkHL.hyperProps.value.put_Text(text);
+                    }
+                    me.menuAddHyperlinkHL.setDisabled(islocked);
+                    menuHyperlinkHL.setDisabled(islocked || (value.hyperProps !== undefined && value.hyperProps.isSeveralLinks === true));
+                    me.menuHLAdvanced.setDisabled(islocked);
+                },
+                items: [
+                    me.menuHLCut,
+                    me.menuHLCopy,
+                    me.menuHLPaste,
+                    me.menuHLPrint,
+                    menuHLInsertCaptionSeparator,
+                    me.menuHLInsertCaption,
+                    menuHLHyperlinkSeparator,
+                    me.menuAddHyperlinkHL,
+                    menuHyperlinkHL,
+                    menuHLAdvancedSeparator,
+                    me.menuHLAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -1262,6 +1393,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkTable = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -1274,6 +1409,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkTable,
+                        me.menuCopyHyperlinkTable,
                         me.menuRemoveHyperlinkTable
                     ]
                 })
@@ -1365,7 +1501,7 @@ define([], function () {
             var langTemplate = _.template([
                 '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                     '<div>',
-                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>" aria-hidden="true"></i>',
                         '<%= caption %>',
                     '</div>',
                     '<label style="opacity: 0.6"><%= captionEn %></label>',
@@ -1750,8 +1886,10 @@ define([], function () {
                     }
                     me.menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkTable.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkTable.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
@@ -2103,6 +2241,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPara = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -2115,6 +2257,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPara,
+                        me.menuCopyHyperlinkPara,
                         me.menuRemoveHyperlinkPara
                     ]
                 })
@@ -2376,8 +2519,10 @@ define([], function () {
                     }
                     me.menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkPara.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
                     menuHyperlinkParaSeparator.setVisible(me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPara.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         me.menuAddHyperlinkPara.hyperProps = {};

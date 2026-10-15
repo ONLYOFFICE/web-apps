@@ -585,6 +585,10 @@ define([], function () {
                 inCell      : true
             });
 
+            me.menuCopyHyperlink = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlink = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -597,6 +601,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlink,
+                        me.menuCopyHyperlink,
                         me.menuRemoveHyperlink
                     ]
                 })
@@ -631,6 +636,14 @@ define([], function () {
             });
 
             me.pmiEntireShow = new Common.UI.MenuItem({
+                caption     : me.txtShow
+            });
+
+            me.pmiEntireShowBefore = new Common.UI.MenuItem({
+                caption     : me.txtShow
+            });
+
+            me.pmiEntireShowAfter = new Common.UI.MenuItem({
                 caption     : me.txtShow
             });
 
@@ -856,6 +869,8 @@ define([], function () {
                     me.pmiColumnWidth,
                     me.pmiEntireHide,
                     me.pmiEntireShow,
+                    me.pmiEntireShowBefore,
+                    me.pmiEntireShowAfter,
                     me.pmiFreezeSeparator,
                     me.pmiFreezePanes
                 ]
@@ -938,6 +953,10 @@ define([], function () {
 
             me.menuImgOriginalSize = new Common.UI.MenuItem({
                 caption     : me.originalSizeText
+            });
+
+            me.menuImgConvertToShape = new Common.UI.MenuItem({
+                caption: me.textConvertToShape
             });
 
             me.menuImgReplace = new Common.UI.MenuItem({
@@ -1303,29 +1322,38 @@ define([], function () {
                                 ]
                             })
                         },
-                        // { 
-                        //     caption: me.textDataTable, 
-                        //     value: 'dataTable', 
-                        //     disabled: false,
-                        //     menu: new Common.UI.Menu({
-                        //         cls: 'shifted-right',  
-                        //         menuAlign: 'tl-tr',
-                        //         items: [
-                        //             { 
-                        //                 caption: me.textNone, 
-                        //                 value: 'bShowDataNone'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowDataTable, 
-                        //                 value: 'bShowDataTable'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowLegendKeys, 
-                        //                 value: 'bShowLegendKeys' 
-                        //             }
-                        //         ]
-                        //     })
-                        // },
+                        {
+                            caption: me.textDataTable,
+                            value: 'dataTable',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone,
+                                        value: 'bShowDataNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowDataTable,
+                                        value: 'bShowDataTable',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowLegendKeys,
+                                        value: 'bShowLegendKeys',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
                         {
                             caption: me.textErrorBars,
                             value: 'errorBars',
@@ -1606,6 +1634,10 @@ define([], function () {
                 caption: me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
                 caption: me.removeHyperlinkText
             });
@@ -1617,7 +1649,8 @@ define([], function () {
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
-                        me.menuEditHyperlinkPic, 
+                        me.menuEditHyperlinkPic,
+                        me.menuCopyHyperlinkPic,
                         me.menuRemoveHyperlinkPic
                     ]
                 })
@@ -1657,6 +1690,7 @@ define([], function () {
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
+                    me.menuImgConvertToShape,
                     me.mnuImgAdvanced,
                     me.mnuSlicerSeparator,
                     me.mnuSlicerAdvanced
@@ -1850,6 +1884,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkShape = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkShape = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -1862,6 +1900,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkShape,
+                        me.menuCopyHyperlinkShape,
                         me.menuRemoveHyperlinkShape
                     ]
                 })

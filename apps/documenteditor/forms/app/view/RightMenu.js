@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!documenteditor/forms/app/template/RightMenu.template',
@@ -50,7 +51,7 @@ define([
     'backbone',
     'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
-    'documenteditor/main/app/view/FillingStatusSettings',
+    'common/main/lib/view/FillingStatusSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -116,13 +117,14 @@ define([
                     cls: 'btn-toolbar',
                     scaling: false,
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
                 this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 
                 this.btnFillingStatus.render().setVisible(true);
                 this.btnFillingStatus.on('click', this.onBtnMenuClick.bind(this));
-                this.fillingStatusSettings = new DE.Views.FillingStatusSettings();
+                this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
             } 
 
             if (_.isUndefined(this.scroller)) {
@@ -177,21 +179,15 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("de-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
@@ -220,6 +216,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -239,13 +237,17 @@ define([
 
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -269,14 +271,33 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
             var pane = $(this.el).find('.right-panel'),
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
+            } else {
+                const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
+            }
         },
 
         txtFillingStatus:           'Filling status',

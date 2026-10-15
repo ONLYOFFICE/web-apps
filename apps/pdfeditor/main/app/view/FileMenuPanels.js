@@ -75,9 +75,9 @@ define([], function () {
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                             '<% _.each(row, function(item) { %>',
-                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                '</div></div>',
+                                '</button></div>',
                             '<% }) %>',
                         '<div class="divider"></div>',
                     '<% }) %>',
@@ -91,6 +91,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -121,6 +122,7 @@ define([], function () {
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PDFE.Views.FileMenu', default:this.textDownloadAs})}));
 
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -130,27 +132,60 @@ define([], function () {
                 });
             }
 
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
             var itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) { 
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -193,9 +228,9 @@ define([], function () {
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                 '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                            '</div></div>',
+                            '</button></div>',
                         '<% }) %>',
                         '<div class="divider"></div>',
                     '<% }) %>',
@@ -209,6 +244,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -238,6 +274,7 @@ define([], function () {
                 fileType: (this.fileType || 'docx').toLowerCase(),
                 header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PDFE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -247,27 +284,60 @@ define([], function () {
                 });
             }
 
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
             var itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) {
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -949,13 +1019,15 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader && (!this.mode.isDesktopApp || !this.mode.isOffline),
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('pdfe-quick-access-save', true),
                     print: Common.localStorage.getBool('pdfe-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('pdfe-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('pdfe-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('pdfe-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('pdfe-quick-access-redo', true),
+                    download: Common.localStorage.getBool('pdfe-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();
@@ -2854,18 +2926,13 @@ define([], function () {
             });
             var newSelectedOption = null;
 
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
-
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -2886,7 +2953,10 @@ define([], function () {
 
                     // If no matching option is found, look for the default size 210x297 (A4)
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = PDFE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {

@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Null 오류",
+			"div": "0으로 나누기 오류",
+			"value": "값 오류",
+			"ref": "잘못된 셀 참조 오류",
+			"name": "잘못된 이름 오류",
+			"num": "수치 오류",
+			"na": "사용할 수 없는 값 오류",
+			"calc": "빈 배열",
+			"spill": "분할 범위가 비어 있지 않습니다."
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "주소",
 			"col": "열",

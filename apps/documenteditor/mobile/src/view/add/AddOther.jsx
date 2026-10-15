@@ -102,25 +102,8 @@ const PageBreak = props => {
                         <SvgIcon slot="media" symbolId={IconStringBreakAndroid.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
-                <ListItem title={_t.textSectionBreak} link={'/add-section-break/'} routeProps={{
-                    onInsertSectionBreak: props.onInsertSectionBreak
-                }}>
-                    {Device.ios ? 
-                        <SvgIcon slot="media" symbolId={IconSectionBreakIos.id} className={'icon icon-svg'} /> :
-                        <SvgIcon slot="media" symbolId={IconSectionBreakAndroid.id} className={'icon icon-svg'} />
-                    }
-                </ListItem>
             </List>
-        </Page>
-    )
-};
-
-const PageSectionBreak = props => {
-    const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
-    return (
-        <Page>
-            <Navbar title={_t.textSectionBreak} backLink={_t.textBack}/>
+            <BlockTitle>{_t.textSectionBreak}</BlockTitle>
             <List>
                 <ListItem title={_t.textNextPage} link='#' className='no-indicator' onClick={() => {
                     props.onInsertSectionBreak('next')
@@ -318,6 +301,5 @@ export {
     AddOtherContainer as AddOther,
         PageNumber as PageAddNumber,
         PageBreak as PageAddBreak,
-        PageSectionBreak as PageAddSectionBreak,
     PageFootnote as PageAddFootnote,
 };

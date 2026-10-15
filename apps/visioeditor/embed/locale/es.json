@@ -56,5 +56,7 @@
   "VE.ApplicationView.txtFullScreen": "Pantalla Completa",
   "VE.ApplicationView.txtPrint": "Imprimir",
   "VE.ApplicationView.txtSearch": "Buscar",
-  "VE.ApplicationView.txtShare": "Compartir"
+  "VE.ApplicationView.txtShare": "Compartir",
+  "VE.ApplicationController.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "VE.ApplicationController.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
 }

@@ -71,7 +71,7 @@ const FilterOptions = inject('storeAppOptions')(observer(props => {
 
     return (
         <View style={props.style}>
-            <Page>
+            <Page className="filter-panel">
                 <Navbar title={_t.textFilterOptions}>
                     {Device.phone &&
                         <NavRight>

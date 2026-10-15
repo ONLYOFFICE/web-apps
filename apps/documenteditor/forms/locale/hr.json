@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Internetska veza je obnovljena, ali verzija datoteke se promijenila.<br>Prije nego što nastavite s radom, morate preuzeti datoteku ili kopirati njen sadržaj da biste bili sigurni da se ništa ne izgubi, a zatim ponovno učitati ovu stranicu.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Datoteci se trenutno ne može pristupiti.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Veza je prekinuta. Još uvijek možete vidjeti dokument,<br>ali ga nećete biti u mogućnosti preuzeti ili ispisati dok se veza ponovno ne uspostavi i stranica ne bude osvježena.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Ovaj obrazac je spreman za ispunjavanje na temelju uloga. Kliknite gumb statusa da provjerite stupanj ispunjavanja.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Slika iz datoteke",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Slika iz pohrane",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Slika iz URL-a",

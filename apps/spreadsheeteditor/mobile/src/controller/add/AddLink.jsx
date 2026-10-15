@@ -76,18 +76,32 @@ class AddLinkController extends Component {
                 if ( !api.asc_isWorksheetHidden(wsc) ) {
                     items.unshift({
                         value: wsc,
-                        caption: api.asc_getWorksheetName(wsc)
+                        caption: api.asc_getWorksheetName(wsc),
+                        type: 'sheet'
                     });
                     if (wsc === aws) {
                         this.activeSheet = {
                             value: wsc,
-                            caption: api.asc_getWorksheetName(wsc)
+                            caption: api.asc_getWorksheetName(wsc),
+                            type: 'sheet'
                         }
                     }
                 }
             }
-            this.sheets = items;
         }
+        const definedNames = api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true) || [];
+        definedNames.forEach((definedName) => {
+            if (!definedName.asc_getIsHidden()) {
+                const scope = definedName.asc_getScope();
+                const name = (definedName.asc_getIsXlnm() && scope !== null ? api.asc_getWorksheetName(scope) + '!' : '') + definedName.asc_getName();
+                items.push({
+                    value: name,
+                    caption: name,
+                    type: 'name'
+                });
+            }
+        });
+        this.sheets = items;
     }
 
     onInsertLink (args) {
@@ -126,7 +140,7 @@ class AddLinkController extends Component {
             link.asc_setHyperlinkUrl(url);
             display = url;
         } else {
-            const isValid = api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, args.url, false);
+            const isValid = args.isDefinedName ? Asc.c_oAscError.ID.No : api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, args.url, false);
 
             if (isValid !== Asc.c_oAscError.ID.No) {
                 f7.dialog.alert(_t.textInvalidRange, _t.notcriticalErrorTitle);
@@ -134,10 +148,15 @@ class AddLinkController extends Component {
             }
 
             link.asc_setType(Asc.c_oAscHyperlinkType.RangeLink);
-            link.asc_setSheet(args.sheet);
-            link.asc_setRange(args.url);
+            if (args.isDefinedName) {
+                link.asc_setSheet(null);
+                link.asc_setLocation(args.url);
+            } else {
+                link.asc_setSheet(args.sheet);
+                link.asc_setRange(args.url);
+            }
 
-            display = args.sheet + '!' + args.url;
+            display = args.isDefinedName ? args.url : args.sheet + '!' + args.url;
         }
 
         if(this.displayText !== 'locked') {

@@ -122,7 +122,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Internetanslutningen har återställts och filversionen har ändrats.<br>Innan du fortsätter arbeta, ladda ned filen eller kopiera innehållet för att försäkra dig om att inte förlora något, ladda sedan om den här sidan.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Filen kan inte nås för tillfället. ",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Anslutningen avbröts. Du kan fortfarande se dokumentet,<br>men du kommer inte att kunna ladda ned eller skriva ut det innan anslutningen är återställd och sidan har laddats om.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Detta formulär är redo för att fyllas i enligt rollerna. Klicka på status knappen för att kontrollera fyllnadsgrad",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Bild från fil",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Bild från lagringsmedia",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Bild från URL",

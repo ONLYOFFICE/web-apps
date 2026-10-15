@@ -42,6 +42,8 @@ import { useTranslation } from 'react-i18next';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconFunction from '@icons/icon-function.svg';
 import IconInfo from '@common-icons/icon-info.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
+import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 
 const viewStyle = {
     height: 30
@@ -63,6 +65,7 @@ const CellEditorView = props => {
     const isEdit = storeAppOptions.isEdit;
     const funcArr = props.funcArr;
     const hintArr = props.hintArr;
+    const argConstList = props.argConstList;
 
     const expandClick = e => {
         setExpanded(!expanded);
@@ -106,8 +109,16 @@ const CellEditorView = props => {
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
-                    <textarea id="idx-cell-content" spellCheck="false" />
-                    <FunctionHint funcHint={props.funcHint}/>
+                    <div id="idx-cell-content" className="input-with-value" contentEditable={true} spellCheck={false}></div>
+                    <div className="formula-hints-overlay">
+                        <FunctionHint funcHint={props.funcHint}/>
+                        {argConstList && argConstList.length ?
+                            <ArgConstList
+                                argConstList={argConstList}
+                                insertConstant={props.insertConstant}
+                            />
+                        : null}
+                    </div>
                 </div>
                 <div className="ce-group">
                     <Link icon="caret" onClick={expandClick} /> 
@@ -136,7 +147,31 @@ const CellEditorView = props => {
                     : null}
                 </Popover>
             }
+            {props.commentButton && props.commentButton.visible &&
+                <button type='button' className='sse-comment-button' style={{left: `${props.commentButton.left}px`, top: `${props.commentButton.top}px`}} onClick={props.onCommentButtonClick}>
+                    <SvgIcon symbolId={Device.ios ? IconInsertCommentIos.id : IconInsertCommentAndroid.id} className='icon icon-svg' />
+                </button>
+            }
         </>
+    );
+};
+
+const ArgConstList = props => {
+    const argConstList = props.argConstList;
+    return (
+        <div className="arg-const-list">
+            <List>
+                {argConstList.map((item, index) => {
+                    const value = item[0],
+                          name  = item[1] || '',
+                          caption = '(...) ' + value + (name ? ' - ' + name : '');
+                    return (
+                        <ListItem key={index} title={caption} className="no-indicator"
+                            onClick={() => props.insertConstant(value)} />
+                    );
+                })}
+            </List>
+        </div>
     );
 };
 

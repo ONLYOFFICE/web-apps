@@ -47,6 +47,7 @@ class InitReview extends Component {
 
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onShowRevisionsChange', this.onChangeReview.bind(this));
+            api.asc_registerCallback('asc_onChangeDisplayModeInReview', this.onChangeDisplayMode.bind(this));
         });
 
         Common.Notifications.on('document:ready', () => {
@@ -55,7 +56,6 @@ class InitReview extends Component {
             const isProtected = appOptions.isProtected;
 
             let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
-            (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
             trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
                 && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
 
@@ -72,21 +72,36 @@ class InitReview extends Component {
                 let viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? null : LocalStorage.getItem("de-view-review-mode");
                 if (viewReviewMode === null) {
                     viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
-                    !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
-                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
+                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : undefined;
                 }
-                let displayMode = viewReviewMode.toLocaleLowerCase();
-                let type = Asc.c_oAscDisplayModeInReview.Edit;
-                switch (displayMode) {
-                    case 'final':
-                        type = Asc.c_oAscDisplayModeInReview.Final;
-                        break;
-                    case 'original':
-                        type = Asc.c_oAscDisplayModeInReview.Original;
-                        break;
+
+                if(viewReviewMode) {
+                    switch (viewReviewMode) {
+                        case 'markup':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Edit;
+                            break;
+                        case 'final':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Final;
+                            break;
+                        case 'original':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Original;
+                            break;
+                    }   
                 }
-                api.asc_SetDisplayModeInReview(type);
-                props.storeReview.changeDisplayMode(displayMode);
+                if (typeof viewReviewMode === "string") {
+                    const trimmed = viewReviewMode.trim();
+                    if (trimmed !== "") {
+                        const num = Number(trimmed);
+                        if (!Number.isNaN(num)) {
+                            viewReviewMode = num;
+                        }
+                    }
+                }
+
+                if(viewReviewMode != null) {
+                    api.asc_SetDisplayModeInReview(viewReviewMode);
+                }
+                props.storeReview.changeDisplayMode(viewReviewMode || Asc.c_oAscDisplayModeInReview.Edit);
             }
         });
     }
@@ -94,6 +109,10 @@ class InitReview extends Component {
     onChangeReview (data, isShow) {
         const storeReview = this.props.storeReview;
         storeReview.changeArrReview(data);
+    }
+
+    onChangeDisplayMode(mode) {
+        this.props.storeReview.changeDisplayMode(mode);
     }
 
     render() {
@@ -111,7 +130,6 @@ class Review extends Component {
         this.editorPrefix = window.editorType || '';
 
         let trackChanges = this.appConfig.customization && this.appConfig.customization.review ? this.appConfig.customization.review.trackChanges : undefined;
-        (trackChanges===undefined) && (trackChanges = this.appConfig.customization ? this.appConfig.customization.trackChanges : undefined);
         trackChanges = this.appConfig.isReviewOnly || trackChanges === true || trackChanges !== false
             && LocalStorage.getBool(`${this.editorPrefix}-mobile-track-changes-${this.appConfig.fileKey || ''}`);
 
@@ -143,16 +161,7 @@ class Review extends Component {
 
     onDisplayMode (mode) {
         const api = Common.EditorApi.get();
-        let type = Asc.c_oAscDisplayModeInReview.Edit;
-        switch (mode) {
-            case 'final':
-                type = Asc.c_oAscDisplayModeInReview.Final;
-                break;
-            case 'original':
-                type = Asc.c_oAscDisplayModeInReview.Original;
-                break;
-        }
-        api.asc_SetDisplayModeInReview(type);
+        api.asc_SetDisplayModeInReview(mode);
         !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit && LocalStorage.setItem("de-view-review-mode", mode);
         this.props.storeReview.changeDisplayMode(mode);
     }

@@ -1,0 +1,242 @@
+<div id="id-adv-form-format" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan="2" style="width:170px;" class="padding-large">
+                    <label class="header"><%= scope.textCategory %></label>
+                    <div id="format-settings-combo-format" class="input-group-nr"></div>
+                </td>
+            </tr>
+            <tr class="format-decimal">
+                <td colspan="2" class="padding-medium" style="vertical-align: bottom;">
+                    <label class="header"><%= scope.textDecimal %></label>
+                    <div id="format-settings-spin-decimal"></div>
+                </td>
+            </tr>
+            <tr class="format-separator">
+                <td colspan="2" class="padding-medium">
+                    <label class="header"><%= scope.textSeparator %></label>
+                    <div id="format-settings-combo-separator" class="input-group-nr"</div>
+                </td>
+            </tr>
+            <tr class="format-number">
+                <td class="padding-medium padding-right-5" style="width:50%;">
+                    <label class="header"><%= scope.textSymbol %></label>
+                    <div id="format-settings-combo-symbols" class="input-group-nr" ></div>
+                </td>
+                <td class="padding-medium padding-left-5">
+                    <label class="header"><%= scope.textLocation %></label>
+                    <div id="format-settings-combo-location" class="input-group-nr" ></div>
+                </td>
+            </tr>
+            <tr class="format-number">
+                <td colspan="2" class="padding-very-small">
+                    <label class="header"><%= scope.textNegative %></label>
+                </td>
+            </tr>
+            <tr class="format-number">
+                <td colspan="2" class="padding-very-small">
+                    <div id="format-settings-chk-parens"></div>
+                </td>
+            </tr>
+            <tr class="format-number">
+                <td colspan="2" >
+                    <div id="format-settings-chk-red"></div>
+                </td>
+            </tr>
+            <tr class="form-special">
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-special" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr class="form-special-mask">
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-mask" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr class="format-date-time">
+                <td colspan="2" class="padding-large">
+                    <label class="header"><%= scope.textFormat %></label>
+                    <div id="format-settings-list-format" style="height: 116px;margin-bottom: 8px;"></div>
+                    <div id="format-settings-txt-custom" class="input-group-nr"></div>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="2">
+                    <label class="header"><%= scope.textCustomFormatScript %></label>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="1" class="padding-medium">
+                    <div id="format-settings-textarea-format"></div>
+                </td>
+                <td colspan="1" class="padding-medium" style="vertical-align: top">
+                    <button id="format-settings-btn-format-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="2">
+                    <label class="header"><%= scope.textCustomKeystrokeScript %></label>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="1" class="padding-medium">
+                    <div id="format-settings-textarea-keystroke"></div>
+                </td>
+                <td colspan="1" class="padding-medium" style="vertical-align: top">
+                    <button id="format-settings-btn-keystroke-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+        </table>
+        <div class="format-example" style="white-space: nowrap;position:absolute; bottom: 4px;width:280px;">
+            <label class="format-sample margin-right-4" style="vertical-align: middle;"><%= scope.txtSample %></label>
+            <label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>
+        </div>
+    </div>
+</div>
+<div id="id-adv-form-validate" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" width="100%">
+            <tr>
+                <td colspan="2" class="padding-large">
+                    <div id="format-settings-radio-validate-none"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-radio-validate-range"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-large">
+                    <div style="display: flex">
+                        <div>
+                            <label><%= scope.textFrom %></label>
+                            <div id="format-settings-spin-validate-min"></div>
+                        </div>
+                        <div class="margin-left-20">
+                            <label><%= scope.textTo %></label>
+                            <div id="format-settings-spin-validate-max"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-radio-validate-script"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div id="format-settings-textarea-validate-script"></div>
+                </td>
+                <td colspan="1" style="vertical-align: top">
+                    <button id="format-settings-btn-validate-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-form-calculate" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" width="100%">
+            <tr>
+                <td colspan="2" class="padding-large">
+                    <div id="format-settings-radio-calculate-none"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-radio-calculate-operation"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label><%= scope.textOperation %></label>
+                    <div id="format-settings-cmb-operation"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label><%= scope.textFields %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-small">
+                    <div id="format-settings-textarea-calculate-operation"></div>
+                </td>
+                <td colspan="1" class="padding-small" style="vertical-align: top">
+                    <button id="format-settings-btn-calculate-select-fields" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textPick %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="format-settings-radio-calculate-script"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div id="format-settings-textarea-calculate-script"></div>
+                </td>
+                <td colspan="1" style="vertical-align: top">
+                    <button id="format-settings-btn-calculate-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-form-actions" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" width="100%">
+            <tr>
+                <td colspan="2" class="padding-very-small">
+                    <label class="header"><%= scope.textAddAnAction %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label><%= scope.textSelectTrigger %></label>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-cmb-actions-triggers"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label><%= scope.textSelectAction %></label>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-cmb-actions"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" ></td>
+                <td colspan="1" class="padding-large text-right">
+                    <button id="format-settings-btn-actions-add" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textAdd %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label class="header"><%= scope.textActions %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-very-small">
+                    <div id="format-settings-list-actions" style="width:100%; height: 160px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-btn-actions-up" style="display: inline-block;"></div>
+                    <div id="format-settings-btn-actions-down" style="display: inline-block;"></div>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div class="text-right">
+                        <button id="format-settings-btn-actions-edit" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textEdit %></button>
+                        <button id="format-settings-btn-actions-delete" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textDelete %></button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

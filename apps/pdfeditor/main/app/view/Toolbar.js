@@ -81,6 +81,7 @@ define([
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
+        formsNoRoles:   'no-roles',
         firstPage: 'first-page',
         lastPage: 'last-page',
         requiredNotFilled: 'required-not-filled',
@@ -899,25 +900,11 @@ define([
                 });
                 arr.push(this.btnDelPage);
 
-                this.btnRotatePage = new Common.UI.Button({
-                    id: 'tlbtn-rotate',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.capBtnRotatePage,
-                    split: true,
-                    iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small',
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
-                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
-                        ]
-                    }),
-                    action: 'rotate-page',
-                });
-                arr.push(this.btnRotatePage);
+                !this.btnsRotatePage && (this.btnsRotatePage = []);
+                const btnRotatePage = this.createRotatePageButton();
+                this.btnsRotatePage[1] = btnRotatePage;
+                arr.push(btnRotatePage);
+
                 Common.UI.LayoutManager.addControls(arr);
 
                 PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
@@ -960,7 +947,7 @@ define([
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-add-comment',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         caption: this.capBtnComment,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -972,7 +959,7 @@ define([
                         id: 'tlbtn-textcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-text-comment',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
@@ -984,7 +971,7 @@ define([
                     this.toolbarControls.push(this.btnTextComment);
 
                     this.chShowComments = new Common.UI.CheckBox({
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.viewFormMode],
                         labelText: this.capBtnShowComments,
                         value: true,
                         dataHint    : '1',
@@ -999,7 +986,7 @@ define([
                         caption: this.capBtnStamp,
                         split: true,
                         iconCls: 'toolbar__icon btn-stamp',
-                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
@@ -1008,12 +995,26 @@ define([
                     });
                     this.toolbarControls.push(this.btnStamp);
 
+                    this.btnSignature = new Common.UI.Button({
+                        id: 'tlbtn-signature',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.capBtnSignature,
+                        iconCls: 'toolbar__icon btn-ic-signature',
+                        lock: [_set.pageDeleted, _set.disableOnStart, _set.viewFormMode],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        menu: true,
+                        action: 'insert-signature'
+                    });
+                    this.toolbarControls.push(this.btnSignature);
+
                     var colorsconfig = Common.UI.simpleColorsConfig;
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1048,7 +1049,7 @@ define([
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1083,7 +1084,7 @@ define([
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1120,7 +1121,7 @@ define([
                         id: 'tlbtn-shapecomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-annotation-rectangle',
-                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.viewFormMode],
                         caption: ' ',
                         menu: true,
                         split: true,
@@ -1202,6 +1203,11 @@ define([
                     });
                     this.toolbarControls.push(this.btnShapeComment);
 
+                    !this.btnsRotatePage && (this.btnsRotatePage = []);
+                    const btnRotatePage = this.createRotatePageButton();
+                    this.btnsRotatePage[0] = btnRotatePage;
+                    this.toolbarControls.push(btnRotatePage);
+
                     if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
                         this.btnEditMode = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
@@ -1218,22 +1224,13 @@ define([
                     }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
-                } else if ( config.isRestrictedEdit ) {
-                    Common.UI.Mixtbar.prototype.initialize.call(this, {
-                            template: _.template(template),
-                            tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
-                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'}
-                            ],
-                            config: config
-                        }
-                    );
-
+                } 
+                if (!config.canSwitchMode) {
                     this.btnClear = new Common.UI.Button({
                         id: 'id-toolbar-btn-clear',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-clear-style',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.textClear,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1245,7 +1242,7 @@ define([
                         id: 'id-toolbar-btn-prev',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-previous-field icon-rtl',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.capBtnPrev,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1257,7 +1254,7 @@ define([
                         id: 'id-toolbar-btn-next',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-next-field icon-rtl',
-                        lock: [_set.disableOnStart],
+                        lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                         caption: this.capBtnNext,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1265,32 +1262,18 @@ define([
                     });
                     this.toolbarControls.push(this.btnNextForm);
 
-                    if (config.canSubmitForms) {
+                    if(config.canSubmitForms) {
                         this.btnSubmit = new Common.UI.Button({
-                            id: 'id-toolbar-btn-submit',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'toolbar__icon btn-submit-form',
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
-                            dataHint: '1',
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
+                            dataHint: '0',
                             dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
+                            dataHintOffset: 'big'
                         });
                         this.toolbarControls.push(this.btnSubmit);
-                    } else if (config.canDownload) {
-                        this.btnSaveForm = new Common.UI.Button({
-                            id: 'id-toolbar-btn-download-form',
-                            cls: 'btn-toolbar x-huge icon-top',
-                            lock: [_set.lostConnect, _set.disableOnStart],
-                            iconCls: 'toolbar__icon btn-save-form',
-                            caption: config.canRequestSaveAs || !!config.saveAsUrl ? this.capBtnSaveForm : (config.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
-                            dataHint: '1',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
-                        });
-                        this.toolbarControls.push(this.btnSaveForm);
                     }
-                }
+                } 
 
                 if ( config.isEdit || config.isRestrictedEdit) {
                     const shortcutHints = {};
@@ -1563,6 +1546,28 @@ define([
                 return this;
             },
 
+            createRotatePageButton() {
+                const _set = Common.enumLock;
+                return new Common.UI.Button({
+                    id: 'tlbtn-rotate',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    caption: this.capBtnRotatePage,
+                    split: true,
+                    iconCls: 'toolbar__icon btn-update',
+                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
+                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
+                        ]
+                    }),
+                    action: 'rotate-page',
+                });
+            },
+
             onTabClick: function (e) {
                 var me = this,
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
@@ -1577,21 +1582,20 @@ define([
                 } else
                 if ( tab == 'file' ) {
                     me.fireEvent('file:open');
-                    me.setTab(tab);
                 }
 
                 if ( me.isTabActive('home'))
                     me.fireEvent('home:open');
             },
 
-            rendererComponentsRestrictedEdit: function($host) {
+            rendererComponentsView: function($host) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
                 _injectComponent('#slot-btn-form-prev', this.btnPrevForm);
                 _injectComponent('#slot-btn-form-next', this.btnNextForm);
                 _injectComponent('#slot-btn-form-submit', this.btnSubmit);
-                _injectComponent('#slot-btn-form-save', this.btnSaveForm);
+                // _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
             rendererComponentsPDFEdit: function($host, mode) {
@@ -1625,7 +1629,7 @@ define([
                 _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
-                _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-rotate-edit', this.btnsRotatePage[1]);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
@@ -1640,7 +1644,9 @@ define([
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
                 _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
+                _injectComponent('#slot-btn-signature', this.btnSignature);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
+                _injectComponent('#slot-btn-rotate-annotate', this.btnsRotatePage[0]);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
@@ -1675,9 +1681,9 @@ define([
                     this.rendererComponentsAnnotate($host);
                     mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
-                } else if (mode.isRestrictedEdit)
-                    this.rendererComponentsRestrictedEdit($host);
-
+                } 
+                if (mode.canSubmitForms)
+                    this.rendererComponentsView($host);
                 return $host;
             },
 
@@ -1827,6 +1833,12 @@ define([
                         btn.menu.on('show:after', onShowAfter);
                         me.mnuShapeCommentColorPicker = btn.getPicker();
                     }
+                    if (me.btnSignature) {
+                        me.btnSignature.setMenu(new Common.UI.Menu({
+                            menuAlign: 'tl-bl',
+                            style: 'width: 200px;'
+                        }));
+                    }
                     if (me.btnStamp) {
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
@@ -1854,14 +1866,14 @@ define([
                 this.btnNextPage.updateHint(this.tipNextPage);
             },
 
-            createDelayedElementsRestrictedEdit: function() {
-                if (!this.mode.isRestrictedEdit) return;
+            createDelayedElementsView: function() {
+                if (this.mode.canSwitchMode) return;
 
                 this.btnClear.updateHint(this.textClearFields);
                 this.btnPrevForm.updateHint(this.tipPrevForm);
                 this.btnNextForm.updateHint(this.tipNextForm);
                 this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
-                this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
+                // this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
             },
 
             createDelayedElementsPDFAnnotate: function() {
@@ -1875,7 +1887,9 @@ define([
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
                 this.btnShapeComment.updateHint(this.tipInsertRectComment);
+                this.btnSignature.updateHint(this.tipInsertSignature);
                 this.btnStamp.updateHint(this.tipInsertStamp);
+                this.btnsRotatePage[0].updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
@@ -1899,7 +1913,7 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnShapesMerge.updateHint(this.tipShapeMerge);
-                this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
+                this.btnsRotatePage[1].updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -2034,8 +2048,9 @@ define([
                 if (this.mode.isEdit) {
                     this.createDelayedElementsPDFAnnotate();
                     this.mode.isPDFEdit && this.createDelayedElementsPDFEdit();
-                } else if (this.mode.isRestrictedEdit)
-                    this.createDelayedElementsRestrictedEdit();
+                }  
+                if (!this.mode.canSwitchMode)
+                    this.createDelayedElementsView();
             },
 
             onToolbarAfterRender: function(toolbar) {

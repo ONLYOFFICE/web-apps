@@ -33,7 +33,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([
-    'core'
+    'core',
+    'common/main/lib/util/Print'
 ], function () {
     'use strict';
 
@@ -136,7 +137,7 @@ define([
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.drawPrintPreview();
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -156,7 +157,6 @@ define([
             this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
             this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
-            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
             this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
 
@@ -194,21 +194,19 @@ define([
 
                 panel.setOriginalPageSize(w, h);
 
-                if (cmbPaperSizeRecord && Math.abs(w - cmbPaperSizeRecord.size[0]) < 0.1 && Math.abs(h - cmbPaperSizeRecord.size[1]) < 0.1) {
+                if (cmbPaperSizeRecord && 
+                    Math.abs(Math.round(w) - Math.round(cmbPaperSizeRecord.size[0])) < 1 && 
+                    Math.abs(Math.round(h) - Math.round(cmbPaperSizeRecord.size[1])) < 1
+                ) {
                     return;
                 }
-                for (var i=0; i<store.length-1; i++) {
-                    var rec = store.at(i),
-                        size = rec.get('size'),
-                        pagewidth = size[0],
-                        pageheight = size[1];
-                    if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
-                        item = rec;
-                        break;
-                    }
-                }
+
+                // Try to resolve a name from the toolbar's default size list
+                const toolbarView = this.getApplication().getController('Toolbar').getView();
+                const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                item = Common.util.Print.findPaperSizeOptionBySize(store.toJSON(), width, height, '', defaultSizes);
                 if (item)
-                    panel.cmbPaperSize.setValue(item.get('value'));
+                    panel.cmbPaperSize.setValue(item.value);
                 else {
                     if (panel.$el.prop('id') === 'panel-print') {
                         panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
@@ -284,24 +282,16 @@ define([
         },
 
         onCountPages: function(count) {
+            let newPreviewPage = this._navigationPreview.currentPreviewPage;
             this._navigationPreview.pageCount = count;
             if (this._navigationPreview.currentPreviewPage > count - 1) {
-                this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings && this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
-                    this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
-                }
+                newPreviewPage = Math.max(0, count - 1);
             }
-        },
-
-        onCurrentPage: function(number) {
-            this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
-                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
-
-                const item = this.printSettings.cmbPaperOrientation.store.findWhere({ value: 'auto' });
-                item && this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
+                if(newPreviewPage != this._navigationPreview.currentPreviewPage) {
+                    this.changeCurrentPreviewPage(newPreviewPage);
+                }
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
             }
         },
 
@@ -319,8 +309,7 @@ define([
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             this.api.asc_initPrintPreview('print-preview', opts);
 
-            this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+            this.changeCurrentPreviewPage(this.api.getCurrentPage());
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -495,7 +484,10 @@ define([
                 index--;
                 index = Math.max(index, 0);
             }
-            this.api.goToPage(index);
+            if(index != this._navigationPreview.currentPreviewPage) {
+                this.changeCurrentPreviewPage(index);
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+            }
         },
 
         onKeypressPageNumber: function (input, e) {
@@ -511,7 +503,8 @@ define([
 
                 box.focus(); // for IE
 
-                this.api.goToPage(page-1);
+                this.changeCurrentPreviewPage(page - 1);
+                this.updateNavigationButtons(page - 1, this._navigationPreview.pageCount);
                 return false;
             }
         },
@@ -541,8 +534,17 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        changeCurrentPreviewPage: function(page) {
+            this._navigationPreview.currentPreviewPage = page;
+            this.drawPrintPreview();
+        },
+
+        drawPrintPreview: function() {
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage)
+        },
+
         updateNavigationButtons: function (page, count) {
-            this._navigationPreview.currentPage = page;
+            this._navigationPreview.currentPreviewPage = page;
             this.printSettings.updateCurrentPage(page);
             this._navigationPreview.pageCount = count;
             this.printSettings.updateCountOfPages(count);
@@ -555,7 +557,7 @@ define([
                 this.printSettings.btnNextPage.setDisabled(true);
                 return;
             }
-            var curPage = this._navigationPreview.currentPage,
+            var curPage = this._navigationPreview.currentPreviewPage,
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
@@ -576,8 +578,8 @@ define([
                 pages = 'all';
                 this._state.firstPrintPage = 0;
             } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                pages = String(this._navigationPreview.currentPage + 1);
-                this._state.firstPrintPage = this._navigationPreview.currentPage;
+                pages = String(this._navigationPreview.currentPreviewPage + 1);
+                this._state.firstPrintPage = this._navigationPreview.currentPreviewPage;
             }
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);

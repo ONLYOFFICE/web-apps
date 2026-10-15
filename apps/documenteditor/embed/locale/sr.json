@@ -50,8 +50,8 @@
   "DE.ApplicationController.textNext": "Sledeće polje",
   "DE.ApplicationController.textOf": "od",
   "DE.ApplicationController.textOk": "OK",
-  "DE.ApplicationController.textRequired": "Popuni sva potrebna polja za slanje obrasca.",
-  "DE.ApplicationController.textSubmit": "Podnesi",
+  "DE.ApplicationController.textRequired": "Da biste poslali obrazac, morate popuniti sva obavezna polja.",
+  "DE.ApplicationController.textSubmit": "Završi & pošalji",
   "DE.ApplicationController.textSubmited": "<b>Forma dostavljena uspešno.</b><br>Kliknite da zatvorite savet",
   "DE.ApplicationController.titleLicenseExp": "Licenca istekla",
   "DE.ApplicationController.titleLicenseNotActive": "Licenca nije aktivna",
@@ -77,5 +77,11 @@
   "DE.ApplicationView.txtFullScreen": "Prikaz celog ekrana",
   "DE.ApplicationView.txtPrint": "Štampaj",
   "DE.ApplicationView.txtSearch": "Pretraga",
-  "DE.ApplicationView.txtShare": "Podeli"
+  "DE.ApplicationView.txtShare": "Podeli",
+  "DE.ApplicationController.textSubmitOk": "Vaš PDF obrazac je uspešno popunjen.",
+  "DE.ApplicationController.textFilled": "Popunjeno",
+  "DE.ApplicationView.textFitToPage": "Prilagodi stranici",
+  "DE.ApplicationView.textFitToWidth": "Prilagodi širinu",
+  "DE.ApplicationView.textMultiplePages": "Više stranica",
+  "DE.ApplicationView.textZoom": "Zumiraj"
 }

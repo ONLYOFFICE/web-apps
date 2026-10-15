@@ -189,11 +189,17 @@ define([
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
+            this.leftMenu.getMenu('file').setSaveFormats(this.getSaveFormats());
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
+        },
+
+        getSaveFormats: function() {
+            var formats = this.api ? this.api.getSaveFormats() : undefined;
+            return formats != undefined && !_.isArray(formats) ? [formats] : formats;
         },
 
         setMode: function(mode) {
@@ -520,6 +526,10 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
             this.api.asc_SetSmoothScrolling(value);
 
+            value = parseInt(Common.localStorage.getItem("sse-settings-image-copying"));
+            Common.Utils.InternalSettings.set("sse-settings-image-copying", value);
+            this.api.asc_setPutImageToClipboard(!!value);
+
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 if (this.mode.canChangeCoAuthoring) {
@@ -544,6 +554,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
                 Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("sse-settings-cell-autocomplete", true);
+                Common.Utils.InternalSettings.set("sse-settings-cell-autocomplete", value);
+                this.api.asc_setAutoCompleteEnabled(value);
 
                 value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
                 Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);

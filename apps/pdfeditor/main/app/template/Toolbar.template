@@ -78,17 +78,16 @@
                     <span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>
                     </div>
                 </div>
-                <% if ( config.isRestrictedEdit) { %>
+                <div class="separator long annotate"></div>
+                <div class="group annotate">
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate-annotate"></span>
+                </div>
+                <% if ( config.canSubmitForms) { %>
                 <div class="separator long"></div>
                 <div class="group" style="">
                     <span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-form-next"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group" style="">
-                    <span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-save"></span>
                 </div>
                 <% } else { %>
                 <div class="group small pdfedit">
@@ -134,7 +133,7 @@
                 <div class="separator long pdfedit"></div>
                 <div class="group pdfedit">
                     <span class="btn-slot text x-huge slot-inspage"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate-edit"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
                 </div>
                 <div class="separator long pdfedit"></div>
@@ -178,6 +177,7 @@
                 <div class="separator long draw-groups"></div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-signature"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-stamp"></span>
                     <span class="btn-slot text x-huge emptycaption" id="slot-btn-shape-comment"></span>
                 </div>

@@ -66,6 +66,7 @@ define([], function () { 'use strict';
                     '<div class="padding-small" id="quick-access-chb-undo"></div>',
                     '<div class="padding-small" id="quick-access-chb-redo"></div>',
                     '<div class="padding-small" id="quick-access-chb-start-over" style="display:none;"></div>',
+                    '<div class="padding-small" id="quick-access-chb-download" style="display:none;"></div>',
                 '</div>'
             ].join('');
 
@@ -133,7 +134,17 @@ define([], function () { 'use strict';
                 });
                 this.focusedComponents.push(this.chStartOver);
                 this.chStartOver.show();
-            }    
+            }
+
+            if (this.options.showDownload) {
+                this.chDownload = new Common.UI.CheckBox({
+                    el: $('#quick-access-chb-download'),
+                    labelText: this.textDownload,
+                    value: this.props.download
+                });
+                this.focusedComponents.push(this.chDownload);
+                this.chDownload.show();
+            }
         },
 
         getFocusedComponents: function() {
@@ -152,7 +163,8 @@ define([], function () { 'use strict';
                     quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() === 'checked' : undefined,
                     undo: this.chUndo.getValue() === 'checked',
                     redo: this.chRedo.getValue() === 'checked',
-                    startOver: this.chStartOver ? this.chStartOver.getValue() === 'checked' : undefined
+                    startOver: this.chStartOver ? this.chStartOver.getValue() === 'checked' : undefined,
+                    download: this.chDownload ? this.chDownload.getValue() === 'checked' : undefined
                 });
             }
 

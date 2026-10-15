@@ -66,10 +66,11 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="input-label"><%= scope.textRotate90 %></label>
+            <label class="input-label"><%= scope.textRotate %></label>
             <div>
                 <div id="image-button-270" class="margin-right-4"></div>
-                <div id="image-button-90"></div>
+                <div id="image-button-90" class="margin-right-4"></div>
+                <div id="image-spin-rotate"></div>
             </div>
         </td>
         <td class="padding-small padding-left-4">
@@ -98,6 +99,16 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <div id="image-convert-to-shape-wrap" class="hidden">
+                <div class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="image-button-convert-to-shape" style="width:100%;"><%= scope.textConvertToShape %></button>
+                </div>
+                <div class="separator horizontal padding-small"></div>
+            </div>
         </td>
     </tr>
     <tr>

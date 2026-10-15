@@ -83,6 +83,7 @@ define([
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {
+                            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                             this.$el.find('.content-box:visible').hide();
                             this.active = item.options.action;
                             panel.show();
@@ -163,6 +164,16 @@ define([
                 el      : $markup.elementById('#fm-btn-save-desktop'),
                 action  : 'save-desktop',
                 caption : this.btnSaveAsCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
+            this.miExport = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-export'),
+                action  : 'export',
+                caption : this.btnExportCaption,
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
@@ -333,6 +344,7 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
+                this.miExport,
                 this.miPrint,
                 this.miPrintWithPreview,
                 this.miRename,
@@ -399,6 +411,7 @@ define([
 
         hide: function() {
             this.$el.hide();
+            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
             this.fireEvent('menu:hide', [this]);
             // this.api && this.api.asc_enableKeyEvents(true);
         },
@@ -423,6 +436,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
+            this.miExport[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
@@ -481,11 +495,11 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new PE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new PE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render()));
             }
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -632,6 +646,15 @@ define([
             return this;
         },
 
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            if ( this.rendered ) {
+                if (this.panels['saveas']) this.panels['saveas'].setSaveFormats(formats);
+                if (this.panels['save-copy']) this.panels['save-copy'].setSaveFormats(formats);
+            }
+            return this;
+        },
+
         loadDocument: function(data) {
             this.document = data.doc;
         },
@@ -648,6 +671,7 @@ define([
                     $('.fm-btn',this.el).removeClass('active');
                     item.$el.addClass('active');
 
+                    Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                     this.$el.find('.content-box:visible').hide();
                     panel.show(opts);
 

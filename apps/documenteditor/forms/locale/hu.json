@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Az internet kapcsolat helyreállt, és a fájl verziója megváltozott.<br>Mielőtt folytatná a munkát, töltse le a fájlt, vagy másolja vágólapra annak tartalmát, hogy megbizonyosodjon arról, hogy semmi nem veszik el, majd töltse újra az oldalt.",
   "DE.Controllers.ApplicationController.errorUserDrop": "A dokumentum jelenleg nem elérhető.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "A kapcsolat megszakadt. Továbbra is megtekinthető a dokumentum,<br>de a kapcsolat helyreálltáig és az oldal újratöltéséig nem lehet letölteni.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Ez az űrlap készen áll a szerepkör alapú kitöltésre. A kitöltési állapot ellenőrzéséhez kattintson a „Kitöltés állapota” gombra.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Kép fájlból",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Kép tárhelyből",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Kép hivatkozásból",

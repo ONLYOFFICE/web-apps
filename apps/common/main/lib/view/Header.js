@@ -50,7 +50,7 @@ define([
 ], function (Backbone) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
-        var storeUsers, appConfig;
+        var storeUsers, appConfig, btnMode;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
         var _tabStyle = 'fill', _logoImage = '';
@@ -59,26 +59,44 @@ define([
             isSSEEditor = !!window.SSE,
             isPEEditor  = !!window.PE,
             isVisioEditor = !!window.VE;
+        const isUserFollowSupport = window.DE;
+            
+        const templateUserName = 
+            '<div class="user-name">' +
+                '<div class="color"' + 
+                    '<% if (user.get("avatar")) { %>' +
+                        'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                    '<% } else { %>' +
+                        'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                    '<% } %>' +
+                '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
+                '<label><%= fnEncode(user.get("username")) %></label>' +
+                '<% if (len>1) { %><label class="count-label margin-left-3">(<%=len%>)</label><% } %>' +
+                '<div class="btns-group">' + 
+                    '<% if(isUserFollowSupport) { %>' +
+                        '<% if (user.get("isFollow")) { %>' +
+                            '<button class="unfollow-btn btn btn-text-default auto"><%= scope.textStopFollowing %></button>' +
+                        '<% } else { %>' +
+                            '<button class="follow-btn btn btn-text-default auto"><%= scope.textFollow %></button>' +
+                        '<% } %>' +
+                    '<% } %>' +
+                '</div>' +
+            '</div>';
 
-        var templateUserItem =
-                '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
-                    '<div class="user-name">' +
-                        '<div class="color"' + 
-                            '<% if (user.get("avatar")) { %>' +
-                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
-                            '<% } else { %>' +
-                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
-                            '<% } %>' +
-                        '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
-                        '<label><%= fnEncode(user.get("username")) %></label>' +
-                        '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
-                    '</div>'+
-                '</li>';
+        const templateUserItem =
+            '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %> <%= isUserFollowSupport ? "selectable" : "" %>">' +
+                templateUserName + 
+            '</li>';
+
+        const templateUserFollowTip = 
+            '<div id="user-follow-tip">' +
+                templateUserName + 
+            '</div>';
 
         var templateUserList = _.template(
                 '<ul>' +
                     '<% for (originalId in users) { %>' +
-                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length}) %>' +
+                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length, scope: scope, isUserFollowSupport: isUserFollowSupport && originalId != configUserId}) %>' +
                     '<% } %>' +
                 '</ul>');
 
@@ -108,7 +126,7 @@ define([
                                     '<section id="tlb-box-users" class="box-cousers dropdown">' +
                                         '<div class="btn-users dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<div class="inner-box-icon">' +
-                                                '<svg class=""><use xlink:href="#svg-icon-users"></use></svg>' +
+                                                '<svg class="" aria-hidden="true"><use xlink:href="#svg-icon-users"></use></svg>' +
                                             '</div>' +
                                             '<label class="caption"></label>' +
                                         '</div>' +
@@ -128,7 +146,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" data-layout-name="header-user">' +
+                                    '<div class="btn-slot" data-layout-name="header-user" aria-hidden="true">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
@@ -145,7 +163,7 @@ define([
                                 '<div id="header-logo"><i></i></div>' +
                             '</section>';
 
-            var templateTitleBox = '<section id="box-document-title">' +
+        var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
                                 '<div class="hedset" role="menubar" aria-label="<%= scope.ariaQuickAccessToolbar %>">' +
                                     '<div class="btn-slot" id="slot-btn-dt-home"></div>' +
@@ -155,14 +173,15 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-start-over"></div>' +    
+                                    '<div class="btn-slot" id="slot-btn-dt-download"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
-                                '<div class="lr-separator" id="id-box-doc-name">' +
+                                '<div class="lr-separator" id="id-box-doc-name" aria-hidden="true">' +
                                     // '<label id="title-doc-name" /></label>' +
                                     '<input id="title-doc-name" autofill="off" autocomplete="off" spellcheck="false"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" data-layout-name="header-user">' +
+                                    '<div class="btn-slot" data-layout-name="header-user" aria-hidden="true">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
@@ -175,16 +194,32 @@ define([
                             '</section>';
 
         function onResetUsers(collection, opts) {
-            var usercount = collection.getVisibleEditingCount();
+            const me = this;
+            const usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
                 if (appConfig && (usercount > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || usercount >0 && appConfig.canLiveView)) {
                     $userList.html(templateUserList({
+                        scope: me,
+                        configUserId: appConfig.user && appConfig.user.id, 
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) { return item.get('idOriginal'); }).value(),
+                        isUserFollowSupport: isUserFollowSupport,
                         usertpl: _.template(templateUserItem),
                         fnEncode: function(username) {
                             return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
                         }
                     }));
+
+                    if (isUserFollowSupport) {
+                        const $items = $userList.find('li.selectable .user-name');
+                        $items.tooltip({
+                            title: me.textGoToUserCursor, 
+                            placement: 'cursor',
+                            zIndex : parseInt($('#tlb-box-users .cousers-menu').css('z-index')) + 1
+                        });
+                        $items.each(function(idx, item){
+                            $(item).data('bs.tooltip').tip();
+                        });
+                    }
 
                     $userList.scroller = new Common.UI.Scroller({
                         el: $userList.find('ul'),
@@ -202,7 +237,7 @@ define([
         };
 
         function onUsersChanged(model) {
-            onResetUsers(model.collection);
+            onResetUsers.call(this, model.collection);
         };
 
         function applyUsers(count, originalCount) {
@@ -211,8 +246,10 @@ define([
             if ( has_edit_users ) {
                 $panelUsers['show']();
                 $btnUsers.find('.caption').html(originalCount);
+                isUserFollowSupport && count > 2 && Common.UI.TooltipManager && Common.UI.TooltipManager.showTip('followUser');
             } else {
                 $panelUsers['hide']();
+                isUserFollowSupport && Common.UI.TooltipManager && Common.UI.TooltipManager.closeTip('followUser');
             }
             updateDocNamePosition();
         }
@@ -271,17 +308,43 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view'),
-                isEdit = config.isPDFEdit,
-                isComment = !isEdit && config.isPDFAnnotate;
-            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
-            me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
-            me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
+
+            let type;
+            const btnModeState = { icon: '', caption: '', hint: ''};
+            if(config.isViewForm) {
+                type = 'view-form';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textViewForm;
+                btnModeState.hint = me.tipDocViewForm;
+            } else if(config.isPDFEdit) {
+                type = 'edit';
+                btnModeState.icon = 'btn-edit';
+                btnModeState.caption = me.textEdit;
+                btnModeState.hint = me.tipEdit;
+            } else if(config.isPDFAnnotate) {
+                type = 'comment';
+                btnModeState.icon = 'btn-menu-comments';
+                btnModeState.caption = me.textComment;
+                btnModeState.hint = me.tipComment;
+            } else {
+                type = 'view';
+                btnModeState.icon = 'btn-sheet-view';
+                btnModeState.caption = me.textView;
+                btnModeState.hint = me.tipView;
+            }
+
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + btnModeState.icon);
+            me.btnPDFMode.setCaption(btnModeState.caption);
+            me.btnPDFMode.updateHint(btnModeState.hint);
             me.btnPDFMode.options.value = type;
             if (me.btnPDFMode.menu && typeof me.btnPDFMode.menu === 'object') {
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
                 (item) ? item.setChecked(true) : this.btnPDFMode.menu.clearAll();
             }
+            this.showStartFillButton(
+                config.showStartFillingButton,
+                config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text
+            );
         }
 
         function changeDocMode(type, lockEditing) {
@@ -319,6 +382,11 @@ define([
         }
 
         function onResize() {
+            btnMode && btnMode.menu && btnMode.menu.hide && btnMode.menu.hide();
+            updatePosition();
+        }
+
+        function updatePosition() {
             if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
                 updateDocNamePosition();
         }
@@ -329,7 +397,7 @@ define([
                 if ( config.isCrypted ) {
                     $labelDocName.before(
                         '<div class="inner-box-icon crypted hidden">' +
-                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
+                            '<svg class="icon" aria-hidden="true"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
                     this.imgCrypted = $labelDocName.parent().find('.crypted');
                     this._showImgCrypted = true;
@@ -363,6 +431,10 @@ define([
             if (props.startOver !== undefined) {
                 this.btnStartOver[props.startOver ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-start-over', props.startOver);
+            }
+            if (props.download !== undefined && this.btnDownload) {
+                this.btnDownload[props.download ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-download', props.download);
             }
             Common.NotificationCenter.trigger('edit:complete');
 
@@ -404,18 +476,9 @@ define([
                 updateDocNamePosition();
             }
 
-            me.btnStartFill && me.btnStartFill.on('click', function (e) {
-                if(appConfig.canRequestStartFilling) {
-                    Common.NotificationCenter.trigger('forms:request-fill');
-                } else {
-                    Common.NotificationCenter.trigger('forms:show-send-for-signing');
-                }
-            });
-
             if (me.btnFillStatus) {
                 me.btnFillStatus.updateHint(me.tipFillStatus);
                 me.btnFillStatus && me.btnFillStatus.on('click', function (e) {
-                    Common.UI.TooltipManager.closeTip('showFillStatus');
                     Common.Gateway.requestFillingStatus(appConfig.user.roles && appConfig.user.roles.length>0 ? appConfig.user.roles[0] : undefined);
                 });
             }
@@ -431,7 +494,7 @@ define([
                 });
 
             if ( $panelUsers ) {
-                onResetUsers(storeUsers);
+                onResetUsers.call(this, storeUsers);
 
                 $panelUsers.on('shown.bs.dropdown', function () {
                     $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
@@ -541,6 +604,13 @@ define([
                         checkable: true
                     });
                 }
+                if (me.btnDownload) {
+                    arr.push({
+                        caption: me.textDownload,
+                        value: 'download',
+                        checkable: true
+                    });
+                }
                 me.btnQuickAccess.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     style: 'min-width: 110px;',
@@ -562,6 +632,9 @@ define([
                         }
                         if (item.value === 'startover') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true), true);
+                        }
+                        if (item.value === 'download') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false), true);
                         }
                     });
                 });
@@ -585,20 +658,21 @@ define([
                             break;
                         case 'startover':
                             props.startOver = item.checked;
-                            break;        
+                            break;
+                        case 'download':
+                            props.download = item.checked;
+                            break;
                     }
                     onChangeQuickAccess.call(me, 'header', props);
                 });
                 Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
             }
 
-            if ( !appConfig.twoLevelHeader ) {
-                if ( me.btnDownload ) {
-                    me.btnDownload.updateHint(me.tipDownload);
-                    me.btnDownload.on('click', function (e) {
-                        me.fireEvent('downloadas', ['original']);
-                    });
-                }
+            if ( me.btnDownload ) {
+                me.btnDownload.updateHint(me.tipDownload);
+                me.btnDownload.on('click', function (e) {
+                    me.fireEvent('downloadas', ['original']);
+                });
             }
 
             if ( me.btnEdit ) {
@@ -639,6 +713,15 @@ define([
                         toggleGroup: 'docmode'
                     });
                     arr.push({
+                        caption: me.textViewForm,
+                        iconCls : 'menu__icon btn-sheet-view',
+                        template: menuTemplate,
+                        description: me.textDocViewFormDesc,
+                        value: 'view-form',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                    arr.push({
                         caption: me.textEdit,
                         iconCls : 'menu__icon btn-edit',
                         template: menuTemplate,
@@ -655,7 +738,7 @@ define([
                     items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
-                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value);
+                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value, item.value == 'view-form' ? 'forms' : null);
                 });
                 var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
                 item && item.setChecked(true);
@@ -716,6 +799,9 @@ define([
             if(app && app.getController('Common.Controllers.Shortcuts')) {
                 app.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
             }
+
+            me.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', me.onChangeCompactMode.bind(me));
         }
 
         function onFocusDocName(e){
@@ -814,9 +900,9 @@ define([
 
                 storeUsers = this.options.storeUsers;
                 storeUsers.bind({
-                    add     : onUsersChanged,
-                    change  : onUsersChanged,
-                    reset   : onResetUsers
+                    add     : onUsersChanged.bind(this),
+                    change  : onUsersChanged.bind(this),
+                    reset   : onResetUsers.bind(this)
                 });
 
                 me.btnSearch = new Common.UI.Button({
@@ -997,6 +1083,7 @@ define([
                             dataHintOffset: 'big'
                         });
                         me.btnPDFMode.render($html.find('#slot-btn-edit-mode'));
+                        btnMode = me.btnPDFMode;
                         changePDFMode.call(me, config);
                         Common.NotificationCenter.on('pdf:mode-changed', _.bind(changePDFMode, me));
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
@@ -1013,23 +1100,19 @@ define([
                             dataHintOffset: 'big'
                         });
                         me.btnDocMode.render($html.find('#slot-btn-edit-mode'));
+                        btnMode = me.btnDocMode;
                         changeDocMode.call(me);
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
-                    } else
-                        $html.find('#slot-btn-edit-mode').hide();
-
-                    if (config.showStartFillingButton) {
-                        me.btnStartFill = new Common.UI.Button({
-                            cls: 'btn-text-default auto yellow',
-                            caption: config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text ? config.customization.startFillingForm.text : me.textStartFill,
-                            dataHint: '0',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'big'
-                        });
-                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
                     } else {
-                        $html.find('#slot-btn-start-fill').hide();
+                        $html.find('#slot-btn-edit-mode').hide();
+                        btnMode = null;
                     }
+
+                    me.showStartFillButton(
+                        config.showStartFillingButton, 
+                        config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text,
+                        $html
+                    );
 
                     if (config.isPDFForm && config.canRequestFillingStatus) {
                         me.btnFillStatus = new Common.UI.Button({
@@ -1043,6 +1126,38 @@ define([
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
                     $panelUsers.hide();
+
+
+                    if(isUserFollowSupport) {
+                        const getUserFromClickEvent = function(el) {
+                            const $li = $(el).closest('li');
+                            const iid = $li.attr('id');
+                            return storeUsers.find(function(m){ return m.get('iid') == iid; });
+                        };
+    
+                        $userList.off('click', '.user-name').on('click', '.user-name', function (e) {
+                            const model = getUserFromClickEvent(this);
+                            if(!model || model.get('idOriginal') == (config.user && config.user.id)) return;
+    
+                            $('#tlb-box-users').click();    // hide users dropdown
+                            me.fireEvent('user-go-to-cursor', [model.id]);
+                        });
+    
+                        $userList.off('click', '.follow-btn').on('click', '.follow-btn', function (e) {
+                            e && e.stopPropagation();
+                            const model = getUserFromClickEvent(this);
+                            if(!model) return;
+    
+                            $('#tlb-box-users').click();    // hide users dropdown
+                            me.fireEvent('user-follow', [model.id]);
+                        });
+    
+                        $userList.off('click', '.unfollow-btn').on('click', '.unfollow-btn', function (e) {
+                            e && e.stopPropagation();
+                            me.fireEvent('user-follow', [null]);
+                        });
+                    }
+
                     return $html;
                 } else
                 if ( role == 'title' ) {
@@ -1126,6 +1241,12 @@ define([
                             label: me.tipStartOver
                         };
                     }
+                    var saveIsDownload = config.showSaveButton && !config.canSaveToFile;
+                    if (config.canDownload && (!config.isDesktopApp || !config.isOffline) && !saveIsDownload) {
+                        me.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-btn-dt-download'), false, undefined, undefined, 'D');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-download', false) && me.btnDownload.hide();
+                    }
+
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',
                         iconCls: 'toolbar__icon icon--inverse btn-more',
@@ -1209,6 +1330,39 @@ define([
                     this.setDocTitle( value );
                 }
                 return value;
+            },
+
+            showStartFillButton: function(show, caption, $html) {
+                const $el = $html ? $html.find('#slot-btn-start-fill') : $('#slot-btn-start-fill');
+                if (show) {
+                    if(!this.btnStartFill) {
+                        this.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: caption || this.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        this.btnStartFill.on('click', function (e) {
+                            if(appConfig.canRequestStartFilling) {
+                                Common.NotificationCenter.trigger('forms:request-fill');
+                            } else {
+                                Common.NotificationCenter.trigger('forms:show-send-for-signing');
+                            }
+                        });
+                        $el.show();
+                        this.btnStartFill.render($el);
+                    } else {
+                        this.btnStartFill.setVisible(true);
+                        caption && this.btnStartFill.setCaption(caption);
+                    }
+                } else {
+                    if(!this.btnStartFill) {
+                        $el.hide();
+                    } else {
+                        this.btnStartFill.setVisible(false);
+                    }
+                }
             },
 
             getDocumentCaption: function () {
@@ -1314,7 +1468,7 @@ define([
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
                 }
-                (width>=0) && onResize();
+                (width>=0) && updatePosition();
             },
 
             getTextWidth: function(text) {
@@ -1375,6 +1529,41 @@ define([
                 this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
+            setUserFollow: function(userId, isFollow) {
+                const userModel = storeUsers.findUser(userId);
+                if (userModel) {
+                    userModel.set('isFollow', isFollow);
+                    if (isFollow) {
+                        this.showUserFollowTip(userModel);
+                    } else {
+                        this.hideUserFollowTip();
+                    }
+                } else {
+                    this.hideUserFollowTip();
+                }
+            },
+
+            showUserFollowTip: function(userModel) {
+                const me = this;
+                const $tip = $(_.template(templateUserFollowTip)({
+                    user: userModel,
+                    len: 1,
+                    scope: this,
+                    isUserFollowSupport: isUserFollowSupport,
+                    fnEncode: function(username) {
+                        return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
+                    }
+                }));
+                $tip.find('.unfollow-btn').on('click', function() {
+                    me.fireEvent('user-follow', [null]);
+                });
+                $('#editor-container').append($tip);
+            },
+
+            hideUserFollowTip: function() {
+                $('#user-follow-tip').remove();
+            },
+
             getButton: function(type) {
                 if (type == 'save')
                     return this.btnSave;
@@ -1423,7 +1612,7 @@ define([
             },
 
             onStartFilling: function() {
-                this.btnStartFill && this.btnStartFill.setVisible(false);
+                this.showStartFillButton(false);
                 updateDocNamePosition();
             },
 
@@ -1432,6 +1621,10 @@ define([
                 if (this._testCanvas)
                     this._testCanvas = undefined;
                 this.setDocTitle();
+            },
+
+            onChangeCompactMode: function(isCompact) {
+                btnMode && btnMode.$el && btnMode.$el.find('.caption')[isCompact ? 'hide' : 'show']();
             },
 
             textBack: 'Go to Documents',
@@ -1492,7 +1685,10 @@ define([
             ariaQuickAccessToolbar: 'Quick access toolbar',
             textAnnotateDesc: 'Fill forms or annotate',
             textDownload: 'Download',
-            tipFillStatus: 'Filling status'
+            tipFillStatus: 'Filling status',
+            textFollow: 'Follow',
+            textStopFollowing: 'Stop following',
+            textGoToUserCursor: 'Go to user cursor'
         }
     }(), Common.Views.Header || {}))
 });

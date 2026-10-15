@@ -33,7 +33,9 @@
       "textResolve": "Lösen",
       "textSharingSettings": "Freigabeeinstellungen",
       "textTryUndoRedo": "Die Optionen \"Rückgängig machen\" bzw. \"Wiederholen\" sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer"
+      "textUsers": "Benutzer",
+      "textEnterComment": "Kommentar eingeben",
+      "textMention": "Kommentieren oder erwähnen mit + oder @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -47,7 +49,7 @@
       "dark": "Dunkel",
       "light": "Hell",
       "system": "Wie im System",
-      "textTheme": "Thema"
+      "textTheme": "Thema der Benutzeroberfläche"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -293,7 +295,12 @@
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
-    "textSwitchToDesktop": "In den Desktopmodus wechseln"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   },
   "View": {
     "Add": {
@@ -318,7 +325,7 @@
       "textLastSlide": "Letzte Folie",
       "textLink": "Link",
       "textLinkSettings": "Link Einstellungen",
-      "textLinkTo": "Verknüpfen mit",
+      "textLinkTo": "Link zu",
       "textLinkType": "Linktyp",
       "textNextSlide": "Nächste Folie",
       "textOk": "OK",
@@ -422,7 +429,7 @@
       "textFade": "Verblassen",
       "textFerris": "Riesenrad",
       "textFill": "Füllung",
-      "textFinalMessage": "Ende der Folienvorschau. Zum Schließen bitte klicken.",
+      "textFinalMessage": "Ende der Diashow. Zum Beenden nach vorne wischen.",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFirstColumn": "Erste Spalte",
@@ -442,7 +449,7 @@
       "textFromTopRight": "Von oben rechts",
       "textFromURL": "Bild aus einer URL",
       "textGallery": "Galerie",
-      "textHeaderRow": "Überschriftszeile",
+      "textHeaderRow": "Kopfzeile",
       "textHighlight": "Ergebnisse hervorheben",
       "textHighlightColor": "Hervorhebungsfarbe",
       "textHoneycomb": "Bienenwabe",
@@ -464,7 +471,7 @@
       "textLineSpacing": "Zeilenabstand",
       "textLink": "Link",
       "textLinkSettings": "Link Einstellungen",
-      "textLinkTo": "Verknüpfen mit",
+      "textLinkTo": "Link zu",
       "textLinkType": "Linktyp",
       "textLtrTextDirection": "Von links nach rechts",
       "textMorph": "Morphen",
@@ -537,7 +544,7 @@
       "textTop": "Oben",
       "textTopLeft": "Oben links",
       "textTopRight": "Oben rechts",
-      "textTotalRow": "Gesamtreihen",
+      "textTotalRow": "Gesamtzeile",
       "textTransitions": "Übergänge",
       "textType": "Typ",
       "textUnCover": "UnCover",
@@ -553,7 +560,13 @@
       "textZoomOut": "Verkleinern",
       "textZoomRotate": "Vergrößern und drehen",
       "txtHeight": "Höhe",
-      "txtWidth": "Breite"
+      "txtWidth": "Breite",
+      "textClose": "Schließen",
+      "textPause": "Pause",
+      "textPlay": "Abspielen",
+      "textSlideXofY": "Folie {0} von {1}",
+      "txtCustom": "Benutzerdefiniert",
+      "textCurrentFont": "Haupttext"
     },
     "Settings": {
       "mniSlideLandscape": "Querformat",
@@ -586,7 +599,7 @@
       "textEmail": "E-Mail: ",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
-      "textFeedback": "Feedback und Support",
+      "textFeedback": "Support kontaktieren",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",
@@ -602,7 +615,7 @@
       "textMacrosSettings": "Einstellungen von Makros",
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
-      "textOpenLocation": "Ordner öffnen",
+      "textOpenLocation": "Speicherort öffnen",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
       "textPoweredBy": "Unterstützt von",
@@ -628,7 +641,22 @@
       "textUnitOfMeasurement": "Maßeinheit",
       "textUploaded": "Hochgeladen",
       "textVersion": "Version",
-      "textVersionHistory": "Versionshistorie"
+      "textVersionHistory": "Versionshistorie",
+      "textPreferences": "Einstellungen",
+      "textHelpCenter": "Hilfe-Center",
+      "textPresentationSetup": "Präsentationsaufbau",
+      "textSaveACopy": "Kopie speichern",
+      "textSaveACopyAs": "Kopie speichern als",
+      "textTools": "Tools",
+      "textSettingsGroup": "Einstellungen",
+      "textAboutGroup": "Info",
+      "textHelpAndFeedback": "Hilfe & Feedback",
+      "textShare": "Freigeben",
+      "textStyleGroup": "Stil",
+      "textShowSettingsGroup": "Einstellungen anzeigen",
+      "textSpellingGroup": "Rechtschreibung",
+      "textSaveACopyHeader": "Kopie speichern",
+      "textSaveConnectedStorage": "Die Datei wird auf dem verbundenen Speicher gespeichert"
     }
   }
 }

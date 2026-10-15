@@ -61,7 +61,6 @@ define([
                 items: [
                     {panelId: 'id-adv-image-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-image-size',       panelCaption: this.textPlacement},
-                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -146,7 +145,6 @@ define([
                 el: $('#image-advanced-button-original-size')
             });
             this.btnOriginalSize.on('click', _.bind(function(btn, e) {
-                this.spnAngle.setValue(0);
                 this.spnWidth.setValue(this.sizeOriginal.width, true);
                 this.spnHeight.setValue(this.sizeOriginal.height, true);
                 this._nRatio = this.sizeOriginal.width/this.sizeOriginal.height;
@@ -216,26 +214,6 @@ define([
                 takeFocusOnClose: true
             });
 
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#image-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
 
             // Alt Text
 
@@ -263,8 +241,7 @@ define([
             return this.btnsCategory.concat([
                 this.inputImageName, // 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 1 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
-                this.inputAltTitle, this.textareaAltDescription  // 3 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -281,9 +258,6 @@ define([
                         me.spnWidth.focus();
                         break;
                     case 2:
-                        me.spnAngle.focus();
-                        break;
-                    case 3:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -330,19 +304,11 @@ define([
                     this.spnY.setValue('', true);
                 }
 
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                this.chFlipHor.setValue(props.asc_getFlipH());
-                this.chFlipVert.setValue(props.asc_getFlipV());
-
                 value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
-
-                var pluginGuid = props.asc_getPluginGuid();
-                this.btnsCategory[2].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
             }
         },
 
@@ -380,10 +346,6 @@ define([
             if (this.isAltDescChanged)
                 properties.asc_putDescription(this.textareaAltDescription.val());
 
-            properties.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            properties.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-            properties.asc_putFlipV(this.chFlipVert.getValue()=='checked');
-
             return { imageProps: properties };
         },
 
@@ -418,11 +380,6 @@ define([
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textHorizontal: 'Horizontal',
         textVertical: 'Vertical',
         textFrom: 'From',

@@ -1,6 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "انتباہ",
-  "Common.Controllers.Desktop.hintBtnHome": "مین ونڈو دکھائیں۔",
+  "Common.Controllers.Desktop.hintBtnHome": "مین ونڈو دکھائیں",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "ٹیمپلیٹ سے تخلیق کریں۔",
   "Common.Controllers.Plugins.helpMoveMacros": "میکروز کے ساتھ کام شروع کرنے کے لیے، ویو ٹیب پر جائیں۔",
   "Common.Controllers.Plugins.helpMoveMacrosHeader": "منتقل شدہ میکروس بٹن",
@@ -334,6 +334,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "۔ جڑنے کی کوشش کر رہا ہے۔ براہ کرم کنکشن کی ترتیبات چیک کریں۔ <br> </b> رابطہ منقطع ہے <b>",
   "VE.Controllers.Statusbar.zoomText": "زوم (صفر فیصد)",
   "VE.Controllers.Toolbar.errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کا آپ کو حق نہیں ہے۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
+  "VE.Controllers.Toolbar.helpAITools": "AI آپ کی دستاویزات بنانے اور ان میں ترمیم کرنے میں مدد کرتا ہے۔",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "AI ٹولز",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "انتباہ",
   "VE.Controllers.Toolbar.txtUntitled": "بلا عنوان",
   "VE.Views.DocumentHolder.guestText": "مہمان",

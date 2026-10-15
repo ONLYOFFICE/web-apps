@@ -13,7 +13,7 @@
             <div class="user-date"><%=date%></div>
         </div>
     </div>
-    <div class="user-message limit-height"><%=changetext%></div>
+    <div class="user-message"><%=changetext%></div>
     <div class="edit-ct">
         <% if (goto) { %>
         <div class="btn-goto img-commonctrl"></div>

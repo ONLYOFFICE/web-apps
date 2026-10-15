@@ -53,6 +53,7 @@ import AddingController from '../controller/add/Add';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 import { DrawController } from "../../../../common/mobile/lib/controller/Draw";
+import ZoomToast from '../../../../common/mobile/lib/controller/ZoomToast';
 
 export const MainContext = createContext();
 
@@ -240,7 +241,7 @@ class MainPage extends Component {
                             </Subnavbar>
                         </Navbar>
                     
-                        <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})} />
+                        <CellEditor isOpenModal={this.state.isOpenModal} onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})} />
                         {/* Page content */}
                         <View id="editor_sdk" />
                         <Navbar id='drawbar' style={{ display: !appOptions.isDrawMode && 'none' }}>
@@ -289,6 +290,7 @@ class MainPage extends Component {
                         }
                         <Statusbar key='statusbar'/>
                         <FunctionGroups /> {/* hidden component*/}
+                        <ZoomToast />
                     </Page>
                 </MainContext.Provider>
             </Themes>

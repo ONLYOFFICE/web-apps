@@ -2,7 +2,7 @@
   border: @scaled-one-px-value-ie solid @border-regular-control-ie;
   border: @scaled-one-px-value solid @border-regular-control;
   .border-radius(@border-radius-small);
-  line-height: 15px;
+  line-height: 16px;
 
   &.inner {
     width: 100%;
@@ -34,7 +34,7 @@
   & > .item {
   //    display: block;
     text-overflow: ellipsis;
-    padding: 3px 6px;
+    padding: 2px 6px;
     cursor: pointer;
     white-space: pre-wrap;
 
@@ -57,9 +57,6 @@
       background-color: @highlight-button-hover;
       border-color: @highlight-button-hover-ie;
       border-color: @highlight-button-hover;
-      border-style: solid;
-      border-width: @scaled-one-px-value-ie 0;
-      border-width: @scaled-one-px-value 0;
     }
 
     &.selected:not(.disabled) {
@@ -69,9 +66,6 @@
       color: @text-normal-pressed;
       border-color: @highlight-button-pressed-ie;
       border-color: @highlight-button-pressed;
-      border-style: solid;
-      border-width: @scaled-one-px-value-ie 0;
-      border-width: @scaled-one-px-value 0;
     }
   }
 

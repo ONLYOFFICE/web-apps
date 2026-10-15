@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Kesalahan Null",
+			"div": "Kesalahan Pembagian dengan Nol",
+			"value": "Kesalahan dalam Nilai",
+			"ref": "Kesalahan Referensi Sel yang Tidak Valid",
+			"name": "Kesalahan Nama yang Tidak Valid",
+			"num": "Kesalahan Angka",
+			"na": "Kesalahan Nilai Tidak Tersedia",
+			"calc": "Larik Kosong",
+			"spill": "Rentang pengisian tidak kosong"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "alamat",
 			"col": "kolom",

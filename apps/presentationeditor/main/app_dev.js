@@ -126,7 +126,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
-            'SlideMasterTab',
+            'MasterTabs',
             'Search',
             'Print',
             'Common.Controllers.Fonts',
@@ -167,7 +167,7 @@ require([
             'presentationeditor/main/app/controller/LeftMenu',
             'presentationeditor/main/app/controller/Main',
             'presentationeditor/main/app/controller/ViewTab',
-            'presentationeditor/main/app/controller/SlideMasterTab',
+            'presentationeditor/main/app/controller/MasterTabs',
             'presentationeditor/main/app/controller/Search',
             'presentationeditor/main/app/controller/Print',
             // 'presentationeditor/main/app/view/ParagraphSettings',
@@ -248,7 +248,8 @@ require([
                 'presentationeditor/main/app/view/HeaderFooterDialog',
                 'presentationeditor/main/app/view/HyperlinkSettingsDialog',
                 'presentationeditor/main/app/view/DateTimeDialog',
-                'presentationeditor/main/app/view/ChartSettingsAdvanced'
+                'presentationeditor/main/app/view/ChartSettingsAdvanced',
+                'presentationeditor/main/app/view/ExportAnimatedDialog'
             ];
 
             window.compareVersions = true;

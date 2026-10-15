@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Fejl! Null",
+			"div": "Fejl! Division med nul",
+			"value": "Fejl i værdien",
+			"ref": "Fejl! Ugyldig cellereference",
+			"name": "Fejl! Ugyldigt navn",
+			"num": "Talfejl",
+			"na": "Fejl! Værdien er ikke tilgængelig",
+			"calc": "Tom matrix",
+			"spill": "Overløbsområdet er ikke tomt"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresse",
 			"col": "kolonne",

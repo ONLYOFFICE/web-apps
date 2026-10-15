@@ -38,10 +38,15 @@ import { View, Popup, Popover, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import SpreadsheetSettingsController from '../../controller/settings/SpreadsheetSettings.jsx';
 import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
+import { HelpAndFeedback } from "./HelpAndFeedback";
+import LanguageAndRegionController from '../../controller/settings/LanguageAndRegion.jsx';
 import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
 import { DownloadWithTranslation } from '../../controller/settings/Download.jsx';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import { SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins } from './SpreadsheetSettings.jsx';
-import { MacrosSettings, RegionalSettings, FormulaLanguage, ThemeSettings } from './ApplicationSettings.jsx';
+import { MacrosSettings, ThemeSettings } from './ApplicationSettings.jsx';
+import { RegionalSettings, FormulaLanguage } from './LanguageAndRegion.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
@@ -74,6 +79,10 @@ const routes = [
         component: DownloadWithTranslation
     },
     {
+        path: '/saveacopy/',
+        component: SaveACopyController
+    },
+    {
         path: '/application-settings/',
         component: ApplicationSettingsController
     },
@@ -100,6 +109,18 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/help-and-feedback/',
+        component: HelpAndFeedback
+    },
+    {
+        path: '/language-and-region/',
+        component: LanguageAndRegionController
+    },
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
     },
     // Version History 
     {
@@ -134,14 +155,10 @@ const SettingsView = () => {
     return (
         !Device.phone ?
             <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/' style={{ height: '410px' }}>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' style={{ height: '410px' }} />
             </Popover> :
             <Popup className="settings-popup" onPopupClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/'>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' />
             </Popup>
     )
 }

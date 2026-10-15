@@ -33,27 +33,36 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { observer, inject } from 'mobx-react';
 import Preview from "../view/Preview";
 import ContextMenu from './ContextMenu';
 
-const PreviewController = props => {
+const PreviewController = inject('storeToolbarSettings')(observer(props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true})
+    const _t = t('View.Edit', {returnObjects: true});
+    const { countPages } = props.storeToolbarSettings;
+
     let _view, _touches, _touchStart, _touchEnd;
+
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [isBarsShown, setIsBarsShown] = useState(true);
+    const [isAtEnd, setIsAtEnd] = useState(false);
 
     useEffect(() => {
         const onDocumentReady = () => {
             const api = Common.EditorApi.get();
 
             api.asc_registerCallback('asc_onEndDemonstration', onEndDemonstration);
+            api.asc_registerCallback('asc_onDemonstrationSlideChanged', onSlideChanged);
             api.DemonstrationEndShowMessage(_t.textFinalMessage);
         };
 
         ContextMenu.closeContextMenu();
 
-        _view = $$('#pe-preview');
+        _view = $$('#presentation-preview');
         _view.on('touchstart', onTouchStart);
         _view.on('touchmove', onTouchMove);
         _view.on('touchend', onTouchEnd);
@@ -65,7 +74,8 @@ const PreviewController = props => {
             const api = Common.EditorApi.get();
 
             api.asc_unregisterCallback('asc_onEndDemonstration', onEndDemonstration);
-        
+            api.asc_unregisterCallback('asc_onDemonstrationSlideChanged', onSlideChanged);
+
             _view.off('touchstart', onTouchStart);
             _view.off('touchmove', onTouchMove);
             _view.off('touchend', onTouchEnd);
@@ -86,7 +96,7 @@ const PreviewController = props => {
                 console.error('Full screen API is not supported in this browser.');
             }
         }
-    }
+    };
 
     const exitFullScreen = () => {
         if(document.cancelFullScreen) {
@@ -104,9 +114,9 @@ const PreviewController = props => {
 
     const show = () => {
         const api = Common.EditorApi.get();
-
+        const pePreview = $$('#pe-preview')[0];
         api.StartDemonstrationFromCurrentSlide('presentation-preview');
-        enterFullScreen(_view[0]);
+        enterFullScreen(pePreview);
     };
 
     const onTouchStart = e => {
@@ -139,13 +149,9 @@ const PreviewController = props => {
 
     const onTouchEnd = e => {
         e.preventDefault();
-
-        // const api = Common.EditorApi.get();
-        //
-        // if (_touchEnd[0] - _touchStart[0] > 20)
-        //     api.DemonstrationPrevSlide();
-        // else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
-        //     api.DemonstrationNextSlide();
+        if (!isAtEnd) {
+            setIsBarsShown(prev => !prev);
+        }
     };
 
     // API Handlers
@@ -155,12 +161,56 @@ const PreviewController = props => {
         exitFullScreen();
     };
 
+    const onSlideChanged = slideNum => {
+        setCurrentSlide(slideNum);
+        const atEnd = slideNum >= countPages;
+        setIsAtEnd(atEnd);
+        if (atEnd) {
+            setIsBarsShown(true);
+        }
+    };
+
+    // UI Handlers
+
+    const onClose = () => {
+        const api = Common.EditorApi.get();
+        api.EndDemonstration();
+    };
+
+    const onPrev = () => {
+        const api = Common.EditorApi.get();
+        api.DemonstrationPrevSlide();
+    };
+
+    const onNext = () => {
+        const api = Common.EditorApi.get();
+        api.DemonstrationNextSlide();
+    };
+
+    const onTogglePlay = () => {
+        setIsPlaying(!isPlaying);
+        const api = Common.EditorApi.get();
+        if (isPlaying) {
+            api.DemonstrationPause();
+        } else {
+            api.DemonstrationPlay();
+        }
+    };
+
     return (
-        <Preview />
-    )
-};
+        <Preview
+            t={_t}
+            currentSlide={currentSlide}
+            countPages={countPages}
+            isPlaying={isPlaying}
+            isBarsShown={isBarsShown}
+            isAtEnd={isAtEnd}
+            onClose={onClose}
+            onPrev={onPrev}
+            onNext={onNext}
+            onTogglePlay={onTogglePlay}
+        />
+    );
+}));
 
 export {PreviewController as Preview};
-
-
-

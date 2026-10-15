@@ -91,6 +91,8 @@ export class storeAppOptions {
             changeSavingDocStatusText: action,
 
             customization: observable,
+            
+            canRequestUsers: observable,
         });
     }
 
@@ -171,6 +173,7 @@ export class storeAppOptions {
 
     config = {};
     customization;
+    canRequestUsers;
 
     setConfigOptions (config, _t) {
         this.config = config;
@@ -196,16 +199,18 @@ export class storeAppOptions {
         this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
+        this.canRequestUsers = config.canRequestUsers;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.saveAsUrl = config.saveAsUrl;
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
+        this.disableForceDesktop = false;
 
         let canBack = false;
 
         if (typeof config.customization === 'object' && config.customization !== null) {
-            const { goback, close } = config.customization;
+            const { goback, close, mobile } = config.customization;
 
             if (typeof goback === 'object' && config.canBackToFolder !== false) {
                 const hasUrl = !!goback.url;
@@ -221,6 +226,9 @@ export class storeAppOptions {
             if (typeof close === 'object' && close !== null) {
                 this.canCloseEditor = (close.visible!==false) && this.canRequestClose && !this.isDesktopApp;
             }
+
+            if (typeof mobile === 'object' && mobile.disableForceDesktop === true)
+                this.disableForceDesktop = true;
         }
 
         this.canBack = this.canBackToFolder = canBack;
@@ -277,7 +285,7 @@ export class storeAppOptions {
             this.canComments = false;
         this.trialMode = params.asc_getLicenseMode();
 
-        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(document.fileType);
         
         this.canDownloadOrigin = false;
         this.canDownload = permissions.download !== false;

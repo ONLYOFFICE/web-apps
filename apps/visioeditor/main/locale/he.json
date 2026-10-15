@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>החיבור אבד</b><br>מנסה להתחבר. אנא בדקו את הגדרות החיבור.",
   "VE.Controllers.Statusbar.zoomText": "זום {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "את/ה מנסה לבצע פעולה שאין לך זכויות עליה.<br> נא ליצור קשר עם מנהל שרת המסמכים שלך.",
+  "VE.Controllers.Toolbar.helpAITools": "הבינה המלאכותית עוזרת לכם ליצור ולערוך את המסמכים שלכם.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "כלי בינה מלאכותית",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "אזהרה",
   "VE.Controllers.Toolbar.txtUntitled": "ללא כותרת",
   "VE.Views.DocumentHolder.guestText": "אורח",

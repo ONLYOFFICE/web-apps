@@ -201,6 +201,17 @@ class EditTextController extends Component {
         api.asc_setCellReadingOrder(direction);
     }
 
+    applyFontSize(size) {
+        const api = Common.EditorApi.get();
+        if (!api || typeof api.asc_setCellFontSize !== 'function') return;
+
+        let fontSize = Number(size);
+        if (!Number.isFinite(fontSize) || fontSize < 1) return;
+
+        fontSize = Math.min(300, Math.round(fontSize));
+        api.asc_setCellFontSize(fontSize);
+    }
+
     render () {
         return (
             <EditText 
@@ -219,6 +230,7 @@ class EditTextController extends Component {
                 onAdditionalScript={this.onAdditionalScript}
                 changeLetterSpacing={this.changeLetterSpacing}
                 setRtlTextdDirection={this.setRtlTextdDirection}
+                applyFontSize={this.applyFontSize}
             />
         )
     }

@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!presentationeditor/main/app/template/RightMenu.template',
@@ -85,7 +86,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
@@ -94,7 +96,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
@@ -103,7 +106,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnSlide = new Common.UI.Button({
                 hint: this.txtSlideSettings,
@@ -112,7 +116,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-slide',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             // this.btnChart = new Common.UI.Button({
             //     hint: this.txtChartSettings,
@@ -130,7 +135,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -140,7 +146,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this._settings = [];
@@ -206,6 +213,15 @@ define([
             this.shapeSettings = new PE.Views.ShapeSettings();
             this.textartSettings = new PE.Views.TextArtSettings();
 
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnTable, this.btnImage, this.btnSlide, this.btnChart, 
+                    this.btnShape, this.btnTextArt,
+                ].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
+            }
+
             if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
@@ -214,7 +230,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
 
@@ -284,24 +301,15 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const viewport = PE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.hideItemResizer('right', !isPlugin);
-
-                const widthFromStorage = Common.localStorage.getItem('pe-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("pe-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("pe-hide-right-settings", true);
             }
@@ -327,6 +335,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -340,16 +350,24 @@ define([
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
+        },
+
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -373,7 +391,7 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
@@ -381,7 +399,28 @@ define([
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             if ( !this.isPluginButtonPressed() ) {
-                this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+                this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
+            }
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const viewport = PE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.hideItemResizer('right', this.minimizedMode || !isPlugin);
+
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
+            } else {
+                const widthFromStorage = Common.localStorage.getItem('pe-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
             }
         },
 

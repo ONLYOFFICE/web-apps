@@ -165,11 +165,14 @@ define([], function () {
                 view.pmiInsFunction.on('click',                     _.bind(me.onInsFunction, me));
                 view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlink.on('click',                  _.bind(me.onCopyHyperlink, me));
                 view.menuRemoveHyperlink.on('click',                _.bind(me.onDelHyperlink, me));
                 view.pmiRowHeight.menu.on('item:click',             _.bind(me.onSetSize, me));
                 view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
                 view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
                 view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
+                view.pmiEntireShowBefore.on('click',                _.bind(me.onEntireShow, me));
+                view.pmiEntireShowAfter.on('click',                 _.bind(me.onEntireShow, me));
                 view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
                 view.pmiEntriesList.on('click',                     _.bind(me.onEntriesList, me));
                 /** coauthoring begin **/
@@ -199,8 +202,10 @@ define([], function () {
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlinkShape.on('click',             _.bind(me.onCopyHyperlink, me));
                 view.menuAddHyperlinkPic.on('click',                _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkPic.on('click',               _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlinkPic.on('click',               _.bind(me.onCopyHyperlink, me));
                 view.menuRemoveHyperlinkPic.on('click',             _.bind(me.onDelHyperlink, me))
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
@@ -222,6 +227,7 @@ define([], function () {
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+                view.menuImgConvertToShape.on('click',              _.bind(me.onImgConvertToShape, me));
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
@@ -276,6 +282,7 @@ define([], function () {
                 addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this), false);
 
                 me.cellEditor = $('#ce-cell-content');
+                me.cellEditorScrollBox = $('#ce-scroll-content', me.cellEditor);
             }
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                 $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
@@ -334,7 +341,7 @@ define([], function () {
                             }
                         })).show();
                     }
-                }
+            }
             }
             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         };
@@ -943,6 +950,14 @@ define([], function () {
 
         };
 
+        dh.onCopyHyperlink = function(item, e){
+            if (!this.api) return;
+            var info = this.api.asc_getCellInfo();
+            var hyperlink = info && info.asc_getHyperlink();
+            var url = hyperlink && hyperlink.asc_getHyperlinkUrl();
+            if (url) this.api.asc_CopyData(url);
+        };
+
         dh.onDelHyperlink = function(item) {
             Common.NotificationCenter.trigger('protect:check', this.onDelHyperlinkCallback, this);
         };
@@ -988,7 +1003,66 @@ define([], function () {
 
         dh.onEntireShow = function(item) {
             if (this.api)
-                this.api[item.isrowmenu ? 'asc_showRows' : 'asc_showColumns']();
+                this.api[item.isrowmenu ? 'asc_showRows' : 'asc_showColumns'](item.hiddenStart, item.hiddenEnd);
+        };
+
+        dh.fillHideShowMenuProps = function(info) {
+            const documentHolder = this.documentHolder;
+            const hiddenBefore = info && info.asc_getHiddenBefore();
+            const hiddenAfter = info && info.asc_getHiddenAfter();
+            const hasHiddenInside = !!info && info.asc_getHasHiddenInside();
+
+            documentHolder.pmiEntireHide.setVisible(!!info && !info.asc_getIsAllHidden());
+            documentHolder.pmiEntireShow.setVisible(hasHiddenInside);
+            documentHolder.pmiEntireShowBefore.setVisible(!!hiddenBefore);
+            documentHolder.pmiEntireShowAfter.setVisible(!!hiddenAfter);
+
+            if (!info) {
+                return false;
+            }
+
+            const isrow = info.asc_getIsRow();
+            const isall = info.asc_getIsAll();
+            const isSingle = info.asc_getCount() < 2 && !info.asc_getIsMultiselect();
+
+            let hideCaption;
+            if (isall)
+                hideCaption = isrow ? documentHolder.txtHideAllRows : documentHolder.txtHideAllColumns;
+            else if (isrow)
+                hideCaption = isSingle ? documentHolder.txtHideRow : documentHolder.txtHideRows;
+            else
+                hideCaption = isSingle ? documentHolder.txtHideColumn : documentHolder.txtHideColumns;
+            
+            documentHolder.pmiEntireHide.setCaption(hideCaption);
+            documentHolder.pmiEntireHide.isrowmenu = isrow;
+
+            if (hasHiddenInside) {
+                let showCaption;
+                if(isall)
+                    showCaption = (isrow ? documentHolder.txtShowAllRows : documentHolder.txtShowAllColumns);
+                else
+                    showCaption = (isrow ? documentHolder.txtShowSelectedRows : documentHolder.txtShowSelectedColumns);
+
+                documentHolder.pmiEntireShow.setCaption(showCaption);
+                documentHolder.pmiEntireShow.isrowmenu = isrow;
+            }
+
+            const fillShowRange = function(item, range) {
+                if (!range) {
+                    return;
+                }
+                const template = range.asc_getCount() < 2 ?
+                    (isrow ? documentHolder.txtShowRow : documentHolder.txtShowColumn) :
+                    (isrow ? documentHolder.txtShowRows : documentHolder.txtShowColumns);
+                item.setCaption(Common.Utils.String.format(template, range.asc_getName()));
+                item.isrowmenu = isrow;
+                item.hiddenStart = range.asc_getStart();
+                item.hiddenEnd = range.asc_getEnd();
+            };
+            fillShowRange(documentHolder.pmiEntireShowBefore, hiddenBefore);
+            fillShowRange(documentHolder.pmiEntireShowAfter, hiddenAfter);
+
+            return isrow;
         };
 
         dh.onFreezePanes = function(item) {
@@ -1398,6 +1472,10 @@ define([], function () {
             this.api && this.api.asc_editPointsGeometry();
         };
 
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+        };
+
         dh.onGetLink = function(item) {
             if (this.api) {
                 var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A, false, true),
@@ -1437,7 +1515,8 @@ define([], function () {
                     index_slicer,
                     index_foreign,
                     index_eyedropper,
-                    index_placeholder;
+                    index_placeholder,
+                    index_cellerror;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1471,6 +1550,9 @@ define([], function () {
                             break;
                         case Asc.c_oAscMouseMoveType.Placeholder:
                             index_placeholder = i;
+                            break;
+                        case Asc.c_oAscMouseMoveType.CellError:
+                            index_cellerror = i;
                             break;
                     }
                 }
@@ -1550,6 +1632,11 @@ define([], function () {
                 }
                 if (!index_eyedropper) {
                     me.hideEyedropperTip();
+                }
+                if (!index_cellerror || me.popupmenu) {
+                    me.hideCellErrorTip();
+                } else {
+                    me.scheduleCellErrorTip(dataarray[index_cellerror-1], pos);
                 }
                 // show tooltips
 
@@ -1986,6 +2073,150 @@ define([], function () {
             }
         };
 
+        // the pointer clips a neighbouring cell on its way to the Fix button
+        var CELL_ERROR_TIP_HIDE_DELAY = 300;
+        // dwell on the cell before the plaque appears, so it does not flash while moving across
+        var CELL_ERROR_TIP_SHOW_DELAY = 500;
+
+        dh.scheduleCellErrorTip = function(data, pos) {
+            var me = this,
+                tip = me.tooltips.cell_error,
+                info = data.asc_getCellError(),
+                key = info.asc_getCol() + ':' + info.asc_getRow();
+
+            if (tip.el && tip.key === key) {
+                me.showCellErrorTip(data, pos);
+                return;
+            }
+            if (tip.el) me.hideCellErrorTip(true);
+            if (tip.showTimer && tip.showKey === key) {
+                return;
+            }
+            if (tip.showTimer) {
+                clearTimeout(tip.showTimer);
+            }
+            tip.showKey = key;
+            tip.showTimer = setTimeout(function() {
+                tip.showTimer = undefined;
+                tip.showKey = undefined;
+                me.showCellErrorTip(data, pos);
+            }, CELL_ERROR_TIP_SHOW_DELAY);
+        };
+
+        dh.showCellErrorTip = function(data, pos) {
+            var me = this,
+                tip = me.tooltips.cell_error,
+                info = data.asc_getCellError(),
+                key = info.asc_getCol() + ':' + info.asc_getRow();
+
+            if (tip.hideTimer) {
+                clearTimeout(tip.hideTimer);
+                tip.hideTimer = undefined;
+            }
+            if (tip.el && tip.key === key) {
+                return;
+            }
+            me.hideCellErrorTip(true);
+
+            // the label comes from sdkjs (formula-lang ERROR_DESCRIPTIONS);
+            // a formula the parser refused has no description - fall back to the code
+            var errText = info.asc_getErrorText(),
+                errType = info.asc_getErrorType(),
+                message = info.asc_getErrorDescription() || errText;
+
+            var el = $('<div class="cell-error-tip"><div class="cell-error-tip-title"></div></div>');
+            el.find('.cell-error-tip-title').text(message || '');
+
+            if (info.asc_getCanFix()) {
+                var prompt = (errType ? (me.textFixFormulaPrompt || '').replace('%2', errType)
+                                      : (me.textFixFormulaPromptInvalid || ''))
+                        .replace('%1', info.asc_getCellName() || '');
+                var btn = $('<button type="button" class="cell-error-tip-fix"></button>');
+                btn.text(me.textFixFormula || 'Fix with AI');
+                btn.on('click', function() {
+                    me.hideCellErrorTip(true);
+                    me.api && me.api.asc_fixFormulaWithAI(prompt);
+                });
+                el.append(btn);
+            }
+
+            el.on('mouseenter', function() {
+                if (tip.hideTimer) {
+                    clearTimeout(tip.hideTimer);
+                    tip.hideTimer = undefined;
+                }
+                tip.overPopup = true;
+            });
+            el.on('mouseleave', function() {
+                tip.overPopup = false;
+                me.hideCellErrorTip(true);
+            });
+
+            el.appendTo(document.body);
+            tip.el = el;
+            tip.key = key;
+            tip.overPopup = false;
+
+            // x is the cell left edge, reverseX the right one, y the cell top
+            me.changeCellErrorTipPosition(data.asc_getX(), data.asc_getY(), data.asc_getReverseX(), pos);
+        };
+
+        dh.changeCellErrorTipPosition = function(x, y, reverseX, pos) {
+            var tip = this.tooltips.cell_error;
+            if (!tip.el) {
+                return;
+            }
+            var width = tip.el.outerWidth(),
+                height = tip.el.outerHeight(),
+                // top right corner of the plaque on the top left corner of the cell
+                left = x + pos[0] - width,
+                top = y + pos[1];
+
+            if (left < 0) {
+                left = reverseX + pos[0];
+            }
+            if (left + width > $(window).width()) {
+                left = $(window).width() - width;
+            }
+            if (top + height > $(window).height()) {
+                top = $(window).height() - height;
+            }
+            if (top < pos[1]) {
+                top = pos[1];
+            }
+            tip.el.css({top: top + 'px', left: left + 'px'});
+        };
+
+        dh.hideCellErrorTip = function(immediately) {
+            var me = this,
+                tip = me.tooltips.cell_error;
+            if (tip.showTimer) {
+                clearTimeout(tip.showTimer);
+                tip.showTimer = undefined;
+                tip.showKey = undefined;
+            }
+            if (tip.hideTimer) {
+                clearTimeout(tip.hideTimer);
+                tip.hideTimer = undefined;
+            }
+            if (!tip.el) {
+                return;
+            }
+            if (immediately) {
+                tip.el.remove();
+                tip.el = undefined;
+                tip.key = undefined;
+                tip.overPopup = false;
+                return;
+            }
+            tip.hideTimer = setTimeout(function() {
+                tip.hideTimer = undefined;
+                if (!tip.overPopup) {
+                    me.hideCellErrorTip(true);
+                }
+            }, CELL_ERROR_TIP_HIDE_DELAY);
+        };
+
         dh.onApiHyperlinkClick = function(url) {
             if (!url) {
                 Common.UI.alert({
@@ -2005,7 +2236,7 @@ define([], function () {
             else
                 Common.UI.warning({
                     maxwidth: 500,
-                    msg: Common.Utils.String.format(this.txtWarnUrl, url),
+                    msg: Common.Utils.String.format(this.txtWarnUrl, Common.Utils.String.htmlEncode(url)),
                     buttons: ['no', 'yes'],
                     primary: 'no',
                     callback: function(btn) {
@@ -2165,12 +2396,13 @@ define([], function () {
             }
         };
 
-        dh.onSelectionChanged = function(info){
+        dh.onSelectionChanged = function(info, changedSheetId){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
-            if (this.dlgFilter && this.dlgFilter.isVisible())
+            if (this.dlgFilter && this.dlgFilter.isVisible() &&
+                (changedSheetId === undefined || changedSheetId == this.api.asc_getActiveWorksheetId()))
                 this.dlgFilter.close();
 
             if (this.permissions && this.permissions.isEdit) {
@@ -2304,6 +2536,7 @@ define([], function () {
                 var hyperinfo = cellinfo.asc_getHyperlink(),
                     can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
                 documentHolder.menuHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuCopyHyperlinkPic.setVisible(!!(hyperinfo && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuHyperlinkPicSeparator.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false);
                 documentHolder.menuHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
@@ -2315,7 +2548,9 @@ define([], function () {
 
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
-                documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                var chartSettings = this.api.asc_getChartSettings(true),
+                    isChart = !!(chartSettings && chartSettings.getSeries().length>0);
+                documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu  && has_chartprops && isChart);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
                 documentHolder.mnuChartData.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
                 documentHolder.mnuChartData.setDisabled(isObjLocked);
@@ -2370,6 +2605,10 @@ define([], function () {
                 documentHolder.menuImgEditPoints.setVisible(canEditPoints);
                 canEditPoints && documentHolder.menuImgEditPoints.setDisabled(isObjLocked);
 
+                var canConvert = this.api && this.api.asc_canConvertImageToShapes();
+                documentHolder.menuImgConvertToShape.setVisible(canConvert);
+                canConvert && documentHolder.menuImgConvertToShape.setDisabled(isObjLocked);
+
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
                 documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
@@ -2400,7 +2639,7 @@ define([], function () {
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
                         isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;
-                      
+
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
@@ -2493,6 +2732,7 @@ define([], function () {
 
                 documentHolder.menuParagraphBullets.setVisible(istextchartmenu!==true);
                 documentHolder.menuHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuCopyHyperlinkShape.setVisible(!!(hyperinfo && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
                 documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
@@ -2639,12 +2879,12 @@ define([], function () {
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
                 documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
+                documentHolder.menuCopyHyperlink.setVisible(!!(iscellmenu && hyperinfo && !iscelledit && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
-                documentHolder.pmiEntireHide.setVisible(iscolmenu||isrowmenu);
-                documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
+                var ishideshowrow = this.fillHideShowMenuProps(cellinfo.asc_getHideShowInfo());
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
@@ -2654,8 +2894,6 @@ define([], function () {
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
-                documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
-                documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
                 commentsController && commentsController.blockPopover(true);
 
@@ -2708,8 +2946,11 @@ define([], function () {
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
                 documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
                 documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
-                documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
-                documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
+                var ishideshowlocked = isCellLocked || (ishideshowrow ? this._state.wsProps['FormatRows'] : this._state.wsProps['FormatColumns']);
+                documentHolder.pmiEntireHide.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShow.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShowBefore.setDisabled(ishideshowlocked);
+                documentHolder.pmiEntireShowAfter.setDisabled(ishideshowlocked);
                 documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells'] || isUserProtected);
                 documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
                 documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
@@ -2971,12 +3212,18 @@ define([], function () {
         dh.onFormulaCompleteMenu = function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
-            if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
                     menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+                funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                argConstList = this.argConstList;
+
+            if (!funcarr && (!argConstList || !argConstList.length)) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
 
                 for (var i = 0; i < menu.items.length; i++) {
                     var tip = menu.items[i].cmpEl.data('bs.tooltip');
@@ -2985,6 +3232,9 @@ define([], function () {
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
+
+            if (funcarr && !argConstList) {
+                this.formulaMenuType = null;
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
                         btype = b.asc_getType();
@@ -3055,14 +3305,39 @@ define([], function () {
                     });
                     menu.addItem(mnu);
                 });
+            } else {
+                _.each(argConstList, function(helpItem) {
+                    if (!helpItem || helpItem.length < 1) return;
 
-                if (!menu.rendered) {
+                    var value = helpItem[0],
+                        name = helpItem[1] || '',
+                        caption = '(...) ' + value + (name ? ' - ' + name : '');
+
+                    var mnu = new Common.UI.MenuItem({
+                        caption: caption,
+                        value: value
+                    }).on('click', function(item) {
+                        setTimeout(function() {
+                            me.api.asc_insertInCell(item.options.value, Asc.c_oAscPopUpSelectorType.FuncConstant, false);
+                        }, 10);
+                    });
+                    menu.addItem(mnu);
+                });
+                this.formulaMenuType = 'arg-help';
+            }
+
+            if (menu.items.length < 1) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
                     // Prepare menu container
                     if (menuContainer.length < 1) {
                         menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
                         documentHolderView.cmpEl.append(menuContainer);
                     }
 
+            if (!menu.rendered) {
                     menu.onAfterKeydownMenu = function(e) {
                         if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
@@ -3110,7 +3385,7 @@ define([], function () {
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
-                var infocus = me.cellEditor.is(":focus");
+                const infocus = me.cellEditorScrollBox.is(":focus");
                 var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
@@ -3142,7 +3417,7 @@ define([], function () {
                         menu.scroller.scrollTop(0);
                     }
                     if (infocus)
-                        me.cellEditor.focus();
+                        me.cellEditorScrollBox.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
                         var a = menu.cmpEl.find('li:first a');
@@ -3156,9 +3431,6 @@ define([], function () {
                             menu.cmpEl.focus();
                         }, 10);
                 }, 1);
-            } else {
-                this.documentHolder.funcMenu.hide();
-            }
         };
 
         dh.parseArgsDesc = function(args) {
@@ -3236,7 +3508,10 @@ define([], function () {
                     hint = '',
                     argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
                     activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
-                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null,
+                    argConstList = funcInfo ? funcInfo.asc_getActiveArgHelpList() : null;
+
+                this.argConstList = argConstList && argConstList.length ? argConstList : null;
 
                 if (argstype && activeArgsCount) {
                     var args = '';
@@ -3324,7 +3599,7 @@ define([], function () {
                     functip.isHidden = false;
                 }
 
-                var infocus = this.cellEditor.is(":focus"),
+                var infocus = this.cellEditorScrollBox.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
                     var offset = Common.Utils.getOffset(this.cellEditor);
@@ -3349,7 +3624,18 @@ define([], function () {
                     top : showPoint[1] + 'px',
                     left: showPoint[0] + 'px'
                 });
+
+                if ((!this.argConstList || !this.argConstList.length) &&
+                    this.formulaMenuType === 'arg-help') {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
             } else {
+                this.argConstList = null;
+                if (this.formulaMenuType === 'arg-help' && this.documentHolder.funcMenu) {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
                 if (!functip.isHidden && functip.ref) {
                     functip.ref.hide();
                     functip.ref = undefined;
@@ -3468,8 +3754,8 @@ define([], function () {
                 [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
@@ -3481,7 +3767,14 @@ define([], function () {
                 [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
-                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+                [_set.funnel]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'legend'],
+                [_set.histogram]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.waterfall]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.boxWhisker]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
+                [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
          dh.onChartElement = function(menu, item) {
@@ -3621,15 +3914,15 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
-                // case 'bShowDataNone':
-                //     chartProps.setDisplayDataTable(false, false);
-                //     break;
-                // case 'bShowDataTable':
-                //     chartProps.setDisplayDataTable(true, false);
-                //     break;
-                // case 'bShowLegendKeys':
-                //     chartProps.setDisplayDataTable(true, true);
-                //     break;
+                case 'bShowDataNone':
+                    chartProps.setDisplayDataTable(false, false);
+                    break;
+                case 'bShowDataTable':
+                    chartProps.setDisplayDataTable(true, false);
+                    break;
+                case 'bShowLegendKeys':
+                    chartProps.setDisplayDataTable(true, true);
+                    break;
                 case 'noneError':
                     chartProps.setDisplayErrorBars(false);
                     break;
@@ -3807,12 +4100,18 @@ define([], function () {
                 labelsMenu.items[9].setVisible(LabelGroup5);
             }
             
-            // const tableMenu = menu.items[4].menu;
-            // highlightSubmenuItem(tableMenu.items[0], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[1], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[2], false,'table');
+            const tableMenu = menu.items[4].menu;
+            const dataTableState = chartProps.getDataTable && chartProps.getDataTable();
+            tableMenu.clearAll(true);
+            if (dataTableState === true) {
+                tableMenu.items[2].setChecked(true);
+            } else if (dataTableState === false) {
+                tableMenu.items[1].setChecked(true);
+            } else {
+                tableMenu.items[0].setChecked(true);
+            }
 
-            const errorBarsMenu = menu.items[4].menu;
+            const errorBarsMenu = menu.items[5].menu;
             errorBarsMenu.clearAll(true);
             if (errorBarType === null) {
                 errorBarsMenu.items[0].setChecked(true);
@@ -3824,7 +4123,7 @@ define([], function () {
                 errorBarsMenu.items[3].setChecked(true);
             }
 
-            const gridMenu = menu.items[5].menu;
+            const gridMenu = menu.items[6].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
             if (RadarChart) {
@@ -3841,7 +4140,7 @@ define([], function () {
                 gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
-            const legendMenu = menu.items[6].menu;
+            const legendMenu = menu.items[7].menu;
             legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
             legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
             legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
@@ -3850,7 +4149,7 @@ define([], function () {
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
-            const trendlinesMenu = menu.items[7].menu;
+            const trendlinesMenu = menu.items[8].menu;
             trendlinesMenu.clearAll(true);
             if (trendlineState.type === null) {
                 trendlinesMenu.items[0].setChecked(true);

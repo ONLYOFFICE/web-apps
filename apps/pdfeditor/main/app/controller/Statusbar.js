@@ -120,12 +120,13 @@ define([
             });
         },
 
-        onChangeCompactView: function (view, status) {
+        onChangeCompactView: function (view, status, suppressSave) {
             this.statusbar.setVisible(!status);
-            Common.localStorage.setBool('pdfe-hidden-status', status);
-
-            if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
-                this.statusbar.fireEvent('view:hide', [this, status]);
+            if(suppressSave !== true) {
+                Common.localStorage.setBool('pdfe-hidden-status', status);
+                if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                    this.statusbar.fireEvent('view:hide', [this, status]);
+                }
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'status');

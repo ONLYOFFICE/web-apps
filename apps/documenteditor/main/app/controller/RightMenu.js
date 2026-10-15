@@ -308,10 +308,11 @@ define([
             if (!this._settings[Common.Utils.documentSettingsType.Signature].hidden)
                 this._settings[Common.Utils.documentSettingsType.Signature].panel.setProtected(isProtected);
 
-            if (!this.rightmenu.minimizedMode || open) {
-                var active;
+            if (!this.rightmenu.minimizedMode || open || this._openRightMenu) {
+                var active,
+                    pluginActive = !this.rightmenu.minimizedMode && (!!this.rightmenu.GetActivePluginPane() || this.rightmenu.isPluginButtonPressed());
 
-                if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
+                if (priorityactive<0 && !pluginActive && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
                     (!this._settings[Common.Utils.documentSettingsType.Paragraph].hidden || !this._settings[Common.Utils.documentSettingsType.Image].hidden
                     || !this._settings[Common.Utils.documentSettingsType.Shape].hidden)) {
                     var imageactive = Common.Utils.InternalSettings.get("de-rightpanel-active-image") || 0,
@@ -337,17 +338,18 @@ define([
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
                 else if (!this.rightmenu.GetActivePluginPane() && !this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
-                if (active == undefined && open && lastactive>=0)
+                if (active == undefined && (open || this._openRightMenu) && lastactive>=0)
                     active = lastactive;
-                
+
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active, open);
+                    this.rightmenu.SetActivePane(active, open || this._openRightMenu);
                     if (active === Common.Utils.documentSettingsType.Form)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props, isShape);
                     else if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                    this._openRightMenu = false;
                     (active !== currentactive) && this.rightmenu.updateScroller();
                 } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
                     for (var i=0; i<this._settings.length; i++) {
@@ -363,6 +365,7 @@ define([
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             // this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
+            this._openRightMenu = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -390,8 +393,10 @@ define([
         },
 
         onInsertControl:  function() {
-            if (this._settings[Common.Utils.documentSettingsType.Form])
+            if (this._settings[Common.Utils.documentSettingsType.Form]) {
                 this._settings[Common.Utils.documentSettingsType.Form].needShow = true;
+                this._openRightMenu = true;
+            }
         },
 
         UpdateThemeColors:  function() {
@@ -528,7 +533,7 @@ define([
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                     this.rightmenu.btnFillingStatus && this.rightmenu.btnFillingStatus.setDisabled(disabled);
                     this.rightmenu.setDisabledAllMoreMenuItems(disabled);
-                } else {
+                } else if(!this.rightmenu.isPluginButtonPressed()) {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings") && // user didn't close panel
@@ -565,11 +570,11 @@ define([
             }
         },
 
-        onRightMenuHide: function (view, status, notSaveInStorage) { // status = true when show panel
+        onRightMenuHide: function (view, status, preventSave) { // status = true when show panel
             if (this.rightmenu) {
                 !status && this.rightmenu.clearSelection();
                 status ? this.rightmenu.show() : this.rightmenu.hide();
-                if(!notSaveInStorage) {
+                if(!preventSave) {
                     Common.localStorage.setBool('de-hidden-rightmenu', !status);
                     Common.Utils.InternalSettings.set("de-hidden-rightmenu", !status);
                 }
@@ -605,6 +610,18 @@ define([
         },
 
         addNewPlugin: function (button, $button, $panel) {
+            if(!this.rightmenu.api) {
+                const mainController = this.getApplication().getController('Main');
+                this.setApi(mainController.api);
+                this.setMode(mainController.appOptions);
+                this.rightmenu.render(mainController.appOptions);
+                this.rightmenu.setApi(this.api);
+                this.rightmenu.setMode(mainController.appOptions);
+            }
+            if(this.rightmenu.$el.is(':hidden')) {
+                this.onRightMenuHide(undefined, true, true);
+            }
+
             this.rightmenu.insertButton(button, $button);
             this.rightmenu.insertPanel($panel);
         },
@@ -618,6 +635,10 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+            
+            if(this.rightmenu.getVisibleButtons().length == 0) {
+                this.onRightMenuHide(undefined, false, true);
+            }
         },
 
         openSendForSigning: function() {

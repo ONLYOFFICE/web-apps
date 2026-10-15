@@ -156,7 +156,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-type-dlg-button-type'), this.$window);
@@ -484,7 +484,7 @@ define([
                 formTemplate: _.template([
                     '<input type="text" class="form-control" spellcheck="false">',
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: function(record) {
                     $(this.el).find('input').val(record ? record.get('tip') : '');

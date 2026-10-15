@@ -46,9 +46,25 @@ define([
 ], function () {
     'use strict';
 
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    const enumLock = {
+        canRedact: 'can-redact'
+    };
+    for (const key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     PDFE.Views.RedactTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="red" role="tabpanel">' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-hiddeninfo"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-markredact"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-redactpages"></span>' +
@@ -65,6 +81,9 @@ define([
 
             setEvents: function () {
                 var me = this;
+                this.btnRemoveHidden.on('click', function (btn) {
+                    me.fireEvent('hiddeninfo:remove')
+                });
                 me.btnMarkForRedact.on('click', function (btn) {
                     me.fireEvent('redact:start', [btn.pressed ? true : false]);
                 });
@@ -85,6 +104,18 @@ define([
 
                 var me = this;
                 var _set = Common.enumLock;
+
+                this.btnRemoveHidden = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-clear-metadata',
+                    style: 'min-width: 45px;',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: me.capRemoveHiddenInfo,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(this.btnRemoveHidden);
 
                 this.btnMarkForRedact = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -127,7 +158,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-redact-apply',
                     style: 'min-width: 45px;',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.canRedact],
                     caption: me.capApplyRedactions,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -155,6 +186,7 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
+                _injectComponent('#slot-btn-hiddeninfo', this.btnRemoveHidden);
                 _injectComponent('#slot-btn-markredact', this.btnMarkForRedact);
                 _injectComponent('#slot-btn-redactpages', this.btnRedactPages);
                 _injectComponent('#slot-btn-apply-redactions', this.btnApplyRedactions);
@@ -181,6 +213,7 @@ define([
                     })
                 );
 
+                this.btnRemoveHidden.updateHint(this.tipRemoveHiddenInfo);
                 this.btnMarkForRedact.updateHint(this.tipMarkForRedact);
                 this.btnRedactPages.updateHint(this.tipRedactPages);
                 this.btnApplyRedactions.updateHint(this.tipApplyRedactions);

@@ -42,6 +42,22 @@ DE.ApplicationView = new(function(){
 
     // Initialize view
 
+    function createZoomMenu() {
+        var items = '<li data-value="zoom:page"><a><span class="mi-icon menu-check"></span>' + this.textFitToPage + '</a></li>' +
+                    '<li data-value="zoom:width"><a><span class="mi-icon menu-check"></span>' + this.textFitToWidth + '</a></li>' +
+                    '<li data-value="zoom:multi"><a><span class="mi-icon menu-check"></span>' + this.textMultiplePages + '</a></li>' +
+                    '<li class="divider"></li>';
+
+        [50, 75, 100, 125, 150, 175, 200, 300, 400, 500].forEach(function(value){
+            items += '<li data-value="' + value + '" data-group="zoom-list"><a><span class="mi-icon menu-check"></span>' + value + '%</a></li>';
+        });
+
+        return '<li id="idt-zoom" class="dropdown-submenu">' +
+                    '<a><span class="mi-icon"></span>' + this.textZoom + '</a>' +
+                    '<ul id="idt-zoom-menu" class="dropdown-menu">' + items + '</ul>' +
+                '</li>';
+    }
+
     function createView(){
         $btnTools = $('#box-tools button');
 
@@ -53,6 +69,7 @@ DE.ApplicationView = new(function(){
                 '<li><a id="idt-download-pdf"><span class="mi-icon"></span>' + this.txtDownloadPdf + '</a></li>' +
                 '<li><a id="idt-print"><span class="mi-icon svg-icon print"></span>' + this.txtPrint + '</a></li>' +
                 '<li class="divider"></li>' +
+                createZoomMenu.call(this) +
                 '<li><a id="idt-search"><span class="mi-icon svg-icon search"></span>' + this.txtSearch + '</a></li>' +
                 '<li class="divider"></li>' +
                 '<li><a id="idt-share" data-toggle="modal"><span class="mi-icon svg-icon share"></span>' + this.txtShare + '</a></li>' +
@@ -61,6 +78,16 @@ DE.ApplicationView = new(function(){
                 '<li><a id="idt-embed" data-toggle="modal"><span class="mi-icon svg-icon embed"></span>' + this.txtEmbed + '</a></li>' +
                 '<li><a id="idt-fullscreen"><span class="mi-icon svg-icon fullscr"></span>' + this.txtFullScreen + '</a></li>' +
             '</ul>');
+
+        $('#idt-zoom > a').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        $('#idt-zoom').on('mouseenter', function(){
+            var space = $(window).height() - $(this).offset().top - 4;
+            $('#idt-zoom-menu').css('max-height', Math.max(space, 100) + 'px');
+        });
     }
 
     function getTools(name) {
@@ -93,6 +120,10 @@ DE.ApplicationView = new(function(){
         txtFileLocation: 'Open file location',
         txtDownloadDocx: 'Download as docx',
         txtDownloadPdf: 'Download as pdf',
-        txtSearch: 'Search'
+        txtSearch: 'Search',
+        textZoom: 'Zoom',
+        textFitToPage: 'Fit to page',
+        textFitToWidth: 'Fit to width',
+        textMultiplePages: 'Multiple pages'
     }
 })();

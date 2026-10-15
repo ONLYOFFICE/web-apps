@@ -123,7 +123,8 @@ define([], function () {
                 Slicer: 12,
                 Form: 13,
                 FillingStatus: 14,
-                SendForSigning: 15
+                SendForSigning: 15,
+                Annotation: 16,
             },
             importTextType = {
                 DRM: 0,
@@ -135,6 +136,7 @@ define([], function () {
             },
             isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
             needRepaint = undefined,
+            isCompactMode = undefined,  //Is compact mode enabled for WCAG 2.1 compliance (1.4.10 Reflow) 
             me = this,
             checkSize = function () {
                 var scale = {};
@@ -210,6 +212,16 @@ define([], function () {
                                                                             // commit title is "Fix jquery loading in the hidden frame". need to test
                     Common.NotificationCenter.trigger('app:repaint');
                 }
+        
+                const curIsCompactMode = checkCompactMode();
+                if(isCompactMode !== curIsCompactMode) {
+                    !!Common.NotificationCenter && Common.NotificationCenter.trigger('app:compact-mode', curIsCompactMode);
+                    document.body && document.body.classList.toggle('compact-mode', !!curIsCompactMode);
+                    isCompactMode = curIsCompactMode;
+                }
+            },
+            checkCompactMode = function () {
+                return window.innerWidth <= 340 || window.innerHeight <= 256;
             },
             checkSizeIE = function () {
                 me.innerWidth = window.innerWidth;
@@ -298,6 +310,7 @@ define([], function () {
 
         return {
             checkSize: checkSize,
+            checkCompactMode: checkCompactMode,
 
             userAgent: userAgent,
             isStrict: isStrict,
@@ -637,6 +650,39 @@ define([], function () {
                         return parseFloat((value * 72.0 / 25.4).toFixed(3));
                     case me.c_MetricUnits.inch:
                         return parseFloat((value / 25.4).toFixed(3));
+                }
+                return value;
+            },
+
+            fnRecalcToPt: function (value) {
+                // value in mm/cm/inch. need to convert to pt
+                if (value !== null && value !== undefined) {
+                    switch (me.currentMetric) {
+                        case me.c_MetricUnits.mm:
+                            return value * 72.0 / 25.4;
+
+                        case me.c_MetricUnits.cm:
+                            return value * 10 * 72.0 / 25.4;
+
+                        case me.c_MetricUnits.inch:
+                            return value * 72.0;
+
+                        case me.c_MetricUnits.pt:
+                            return value;
+                    }
+                }
+                return value;
+            },
+
+            fnRecalcFromPt: function (value) {
+                // value in pt. need to convert to mm/cm/inch
+                switch (me.currentMetric) {
+                    case me.c_MetricUnits.mm:
+                        return parseFloat((value * 25.4 / 72).toFixed(3));
+                    case me.c_MetricUnits.cm:
+                        return parseFloat((value * 25.4 / 72 / 10).toFixed(4));
+                    case me.c_MetricUnits.inch:
+                        return parseFloat((value / 72).toFixed(4));
                 }
                 return value;
             }

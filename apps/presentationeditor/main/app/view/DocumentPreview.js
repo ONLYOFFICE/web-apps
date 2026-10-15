@@ -77,9 +77,9 @@ define([
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
                 '<div id="preview-controls-panel" class="preview-controls">',
                     '<div class="preview-group" style="">',
-                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem icon-rtl">&nbsp;</i></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play">&nbsp;</i></button>',
-                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem icon-rtl">&nbsp;</i></button>',
+                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem icon-rtl" aria-hidden="true">&nbsp;</i></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play" aria-hidden="true">&nbsp;</i></button>',
+                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem icon-rtl" aria-hidden="true">&nbsp;</i></button>',
                         '<div class="separator"></div>',
                     '</div>',
                     '<div class="preview-group dropup">',
@@ -90,14 +90,14 @@ define([
                         '</div>',
                     '</div>',
                     '<div id="preview-group-draw" class="preview-group">',
-                        '<div class="separator"></div>',
+                        '<div class="separator draw"></div>',
                         '<div id="btn-preview-draw" style="display: inline-block;"></div>',
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"></div>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-fullscreen">&nbsp;</i></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-fullscreen" aria-hidden="true">&nbsp;</i></button>',
                         '<div class="separator fullscreen"></div>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-close">&nbsp;</i></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-close" aria-hidden="true">&nbsp;</i></button>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -360,6 +360,7 @@ define([
             }
 
             this.separatorFullScreen = el.find('.separator.fullscreen');
+            this.separatorDraw = el.find('.separator.draw');
 
             me.previewControls.on('mouseenter', function(e) {
                 clearTimeout(me.timerMove);

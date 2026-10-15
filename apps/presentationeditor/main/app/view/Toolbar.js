@@ -107,6 +107,7 @@ define([
         noParagraphObject:  'no-paragraph-obj',
         inSlideMaster: 'in-slide-master',
         slideMasterMode: 'slide-master-mode',
+        lockDocumentNoteProps: 'lock-document-note-props',
         cantMergeShape: 'merge-shape-lock',
         cantSave: 'cant-save',
         macrosStopped: 'macros-stopped'
@@ -1365,7 +1366,7 @@ define([
                         enableKeyEvents: true,
                         itemHeight: 40,
                         style: 'min-width:123px;',
-                        lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
+                        lock: [_set.themeLock, _set.lostConnect, _set.noSlides, _set.slideMasterMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
@@ -1509,7 +1510,6 @@ define([
                 } else
                 if ( tab == 'file' ) {
                     me.fireEvent('file:open');
-                    me.setTab(tab);
                 }
             },
 
@@ -1825,7 +1825,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)

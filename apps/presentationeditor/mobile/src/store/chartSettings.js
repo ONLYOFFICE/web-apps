@@ -160,6 +160,9 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.comboBarLine,            thumb: ChartComboColumnLine.id },
             { type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary,   thumb: ChartComboColumnLineSecondaryAxis.id },
             { type: Asc.c_oAscChartTypeSettings.comboAreaBar,            thumb: ChartComboColumnAreaStack.id },
+            { type: Asc.c_oAscChartTypeSettings.radar,                   thumb: 'chart-26.png'},
+            { type: Asc.c_oAscChartTypeSettings.radarMarker,             thumb: 'chart-27.png'},
+            { type: Asc.c_oAscChartTypeSettings.radarFilled,             thumb: 'chart-28.png'},
         ];
         const columns = 3;
         const arr = [];

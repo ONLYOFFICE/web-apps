@@ -746,6 +746,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:'connected'});
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -831,6 +832,11 @@ define([
                         text    = this.waitText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['ExportVideo']:
+                        title   = this.animatedExportTitleText;
+                        text    = this.animatedExportTextText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         text    = this.txtEditingMode;
@@ -845,9 +851,11 @@ define([
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection:'disconnected'});
                         var me = this;
                         me._state.timerDisconnect = setTimeout(function(){
                             Common.UI.TooltipManager.showTip('disconnect');
+                            Common.Gateway.sendInfo({connection:'reconnecting'});
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
@@ -1114,7 +1122,7 @@ define([
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection:'connected'});
                 this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
                     if (data.command == 'wopi:saveAsComplete') {
                         me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
@@ -1366,7 +1374,7 @@ define([
                     console.log("Obsolete: The 'chat' parameter of the 'customization' section is deprecated. Please use 'chat' parameter in the permissions instead.");
                 }
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint;
                 this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -1853,6 +1861,14 @@ define([
                         config.msg = this.errorForcedViewMode;
                         break;
 
+                    case Asc.c_oAscError.ID.AnimatedExport:
+                        config.msg = this.errorAnimatedExport;
+                        break;
+
+                    case Asc.c_oAscError.ID.AnimatedExportMemory:
+                        config.msg = this.errorAnimatedExportMemory;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
@@ -1938,6 +1954,8 @@ define([
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings) {
@@ -2562,7 +2580,9 @@ define([
                 var value = Common.localStorage.getBool("pe-hide-quick-print-warning"),
                     me = this,
                     handler = function () {
-                        var printopt = new Asc.asc_CAdjustPrint();
+                        const printController = me.getApplication().getController('Print');
+                        var printopt = new Asc.CAscPresentationPrintOptions();
+                        printController && printController.updatePrintOptions(printopt);
                         printopt.asc_setNativeOptions({quickPrint: true});
                         var opts = new Asc.asc_CDownloadOptions();
                         opts.asc_setAdvancedOptions(printopt);

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <g class="icon-bullets">
     <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6H10m0 6h10m-10 6h10" class="icon-stroke-gray-primary"/>
-    <path fill="#446ECA" d="M5 4.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Zm0 6a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Zm0 6a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Z" class="icon-fill-blue-primary"/>
+    <path fill="#446ECA" d="M5 4.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Zm0 6a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Zm0 6a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Z" class="icon-fill-brand-primary"/>
   </g>
 </svg>

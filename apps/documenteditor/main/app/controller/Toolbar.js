@@ -175,7 +175,13 @@ define([
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
-                    }
+                    },
+                    'user-go-to-cursor': function(userId) {
+                        me.api.asc_scrollToUserCursor(userId);
+                    },
+                    'user-follow': function(userId) {
+                        me.api.asc_followUser(userId || null);
+                    },
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
@@ -278,16 +284,10 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 // 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
                 //                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'tipChartTab' : {name: 'de-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'multipageViewStatusbar' : {name: 'de-help-tip-multipage-view-statusbar', placement: 'top-left', text: this.helpMultipageView, header: this.helpMultipageViewHeader, target: '#status-btn-multiple-pages', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'headerFooterTab' : {name:'de-help-tip-header-footer-tab', placement: 'bottom-left', text: this.helpHeaderFooterTab, header: this.helpHeaderFooterTabHeader, target: 'li.ribtab #headerfooter', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'signature' : {name:'de-help-tip-signature', placement: 'bottom-right', text: this.helpSignature, header: this.helpSignatureHeader, target: '#slot-btn-form-signature', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'pasteOptions' : {name:'de-help-tip-pasteOptions', placement: 'bottom-right', text: this.helpPasteOptions, header: this.helpPasteOptionsHeader, target: '#slot-btn-paste', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true}
+                'followUser' : {name: 'de-help-tip-follow-user', placement: 'bottom-left', text: this.helpFollowUser, header: this.helpFollowUserHeader, target: '#tlb-box-users', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true},
+                'aiTools' : {name: 'de-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
             });
             // TODO: Add name
             Common.UI.TooltipManager.addTips({
@@ -547,6 +547,8 @@ define([
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onFollowUser', this.onFollowUser.bind(this, true));
+            this.api.asc_registerCallback('asc_onUnfollowUser', this.onFollowUser.bind(this, false));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
@@ -853,7 +855,7 @@ define([
                     in_image = true;
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
-                        in_chart = true;
+                        in_chart = !!this.api.asc_getChartSettings(true);
                     if (pr && pr.get_ShapeProperties())
                         shape_pr = pr.get_ShapeProperties();
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
@@ -3277,7 +3279,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-toolbar-menu-insertshape'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
                 outerMenu: {menu: me.toolbar.btnInsertShape.menu, index:0},
@@ -3835,17 +3837,24 @@ define([
             this.onBtnChangeState('print:disabled', null, !this.mode.canPrint);
         },
 
-        onAppShowed: function (config) {
-            var me = this,
-                application = this.getApplication();
-
-            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this,
+                application = this.getApplication();
+
+            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({isCompactView: editmode ? compactview : true}, config));
@@ -3933,7 +3942,7 @@ define([
                         Array.prototype.push.apply(me.toolbar.lockControls, doctabButtons);
                     }
                 }
-
+                
                 var links = application.getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
@@ -4105,6 +4114,11 @@ define([
             this.isFromFormSaveAs = false;
         },
 
+        onFollowUser: function(isFollow, userId) {
+            const headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
+            headerView && headerView.setUserFollow(userId, isFollow);
+        },
+
         getView: function (name) {
             return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
         },
@@ -4252,10 +4266,26 @@ define([
             }
         },
         onPluginToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+            this._applyPluginToolbarControls(data, false);
+        },
+
+        _applyPluginToolbarControls: function(data, update) {
+            const api = this.api;
+            const controls = Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
                 api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }));
+            }, update);
+
+            // In view mode, lock plugin controls that have viewMode in their lock list.
+            if (!this.mode.isEdit) {
+                const controlsLockView = [];
+                controls.forEach(function(control) {
+                    if (control && control.options && (control.options.lock || []).includes(Common.enumLock.viewMode)) {
+                        controlsLockView.push(control);
+                    }
+                });
+                controlsLockView.length && Common.Utils.lockControls(Common.enumLock.viewMode, true, {array: controlsLockView});
+            }
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, controls);
         },
 
         onPluginToolbarCustomMenuItems: function(action, data) {
@@ -4270,10 +4300,7 @@ define([
         },
 
         onPluginUpdateToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
-                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }, true));
+            this._applyPluginToolbarControls(data, true);
         },
 
         onDocumentReady: function() {
@@ -4286,42 +4313,10 @@ define([
 
             this.mode && this.mode.isDesktopApp && Common.UI.TooltipManager.showTip('pasteOptions');
 
-            if(this.mode.isPDFForm) {
-                const formsTabView = this.getApplication().getController('FormsTab').getView();
-                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled() && 
-                    this.toolbar.isTabActive('forms')
-                ) {
-                    Common.UI.TooltipManager.showTip('signature');
-                }
-            }
-
-            Common.UI.TooltipManager.showTip('multipageViewStatusbar');
         },
 
         onActiveTab: function(tab) {
-            if(tab !== 'forms') {
-                Common.UI.TooltipManager.closeTip('signature');
-            } else {
-                const formsTabView = this.getApplication().getController('FormsTab').getView();
-                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled()) {
-                    setTimeout(() => {
-                        Common.UI.TooltipManager.showTip('signature') 
-                    }, 10);
-                }
-            }
-
-            if(tab === 'view') {
-                Common.UI.TooltipManager.showTip('multipageViewToolbar');
-                Common.UI.TooltipManager.closeTip('multipageViewStatusbar');
-            } else if (tab == 'charttab') {
-                Common.UI.TooltipManager.closeTip('tipChartTab');
-            } else {
-                Common.UI.TooltipManager.closeTip('multipageViewToolbar');
-            }
-
-            (tab === 'headerfooter') 
-                ? Common.UI.TooltipManager.showTip('headerFooterTab') 
-                : Common.UI.TooltipManager.closeTip('headerFooterTab');
+            (tab == 'charttab') && Common.UI.TooltipManager.closeTip('tipChartTab');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('pasteOptions');
         },
 
@@ -4330,7 +4325,6 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('signature')
         }
 
     }, DE.Controllers.Toolbar || {}));

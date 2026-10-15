@@ -67,8 +67,7 @@ class DownloadController extends Component {
         options.asc_setIsSaveAs(isNeedDownload);
         const isPdfLike = /^pdf|xps|oxps|djvu$/.test(fileType);
 
-        if(isPdfLike) 
-            this.closeModal();
+        this.closeModal();
 
         if (format === Asc.c_oAscFileType.DJVU && isPdfLike) { 
             api.asc_DownloadOrigin(options);
@@ -120,12 +119,19 @@ class DownloadController extends Component {
 
     }
 
+    getAllowedFormats() {
+        const api = Common.EditorApi.get();
+        const formats = api ? api.getSaveFormats() : undefined;
+        return formats != undefined && !Array.isArray(formats) ? [formats] : formats;
+    }
+
     render() {
         return (
-            <Download 
-                onSaveFormat={this.onSaveFormat} 
+            <Download
+                onSaveFormat={this.onSaveFormat}
                 isForm={this.appOptions.isForm}
                 canFillForms={this.appOptions.canFillForms}
+                allowedFormats={this.getAllowedFormats()}
             />
         );
     }
@@ -188,6 +194,13 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
                     passwordIcon.classList.toggle('icon-show-password');
                     passwordIcon.classList.toggle('icon-hide-password');
                     passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+                });
+
+                passwordField.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        buttons[0].onClick();
+                        f7.dialog.close();
+                    }
                 });
             },
         }

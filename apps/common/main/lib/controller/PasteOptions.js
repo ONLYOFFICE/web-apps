@@ -130,6 +130,8 @@ define([
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = me.txtDestLink;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.uniteList] = documentHolder.txtUniteList;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.doNotUniteList] = documentHolder.txtDoNotUniteList;
             } else {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = [me.txtPaste, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = [me.txtPasteFormulas, 0];
@@ -264,6 +266,8 @@ define([
                 me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
                 me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
                 me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+                me.hkSpecPaste[Asc.c_oSpecialPasteProps.uniteList] = 'E';
+                me.hkSpecPaste[Asc.c_oSpecialPasteProps.doNotUniteList] = 'A';
             } else {
                 me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
                 me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';

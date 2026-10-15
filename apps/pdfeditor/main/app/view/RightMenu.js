@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!pdfeditor/main/app/template/RightMenu.template',
@@ -52,13 +53,17 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
+    'common/main/lib/view/SendForSigningSettings',
     'pdfeditor/main/app/view/ParagraphSettings',
     'pdfeditor/main/app/view/ImageSettings',
     // 'pdfeditor/main/app/view/ChartSettings',
     'pdfeditor/main/app/view/TableSettings',
     'pdfeditor/main/app/view/ShapeSettings',
     'pdfeditor/main/app/view/TextArtSettings',
-    // 'pdfeditor/main/app/view/SignatureSettings',
+    'pdfeditor/main/app/view/AnnotationSettings',
+    'pdfeditor/main/app/view/FormSettings',
+    'pdfeditor/main/app/view/SignatureSettings',
+    'common/main/lib/view/FillingStatusSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -84,7 +89,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
@@ -93,7 +99,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
@@ -102,7 +109,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             // this.btnChart = new Common.UI.Button({
             //     hint: this.txtChartSettings,
@@ -120,7 +128,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -130,7 +139,19 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
+            });
+
+            this.btnAnnotation = new Common.UI.Button({
+                hint: this.txtAnnotationSettings,
+                asctype: Common.Utils.documentSettingsType.Annotation,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-menu-textart',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this._settings = [];
@@ -140,6 +161,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             // this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.Annotation]  = {panel: "id-annotation-settings", btn: this.btnAnnotation};
 
             return this;
         },
@@ -162,7 +184,8 @@ define([
                 Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             }, this));
 
-            el.html(this.template({scope: this}));
+            var $markup = $(this.template({scope: this}));
+            this.$el.html($markup);
 
             this.updateWidth();
             el.show();
@@ -171,12 +194,13 @@ define([
             Common.UI.SideMenu.prototype.render.call(this);
             this.btnMore.menu.menuAlign = 'tr-tl';
 
-            this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
-            this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
-            this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
+            this.btnText.setElement($('#id-right-menu-text'), false);                   this.btnText.render();
+            this.btnTable.setElement($('#id-right-menu-table'), false);                 this.btnTable.render();
+            this.btnImage.setElement($('#id-right-menu-image'), false);                 this.btnImage.render();
             // this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
-            this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
-            this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
+            this.btnShape.setElement($('#id-right-menu-shape'), false);                 this.btnShape.render();
+            this.btnTextArt.setElement($('#id-right-menu-textart'), false);             this.btnTextArt.render();
+            this.btnAnnotation.setElement($('#id-right-menu-annotation'), false);       this.btnAnnotation.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -184,6 +208,7 @@ define([
             // this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
+            this.btnAnnotation.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new PDFE.Views.ParagraphSettings();
             this.imageSettings = new PDFE.Views.ImageSettings();
@@ -191,23 +216,25 @@ define([
             this.tableSettings = new PDFE.Views.TableSettings();
             this.shapeSettings = new PDFE.Views.ShapeSettings();
             this.textartSettings = new PDFE.Views.TextArtSettings();
+            this.annotationSettings = new PDFE.Views.AnnotationSettings();
 
-            // if (mode && mode.isSignatureSupport) {
-            //     this.btnSignature = new Common.UI.Button({
-            //         hint: this.txtSignatureSettings,
-            //         asctype: Common.Utils.documentSettingsType.Signature,
-            //         enableToggle: true,
-            //         disabled: true,
-            //         iconCls: 'btn-menu-signature',
-            //         toggleGroup: 'tabpanelbtnsGroup',
-            //         allowMouseEventsOnDisabled: true
-            //     });
-            //     this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
-            //
-            //     this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
-            //     this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
-            //     this.signatureSettings = new PDFE.Views.SignatureSettings();
-            // }
+            if (mode && (mode.isSignatureSupport || mode.isPDFSignatureSupport)) {
+                this.btnSignature = new Common.UI.Button({
+                    hint: this.txtSignatureSettings,
+                    asctype: Common.Utils.documentSettingsType.Signature,
+                    enableToggle: true,
+                    disabled: true,
+                    iconCls: 'btn-menu-signature',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
+                });
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+            
+                this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
+                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
+                this.signatureSettings = new PDFE.Views.SignatureSettings();
+            }
 
             if (mode && mode.canFeatureForms) {
                 this.btnForm = new Common.UI.Button({
@@ -217,12 +244,92 @@ define([
                     disabled: true,
                     iconCls: 'btn-field',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
                 this.btnForm.setElement($('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
                 this.btnForm.on('click', this.onBtnMenuClick.bind(this));
                 this.formSettings = new PDFE.Views.FormSettings();
+            }
+
+            if (mode && (mode.canStartFilling || mode.canRequestStartFilling) && mode.canSwitchMode &&
+                mode.canFeatureForms && !mode.canRequestStartFilling && mode.canRequestUsers
+            ) {
+                const me = this;
+                this.btnSendForSigning = new Common.UI.Button({
+                    hint: this.txtSendForSigning,
+                    asctype: Common.Utils.documentSettingsType.SendForSigning,
+                    enableToggle: true,
+                    disabled: true,
+                    iconCls: 'btn-menu-send-to-sign',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
+                });
+                this._settings[Common.Utils.documentSettingsType.SendForSigning]   = {panel: "id-send-for-signing-settings", btn: this.btnSendForSigning};
+                this.btnSendForSigning.setElement($markup.findById('#id-right-menu-send-for-signing'), false); 
+                this.btnSendForSigning.render().setVisible(true);
+                this.btnSendForSigning.on('click', function(btn, e, openStatus) {
+                    if(!btn) return;
+
+                    if(openStatus === true || btn.pressed) {
+                        if(!this.$el.is(':visible')) {
+                            PDFE.getController('RightMenu').onRightMenuHide(null, true);
+                        }
+                        this.disableUIForSendForSigning(true);
+                        const panelType = Common.Utils.documentSettingsType.SendForSigning;
+                        this._settings[panelType].btn.setDisabled(false);
+                        this._settings[panelType].btn.toggle(true);
+                        this.onBtnMenuClick(btn, e);
+                    } else {
+                        btn.toggle(true);
+                        btn.$el.blur();
+                    }
+                }.bind(this));
+                this.sendForSigningSettings = new Common.Views.SendForSigningSettings({
+                    handler: function(state, options) {
+                        if(state == 'submit') {
+                            me.btnSendForSigning.toggle(false);
+                            me.onBtnMenuClick(me.btnSendForSigning);
+                            me.disableUIForSendForSigning(false);
+                            PDFE.getController('Main').onStartFilling(true, options);
+                        } else if(state == 'cancel') {
+                            me.btnSendForSigning.toggle(false);
+                            me.onBtnMenuClick(me.btnSendForSigning);
+                            me.btnSendForSigning.setDisabled(true);
+                            me.disableUIForSendForSigning(false);
+                        }
+                    }
+                });
+            }
+
+            if(mode && mode.isPDFFill && !mode.canRequestFillingStatus && 
+                (mode.user && mode.user.roles && mode.user.roles.length > 0)
+            ) {
+                this.btnFillingStatus = new Common.UI.Button({
+                    hint: this.txtFillingStatus,
+                    asctype: Common.Utils.documentSettingsType.FillingStatus,
+                    enableToggle: true,
+                    disabled: false,
+                    iconCls: 'btn-filling-status',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
+                });
+                this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
+                this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 
+                this.btnFillingStatus.render().setVisible(true);
+                this.btnFillingStatus.on('click', this.onBtnMenuClick.bind(this));
+                this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
+            }
+
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnTable, this.btnImage, this.btnChart, this.btnShape, this.btnTextArt, 
+                    this.btnAnnotation, this.btnForm, this.btnSendForSigning, this.btnFillingStatus].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
             }
 
             if (_.isUndefined(this.scroller)) {
@@ -250,8 +357,11 @@ define([
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
-            // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.annotationSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
+            if (this.sendForSigningSettings) this.sendForSigningSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
+            if (this.fillingStatusSettings) this.fillingStatusSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
 
         setMode: function(mode) {
@@ -259,6 +369,10 @@ define([
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
             // this.chartSettings && this.chartSettings.setMode(mode);
+            this.annotationSettings && this.annotationSettings.setMode(mode);
+            this.signatureSettings && this.signatureSettings.setMode(mode);
+            this.sendForSigningSettings && this.sendForSigningSettings.setMode(mode);
+            this.fillingStatusSettings && this.fillingStatusSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -280,24 +394,15 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const viewport = PDFE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.hideItemResizer('right', !isPlugin);
-
-                const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("pdfe-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("pdfe-hide-right-settings", true);
             }
@@ -323,6 +428,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -331,17 +438,54 @@ define([
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
+        },
+
         clearSelection: function() {
+            if(this.GetActivePane() == 'id-send-for-signing-settings') return;
+
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        disableUIForSendForSigning: function(status) {
+            if((this._sendForSigningState && this._sendForSigningState.isUIDisabled) == status) return;
+
+            let newDocMode;
+            if(status) {
+                const header = PDFE.getController('Viewport').getView('Common.Views.Header');
+                this._sendForSigningState = {
+                    docMode: (header &&
+                        header.btnPDFMode &&
+                        header.btnPDFMode.options.value) ||
+                        'edit',
+                    isUIDisabled: true
+                }
+                newDocMode = 'view';
+            } else {
+                newDocMode = this._sendForSigningState.docMode;
+                this._sendForSigningState.isUIDisabled = false;
+            }
+
+            PDFE.getController('LeftMenu').SetDisabled(status);
+            PDFE.getController('Main').onPdfModeApply(newDocMode);
+            Common.NotificationCenter.trigger('editing:disable', status, {
+                header: {docmode: true},
+            }, 'view');
+            PDFE.getController('Toolbar').DisableToolbar(status);
         },
 
         updateScroller: function() {
@@ -352,7 +496,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt/*, this.btnChart, this.btnSignature*/, this.btnForm];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart, this.btnSignature, this.btnForm, this.btnAnnotation, this.btnSendForSigning, this.btnFillingStatus];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -364,7 +508,7 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("pdfe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
@@ -372,7 +516,28 @@ define([
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             if ( !this.isPluginButtonPressed() ) {
-                this.$el.css('width', (!Common.Utils.InternalSettings.get("pdfe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+                this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
+            }
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const viewport = PDFE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.hideItemResizer('right', this.minimizedMode || !isPlugin);
+
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
+            } else {
+                const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
             }
         },
 
@@ -383,7 +548,10 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtSignatureSettings:       'Signature Settings',
-        ariaRightMenu:               'Right menu',
-        txtFormSettings:            'Form Settings'
+        ariaRightMenu:              'Right menu',
+        txtFormSettings:            'Form Settings',
+        txtAnnotationSettings:      'Annotation Settings',
+        txtSendForSigning:          'Send for signing',
+        txtFillingStatus:           'Filling status'
     }, PDFE.Views.RightMenu || {}));
 });

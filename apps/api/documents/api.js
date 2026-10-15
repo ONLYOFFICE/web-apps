@@ -265,20 +265,20 @@
                     statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
                     forcesave: false,
-                    showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
                     toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
                     mentionShare : true // customize tooltip for mention,
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
+                    ai: {
+                        disabled: true // disable AI features in editor: hide AI Tools and block AI requests
+                    },
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
@@ -432,6 +432,14 @@
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
+        if (_config.editorConfig.customization && !!_config.editorConfig.customization.ai && _config.editorConfig.customization.ai.disabled === true) {
+            // customization.ai.disabled=true is a shortcut for plugins.disable with the AI plugin guid
+            var _aiPluginGuid = "asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}",
+                _plugins = _config.editorConfig.plugins = _config.editorConfig.plugins || {},
+                _disable = _plugins.disable instanceof Array ? _plugins.disable : [];
+            if (_disable.indexOf(_aiPluginGuid) < 0)
+                _plugins.disable = _disable.concat(_aiPluginGuid);
+        }
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -541,7 +549,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|tsv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md|hml)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|tsv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps|ofd)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md|hml)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -600,7 +608,9 @@
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
-            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
+            const isFormUndefined = !!_config.document && (_config.document.isForm !== true && _config.document.isForm !== false);
+            const isEmbeddedPdf = _config.documentType == 'pdf' && _config.type == 'embedded';
+            if (isFormUndefined || isEmbeddedPdf) {
                 iframe.onload = function() {
                     _sendCommand({
                         command: 'checkParams',
@@ -1134,7 +1144,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|tsv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key|odg)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps|ofd)|(xls|xlsx|ods|csv|tsv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key|odg)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1166,7 +1176,7 @@
         path += appMap[appType];
 
         const path_type = corrected_type === "mobile" ? "mobile" :
-                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+                          corrected_type === "embedded" ? (fillForms && config.document.fileType === 'pdf' ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 
@@ -1289,7 +1299,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture;");
 
 		if (config.type == "mobile")
 		{

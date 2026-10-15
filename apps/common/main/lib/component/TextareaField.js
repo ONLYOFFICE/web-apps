@@ -54,12 +54,14 @@ define([], function () { 'use strict';
                 placeHolder : '',
                 spellcheck  : false,
                 disabled: false,
-                resize: false
+                resize: false,
+                rows: 2
             },
 
             template: _.template([
                 '<div class="textarea-field" style="<%= style %>">',
                     '<textarea ',
+                    'rows="<%= rows %>" ',
                     'spellcheck="<%= spellcheck %>" ',
                     'class="form-control <%= cls %>" ',
                     'placeholder="<%= placeHolder %>" ',
@@ -90,6 +92,7 @@ define([], function () { 'use strict';
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
                 this.maxLength      = me.options.maxLength;
+                this.rows           = me.options.rows;
 
                 me.rendered         = me.options.rendered || false;
 
@@ -108,6 +111,7 @@ define([], function () { 'use strict';
                         style       : this.style,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
+                        rows        : this.rows,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
                         dataHintOffset: this.options.dataHintOffset,

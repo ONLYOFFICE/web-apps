@@ -368,6 +368,12 @@ define([
                     Common.Utils.lockControls(Common.enumLock.noAnimation, false, {array: [this.view.btnParameters]});
                     Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
                 }
+                var view = this.view;
+                if (view.listEffects && view.listEffects.openButton && view.listEffects.openButton.menu) {
+                    setTimeout(function () {
+                        view.listEffects.openButton.menu.hide();
+                    }, 0);
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -528,6 +534,11 @@ define([
                 }
                 this.setTriggerList();
             } else {
+                if (view.listEffects && view.listEffects.openButton && view.listEffects.openButton.menu) {
+                    setTimeout(function () {
+                        view.listEffects.openButton.menu.hide();
+                    }, 0);
+                }
                 this._state.Effect = this._state.EffectGroup = this._state.EffectOption = undefined;
                 if (this.view && this.view.listEffects)
                     this.view.listEffects.fieldPicker.deselectAll();

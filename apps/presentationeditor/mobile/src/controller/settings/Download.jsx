@@ -60,9 +60,15 @@ class DownloadController extends Component {
         this.closeModal();
     }
 
+    getAllowedFormats() {
+        const api = Common.EditorApi.get();
+        const formats = api ? api.getSaveFormats() : undefined;
+        return formats != undefined && !Array.isArray(formats) ? [formats] : formats;
+    }
+
     render() {
         return (
-            <Download onSaveFormat={this.onSaveFormat} />
+            <Download onSaveFormat={this.onSaveFormat} allowedFormats={this.getAllowedFormats()} />
         );
     }
 }

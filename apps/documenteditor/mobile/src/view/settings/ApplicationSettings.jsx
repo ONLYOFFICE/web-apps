@@ -42,12 +42,9 @@ const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const storeThemes = props.storeThemes;
-    const displayMode = props.storeReview.displayMode;
     const storeApplicationSettings = props.storeApplicationSettings;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const isSpellChecking = storeApplicationSettings.isSpellChecking;
-    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
-    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
     const directionMode = storeApplicationSettings.directionMode;
@@ -70,7 +67,22 @@ const PageApplicationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPreferences} backLink={_t.textBack} />
+            {_isEdit &&
+                <>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
+                    <List>
+                        <ListItem title={_t.textSpellcheck}>
+                            <Toggle checked={isSpellChecking}
+                                    onToggleChange={() => {
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
+                                        props.switchSpellCheck(!isSpellChecking);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                </>
+            }
             {_isEdit && !isViewer &&
                 <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
@@ -82,37 +94,7 @@ const PageApplicationSettings = props => {
                         <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
-                    <List>
-                        <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <Toggle checked={isNonprintingCharacters}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
-                                        props.switchNoCharacters(!isNonprintingCharacters);
-                                    }}
-                            />
-                        </ListItem>
-                        <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <Toggle checked={isHiddenTableBorders}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
-                                        props.switchShowTableEmptyLine(!isHiddenTableBorders);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
                 </>
-            }
-            {_isEdit &&
-                <List>
-                    <ListItem title={_t.textSpellcheck}>
-                        <Toggle checked={isSpellChecking}
-                                onToggleChange={() => {
-                                    storeApplicationSettings.changeSpellCheck(!isSpellChecking);
-                                    props.switchSpellCheck(!isSpellChecking);
-                                }}
-                        />
-                    </ListItem>
-                </List>
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
@@ -134,14 +116,14 @@ const PageApplicationSettings = props => {
                 </ListItem>
             </List>
             {!!isConfigSelectTheme &&
-                <List mediaList>
+                <List>
                     <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
                     }}></ListItem>
                 </List>
             }
             {_isShowMacros &&
-                <List mediaList>
+                <List>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                         setMacrosSettings: props.setMacrosSettings
                     }}></ListItem>
@@ -199,7 +181,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview", "storeThemes")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 

@@ -93,6 +93,7 @@ define([
 
             this.linkAdvanced = $('#image-advanced-link');
             this.ResetCrop = el.find('#image-button-reset-crop').closest('tr');
+            this.ConvertToShapeWrap = el.find('#image-convert-to-shape-wrap');
         },
 
         setApi: function(api) {
@@ -211,6 +212,14 @@ define([
             });
             this.lockedControls.push(this.btnEditObject);
 
+            this.btnConvertToShape = new Common.UI.Button({
+                el: $('#image-button-convert-to-shape')
+            });
+            this.btnConvertToShape.on('click', _.bind(function() {
+                if (this.api)this.api.asc_convertImageToShapes();
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }, this));
+
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
             this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
@@ -303,7 +312,7 @@ define([
                 ariaLabel: this.strTransparency
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
-            this.numTransparency.on('inputleave', function(){ this.fireEvent('editcomplete', this);});
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.lockedControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -372,6 +381,22 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.numRotate = new Common.UI.MetricSpinner({
+                el: $('#image-spin-rotate'),
+                step: 1,
+                width: 50,
+                defaultUnit: '°',
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            this.numRotate.on('change', this.onRotateChange.bind(this));
+            this.numRotate.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.lockedControls.push(this.numRotate);
+
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
@@ -437,7 +462,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-img-change-shape-menu'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: 652,
@@ -499,12 +524,25 @@ define([
                     this.btnEditObject.setVisible(value);
                     this._state.isOleObject=value;
                 }
+
+                var canConvert = this.api.asc_canConvertImageToShapes();
+                this.ConvertToShapeWrap.toggleClass('hidden', !canConvert);
+                if (canConvert) this.btnConvertToShape.setDisabled(this._locked);
+
                 this.btnRotate270.setDisabled(value || this._locked);
                 this.btnRotate90.setDisabled(value || this._locked);
                 this.btnFlipV.setDisabled(value || this._locked);
                 this.btnFlipH.setDisabled(value || this._locked);
+                this.numRotate.setDisabled(value || this._locked);
                 this.numTransparency.setDisabled(value || this._locked);
                 this.sldrTransparency.setDisabled(value || this._locked);
+
+                var rot = props.asc_getRot();
+                rot = (rot===undefined || rot===null) ? '' : Math.floor(rot*180/3.14159265358979 + 0.5);
+                if (this._state.Rot !== rot) {
+                    this.numRotate.setValue(rot, true);
+                    this._state.Rot = rot;
+                }
 
                 if (this._state.isOleObject) {
                     var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
@@ -656,6 +694,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onRotateChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putRot(field.getNumberValue() * 3.14159265358979 / 180);
+                this.api.asc_setGraphicObjectProps(properties);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }
+        },
+
         onBtnFlipClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             if (btn.options.value==1)
@@ -744,7 +791,6 @@ define([
         textEdit:       'Edit',
         textAdvanced:   'Show advanced settings',
         textRotation: 'Rotation',
-        textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
         textHint270: 'Rotate 90° Counterclockwise',
         textHint90: 'Rotate 90° Clockwise',

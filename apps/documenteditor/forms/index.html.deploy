@@ -142,7 +142,8 @@
         }
 
         var params = getUrlParams(),
-            lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            isPDFForm = params["isPDFForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -275,9 +276,23 @@
                 (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
                 document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
       </script>
-      <script src="../../../vendor/requirejs/require.js"></script>
+      <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
       <script>
-          isIEBrowser === true ? require(['ie/app']) : require(['app']);
+          function startApp() {
+              var script = document.createElement("script");
+              script.setAttribute("data-main", isIEBrowser === true ? "ie/app" : "app");
+              script.src = "../../../vendor/requirejs/require.js";
+              document.body.appendChild(script);
+          }
+          if (isPDFForm===undefined) {
+              listenApiMsg(function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
+              });
+          } else {
+              window.isPDFForm = isPDFForm==='true';
+              startApp();
+          }
       </script>
   </body>
 </html>

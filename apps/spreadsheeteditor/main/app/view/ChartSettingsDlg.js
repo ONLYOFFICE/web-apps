@@ -75,6 +75,9 @@ define([
                 })
             }, options);
             this.options.handler = function(result, value) {
+                if (result == 'ok' && this.isTime && !this.isAxisValuesValid()) {
+                    return true;
+                }
                 if ( result != 'ok' || this.isRangeValid() ) {
                     if (options.handler)
                         options.handler.call(this, result, value);
@@ -138,7 +141,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                 });
                 this.btnChartType.render($('#chart-dlg-button-type'));
@@ -319,7 +322,7 @@ define([
                     restoreHeight: 120,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnSparkType.render($('#spark-dlg-button-type'));
@@ -608,6 +611,22 @@ define([
             }
         },
 
+        dateToString: function (value) {
+            var text = '';
+            if (value) {
+                value = new Date(value)
+                var lang = (this.options.lang || 'en').replace('_', '-').toLowerCase();
+                try {
+                    if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'});
+                } catch (e) {
+                    lang = 'en';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'});
+                }
+            }
+            return text;
+        },
+
         addControlsV: function(parentEl) {
             var me = this,
                 i = me.chVertHide.length,
@@ -671,29 +690,71 @@ define([
                 if (me.currentAxisProps[i]) {
                     me.currentAxisProps[i].putMinValRule(record.value);
                     if (record.value == Asc.c_oAscValAxisRule.auto) {
-                        me.spnMinValue[i].setValue(me._originalAxisVValues[i].minAuto, true);
+                        me.spnMinValue[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].minAuto) : me._originalAxisVValues[i].minAuto, true);
                     }
                 }
             }, me));
             Common.UI.FocusManager.add(this, me.cmbMinType[i]);
 
-            me.spnMinValue[i] = new Common.UI.MetricSpinner({
-                el: $('#chart-dlg-input-min-value-' + i),
-                maxValue: 1000000,
-                minValue: -1000000,
-                step: 0.1,
-                defaultUnit: "",
-                defaultValue: 0,
-                value: ''
-            }).on('change', _.bind(function (field, newValue, oldValue) {
-                me.cmbMinType[i].suspendEvents();
-                me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
-                me.cmbMinType[i].resumeEvents();
-                if (me.currentAxisProps[i]) {
-                    me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
-                    me.currentAxisProps[i].putMinVal(field.getNumberValue());
-                }
-            }, me));
+            if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Date) {
+                me.spnMinValue[i] = new Common.UI.InputFieldBtnCalendar({
+                    el: $('#chart-dlg-input-min-value-' + i),
+                    allowBlank  : false,
+                    blankError  : 'error',
+                    validateOnBlur: false,
+                    value       : '',
+                    editable: false,
+                    hideErrorOnInput: true,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.spnMinValue[i].on('date:click', function (cmp, date) {
+                    me.cmbMinType[i].suspendEvents();
+                    me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMinType[i].resumeEvents();
+                    cmp.setValue(this.dateToString(date));
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMinValDate(me.spnMinValue[i].getDate());
+                    }
+                }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Time) {
+                me.spnMinValue[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-min-value-' + i),
+                    validateOnBlur: false,
+                    validateOnChange: false,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this, 'min')
+                })
+                me.spnMinValue[i].on('changed:after', function (input, newValue, oldValue, e) {
+                    me.cmbMinType[i].suspendEvents();
+                    me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMinType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.minTimeValidated = me.currentAxisProps[i].putMinVal(input.getValue());
+                    }
+                });
+            } else {
+                me.spnMinValue[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-min-value-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbMinType[i].suspendEvents();
+                    me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMinType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMinVal(field.getNumberValue());
+                    }
+                }, me));
+            }
             Common.UI.FocusManager.add(this, me.spnMinValue[i]);
 
             me.cmbMaxType[i] = new Common.UI.ComboBox({
@@ -710,29 +771,71 @@ define([
                 if (me.currentAxisProps[i]) {
                     me.currentAxisProps[i].putMaxValRule(record.value);
                     if (record.value == Asc.c_oAscValAxisRule.auto) {
-                        me.spnMaxValue[i].setValue(me._originalAxisVValues[i].maxAuto, true);
+                        me.spnMaxValue[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].maxAuto) : me._originalAxisVValues[i].maxAuto , true);
                     }
                 }
             }, me));
             Common.UI.FocusManager.add(this, me.cmbMaxType[i]);
 
-            me.spnMaxValue[i] = new Common.UI.MetricSpinner({
-                el: $('#chart-dlg-input-max-value-' + i),
-                maxValue: 1000000,
-                minValue: -1000000,
-                step: 0.1,
-                defaultUnit: "",
-                defaultValue: 0,
-                value: ''
-            }).on('change', _.bind(function (field, newValue, oldValue) {
-                me.cmbMaxType[i].suspendEvents();
-                me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
-                me.cmbMaxType[i].resumeEvents();
-                if (me.currentAxisProps[i]) {
-                    me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
-                    me.currentAxisProps[i].putMaxVal(field.getNumberValue());
-                }
-            }, me));
+            if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Date) {
+                me.spnMaxValue[i] = new Common.UI.InputFieldBtnCalendar({
+                    el: $('#chart-dlg-input-max-value-' + i),
+                    allowBlank  : false,
+                    blankError  : 'error',
+                    validateOnBlur: false,
+                    value       : '',
+                    editable: false,
+                    hideErrorOnInput: true,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.spnMaxValue[i].on('date:click', function (cmp, date) {
+                    me.cmbMaxType[i].suspendEvents();
+                    me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMaxType[i].resumeEvents();
+                    cmp.setValue(this.dateToString(date));
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMaxValDate(me.spnMaxValue[i].getDate());
+                    }
+                }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Time) {
+                me.spnMaxValue[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-max-value-' + i),
+                    validateOnBlur: false,
+                    validateOnChange: false,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this, 'max')
+                });
+                me.spnMaxValue[i].on('changed:after', function (input, newValue, oldValue, e) {
+                    me.cmbMaxType[i].suspendEvents();
+                    me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMaxType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.maxTimeValidated = me.currentAxisProps[i].putMaxVal(input.getValue());
+                    }
+                });
+            } else {
+                me.spnMaxValue[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-max-value-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbMaxType[i].suspendEvents();
+                    me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMaxType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMaxVal(field.getNumberValue());
+                    }
+                }, me));
+            }
             Common.UI.FocusManager.add(this, me.spnMaxValue[i]);
 
             me.cmbVCrossType[i] = new Common.UI.ComboBox({
@@ -753,36 +856,92 @@ define([
                     var value;
                     switch (record.value) {
                         case Asc.c_oAscCrossesRule.minValue:
-                            me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getNumberValue(), true);
+                            if (this.isDate) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getValue(), true);
+                                me.spnVAxisCrosses[i].setDate(me.spnMinValue[i].getDate(), true)
+                            } else if (this.isTime) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getValue(), true);
+                            } else {
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getNumberValue(), true);
+                            }
                             break;
                         case Asc.c_oAscCrossesRule.maxValue:
-                            me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getNumberValue(), true);
+                            if (this.isDate) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getValue(), true);
+                                me.spnVAxisCrosses[i].setDate(me.spnMaxValue[i].getDate(), true);
+                            } else if (this.isTime) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getValue(), true);
+                            } else {
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getNumberValue(), true);
+                            }
                             break;
                         case Asc.c_oAscCrossesRule.auto:
-                            me.spnVAxisCrosses[i].setValue(me._originalAxisVValues[i].crossesAuto, true);
+                            me.spnVAxisCrosses[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].crossesAuto) : me._originalAxisVValues[i].crossesAuto, true);
                             break;
                     }
                 }
             }, me));
             Common.UI.FocusManager.add(this, me.cmbVCrossType[i]);
 
-            me.spnVAxisCrosses[i] = new Common.UI.MetricSpinner({
-                el: $('#chart-dlg-input-v-axis-crosses-' + i),
-                maxValue: 1000000,
-                minValue: -1000000,
-                step: 0.1,
-                defaultUnit: "",
-                defaultValue: 0,
-                value: ''
-            }).on('change', _.bind(function (field, newValue, oldValue) {
-                me.cmbVCrossType[i].suspendEvents();
-                me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
-                me.cmbVCrossType[i].resumeEvents();
-                if (me.currentAxisProps[i]) {
-                    me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
-                    me.currentAxisProps[i].putCrosses(field.getNumberValue());
-                }
-            }, me));
+            if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Date) {
+                me.spnVAxisCrosses[i] = new Common.UI.InputFieldBtnCalendar({
+                    el: $('#chart-dlg-input-v-axis-crosses-' + i),
+                    allowBlank  : false,
+                    blankError  : 'error',
+                    validateOnBlur: false,
+                    value       : '',
+                    editable: false,
+                    hideErrorOnInput: true,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.spnVAxisCrosses[i].on('date:click', function (cmp, date) {
+                    me.cmbVCrossType[i].suspendEvents();
+                    me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
+                    me.cmbVCrossType[i].resumeEvents();
+                    cmp.setValue(this.dateToString(date));
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
+                        me.currentAxisProps[i].putCrossesDate(me.spnVAxisCrosses[i].getDate());
+                    }
+                }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === Asc.c_oAscNumFormatType.Time) {
+                me.spnVAxisCrosses[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-v-axis-crosses-' + i),
+                    validateOnBlur: false,
+                    validateOnChange: false,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this, 'crosses')
+                });
+                me.spnVAxisCrosses[i].on('changed:after', function (input, newValue, oldValue, e) {
+                    me.cmbVCrossType[i].suspendEvents();
+                    me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
+                    me.cmbVCrossType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
+                        me.crossesTimeValidated = me.currentAxisProps[i].putCrossesVal(input.getValue());
+                    }
+                });
+            } else {
+                me.spnVAxisCrosses[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-v-axis-crosses-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbVCrossType[i].suspendEvents();
+                    me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
+                    me.cmbVCrossType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
+                        me.currentAxisProps[i].putCrosses(field.getNumberValue());
+                    }
+                }, me));
+            }
             Common.UI.FocusManager.add(this, me.spnVAxisCrosses[i]);
 
             me.cmbUnits[i] = new Common.UI.ComboBox({
@@ -1280,13 +1439,20 @@ define([
 
         fillVProps: function(props, index, hor) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
+            this.isDate = props.getFormatType() === Asc.c_oAscNumFormatType.Date;
+            this.isTime = props.getFormatType() === Asc.c_oAscNumFormatType.Time;
+            this.minDate = props.getMinValDate();
+            this.maxDate = props.getMaxValDate();
+            this.crossesDate = props.getCrossesDate();
+            if (this.isTime) this.timeFormatExample = this.api.asc_getLocaleExample(props.getNumFmt().getFormatCode(), 13/24 + 45/1440 + 30/86400);
+
             if (this._originalAxisVValues==undefined)
                 this._originalAxisVValues = [];
             if (this._originalAxisVValues[index]==undefined) {
                 this._originalAxisVValues[index] = {
-                    minAuto: (props.getMinVal()==null) ? 0 : props.getMinVal(),
-                    maxAuto: (props.getMaxVal()==null) ? 10 : props.getMaxVal(),
-                    crossesAuto: (props.getCrosses()==null) ? 0 : props.getCrosses()
+                    minAuto: (props.getMinVal()==null) ? 0 : this.isDate ? props.getMinValDate() : props.getMinVal(),
+                    maxAuto: (props.getMaxVal()==null) ? 10 : this.isDate ? props.getMaxValDate() : props.getMaxVal(),
+                    crossesAuto: (props.getCrosses()==null) ? 0 : this.isDate ? props.getCrossesDate() : this.isTime ? props.getCrossesVal() : props.getCrosses(),
                 };
             }
 
@@ -1300,28 +1466,34 @@ define([
 
             this.cmbMinType[index].setValue(props.getMinValRule());
             var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].minAuto : props.getMinVal();
-            this.spnMinValue[index].setValue((value==null) ? '' : value, true);
+            var date = this.isDate ? props.getMinValDate() : null;
+            this.isDate && this.spnMinValue[index].setDate(date);
+            this.spnMinValue[index].setValue((value==null) ? '' : this.isDate ? this.dateToString(date) : value, true);
 
             this.cmbMaxType[index].setValue(props.getMaxValRule());
             value = (props.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].maxAuto : props.getMaxVal();
-            this.spnMaxValue[index].setValue((value==null) ? '' : value, true);
+            date = this.isDate ? props.getMaxValDate() : null;
+            this.isDate && this.spnMaxValue[index].setDate(date);
+            this.spnMaxValue[index].setValue((value==null) ? '' : this.isDate ? this.dateToString(date) : value, true);
 
             value = props.getCrossesRule();
+            date = this.isDate ? props.getCrossesDate() : null;
             this.cmbVCrossType[index].setValue(value);
             switch (value) {
                 case Asc.c_oAscCrossesRule.minValue:
-                    value = this.spnMinValue[index].getNumberValue();
+                    value = this.isDate || this.isTime ? this.spnMinValue[index].getValue() : this.spnMinValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.maxValue:
-                    value = this.spnMaxValue[index].getNumberValue();
+                    value = this.isDate || this.isTime ? this.spnMaxValue[index].getValue() : this.spnMaxValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.auto:
-                    value = this._originalAxisVValues[index].crossesAuto;
+                    value = this.isDate ? this.dateToString(this._originalAxisVValues[index].crossesAuto) : this._originalAxisVValues[index].crossesAuto;
                 break;
                 default:
-                    value = props.getCrosses();
+                    value = this.isDate ? this.dateToString(props.getCrossesDate()) : this.isTime ? props.getCrossesVal() : props.getCrosses();
                 break;
             }
+            this.isDate && this.spnVAxisCrosses[index].setDate(date);
             this.spnVAxisCrosses[index].setValue((value==null) ? '' : value, true);
 
             this.cmbUnits[index].setValue(props.getDispUnitsRule());
@@ -1703,6 +1875,21 @@ define([
             }
         },
 
+        isAxisValuesValid: function() {
+            var fields = [this.spnMinValue, this.spnMaxValue, this.spnVAxisCrosses];
+            for (var i = 0; i < fields.length; i++) {
+                var arr = fields[i];
+                for (var j = 0; j < arr.length; j++) {
+                    var field = arr[j];
+                    if (field && field.checkValidate && field.checkValidate() !== true) {
+                        field.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+
         isRangeValid: function() {
             if (this.isChart) {
                 var isvalid,
@@ -1731,6 +1918,31 @@ define([
                 return false;
             } else
                 return true;
+        },
+
+        checkTimeValidation: function(type, value) {
+            var me = this;
+            switch (type) {
+                case 'min':
+                    if (me.minTimeValidated !== false) {
+                        return true;
+                    }
+                    break;
+
+                case 'max':
+                    if (me.maxTimeValidated !== false) {
+                        return true;
+                    }
+                    break;
+
+                case 'crosses':
+                    if (me.crossesTimeValidated !== false) {
+                        return true;
+                    }
+                    break;
+            }
+
+            return me.textInvalidTimeFormat + `${this.timeFormatExample}`;
         },
 
         // onSelectData: function() {

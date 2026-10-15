@@ -887,6 +887,7 @@ define([
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
+                ariaLabel: this.textBorderColor,
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
@@ -897,6 +898,7 @@ define([
                 parentEl: $('#tableadv-button-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
+                ariaLabel: this.textBackColor,
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
@@ -906,6 +908,7 @@ define([
                 parentEl: $('#tableadv-button-table-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
+                ariaLabel: this.textTableBackColor,
                 takeFocusOnClose: true
             });
             this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));

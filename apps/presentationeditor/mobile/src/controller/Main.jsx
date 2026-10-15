@@ -65,7 +65,8 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     "storeChartSettings",
     "storeLinkSettings",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeReview"
     )
 class MainController extends Component {
     constructor (props) {
@@ -150,8 +151,11 @@ class MainController extends Component {
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
+                Common.MentionUsers.init(this.editorConfig.canRequestUsers);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
+
+                this.props.storeAppOptions.wopi = this.editorConfig.wopi;
 
                 let value = LocalStorage.getItem("pe-mobile-macros-mode");
                 if (value === null) {
@@ -238,6 +242,10 @@ class MainController extends Component {
                 }
             };
 
+            const loadBinary = data => {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
+            };
+
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
                 const { t } = this.props;
@@ -309,6 +317,7 @@ class MainController extends Component {
                     Common.Gateway.on('init',           loadConfig);
                     Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
+                    Common.Gateway.on('opendocumentfrombinary', loadBinary);
                     Common.Gateway.appReady();
 
                     Common.Gateway.on('internalcommand', function(data) {
@@ -614,6 +623,8 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
 
+        this.props.storeReview.changeDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
+
         this.api.SetDrawingFreeze(false);
 
         Common.Notifications.trigger('preloader:close');
@@ -622,6 +633,9 @@ class MainController extends Component {
         let value = LocalStorage.getItem("pe-settings-zoom");
         const zf = (value!==null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : -1);
         (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+
+        this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
 
         value = LocalStorage.getBool("pe-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck===false));
         appSettings.changeSpellCheck(value);
@@ -912,7 +926,18 @@ class MainController extends Component {
                 content: Device.ios ?
                 '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
                 buttons: buttons,
-                cssClass: 'dlg-adv-options'
+                cssClass: 'dlg-adv-options',
+                on: {
+                    opened: () => {
+                        const passwordField = document.querySelector('#modal-password');
+                        passwordField.addEventListener('keyup', (e) => {
+                            if (e.key === 'Enter') {
+                                buttons[0].onClick();
+                                f7.dialog.close();
+                            }
+                        });
+                    },
+                }
             }).open();
             this.isDRM = true;
         }

@@ -136,6 +136,10 @@ define([], function () {
 
         dh.createDelayedElements = function(){
             var me = this;
+            var isExternalHyperlink = function(hyperProps) {
+                var url = hyperProps && hyperProps.value && hyperProps.value.get_Value();
+                return !!(url && url.indexOf('ppaction://hlink') !== 0);
+            };
 
             if (me.mnuDeleteSlide || !window.styles_loaded) return; // menu is already inited or editor styles are not loaded
 
@@ -258,7 +262,11 @@ define([], function () {
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
-                        selectedFirst = me.api.asc_IsFirstSlideSelected();
+                        selectedFirst = me.api.asc_IsFirstSlideSelected(),
+                        isSlideMaster = me.api.asc_IsMasterSlideMode(),
+                        isNotesMaster = me.api.asc_IsNotesMasterMode(),
+                        isHandoutMaster = me.api.asc_IsHandoutMasterMode(),
+                        isNotesPage = me.api.asc_IsNotesPageMode();
                     me.slideMenu.options.fromThumbs = value.fromThumbs;
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
@@ -267,9 +275,9 @@ define([], function () {
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    me.mnuChangeSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
-                    me.mnuResetSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
-                    mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.mnuChangeSlide.setVisible(!isSlideMaster && !isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
+                    me.mnuResetSlide.setVisible(!isSlideMaster && !isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
+                    mnuChangeTheme.setVisible(!isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
 
@@ -783,7 +791,7 @@ define([], function () {
             var langTemplate = _.template([
                 '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                     '<div>',
-                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>" aria-hidden="true"></i>',
                         '<%= caption %>',
                     '</div>',
                     '<label style="opacity: 0.6"><%= captionEn %></label>',
@@ -944,6 +952,10 @@ define([], function () {
                 caption : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPara = new Common.UI.MenuItem({
+                caption : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption : me.removeHyperlinkText
             });
@@ -956,6 +968,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuEditHyperlinkPara,
+                        me.menuCopyHyperlinkPara,
                         me.menuRemoveHyperlinkPara
                     ]
                 })
@@ -970,6 +983,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkTable = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -982,6 +999,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuEditHyperlinkTable,
+                        me.menuCopyHyperlinkTable,
                         me.menuRemoveHyperlinkTable
                     ]
                 })
@@ -1320,29 +1338,38 @@ define([], function () {
                                 ]
                             })
                         },
-                        // { 
-                        //     caption: me.textDataTable, 
-                        //     value: 'dataTable', 
-                        //     disabled: false,
-                        //     menu: new Common.UI.Menu({
-                        //         cls: 'shifted-right',  
-                        //         menuAlign: 'tl-tr',
-                        //         items: [
-                        //             { 
-                        //                 caption: me.textNone, 
-                        //                 value: 'bShowDataNone'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowDataTable, 
-                        //                 value: 'bShowDataTable'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowLegendKeys, 
-                        //                 value: 'bShowLegendKeys' 
-                        //             }
-                        //         ]
-                        //     })
-                        // },
+                        {
+                            caption: me.textDataTable,
+                            value: 'dataTable',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone,
+                                        value: 'bShowDataNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowDataTable,
+                                        value: 'bShowDataTable',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowLegendKeys,
+                                        value: 'bShowLegendKeys',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
                         {
                             caption: me.textErrorBars,
                             value: 'errorBars',
@@ -1669,6 +1696,10 @@ define([], function () {
                 caption     : me.originalSizeText
             });
 
+            me.menuImgConvertToShape = new Common.UI.MenuItem({
+                caption: me.textConvertToShape
+            });
+
             me.menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
@@ -1920,8 +1951,10 @@ define([], function () {
 
                     me.menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkPara.setVisible(isExternalHyperlink(value.hyperProps));
 
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPara.hyperProps = value.hyperProps;
 
                     if (text!==false) {
                         me.menuAddHyperlinkPara.hyperProps = {};
@@ -2105,8 +2138,10 @@ define([], function () {
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
+                    me.menuCopyHyperlinkTable.setVisible(isExternalHyperlink(value.hyperProps));
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
                         me.menuAddHyperlinkTable.hyperProps = {};
@@ -2228,6 +2263,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -2240,6 +2279,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPic,
+                        me.menuCopyHyperlinkPic,
                         me.menuRemoveHyperlinkPic
                     ]
                 })
@@ -2306,10 +2346,14 @@ define([], function () {
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
+                    var canConvert = me.api && me.api.asc_canConvertImageToShapes();
+                    me.menuImgConvertToShape.setVisible(canConvert);
+                    canConvert && me.menuImgConvertToShape.setDisabled(disabled);
+
                     me.menuImageAdvanced.setVisible(isimage);
                     me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
-                    me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
+                    me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart) && !!me.api.asc_getChartSettings(true));
+                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart) && !!me.api.asc_getChartSettings(true));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
                     menuAdvancedSettingsSeparator.setVisible(
                         me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() ||
@@ -2354,8 +2398,10 @@ define([], function () {
                     }
                     me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkPic.setVisible(isExternalHyperlink(value.hyperProps));
                     menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;
                     if (text !== false) {
                         me.menuAddHyperlinkPic.hyperProps = {};
@@ -2386,6 +2432,7 @@ define([], function () {
                     me.menuImgResetCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
+                    me.menuImgConvertToShape,
                     me.menuImageAdvanced,
                     me.menuImgEditPoints,
                     me.menuShapeAdvanced,

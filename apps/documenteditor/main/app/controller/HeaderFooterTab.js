@@ -124,6 +124,8 @@ define([
                 title: me.textFieldTitle,
                 label: me.textFieldLabel,
                 description: me.textFieldExample,
+                helpUrl: true,
+                helpClick: function() { me.showFieldHelp(); },
                 value: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
                 handler: function(result, value) {
                     if (result == 'ok') {
@@ -134,6 +136,47 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        showFieldHelp: function() {
+            if (this._fieldHelpUrl !== undefined) {
+                if (this._fieldHelpUrl) window.open(this._fieldHelpUrl);
+                return;
+            }
+
+            var me = this,
+                name = '/UsageInstructions/InsertFieldCodes.htm',
+                lang = Common.Locale.getCurrentLanguage() || 'en';
+
+            var url = 'resources/help/' + lang + name;
+
+            if ( Common.Controllers.Desktop.isActive() ) {
+                if ( Common.Controllers.Desktop.isHelpAvailable() )
+                    url = Common.Controllers.Desktop.helpUrl() + name;
+                else {
+                    window.open('https://helpcenter.onlyoffice.com/docs/document_editor/InsertFieldCodes.aspx', '_blank');
+                    me._fieldHelpUrl = null;
+                    return;
+                }
+            }
+
+            fetch(url).then(function(response) {
+                if ( response.ok ) {
+                    me._fieldHelpUrl = url;
+                    me.showFieldHelp();
+                } else {
+                    url = 'resources/help/' + '{{DEFAULT_LANG}}' + name;
+                    fetch(url).then(function(response) {
+                        if ( response.ok ) {
+                            me._fieldHelpUrl = url;
+                            me.showFieldHelp();
+                        } else {
+                            window.open('https://helpcenter.onlyoffice.com/docs/document_editor/InsertFieldCodes.aspx', '_blank');
+                            me._fieldHelpUrl = null;
+                        }
+                    });
+                }
+            });
         },
 
         onInsDateTimeClick: function () {

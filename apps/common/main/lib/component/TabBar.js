@@ -163,9 +163,9 @@ define([
                             tab.changeState();
                             if (this.bar.isEditFormula)
                                 setTimeout(function(){
-                                    $('#ce-cell-content').focus();
-                                    var $cellContent = $('#ce-cell-content')[0];
-                                    $cellContent.selectionStart = $cellContent.selectionEnd = $cellContent.value.length;
+                                    $('#ce-scroll-content').focus();
+                                    var $cellContent = $('#ce-scroll-content')[0];
+                                    window.getSelection().collapse($cellContent, $cellContent.childNodes.length);
                                 }, 500);
                         }
                     }

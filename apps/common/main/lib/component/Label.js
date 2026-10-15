@@ -61,7 +61,7 @@ define([
 
         template    : _.template('<label class="label-cmp <%= cls %>" style="<%= style %>">' +
                                     '<% if ( iconCls ) { %>' +
-                                        '<i class="icon <%= iconCls %>"></i>' +
+                                        '<i class="icon <%= iconCls %>" aria-hidden="true"></i>' +
                                     '<% } %>' +
                                     '<span class="caption"><%= caption %></span>' +
                                  '</label>'),
@@ -144,7 +144,7 @@ define([
                         var iconCls = this.iconCls,
                             re_icon_name = /btn-[^\s]+/.exec(iconCls),
                             icon_name = re_icon_name ? re_icon_name[0] : "null",
-                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                            svg_icon = '<svg class="icon" aria-hidden="true"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
 
                         this.$label.find('i.icon').after(svg_icon);
                     }

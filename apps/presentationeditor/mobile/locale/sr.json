@@ -33,7 +33,9 @@
       "textResolve": "Reši",
       "textSharingSettings": "Podešavanja Deljenja",
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
-      "textUsers": "Korisnici"
+      "textUsers": "Korisnici",
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -47,7 +49,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje ",
@@ -293,7 +295,12 @@
     "textEnterNewFileName": "Unesi novo ime fajla",
     "textOk": "OK",
     "textRenameFile": "Preimenuj fajl",
-    "textSwitchToDesktop": "Prebaci na Desktop verziju"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   },
   "View": {
     "Add": {
@@ -422,10 +429,10 @@
       "textFade": "Bledi",
       "textFerris": "Točak panorame",
       "textFill": "Popuni",
-      "textFinalMessage": "Kraj pregleda slajda. Kliknite da izađete.",
+      "textFinalMessage": "Kraj slajd prikaza. Prevucite napred da biste izašli.",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
-      "textFirstColumn": "Prva kolona",
+      "textFirstColumn": "Prva Kolona",
       "textFirstSlide": "Prvi slajd",
       "textFlip": "Obrni",
       "textFontColor": "Boja fonta",
@@ -442,7 +449,7 @@
       "textFromTopRight": "Od vrha-desno",
       "textFromURL": "Slika iz URL",
       "textGallery": "Galerija",
-      "textHeaderRow": "Zaglavlje red",
+      "textHeaderRow": "Red zaglavlja",
       "textHighlight": "Istakni Rezultate",
       "textHighlightColor": "Istakni boju",
       "textHoneycomb": "Saće",
@@ -456,7 +463,7 @@
       "textIn": "U",
       "textInsertImage": "Ubaci sliku",
       "textInvalidName": "Naziv fajla ne sme sadržati bilo koji od sledećih znakova:",
-      "textLastColumn": "Zadnja kolona",
+      "textLastColumn": "Poslednja Kolona",
       "textLastSlide": "Poslednji slajd",
       "textLayout": "Struktura",
       "textLeft": "Levo",
@@ -524,7 +531,7 @@
       "textStartOnTap": "Započni na dodir",
       "textStrikethrough": "Precrtano",
       "textStyle": "Stil",
-      "textStyleOptions": "Stil opcije",
+      "textStyleOptions": "Opcije stila",
       "textSubscript": "Donji indeks",
       "textSubtle": "Suptilno",
       "textSuperscript": "Nadindeks",
@@ -553,7 +560,13 @@
       "textZoomOut": "Zumiraj Spolja",
       "textZoomRotate": "Zumiraj i rotiraj",
       "txtHeight": "Visina",
-      "txtWidth": "Širina "
+      "txtWidth": "Širina ",
+      "txtCustom": "Prilagođeno",
+      "textCurrentFont": "Glavni tekst",
+      "textClose": "Zatvori",
+      "textPause": "Pauziraj",
+      "textPlay": "Pusti",
+      "textSlideXofY": "Slajd {0} od {1}"
     },
     "Settings": {
       "mniSlideLandscape": "Pejzaž",
@@ -586,7 +599,7 @@
       "textEmail": "email:",
       "textEnableAll": "Omogući sve",
       "textEnableAllMacrosWithoutNotification": "Omogući makroe bez notifikacija",
-      "textFeedback": "Povratne Informacije i Podrška",
+      "textFeedback": "Kontaktirajte podršku",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
       "textFindAndReplaceAll": "Pronađi i Zameni Sve",
@@ -628,7 +641,22 @@
       "textUnitOfMeasurement": "Jedinica mere",
       "textUploaded": "Otpremljeno",
       "textVersion": "Verzija",
-      "textVersionHistory": "Istorija Verzija"
+      "textVersionHistory": "Istorija Verzija",
+      "textSaveACopy": "Sačuvaj kopiju",
+      "textSaveACopyAs": "Sačuvaj kopiju kao",
+      "textSettingsGroup": "Podešavanja",
+      "textShare": "Podelite",
+      "textTools": "Alati",
+      "textStyleGroup": "Stil",
+      "textShowSettingsGroup": "Prikaži podešavanja",
+      "textSpellingGroup": "Pravopis",
+      "textSaveACopyHeader": "Sačuvaj kopiju",
+      "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju",
+      "textAboutGroup": "O",
+      "textHelpAndFeedback": "Pomoć i povratne informacije",
+      "textPreferences": "Podešavanja",
+      "textHelpCenter": "Centar za pomoć",
+      "textPresentationSetup": "Podešavanje prezentacije"
     }
   }
 }

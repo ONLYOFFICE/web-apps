@@ -47,11 +47,14 @@ export class storeUsers {
             isDisconnected: observable,
             resetDisconnected: action,
             hasEditUsers: computed,
-            editUsers: computed
+            editUsers: computed,
+            setUserAvatar: action,
+            userAvatars: observable
         })
     }
 
     users = [];
+    userAvatars = {};
     currentUser;
     isDisconnected = false;
 
@@ -61,6 +64,11 @@ export class storeUsers {
 
     addUser (user) {
         this.users.push(user);
+    }
+
+    setUserAvatar (id, avatar) {
+        if (!id) return;
+        this.userAvatars[id] = avatar;
     }
 
     setCurrentUser (id) {
@@ -122,6 +130,14 @@ export class storeUsers {
         return user;
     }
 
+    hasUserAvatar (id) {
+        return Object.prototype.hasOwnProperty.call(this.userAvatars, id);
+    }
+
+    getUserAvatar (id) {
+        return this.hasUserAvatar(id) ? this.userAvatars[id] : undefined;
+    }
+
     get hasEditUsers () {
         let length = 0;
         this.users.forEach((item) => {
@@ -135,7 +151,7 @@ export class storeUsers {
     get editUsers () {
         const idArray = [];
         const usersArray = [];
-        const curUserId = this.currentUser.asc_getIdOriginal();
+        const curUserId = this.currentUser ? this.currentUser.asc_getIdOriginal() : null;
         this.users.forEach((item) => {
             const name = AscCommon.UserInfoParser.getParsedName(item.asc_getUserName());
             if((item.asc_getState() !== false) && !item.asc_getView()) {
@@ -145,6 +161,7 @@ export class storeUsers {
                     usersArray[ind].count = usersArray[ind].count + 1;
                 } else {
                     const userAttr = {
+                        avatar: this.getUserAvatar(idOriginal),
                         color: item.asc_getColor(),
                         id: item.asc_getId(),
                         idOriginal: item.asc_getIdOriginal(),

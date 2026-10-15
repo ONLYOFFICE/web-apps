@@ -490,12 +490,12 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document ? this.document.fileType : undefined, mode: this.mode})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document ? this.document.fileType : undefined, mode: this.mode, saveFormats: this.saveFormats})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document ? this.document.fileType : undefined, mode: this.mode})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document ? this.document.fileType : undefined, mode: this.mode, saveFormats: this.saveFormats})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -640,6 +640,15 @@ define([
                 if (this.panels['protect']) this.panels['protect'].setApi(api);
             }
 
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            if ( this.rendered ) {
+                if (this.panels['saveas']) this.panels['saveas'].setSaveFormats(formats);
+                if (this.panels['save-copy']) this.panels['save-copy'].setSaveFormats(formats);
+            }
             return this;
         },
 

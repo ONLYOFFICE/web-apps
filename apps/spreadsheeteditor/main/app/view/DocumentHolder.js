@@ -90,7 +90,7 @@ define([
         focus: function() {
             var me = this;
             _.defer(function(){
-                me.cmpEl && me.cmpEl.focus();
+                me.cmpEl && me.cmpEl[0] && me.cmpEl[0].focus({preventScroll: true});
             }, 50);
         },
 

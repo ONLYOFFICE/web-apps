@@ -186,6 +186,10 @@ class MainController extends Component {
                 }
             };
 
+            const loadBinary = data => {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
+            };
+
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
                 const { t } = this.props;
@@ -255,6 +259,7 @@ class MainController extends Component {
                     Common.Gateway.on('init',           loadConfig);
                     Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
+                    Common.Gateway.on('opendocumentfrombinary', loadBinary);
                     Common.Gateway.appReady();
 
                     Common.Gateway.on('internalcommand', function(data) {

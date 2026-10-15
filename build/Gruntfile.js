@@ -116,7 +116,7 @@ module.exports = function(grunt) {
                     to: _encode(process.env.DEFAULT_LANG) || 'en'
                 }, {
                     from: /\{\{SUGGEST_URL\}\}/g,
-                    to: _encode(process.env.SUGGEST_URL) || 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519084'
+                    to: _encode(process.env.SUGGEST_URL) || 'https://community.onlyoffice.com/c/suggestions/'
                 }];
 
     var helpreplacements = [
@@ -138,6 +138,8 @@ module.exports = function(grunt) {
 
     addons.forEach((element,index,self) => self[index] = path.join('../..', element, '/build'));
     addons = addons.filter(element => grunt.file.isDir(element));
+
+    global.isBranding = !!process.env['OO_BRANDING'] && process.env['OO_BRANDING'] != 'onlyoffice-opensource';
 
     require('./appforms')(grunt);
 
@@ -185,7 +187,7 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
-        if (!!process.env['OO_BRANDING']) {
+        if (isBranding) {
             global.brandingPath = `../../${process.env['OO_BRANDING']}/web-apps/build`;
 
             if (grunt.file.exists(`${brandingPath}/${configFile}`)) {
@@ -290,7 +292,7 @@ module.exports = function(grunt) {
                       },{
                             from: /(var\scustomization\s=\s)[\w\.;]+/,
                             to: (w, i, t, matches) => {
-                                return !!matches && !process.env['OO_BRANDING'] ?`${matches[0]}undefined;` : w;
+                                return !!matches && !isBranding ?`${matches[0]}undefined;` : w;
                             }
                       },{
                           from: /\/\*\*[\s\S]+\.com\s+\*\//,
@@ -827,7 +829,7 @@ module.exports = function(grunt) {
                                 'requirejs', 'imagemin', 'less', 'copy', 'svgmin', 'inline', 'json-minify',
                                 'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild'];
             const cfgpath = `../../${process.env['OO_BRANDING']}/web-apps/build/common.json`;
-            if (!!process.env['OO_BRANDING'] && grunt.file.exists(cfgpath)) {
+            if (isBranding && grunt.file.exists(cfgpath)) {
                 const config = require(cfgpath);
                 const tasks = config["apps-common"].main?.tasks;
                 !!tasks && tasks.length && (maintasks = tasks);
@@ -843,7 +845,7 @@ module.exports = function(grunt) {
         if (packageFile) {
             let maintasks = ['requirejs-init', 'clean', 'copy'];
             const cfgpath = `../../${process.env['OO_BRANDING']}/web-apps/build/common.json`;
-            if (!!process.env['OO_BRANDING'] && grunt.file.exists(cfgpath)) {
+            if (isBranding && grunt.file.exists(cfgpath)) {
                 maintasks = ['requirejs-init', 'clean', 'terser'];
             }
 

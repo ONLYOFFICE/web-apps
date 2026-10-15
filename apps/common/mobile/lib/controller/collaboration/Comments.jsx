@@ -90,6 +90,11 @@ const dateToLocaleTimeString = (date, lang) => {
 const parseUserName = name => {
     return AscCommon.UserInfoParser.getParsedName(name);
 };
+
+const getUserAvatar = user => {
+    if (!user) return undefined;
+    return user.image;
+};
 //end utils
 
 class CommentsController extends Component {
@@ -99,6 +104,11 @@ class CommentsController extends Component {
         this.appOptions = this.props.storeAppOptions;
         this.storeComments = this.props.storeComments;
         this.storeApplicationSettings = this.props.storeApplicationSettings;
+        this.userAvatars = {};
+        this.requestedAvatarIds = {};
+        this.isDocumentReady = false;
+
+        Common.Gateway.on('setusers', this.handleSetUsers.bind(this));
 
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onAddComment', this.addComment.bind(this));
@@ -117,6 +127,8 @@ class CommentsController extends Component {
         });
 
         Common.Notifications.on('document:ready', () => {
+            this.isDocumentReady = true;
+
             if (window.editorType === 'de' || window.editorType === 'sse') {
                 const api = Common.EditorApi.get();
                 /** coauthoring begin **/
@@ -129,8 +141,91 @@ class CommentsController extends Component {
             }
 
             this.curUserId = this.props.users.currentUser ? this.props.users.currentUser.asc_getIdOriginal() : '';
+            const currentAvatar = this.appOptions.user && this.appOptions.user.image;
+            if (this.curUserId && currentAvatar !== undefined) {
+                this.userAvatars[this.curUserId] = currentAvatar;
+            }
+
+            this.updateCommentsAvatars(true);
         });
     }
+
+    handleSetUsers (data) {
+        if (!data || data.c === 'mention' || !data.users || !data.users.length) return;
+        
+        let avatarUpdates = false;
+        data.users.forEach((user) => {
+            if (!user || user.id === undefined) return;
+
+            delete this.requestedAvatarIds[user.id];
+            this.userAvatars[user.id] = user.image;
+            avatarUpdates = true;
+        });
+
+        if (avatarUpdates) this.updateCommentsAvatars(false);
+
+    }
+
+    forEachComment (handler) {
+        [this.storeComments.collectionComments, this.storeComments.groupCollectionComments].forEach((collection) => {
+            collection.forEach((comment) => {
+                if (!comment) return;
+                handler(comment);
+
+                if (comment.replies && comment.replies.length > 0) {
+                    comment.replies.forEach((reply) => {
+                        if (reply) handler(reply);
+                    });
+                }
+            });
+        });
+    }
+
+    updateCommentsAvatars (requestMissing = false) {
+        const missingUserIds = {};
+
+        this.forEachComment((item) => {
+            if (item.userId && Object.prototype.hasOwnProperty.call(this.userAvatars, item.userId)) {
+                item.userAvatar = this.userAvatars[item.userId];
+                return;
+            }
+
+            if (requestMissing && item.userId) {
+                missingUserIds[item.userId] = true;
+            }
+        });
+
+        if (requestMissing) {
+            const ids = Object.keys(missingUserIds);
+            ids.forEach((userId) => this.requestUserAvatar(userId));
+        }
+    }
+
+    requestUserAvatar (userId) {
+        if (!userId) return;
+        if (!this.isDocumentReady) return;
+        if (this.requestedAvatarIds[userId]) return;
+
+        this.requestedAvatarIds[userId] = true;
+        Common.Gateway.requestUsers('info', [userId]);
+    }
+
+    resolveUserAvatar (userId, user) {
+        if (!userId) return undefined;
+        if (Object.prototype.hasOwnProperty.call(this.userAvatars, userId)) return this.userAvatars[userId];
+        
+        const avatar = getUserAvatar(user);
+        if (avatar !== undefined) {
+            this.userAvatars[userId] = avatar;
+            return avatar;
+        }
+
+        if (!this.isDocumentReady) return undefined;
+        
+        this.requestUserAvatar(userId);
+        return undefined;
+    }
+    
     onApiActiveSheetChanged (index) {
         this.onFilterChange(['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)]);
     }
@@ -182,6 +277,7 @@ class CommentsController extends Component {
         changeComment.parsedName = Common.Utils.String.htmlEncode(parsedName);
         changeComment.userInitials = this.usersStore.getInitials(parsedName);
         changeComment.userColor = (user) ? user.asc_getColor() : getUserColor(userId || name);
+        changeComment.userAvatar = this.resolveUserAvatar(userId, user);
         changeComment.resolved = data.asc_getSolved();
         changeComment.quote = data.asc_getQuoteText();
         changeComment.time = date.getTime();
@@ -210,6 +306,7 @@ class CommentsController extends Component {
                 userName,
                 parsedName: Common.Utils.String.htmlEncode(parsedName),
                 userColor: (user) ? user.asc_getColor() : getUserColor(userId || userName),
+                userAvatar: this.resolveUserAvatar(userId, user),
                 date: dateToLocaleTimeString(dateReply, this.appOptions.lang),
                 reply: data.asc_getReply(i).asc_getText(),
                 time: dateReply.getTime(),
@@ -239,6 +336,7 @@ class CommentsController extends Component {
             userName,
             parsedName,
             userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
+            userAvatar          : this.resolveUserAvatar(userId, user),
             date                : dateToLocaleTimeString(date, this.appOptions.lang),
             quote               : data.asc_getQuoteText(),
             comment             : data.asc_getText(),
@@ -280,6 +378,7 @@ class CommentsController extends Component {
                     userName,
                     parsedName          : Common.Utils.String.htmlEncode(parsedName),
                     userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
+                    userAvatar          : this.resolveUserAvatar(userId, user),
                     date                : dateToLocaleTimeString(date, this.appOptions.lang),
                     reply               : data.asc_getReply(i).asc_getText(),
                     time                : date.getTime(),
@@ -321,10 +420,12 @@ class AddCommentController extends Component {
             this.currentUser = this.props.users.setCurrentUser(this.props.storeAppOptions.user.id);
         }
         const name = parseUserName(this.currentUser.asc_getUserName());
+        const avatar = getUserAvatar(this.currentUser) || (this.props.storeAppOptions.user && this.props.storeAppOptions.user.image);
         return {
             name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
-            color: this.currentUser.asc_getColor()
+            color: this.currentUser.asc_getColor(),
+            avatar
         };
     }
     onAddNewComment (commentText, documentFlag) {
@@ -351,7 +452,7 @@ class AddCommentController extends Component {
     }
     render() {
         return(
-            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment}/> : null
+            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment} storeAppOptions={this.props.storeAppOptions}/> : null
         )
     }
 }
@@ -366,10 +467,12 @@ class EditCommentController extends Component {
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
         const name = parseUserName(this.currentUser.asc_getUserName());
+        const avatar = getUserAvatar(this.currentUser) || (this.props.storeAppOptions && this.props.storeAppOptions.user && this.props.storeAppOptions.user.image);
         return {
             name: Common.Utils.String.htmlEncode(name),
             initials: this.props.users.getInitials(name),
-            color: this.currentUser.asc_getColor()
+            color: this.currentUser.asc_getColor(),
+            avatar
         };
     }
     onChangeComment (comment) {
@@ -483,9 +586,9 @@ class EditCommentController extends Component {
         const comment = storeComments.currentComment;
         return (
             <Fragment>
-                {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment}/>}
-                {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply}/>}
-                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply}/>}
+                {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment} storeAppOptions={this.props.storeAppOptions}/>}
+                {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply} storeAppOptions={this.props.storeAppOptions}/>}
+                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply} storeAppOptions={this.props.storeAppOptions}/>}
             </Fragment>
         )
     }
@@ -497,6 +600,7 @@ class ViewCommentsController extends Component {
         this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
         this.onResolveComment = this.onResolveComment.bind(this);
         this.closeViewCurComments = this.closeViewCurComments.bind(this);
+        this.showComment = this.showComment.bind(this);
 
         this.state = {
             isOpenViewCurComments: false
@@ -515,7 +619,9 @@ class ViewCommentsController extends Component {
         } else {
             f7.popover.close('#view-comment-popover');
         }
-        this.setState({isOpenViewCurComments: false});
+        this.setState({isOpenViewCurComments: false}, () => {
+            Common.Notifications.trigger('viewcomment:closed');
+        });
     }
     onResolveComment (comment) {
         let reply = null,
@@ -672,6 +778,7 @@ class ViewCommentsController extends Component {
                                                                           closeCurComments={this.closeViewCurComments}
                                                                           onCommentMenuClick={this.onCommentMenuClick}
                                                                           onResolveComment={this.onResolveComment}
+                                                                          showComment={this.showComment}
                 />}
             </Fragment>
         )
@@ -686,7 +793,7 @@ class ViewCommentsSheetsController extends ViewCommentsController {
 
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users', "storeApplicationSettings")(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
-const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
+const _EditCommentController = inject('storeComments', 'users', 'storeAppOptions')(observer(EditCommentController));
 const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsController)));
 const _ViewCommentsSheetsController = inject('storeComments', 'users', "storeApplicationSettings", "storeWorksheets", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsSheetsController)));
 

@@ -479,7 +479,7 @@ define([
             this.onSelectionChanged(this.api.asc_getCellInfo());
         },
 
-        onRightMenuHide: function (view, status) {
+        onRightMenuHide: function (view, status, preventSave) {
             if (this.rightmenu) {
                 if (!status)  { // remember last active pane
                     var active = this.rightmenu.GetActivePane(),
@@ -502,8 +502,10 @@ define([
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                     this._lastVisibleSettings = undefined;
                 }
+                if (!preventSave) {
+                    Common.localStorage.setBool('sse-hidden-rightmenu', !status);
+                }
                 !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
-                Common.localStorage.setBool('sse-hidden-rightmenu', !status);
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
@@ -526,6 +528,18 @@ define([
         },
 
         addNewPlugin: function (button, $button, $panel) {
+            if(!this.rightmenu.api) {
+                const mainController = this.getApplication().getController('Main');
+                this.setApi(mainController.api);
+                this.setMode(mainController.appOptions);
+                this.rightmenu.render(mainController.appOptions);
+                this.rightmenu.setApi(this.api);
+                this.rightmenu.setMode(mainController.appOptions);
+            }
+            if(this.rightmenu.$el.is(':hidden')) {
+                this.onRightMenuHide(undefined, true, true);
+            }
+            
             this.rightmenu.insertButton(button, $button);
             this.rightmenu.insertPanel($panel);
         },
@@ -539,6 +553,10 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+
+            if(this.rightmenu.getVisibleButtons().length == 0) {
+                this.onRightMenuHide(undefined, false, true);
+            }
         },
 
         onHidePlugins: function() {

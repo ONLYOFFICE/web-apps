@@ -33,6 +33,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+(function check_js_features_available(){
+    if (!Object.hasOwn) {
+        const script = document.createElement('script');
+        script.src = '../../common/main/lib/util/fix-ie-compat.js';
+        document.head.appendChild(script);
+    }
+})();
+
 var checkLocalStorage = (function () {
     try {
         localStorage.setItem('test', 1);   // for WebView checking !!window.localStorage not enough
@@ -117,7 +125,8 @@ window.Common = {
             if ( window.isIEBrowser === true ) return;
 
             window.svgiconsrunonce;
-            // const el = document.querySelector('div.inlined-svg');
+            const el = document.querySelector('div.inlined-svg');
+            if(!el) return;
             // if (!el || !el.innerHTML.firstChild) {
             if ( !window.svgiconsrunonce || force === true ) {
                 window.svgiconsrunonce = true;
@@ -154,10 +163,9 @@ window.Common = {
                                         };
                                     }
 
-                                    const el = document.querySelector('div.inlined-svg');
                                     const child = htmlToElements(text, el_id);
                                     if ( sprite_uid.length )
-                                        child.setAttribute('data-sprite-uid', sprite_uid);
+                                        child && child.setAttribute('data-sprite-uid', sprite_uid);
                                     el.appendChild(child);
 
                                     const i = svg_icons_array.findIndex(function (item) {return item == url});

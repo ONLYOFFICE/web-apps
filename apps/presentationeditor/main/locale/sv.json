@@ -1151,8 +1151,14 @@
   "PE.Controllers.Statusbar.textDisconnect": "<br>Anslutningen förlorades</br><br>Försöker återansluta. Vänligen kontroller anslutningens inställningar.",
   "PE.Controllers.Statusbar.zoomText": "Zooma {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Teckensnittet du kommer att spara finns inte på den aktuella enheten. <br>Textstilen kommer att visas med ett av systemets teckensnitt, sparade teckensnitt kommer att användas när det är tillgängligt. <br> Vill du fortsätta ?",
-  "PE.Controllers.Toolbar.helpChartTab": "Alla diagraminställningar är nu tillgängliga på den dedikerade fliken Diagramdesign i verktygsfältet.",
-  "PE.Controllers.Toolbar.helpChartTabHeader": "Fliken Diagramdesign",
+  "PE.Controllers.Toolbar.helpAITools": "AI hjälper dig att skapa och redigera dina dokument.",
+  "PE.Controllers.Toolbar.helpAIToolsHeader": "AI-verktyg",
+  "PE.Controllers.Toolbar.helpMastersView": "Redigera bakgrunder för åhörarexemplar och anteckningar. Visa bilder i nya lägen.",
+  "PE.Controllers.Toolbar.helpMastersViewHeader": "Bakgrunder och visning",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPage": "Skriv ut flera bilder på en sida.",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPageHeader": "Bilder per sida",
+  "PE.Controllers.Toolbar.helpVideoFormats": "Utdataformat GIF, mp4, ...",
+  "PE.Controllers.Toolbar.helpVideoFormatsHeader": "Videoformat",
   "PE.Controllers.Toolbar.textAccent": "Accenter",
   "PE.Controllers.Toolbar.textBracket": "Parenteser",
   "PE.Controllers.Toolbar.textFontSizeErr": "Det angivna värdet är inkorrekt.<br> Vänligen ange ett numeriskt värde mellan 1 och 300",
@@ -2565,5 +2571,6 @@
   "PE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PE.Views.ViewTab.tipGridlines": "Visa rutnät",
   "PE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PE.Views.ViewTab.tipSelectTool": "Välj verktyg"
+  "PE.Views.ViewTab.tipSelectTool": "Välj verktyg",
+  "Common.Controllers.Desktop.hintBtnHome": "Visa huvudfönstret"
 }

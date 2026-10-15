@@ -842,6 +842,13 @@ define([
                 this.hideShapeOnlySettings(props.get_FromChart() || !!props.get_FromImage());
                 this.hideRotationSettings(props.get_FromChart() || !!props.get_FromImage() || props.get_FromSmartArt());
 
+                var rot = props.asc_getRot();
+                rot = (rot===undefined || rot===null) ? '' : Math.floor(rot*180/3.14159265358979 + 0.5);
+                if (this._state.Rot !== rot) {
+                    this.numRotate.setValue(rot, true);
+                    this._state.Rot = rot;
+                }
+
                 this.canEditPoint = this.api && this.api.asc_canEditGeometry();
                 this.toggleBtnEditShape();
                 var hidechangetype = props.get_FromChart() || props.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
@@ -1627,6 +1634,22 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.numRotate = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-rotate'),
+                step: 1,
+                width: 50,
+                defaultUnit: '°',
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            this.numRotate.on('change', this.onRotateChange.bind(this));
+            this.numRotate.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.numRotate);
+
             this.btnEditShape = new Common.UI.Button({
                 parentEl: $('#shape-button-edit-shape'),
                 cls: 'btn-toolbar align-left',
@@ -2002,7 +2025,7 @@ define([
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
                 el: $('#' + menuitemId),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: me.shapeRestoreHeight,
@@ -2119,6 +2142,14 @@ define([
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ShapeApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        onRotateChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRot(field.getNumberValue() * 3.14159265358979 / 180);
+                this.api.ShapeApply(properties);
+            }
         },
 
         onBtnFlipClick: function(btn) {

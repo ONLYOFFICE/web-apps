@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Fout: leeg",
+			"div": "Fout: delen door nul",
+			"value": "Fout in waarde",
+			"ref": "Fout: ongeldige celverwijzing",
+			"name": "Fout: ongeldige naam",
+			"num": "Fout: getal",
+			"na": "Fout: waarde niet beschikbaar",
+			"calc": "Lege matrix",
+			"spill": "Overloopbereik is niet leeg"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adres",
 			"col": "kolom",

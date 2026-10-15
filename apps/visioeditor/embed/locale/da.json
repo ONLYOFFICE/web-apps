@@ -7,7 +7,7 @@
   "common.view.modals.txtShare": "Del link",
   "common.view.modals.txtTitleProtected": "Beskyttet fil",
   "common.view.modals.txtWidth": "Bredde",
-  "common.view.SearchBar.textFind": "Find",
+  "common.view.SearchBar.textFind": "Søg",
   "VE.ApplicationController.convertationErrorText": "Konvertering fejlede.",
   "VE.ApplicationController.convertationTimeoutText": "Konverteringen fik en timeout.",
   "VE.ApplicationController.criticalErrorTitle": "Fejl",
@@ -57,6 +57,6 @@
   "VE.ApplicationView.txtFileLocation": "Åben filplacering",
   "VE.ApplicationView.txtFullScreen": "Fuld skærm",
   "VE.ApplicationView.txtPrint": "Udskriv",
-  "VE.ApplicationView.txtSearch": "Find",
+  "VE.ApplicationView.txtSearch": "Søg",
   "VE.ApplicationView.txtShare": "Del"
 }

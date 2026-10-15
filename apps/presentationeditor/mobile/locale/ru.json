@@ -33,7 +33,9 @@
       "textResolve": "Решить",
       "textSharingSettings": "Настройки доступа",
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
-      "textUsers": "Пользователи"
+      "textUsers": "Пользователи",
+      "textEnterComment": "Введите комментарий",
+      "textMention": "Комментируйте или упоминайте с помощью + или @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заливки"
@@ -47,7 +49,7 @@
       "dark": "Темная",
       "light": "Светлая",
       "system": "Системная",
-      "textTheme": "Тема"
+      "textTheme": "Тема интерфейса"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
@@ -293,7 +295,12 @@
     "textEnterNewFileName": "Введите новое имя файла",
     "textOk": "OK",
     "textRenameFile": "Переименовать файл",
-    "textSwitchToDesktop": "Переключить в десктопный режим"
+    "textSwitchToDesktop": "Переключить в десктопный режим",
+    "textSave": "Сохранить",
+    "textDontSave": "Не сохранять",
+    "textCancel": "Отмена",
+    "textSaveData": "Сохраните изменения перед выходом",
+    "textUnsavedData": "Несохраненные данные"
   },
   "View": {
     "Add": {
@@ -422,7 +429,7 @@
       "textFade": "Выцветание",
       "textFerris": "Колесо обозрения",
       "textFill": "Заливка",
-      "textFinalMessage": "Просмотр слайдов завершен. Коснитесь, чтобы выйти.",
+      "textFinalMessage": "Конец показа слайдов. Проведите пальцем вперед, чтобы выйти.",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFirstColumn": "Первый столбец",
@@ -553,7 +560,13 @@
       "textZoomOut": "Уменьшение",
       "textZoomRotate": "Увеличение с поворотом",
       "txtHeight": "Высота",
-      "txtWidth": "Ширина"
+      "txtWidth": "Ширина",
+      "textClose": "Закрыть",
+      "textPause": "Пауза",
+      "textPlay": "Воспроизведение",
+      "textSlideXofY": "Слайд {0} из {1}",
+      "txtCustom": "Пользовательский",
+      "textCurrentFont": "Основной текст"
     },
     "Settings": {
       "mniSlideLandscape": "Альбомная",
@@ -586,7 +599,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Включить все",
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
-      "textFeedback": "Обратная связь и поддержка",
+      "textFeedback": "Связаться со службой поддержки",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFindAndReplaceAll": "Найти и заменить все",
@@ -628,7 +641,22 @@
       "textUnitOfMeasurement": "Единица измерения",
       "textUploaded": "Загружена",
       "textVersion": "Версия",
-      "textVersionHistory": "История версий"
+      "textVersionHistory": "История версий",
+      "textPreferences": "Параметры",
+      "textHelpCenter": "Справочный центр",
+      "textPresentationSetup": "Настройка презентации",
+      "textSaveACopy": "Сохранить копию",
+      "textSaveACopyAs": "Сохранить копию как",
+      "textTools": "Инструменты",
+      "textSettingsGroup": "Настройки",
+      "textAboutGroup": "О программе",
+      "textHelpAndFeedback": "Справка и обратная связь",
+      "textShare": "Поделиться",
+      "textStyleGroup": "Стиль",
+      "textShowSettingsGroup": "Параметры показа слайдов",
+      "textSpellingGroup": "Орфография",
+      "textSaveACopyHeader": "Сохранить копию",
+      "textSaveConnectedStorage": "Файл будет сохранен в подключенное хранилище"
     }
   }
 }

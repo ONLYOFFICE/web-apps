@@ -272,6 +272,11 @@ define([
                         readdresolves();
                     }
                     me.fireEvent('comment:show', [commentId, false]);
+                } else if (btn.hasClass('btn-comment', false)) {
+                    me.fireEvent('comment:addComment', [commentId, picker.getActiveTextBoxVal()]);
+                    me.fireEvent('comment:closeEditing');
+
+                    readdresolves();
                 } else if (btn.hasClass('btn-close', false)) {
 
                     me.fireEvent('comment:closeEditing', [commentId]);
@@ -866,6 +871,9 @@ define([
         },
         getEncodedName: function (username) {
             return Common.Utils.String.htmlEncode(username);
+        },
+        getAddReplyText: function (comment) {
+            return comment ? this.textAddReply : this.textAddComment;
         },
 
         pickLink: function (message) {

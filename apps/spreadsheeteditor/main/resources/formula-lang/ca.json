@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Error nul",
+			"div": "Error de divisió per zero",
+			"value": "Error al valor",
+			"ref": "Error de referència de cel·la no vàlida",
+			"name": "Error de nom no vàlid",
+			"num": "Error de nombre",
+			"na": "Error de valor no disponible",
+			"calc": "Matriu buida",
+			"spill": "L'interval de desbordament no està en blanc."
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adreça",
 			"col": "columna",

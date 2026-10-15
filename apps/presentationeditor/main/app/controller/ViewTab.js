@@ -64,7 +64,6 @@ define([
                 zoom_percent: undefined,
                 unitsChanged: true,
                 lock_viewProps: false,
-                slideMasterMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -87,8 +86,16 @@ define([
                 this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
                 this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
                 this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             }
             return this;
+        },
+
+        onApiCountPages: function (count) {
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                Common.Utils.lockControls(Common.enumLock.disableOnStart,  this._state.no_slides, {array: [this.view.btnReadingView]});
+            }
         },
 
         setConfig: function(config) {
@@ -102,7 +109,12 @@ define([
             this.addListeners({
                 'ViewTab': {
                     'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:outline': _.bind(this.onChangeViewMode, this, 'outline'),
+                    'mode:notespage': _.bind(this.onChangeViewMode, this, 'notespage'),
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
+                    'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
+                    'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
+                    'readingview:start': _.bind(this.onStartReadingView, this),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -162,6 +174,8 @@ define([
                     }, this)
                 }
             });
+            this.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', this.onChangeCompactMode.bind(this));
         },
 
         SetDisabled: function(state) {
@@ -398,11 +412,10 @@ define([
         },
 
         onClickMacros: function() {
-            var me = this;
-            var macrosWindow = new Common.Views.MacrosDialog({
-                api: this.api,
-            });
-            macrosWindow.show();
+            if ( typeof Common.Views.MacrosDialog == "function" )
+                (new Common.Views.MacrosDialog({
+                    api: this.api,
+                })).show();
         },
 
         onClickMacrosRec: function() {
@@ -455,24 +468,45 @@ define([
 
         changeViewMode: function (mode) {
             if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
+            this.view.fireEvent('mastertab:create', [mode])
             
             var isMaster = mode === 'master';
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes';
+            var isOutline = mode === 'outline';
+            var isNotesPage = mode === 'notespage'
             this.view.btnSlideMaster.toggle(isMaster, true);
-            this.view.btnNormal.toggle(!isMaster, true);
-            if (this._state.slideMasterMode !== isMaster) {
-                this._state.slideMasterMode = isMaster;
-                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
-                this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
-            } // Asc.c_oAscPresentationViewMode.sorter;
+            this.view.btnNormal.toggle(!isMaster && !isHandout && !isNotes && !isOutline && !isNotesPage, true);
+            this.view.btnHandoutMaster.toggle(isHandout, true);
+            this.view.btnNotesMaster.toggle(isNotes, true);
+            this.view.btnOutlineView.toggle(isOutline, true);
+            this.view.btnNotesPage.toggle(isNotesPage, true);
+            var presentationMode = isMaster ? Asc.c_oAscPresentationViewMode.masterSlide
+                : isHandout ? Asc.c_oAscPresentationViewMode.handoutMaster
+                : isNotes ? Asc.c_oAscPresentationViewMode.notesMaster
+                : isOutline ? Asc.c_oAscPresentationViewMode.outline
+                : isNotesPage ? Asc.c_oAscPresentationViewMode.notesPage
+                : Asc.c_oAscPresentationViewMode.normal;
+
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isNotesPage ? 'notespage' : isOutline ? 'outline' : 'normal']);
+            this.api.asc_changePresentationViewMode(presentationMode);
         },
 
         onApiChangeViewMode: function (mode) {
             var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
-            this.changeViewMode(isMaster ? 'master' : 'normal');
+            var isHandout = mode === Asc.c_oAscPresentationViewMode.handoutMaster;
+            var isNotes = mode === Asc.c_oAscPresentationViewMode.notesMaster;
+            var isOutline = mode === Asc.c_oAscPresentationViewMode.outline;
+            var isNotesPage = mode === Asc.c_oAscPresentationViewMode.notesPage;
+            this.changeViewMode(isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isOutline ? 'outline' : isNotesPage ? 'notespage' : 'normal');
         },
 
         onChangeViewMode: function (mode) {
             this.changeViewMode(mode);
+        },
+
+        onStartReadingView: function () {
+            Common.NotificationCenter.trigger('preview:start', 0, false, false, false, true);
         },
 
         onPointerType: function (type) {
@@ -488,6 +522,22 @@ define([
                     item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                 });
             }
+        },
+
+        onChangeCompactMode: function(isCompact) {
+            //Toolbar
+            const isHideToolbar = isCompact || this.getApplication().getController('Toolbar').checkCompactView();
+            this.view.chToolbar.setValue(!isHideToolbar, true);
+            this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
+
+            //Statusbar
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("pe-hidden-status");
+            this.view.chStatusbar.setValue(!isHideStatusbar, true);
+            this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
+
+            Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
+                this.view.chToolbar, this.view.chStatusbar
+            ]});
         },
 
         onAppReady: function (config) {

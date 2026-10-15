@@ -47,30 +47,43 @@ import IconFormatOtp from '@icons/formats/icon-format-otp.svg';
 const Download = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
+    const isVisibleFormat = type => !props.allowedFormats || props.allowedFormats.indexOf(type) !== -1;
 
     return (
         <Page>
             <Navbar title={_t.textDownload} backLink={_t.textBack} />
             <BlockTitle>{_t.textDownloadAs}</BlockTitle>
             <List>
-                <ListItem title="PPTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PPTX)}>
-                      <SvgIcon slot="media" symbolId={IconFormatPptx.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                     <SvgIcon slot="media" symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
-                     <SvgIcon slot="media"symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title="ODP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODP)}>
-                     <SvgIcon slot="media" symbolId={IconFormatOdp.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title="POTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.POTX)}>
-                     <SvgIcon slot="media"symbolId={IconFormatPotx.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title="OTP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTP)}>
-                    <SvgIcon slot="media" symbolId={IconFormatOtp.id} className={'icon icon-svg'} />
-                </ListItem>
+                {isVisibleFormat(Asc.c_oAscFileType.PPTX) &&
+                    <ListItem title="PPTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PPTX)}>
+                        <SvgIcon slot="media" symbolId={IconFormatPptx.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {isVisibleFormat(Asc.c_oAscFileType.PDF) &&
+                    <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
+                        <SvgIcon slot="media" symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {isVisibleFormat(Asc.c_oAscFileType.PDFA) &&
+                    <ListItem title="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
+                        <SvgIcon slot="media" symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {isVisibleFormat(Asc.c_oAscFileType.ODP) &&
+                    <ListItem title="ODP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODP)}>
+                        <SvgIcon slot="media" symbolId={IconFormatOdp.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {isVisibleFormat(Asc.c_oAscFileType.POTX) &&
+                    <ListItem title="POTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.POTX)}>
+                        <SvgIcon slot="media" symbolId={IconFormatPotx.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {isVisibleFormat(Asc.c_oAscFileType.OTP) &&
+                    <ListItem title="OTP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTP)}>
+                        <SvgIcon slot="media" symbolId={IconFormatOtp.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
             </List>
         </Page>
     )

@@ -55,18 +55,18 @@
     --border-toolbar-active-panel-top: var(--background-toolbar);
     --border-toolbar-active-tab: var(--background-toolbar);
     --border-divider: #dfdfdf;
-    --border-regular-control: #c0c0c0;
+    --border-regular-control: #949494;
     --border-preview-hover: #bababa;
     --border-preview-select: #888;
-    --border-control-focus: #848484;
+    --border-control-focus: #444444;
     --border-color-shading: fade(#000, 15%);
     --border-contrast-popover: #fff;
     --border-button-pressed-focus: #848484;
 
-    --text-normal: fade(#000, 80%);
-    --text-normal-pressed: fade(#000, 80%);
-    --text-secondary: fade(#000, 60%);
-    --text-tertiary: fade(#000, 40%);
+    --text-normal: #313131;
+    --text-normal-pressed: #313131;
+    --text-secondary: #636363;
+    --text-tertiary: #717171;
     --text-link: #445799;
     --text-link-hover: #445799;
     --text-link-active: #445799;
@@ -189,14 +189,14 @@
     --image-border-types-filter-selected: none;
     --component-normal-icon-filter: none;
 
-    --component-normal-icon-opacity: .8;
-    --component-hover-icon-opacity: .8;
+    --component-normal-icon-opacity: 1;
+    --component-hover-icon-opacity: 1;
     --component-active-icon-opacity: 1;
     --component-active-hover-icon-opacity: 1;
     --component-disabled-opacity: .4;
 
-    --header-component-normal-icon-opacity: .8;
-    --header-component-hover-icon-opacity: .8;
+    --header-component-normal-icon-opacity: 1;
+    --header-component-hover-icon-opacity: 1;
     --header-component-active-icon-opacity: 1;
     --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
@@ -254,6 +254,8 @@
     --celleditor-cell-name-height: calc(var(--celleditor-height) - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
     --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
     --celleditor-func-label-margin-left: -3px;
+    --celleditor-func-label-margin-right: 0;
+    --celleditor-func-label-border-radius: 0;
 
     --x-small-btn-size: 20px;
     --x-small-btn-icon-size: 20px;
@@ -514,6 +516,8 @@
 @celleditor-cell-name-height: var(--celleditor-cell-name-height);
 @celleditor-cell-name-border-right: var(--celleditor-cell-name-border-right); 
 @celleditor-func-label-margin-left: var(--celleditor-func-label-margin-left);
+@celleditor-func-label-margin-right: var(--celleditor-func-label-margin-right);
+@celleditor-func-label-border-radius: var(--celleditor-func-label-border-radius);
 
 @x-small-btn-size: var(--x-small-btn-size, 20px);
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);

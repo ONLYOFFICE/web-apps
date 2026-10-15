@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Error nulo",
+			"div": "Error de división entre cero",
+			"value": "Error en valor",
+			"ref": "Error de referencia de celda no válida",
+			"name": "Error de nombre no válido",
+			"num": "Error de número",
+			"na": "Error de valor no disponible",
+			"calc": "Matriz vacía",
+			"spill": "El rango de desbordamiento no está en blanco"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "DIRECCIÓN",
 			"col": "COLUMNA",

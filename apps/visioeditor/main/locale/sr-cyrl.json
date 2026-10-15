@@ -303,6 +303,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Конекција је изгубљена</b><br>Покушај конектовања. Молим вас проверите подешавања конекције.",
   "VE.Controllers.Statusbar.zoomText": "Зумирај {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте свог Документ Сервер администратора.",
+  "VE.Controllers.Toolbar.helpAITools": "ВИ вам помаже да креирате и уређујете своје документе.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "ВИ алати",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Упозорење",
   "VE.Controllers.Toolbar.txtUntitled": "Без наслова",
   "VE.Views.DocumentHolder.guestText": "Гост",

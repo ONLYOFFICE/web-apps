@@ -158,6 +158,10 @@ VE.ApplicationController = new(function(){
         }
     }
 
+    function loadBinary(data) {
+        data && api.asc_openDocumentFromBytes(new Uint8Array(data));
+    }
+
     function onCurrentPage(number) {
         currentPage = number;
         setActivePage(number);
@@ -639,7 +643,7 @@ VE.ApplicationController = new(function(){
                 me.loadMask && me.loadMask.show();
                 if(!isCustomLoader) $('#loading-mask').removeClass("none-animation");
             };
-            common.controller.modals.createDlgPassword(submitPassword);
+            common.controller.modals.createDlgPassword(submitPassword, { showError: true });
             if(isCustomLoader) hidePreloader();
             else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -863,7 +867,8 @@ VE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
+                const logourl = common.utils.htmlEncode(value.logo.image || value.logo.imageEmbedded);
+                logo.html('<img src="'+logourl+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -916,6 +921,7 @@ VE.ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.on('opendocumentfrombinary', loadBinary);
             Common.Gateway.appReady();
 
             // common.controller.SearchBar.setApi(api);

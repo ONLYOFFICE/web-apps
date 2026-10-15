@@ -129,6 +129,8 @@ define([
                     }, this)
                 }
             });
+            this.onChangeCompactMode(Common.Utils.checkCompactMode());
+            Common.NotificationCenter.on('app:compact-mode', this.onChangeCompactMode.bind(this));
         },
 
         SetDisabled: function(state) {
@@ -388,11 +390,10 @@ define([
         },
 
         onClickMacros: function() {
-            var me = this;
-            var macrosWindow = new Common.Views.MacrosDialog({
-                api: this.api,
-            });
-            macrosWindow.show();
+            if ( typeof Common.Views.MacrosDialog == "function" )
+                (new Common.Views.MacrosDialog({
+                    api: this.api,
+                })).show();
         },
 
         onClickMacrosRec: function() {
@@ -428,19 +429,21 @@ define([
             }
         },
 
-        onChangeDarkMode: function (isdarkmode) {
+        onChangeDarkMode: function () {
             if (!this._darkModeTimer) {
                 var me = this;
                 me._darkModeTimer = setTimeout(function() {
                     me._darkModeTimer = undefined;
                 }, 500);
-                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
+                var isdarkmode = Common.UI.Themes.isContentThemeDark();
+                Common.UI.Themes.setContentTheme(isdarkmode ? 'light' : 'dark');
+                me.view.btnDarkDocument.setIconCls(isdarkmode ? 'toolbar__icon btn-day' : 'toolbar__icon btn-night');
             } else
                 this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {
-            this.view && this.view.btnDarkDocument.toggle(isdark, true);
+            this.view && this.view.btnDarkDocument.setIconCls(isdark ? 'toolbar__icon btn-night' : 'toolbar__icon btn-day', true);
         },
 
         onThemeChanged: function () {
@@ -472,7 +475,23 @@ define([
                 this.api.asc_setViewerTargetType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.view);
             }
-        }
+        },
+
+        onChangeCompactMode: function(isCompact) {
+            //Toolbar
+            const isHideToolbar = isCompact || this.getApplication().getController('Toolbar').checkCompactView();
+            this.view.chToolbar.setValue(!isHideToolbar, true);
+            this.view.fireEvent('toolbar:setcompact', [this.view.chToolbar, isHideToolbar, true]);
+
+            //Statusbar
+            const isHideStatusbar = isCompact || Common.localStorage.getBool("de-hidden-status");
+            this.view.chStatusbar.setValue(!isHideStatusbar, true);
+            this.view.fireEvent('statusbar:hide', [this.view.chStatusbar, isHideStatusbar, true]);
+
+            Common.Utils.lockControls(Common.enumLock.compactMode, isCompact, {array: [
+                this.view.chToolbar, this.view.chStatusbar
+            ]});
+        },
 
     }, DE.Controllers.ViewTab || {}));
 });

@@ -67,7 +67,11 @@ define([
                             return;
                         }
                         if (this._state.searchText === text) {
-                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            if (this._state.isContentChanged) {
+                                this.onQuerySearch();
+                            } else {
+                                Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            }
                             return;
                         }
                         this.onInputSearchChange(text);
@@ -381,7 +385,10 @@ define([
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
-            if (!this.resultItems || this.resultItems && this.resultItems.length === 0) return;
+            if (!this.resultItems || this.resultItems && this.resultItems.length === 0) {
+                this.onApiModifiedDocument();
+                return
+            }
             var me = this;
             arr.forEach(function (id) {
                 var ind = _.findIndex(me.resultItems, {id: id});
@@ -603,6 +610,7 @@ define([
 
         onSelectSearchingResults: function (val) {
             if (!val && (this.getApplication().getController('LeftMenu').isSearchPanelVisible() || this.getApplication().getController('Viewport').isSearchBarVisible())) return;
+            val && this._state.isContentChanged && this._state.searchText && this.onQuerySearch();
 
             if (this._state.isHighlightedResults !== val) {
                 this.api.asc_selectSearchingResults(val);

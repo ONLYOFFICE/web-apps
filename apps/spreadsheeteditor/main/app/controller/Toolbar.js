@@ -283,14 +283,10 @@ define([
             this.toolbar.applyLayout(mode);
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'solver' : {name:'sse-help-tip-solver', placement: 'bottom-left', text: this.helpSolver, header: this.helpSolverHeader, target: '#slot-btn-solver', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'cellFormat' : {name:'sse-help-tip-cellFormat', placement: 'bottom-left', text: this.helpCellFormat, header: this.helpCellFormatHeader, target: '#slot-btn-cell-format', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'darkDocument' : {name:'sse-help-tip-darkDocument', placement: 'bottom', text: this.helpDarkDocument, header: this.helpDarkDocumentHeader, target: '#slot-btn-dark-document', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true}
+                // 'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
+                //                     automove: true, closable: false, isNewFeature: true},
+                'aiTools' : {name: 'sse-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -1770,8 +1766,6 @@ define([
 
             toolbar.mnuHide.setDisabled(toolbar.mniHideRows.isDisabled() && toolbar.mniHideCols.isDisabled() && toolbar.mniHideSheets.isDisabled());
             toolbar.mnuShow.setDisabled(toolbar.mniShowRows.isDisabled() && toolbar.mniShowCols.isDisabled() && (hiddenItems.length<1 || toolbar.mnuShowSheets.isDisabled()));
-
-            Common.UI.TooltipManager.closeTip('cellFormat');
         },
 
         onCellFormatMenu: function(menu, item, e) {
@@ -1965,7 +1959,7 @@ define([
             var picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-databar', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
@@ -2000,7 +1994,7 @@ define([
             picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-colorscales', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
@@ -3464,8 +3458,6 @@ define([
 
             if (toolbar.btnTextDir && !toolbar.btnTextDir.isDisabled() && toolbar.isTabActive('home'))
                 Common.UI.TooltipManager.showTip('rtlDirection');
-            if (toolbar.btnFormatCell && !toolbar.btnFormatCell.isDisabled() && toolbar.isTabActive('home'))
-                Common.UI.TooltipManager.showTip('cellFormat');
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -4098,7 +4090,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-toolbar-menu-insertshape'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
                 outerMenu: {menu: me.toolbar.btnInsertShape.menu, index:0},
@@ -4652,18 +4644,27 @@ define([
             }
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-            me.appConfig = config;
-
-            var editmode = config.isEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit;
+            let compactview = !editmode;
             if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle) {
                 if ( Common.localStorage.itemExists(editmode ? "sse-compact-toolbar" : "sse-view-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool(editmode ? "sse-compact-toolbar" : "sse-view-compact-toolbar");
                 } else if (config.customization) {
                     compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
                 }
+            }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+            me.appConfig = config;
+
+            var editmode = config.isEdit,
+                compactview = this.checkCompactView();
+            if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle) {
                 Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
             }
 
@@ -4767,7 +4768,7 @@ define([
                     var $panel = sparklinetab.createToolbarPanel();
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel);
-                        me.toolbar.setVisible('sparklinetab', true);
+                        me._state.insparkline && me.toolbar.setVisible('sparklinetab', true);
                         Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
                     }
                     me.toolbar.btnsSparklineTab = sparklinebuttons
@@ -4848,9 +4849,11 @@ define([
             if ( config.isEdit && !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle ) {
                 if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
                     Common.UI.TooltipManager.showTip('rtlDirection');
-                if(me.toolbar.btnFormatCell && !me.toolbar.btnFormatCell.isDisabled() && me.toolbar.isTabActive('home'))
-                    Common.UI.TooltipManager.showTip('cellFormat');
             }
+        },
+
+        getView: function (name) {
+            return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
         },
 
         onFileMenu: function (opts) {
@@ -5389,10 +5392,26 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+            this._applyPluginToolbarControls(data, false);
+        },
+
+        _applyPluginToolbarControls: function(data, update) {
+            const api = this.api;
+            const controls = Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
                 api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }));
+            }, update);
+
+            // In view mode, lock plugin controls that have viewMode in their lock list.
+            if (!this.mode.isEdit) {
+                const controlsLockView = [];
+                controls.forEach(function(control) {
+                    if (control && control.options && (control.options.lock || []).includes(Common.enumLock.viewMode)) {
+                        controlsLockView.push(control);
+                    }
+                });
+                controlsLockView.length && Common.Utils.lockControls(Common.enumLock.viewMode, true, {array: controlsLockView});
+            }
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, controls);
         },
 
         onPluginToolbarCustomMenuItems: function(action, data) {
@@ -5407,10 +5426,7 @@ define([
         },
 
         onPluginUpdateToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
-                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }, true));
+            this._applyPluginToolbarControls(data, true);
         },
 
         onDocumentReady: function() {
@@ -5430,16 +5446,7 @@ define([
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
 
-            if (tab !== 'home')
-                Common.UI.TooltipManager.closeTip('cellFormat');
-            else if (this.toolbar && this.toolbar.btnFormatCell  && !this.toolbar.btnFormatCell.isDisabled())
-                setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('cellFormat');
-                }, 10);
-            else if (tab == 'charttab')
-                Common.UI.TooltipManager.closeTip('tipChartTab');
-
-            (tab === 'data') ? Common.UI.TooltipManager.showTip('solver') : Common.UI.TooltipManager.closeTip('solver');
+            (tab == 'charttab') && Common.UI.TooltipManager.closeTip('tipChartTab');
             (tab === 'view') ? Common.UI.TooltipManager.showTip('darkDocument') : Common.UI.TooltipManager.closeTip('darkDocument');
         },
 
@@ -5452,8 +5459,6 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('cellFormat');
-            Common.UI.TooltipManager.closeTip('solver');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

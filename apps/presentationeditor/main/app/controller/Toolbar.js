@@ -205,7 +205,8 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this),
-                    'viewmode:change': this.onChangeViewMode.bind(this)
+                    'viewmode:change': this.onChangeViewMode.bind(this),
+                    'mastertab:create': this.onCreateMasterTabs.bind(this)
                 },
                 'Common.Views.ChartTab': {
                     'add:chart': this.onSelectChart.bind(this)
@@ -307,15 +308,15 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
 //                'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
 //                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'tipChartTab' : {name: 'pe-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
+                'mastersView' : {name: 'pe-help-tip-masters-view', placement: 'bottom-left', text: this.helpMastersView, header: this.helpMastersViewHeader, target: '#slot-btn-slide-master', maxwidth: 250,
+                    automove: true, closable: false, isNewFeature: true, offset: {x:25,y:0}},
+                'videoFormatsSaveAs' : {name: 'pe-help-tip-video-formats', placement: 'right-bottom', text: this.helpVideoFormats, header: this.helpVideoFormatsHeader, target: '#panel-saveas .svg-format-video', maxwidth: 300, extCls: 'inc-index',
                     automove: true, closable: false, isNewFeature: true},
-                'gifPlayback' : {name:'pe-help-tip-gif-payback', placement: 'bottom', text: this.helpGifPlayback, header: this.helpGifPlaybackHeader, target: '#toolbar', maxwidth: 300,
-                    automove: true, noArrow: true, noHighlight: true, closable: false, isNewFeature: true},
-                'slideTransitions' : {name:'pe-help-tip-slideTransitions', placement: 'bottom', text: this.helpSlideTransitions, header: this.helpSlideTransitionsHeader, target: '#transit-field-effects', maxwidth: 300,
+                'videoFormatsSaveCopy' : {name: 'pe-help-tip-video-formats', placement: 'right-bottom', text: this.helpVideoFormats, header: this.helpVideoFormatsHeader, target: '#panel-savecopy .svg-format-video', maxwidth: 300, extCls: 'inc-index',
                     automove: true, closable: false, isNewFeature: true},
-                'slideTheme' : {name:'pe-help-tip-slideTheme', placement: 'bottom', text: this.helpSlideTheme, header: this.helpSlideThemeHeader, target: '#slot-field-styles', maxwidth: 300,
+                'printSlidesOnPage' : {name: 'pe-help-tip-print-slides-on-page', placement: 'right-top', text: this.helpPrintSlidesOnPage, header: this.helpPrintSlidesOnPageHeader, target: '#print-slides-on-page', maxwidth: 300, extCls: 'inc-index',
                     automove: true, closable: false, isNewFeature: true},
-                'pasteOptions' : {name:'pe-help-tip-pasteOptions', placement: 'bottom-right', text: this.helpPasteOptions, header: this.helpPasteOptionsHeader, target: '#slot-btn-paste', maxwidth: 300,
+                'aiTools' : {name: 'pe-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
                     automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
@@ -904,7 +905,7 @@ define([
                         no_paragraph = false;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
-                        in_chart = true;
+                        in_chart = !!this.api.asc_getChartSettings(true);
                         no_columns = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
@@ -939,7 +940,6 @@ define([
                 this._state.in_chart = in_chart;
 
                 if (in_chart) {
-                    Common.UI.TooltipManager.closeTip('gifPlayback');
                     Common.UI.TooltipManager.showTip('tipChartTab');
                 } else {
                     Common.UI.TooltipManager.closeTip('tipChartTab');
@@ -2028,6 +2028,7 @@ define([
             }
             if (in_text && type=='slidenum') {
                 this.api.asc_addSlideNumber();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (in_text && type=='datetime') {
                 //insert date time
                 var me = this;
@@ -2738,16 +2739,23 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-
-            var editmode = config.isEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            var editmode = config.isEdit,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));
@@ -2795,19 +2803,6 @@ define([
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,animationController.getView().getButtons());
 
-                tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
-                var slideMasterTab = me.getApplication().getController('SlideMasterTab');
-                slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = slideMasterTab.createToolbarPanel();
-                if ($panel) {
-                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
-                    me.toolbar.addTab(tab, $panel, 6);
-                    me.toolbar.setVisible('slideMaster', !visible);
-                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
-                    Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
-                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, slideMasterTab.getView('SlideMasterTab').getButtons());
-                }
-
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 if (!config.compactHeader) {
@@ -2850,6 +2845,7 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
+            Array.prototype.push.apply(me.toolbar.slideOnlyControls, viewtab.getView('ViewTab').getButtons('readingView'));
         },
 
         onAppReady: function (config) {
@@ -3005,10 +3001,26 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+            this._applyPluginToolbarControls(data, false);
+        },
+
+        _applyPluginToolbarControls: function(data, update) {
+            const api = this.api;
+            const controls = Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
                 api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }));
+            }, update);
+
+            // In view mode, lock plugin controls that have viewMode in their lock list.
+            if (!this.mode.isEdit) {
+                const controlsLockView = [];
+                controls.forEach(function(control) {
+                    if (control && control.options && (control.options.lock || []).includes(Common.enumLock.viewMode)) {
+                        controlsLockView.push(control);
+                    }
+                });
+                controlsLockView.length && Common.Utils.lockControls(Common.enumLock.viewMode, true, {array: controlsLockView});
+            }
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, controls);
         },
 
         onPluginToolbarCustomMenuItems: function(action, data) {
@@ -3023,10 +3035,7 @@ define([
         },
 
         onPluginUpdateToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
-                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }, true));
+            this._applyPluginToolbarControls(data, true);
         },
 
         onDocumentReady: function() {
@@ -3037,28 +3046,106 @@ define([
             });
             this._state.customPluginData = null;
 
-            Common.UI.TooltipManager.showTip('gifPlayback');
             this.mode && this.mode.isDesktopApp && Common.UI.TooltipManager.showTip('pasteOptions');
         },
 
         onChangeViewMode: function (mode) { // master or normal
             var isMaster = mode==='master';
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes';
+            var isNotesPage = mode === 'notespage'
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes || isNotesPage, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isHandout || isNotes || isNotesPage, { array: [this.toolbar.listTheme] });
 
             this._state.viewMode = mode;
             if (isMaster) {
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
+                this.isSlideMasterTab = true;
                 this.toolbar.setTab('slideMaster');
+            } else if (isHandout) {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', true);
+                this.isHandoutMasterTab = true;
+                this.toolbar.setTab('handoutMaster');
+            } else if (isNotes) {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', true);
+                this.isNotesMasterTab = true;
+                this.toolbar.setTab('notesMaster');
             } else {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
-                this.toolbar.setTab('home');
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
+                if (this.isSlideMasterTab || this.isHandoutMasterTab || this.isNotesMasterTab) {
+                    this.toolbar.setTab('view');
+                }
+                this.isSlideMasterTab = false;
+                this.isHandoutMasterTab = false;
+                this.isNotesMasterTab = false;
                 this.showStaticElements();
             }
 
-            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
-            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes && !isNotesPage);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes && !isNotesPage);
+        },
+
+        onCreateMasterTabs: function(mode) {
+            var me = this;
+            var editmode = me.appOptions.isEdit,
+                compactview = !editmode;
+
+            if (mode === 'master' && !this.toolbar.getTab('slideMaster')) {
+                tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
+                var slideMasterTab = me.getApplication().getController('MasterTabs');
+                slideMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && slideMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                $panel = slideMasterTab.createToolbarPanel();
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('slideMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            } else if (mode === 'handout' && !this.toolbar.getTab('handoutMaster')) {
+                var tab = {caption: me.toolbar.textTabHandoutMaster, action: 'handoutMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-handoutmaster', dataHintTitle: 'M'};
+                var handoutMasterTab = me.getApplication().getController('MasterTabs');
+                handoutMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && handoutMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                var $panel = handoutMasterTab.createToolbarPanel('handout');
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-handoutmaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('handoutMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, handoutMasterTab.getView('HandoutMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, handoutMasterTab.getView('HandoutMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            } else if (mode === 'notes' && !this.toolbar.getTab('notesMaster')) {
+                var tab = {caption: me.toolbar.textTabNotesMaster, action: 'notesMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-notesmaster', dataHintTitle: 'M'};
+                var notesMasterTab = me.getApplication().getController('MasterTabs');
+                notesMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && notesMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                var $panel = notesMasterTab.createToolbarPanel('notes');
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-notesmaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('notesMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, notesMasterTab.getView('NotesMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, notesMasterTab.getView('NotesMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            }
         },
 
         onActiveTab: function(tab) {
@@ -3067,6 +3154,7 @@ define([
             }
             (tab === 'transit') ? Common.UI.TooltipManager.showTip('slideTransitions') : Common.UI.TooltipManager.closeTip('slideTransitions');
             (tab === 'design') ? Common.UI.TooltipManager.showTip('slideTheme') : Common.UI.TooltipManager.closeTip('slideTheme');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('mastersView') : Common.UI.TooltipManager.closeTip('mastersView');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('pasteOptions');
         },
 
@@ -3088,17 +3176,17 @@ define([
                 {
                     el: this.toolbar.btnAddSlide ? this.toolbar.btnAddSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnChangeSlide ? this.toolbar.btnChangeSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnAddSlideMaster ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'master'
+                    viewMode: ['master']
                 }
             ];
             var countShowingButtons = 0;
@@ -3106,7 +3194,7 @@ define([
             showingStaticElements.forEach(function(item) {
                 if(!item.el) return;
                 
-                if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
+                if(item.tabs.includes(me._state.activeTab) && (item.viewMode.includes(me._state.viewMode) || !item.viewMode)) {
                     item.el.show();
                     countShowingButtons += 1;
                 }

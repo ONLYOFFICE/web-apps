@@ -55,8 +55,8 @@ define([
         events: function() {
             return {
                 'keyup input#ce-cell-name': _.bind(this.onCellName,this),
-                'keyup textarea#ce-cell-content': _.bind(this.onKeyupCellEditor,this),
-                'blur textarea#ce-cell-content': _.bind(this.onBlurCellEditor,this),
+                'keyup #ce-cell-content': _.bind(this.onKeyupCellEditor,this),
+                'blur #ce-cell-content': _.bind(this.onBlurCellEditor,this),
                 'click button#ce-btn-expand': _.bind(this.expandEditorField,this),
                 'click button#ce-func-label': _.bind(this.onInsertFunction, this)
             };
@@ -69,9 +69,9 @@ define([
                     'layout:resizedrag': _.bind(this.onLayoutResize, this)
                 },
                 'ViewTab': {
-                    'viewtab:formula': function (type, state) {
+                    'viewtab:formula': function (type, state, suppressSave) {
                         this.editor.setVisible(state);
-                        Common.localStorage.setBool('sse-hidden-formula', !state);
+                        !suppressSave && Common.localStorage.setBool('sse-hidden-formula', !state);
                         Common.NotificationCenter.trigger('layout:changed', 'celleditor', !state?'hidden':'showed');
                     }.bind(this)
                 }
@@ -99,7 +99,7 @@ define([
             this.mode = mode;
 
             this.editor.setMode(mode);
-            this.editor.$btnfunc[this.mode.isEdit?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!this.mode.isEdit);
             this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
 
             if ( this.mode.isEdit ) {
@@ -155,7 +155,7 @@ define([
                 this.api.isCEditorFocused = false;
                 this.editor.cellNameDisabled(false);
             }
-            this.editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(state == Asc.c_oAscCellEditorState.editText || this.isUserProtected);
         },
 
         onApiCellSelection: function(info) {
@@ -176,7 +176,7 @@ define([
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
             this.isUserProtected = !!info.asc_getUserProtected();
-            this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(is_image || is_mode_2 || coauth_disable || this.isUserProtected);
         },
 
         onApiDisconnect: function() {
@@ -197,17 +197,19 @@ define([
 
         onCellsRange: function(status) {
             this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
-            this.editor.$btnfunc.toggleClass('disabled', status != Asc.c_oAscSelectionDialogType.None || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(status != Asc.c_oAscSelectionDialogType.None || this.isUserProtected);
         },
 
         onLayoutResize: function(o, r) {
             if (r == 'cell:edit') {
-                if (Math.floor(this.editor.$el.height()) > 19) {
+                if (Math.floor(this.editor.$el.height()) > 24) {
                     if (!this.editor.$btnexpand.hasClass('btn-collapse')) {
                         this.editor.$el.addClass('expanded');
                         this.editor.$btnexpand['addClass']('btn-collapse');
+                        this.editor.$scrollcontent.css({height: '', display: ''});
                     }
 
+                    this.editor.scroller.update();
                     o && Common.localStorage.setItem('sse-celleditor-height', this.editor.$el.height());
                     o && Common.localStorage.setBool('sse-celleditor-expand', true);
                 } else {
@@ -259,6 +261,8 @@ define([
                 this.editor.$el.height(this.editor.keep_height);
                 this.editor.$el.addClass('expanded');
                 this.editor.$btnexpand['addClass']('btn-collapse');
+                this.editor.scroller.update();
+                this.editor.$scrollcontent.css({height: '', display: ''});
                 Common.localStorage.setBool('sse-celleditor-expand', true);
             }
             this.onCellEditorTextChange();
@@ -286,7 +290,7 @@ define([
         onInsertFunction: function() {
             if (this.viewmode) return; // signed file
 
-            if ( this.mode.isEdit && !this.editor.$btnfunc['hasClass']('disabled')) {
+            if ( this.mode.isEdit && !this.editor.btnfunc.isDisabled()) {
                 var controller = this.getApplication().getController('FormulaDialog');
                 if (controller) {
                     $('#ce-func-label', this.editor.el).blur();
@@ -358,14 +362,14 @@ define([
         },
 
         SetDisabled: function(disabled) {
-            this.editor.$btnfunc[!disabled && this.mode && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!(!disabled && this.mode && this.mode.isEdit && !this.isUserProtected));
             this.editor.btnNamedRanges.setVisible(!disabled && this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode && this.mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!(!mode && this.mode && this.mode.isEdit && !this.isUserProtected));
             this.editor.cellNameDisabled(mode && !(this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });

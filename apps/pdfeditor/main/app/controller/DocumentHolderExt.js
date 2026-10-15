@@ -91,6 +91,9 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
+                    this.api.asc_registerCallback('asc_onShowFieldSignature',           this.onShowSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onHideFieldSignature',           this.onHideSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onUpdateFieldSignature',         this.onUpdateSignatureActions.bind(this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -357,6 +360,8 @@ define([], function () {
             if (menu_to_show === null) {
                 if (!_.isUndefined(menu_props.paraProps))
                     menu_to_show = documentHolder.textMenu;
+                else 
+                    menu_to_show = documentHolder.editPDFModeMenu;
             }
 
             return {menu_to_show: menu_to_show, menu_props: menu_props};
@@ -1488,6 +1493,68 @@ define([], function () {
                     }, 1);
                     break;
             }
+        };
+
+        dh.onShowSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
+                rootEl: this.documentHolder.cmpEl,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
+        };
+
+        dh.onHideSignatureActions = function() {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+        };
+
+        dh.onUpdateSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.documentHolder.cmpEl, rect);
+        };
+
+        dh.openSignatureDialog = function(fieldId) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+                var cmbFonts = this.documentHolder.cmbFontName;
+                if (cmbFonts && cmbFonts.store) {
+                    this.fontStore.add(cmbFonts.store.toJSON().filter(function(font) { return !font.cloneid; }));
+                } else {
+                    var fontsController = this.getApplication().getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var me = this,
+                signProps = this.api.GetSignatureImageProps();
+            (new Common.Views.PdfSignDialog({
+                api: me.api,
+                props: signProps,
+                hasField: false,
+                signatureId: fieldId,
+                disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                fontStore: me.fontStore,
+                handler: function(result) {
+                    if (result == 'ok') {
+                        me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).on('close', function(obj){
+                setTimeout(function(){
+                    me.api.asc_UncheckContentControlButtons();
+                }, 100);
+            }).show();
+        };
+
+        dh.applyStoredSignature = function(fieldId, data) {
+            var imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && fieldId) {
+                Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
+                this.api.SetSignatureToField({imageData: imageData}, fieldId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         };
 
         dh.onShowListActionsPDF = function(obj) {
@@ -2739,8 +2806,8 @@ define([], function () {
                 [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
@@ -2752,7 +2819,14 @@ define([], function () {
                 [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
-                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+                [_set.funnel]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'legend'],
+                [_set.histogram]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.waterfall]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.boxWhisker]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
+                [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
         dh.onChartElement = function(menu, item) {
@@ -2892,6 +2966,15 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
+                case 'bShowDataNone':
+                    chartProps.setDisplayDataTable(false, false);
+                    break;
+                case 'bShowDataTable':
+                    chartProps.setDisplayDataTable(true, false);
+                    break;
+                case 'bShowLegendKeys':
+                    chartProps.setDisplayDataTable(true, true);
+                    break;
                 case 'noneError':
                     chartProps.setDisplayErrorBars(false);
                     break;
@@ -2984,8 +3067,12 @@ define([], function () {
                 vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
                 depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
                 dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                errorBarType = chartProps.getErrorBarsValueType && chartProps.getErrorBarsValueType(),
                 title = chartProps.getTitle && chartProps.getTitle(),
                 legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
+                trendlineType = chartProps.getTrendlineType && chartProps.getTrendlineType(),
+                forecastForward = chartProps.getForecastForward && chartProps.getForecastForward(),
+                forecastBackward = chartProps.getForecastBackward && chartProps.getForecastBackward(),
                 GridMajor = Asc.c_oAscGridLinesSettings.major,
                 GridMinor = Asc.c_oAscGridLinesSettings.minor,
                 GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
@@ -3001,7 +3088,15 @@ define([], function () {
                 LabelGroup2 = LabelGroup2Types.includes(comboType),
                 LabelGroup3 = LabelGroup3Types.includes(comboType),
                 LabelGroup4 = LabelGroup4Types.includes(comboType),
-                LabelGroup5 = LabelGroup5Types.includes(comboType);
+                LabelGroup5 = LabelGroup5Types.includes(comboType),
+                isMixedState = trendlineType === 1 && (forecastForward === undefined || forecastBackward === undefined),
+                trendlineState = {
+                    type: isMixedState ? undefined : trendlineType,
+                    isForecast: !!(trendlineType === 1 && (
+                        (forecastForward && forecastForward > 0) ||
+                        (forecastBackward && forecastBackward > 0)
+                    ))
+                };
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
@@ -3061,7 +3156,30 @@ define([], function () {
                 labelsMenu.items[9].setVisible(LabelGroup5);
             }
 
-            const gridMenu = menu.items[5].menu;
+            const tableMenu = menu.items[4].menu;
+            const dataTableState = chartProps.getDataTable && chartProps.getDataTable();
+            tableMenu.clearAll(true);
+            if (dataTableState === true) {
+                tableMenu.items[2].setChecked(true);
+            } else if (dataTableState === false) {
+                tableMenu.items[1].setChecked(true);
+            } else {
+                tableMenu.items[0].setChecked(true);
+            }
+
+            const errorBarsMenu = menu.items[5].menu;
+            errorBarsMenu.clearAll(true);
+            if (errorBarType === null) {
+                errorBarsMenu.items[0].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDERR) {
+                errorBarsMenu.items[1].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypePERCENTAGE) {
+                errorBarsMenu.items[2].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDDEV) {
+                errorBarsMenu.items[3].setChecked(true);
+            }
+
+            const gridMenu = menu.items[6].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
             if (RadarChart) {
@@ -3078,7 +3196,7 @@ define([], function () {
                 gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
-            const legendMenu = menu.items[6].menu;
+            const legendMenu = menu.items[7].menu;
             legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
             legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
             legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
@@ -3086,6 +3204,20 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
+            const trendlinesMenu = menu.items[8].menu;
+            trendlinesMenu.clearAll(true);
+            if (trendlineState.type === null) {
+                trendlinesMenu.items[0].setChecked(true);
+            } else if (trendlineState.isForecast) {
+                trendlinesMenu.items[3].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_LINEAR) {
+                trendlinesMenu.items[1].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_EXP) {
+                trendlinesMenu.items[2].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_MOVING_AVG) {
+                trendlinesMenu.items[4].setChecked(true);
+            }
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {

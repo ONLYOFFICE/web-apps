@@ -425,6 +425,14 @@ define([
 
                                 me.autoScrollToEditButtons();
                                 this.setFocusToTextBox();
+                            } else if (btn.hasClass('btn-comment', false)) {
+                                this.clearTextBoxBind();
+
+                                me.fireEvent('comment:addComment', [commentId, this.getActiveTextBoxVal()]);
+                                me.fireEvent('comment:closeEditing');
+                                me.calculateSizeOfContent();
+
+                                readdresolves();
                             } else if (btn.hasClass('btn-reply', false)) {
                                 if (showReplyBox) {
                                     this.clearTextBoxBind();

@@ -167,7 +167,9 @@
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
       "textUnderline": "Подчёркнутый",
       "textUsers": "Пользователи",
-      "textWidow": "Запрет висячих строк"
+      "textWidow": "Запрет висячих строк",
+      "textEnterComment": "Введите комментарий",
+      "textMention": "Комментируйте или упоминайте с помощью + или @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заливки"
@@ -181,7 +183,7 @@
       "dark": "Темная",
       "light": "Светлая",
       "system": "Системная",
-      "textTheme": "Тема"
+      "textTheme": "Тема интерфейса"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
@@ -426,7 +428,9 @@
     "textWrapText": "Перенос текста",
     "textYourOption": "Ваш вариант",
     "txtHeight": "Высота",
-    "txtWidth": "Ширина"
+    "txtWidth": "Ширина",
+    "textCurrentFont": "Основной текст",
+    "txtCustom": "Пользовательский"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
@@ -744,7 +748,7 @@
     "textExport": "Экспортировать",
     "textExportAs": "Экспортировать как",
     "textFastWV": "Быстрый веб-просмотр",
-    "textFeedback": "Обратная связь и поддержка",
+    "textFeedback": "Связаться со службой поддержки",
     "textFillingForms": "Заполнение форм",
     "textFind": "Поиск",
     "textFindAndReplace": "Поиск и замена",
@@ -776,7 +780,7 @@
     "textOk": "Ok",
     "textOpenFile": "Введите пароль для открытия файла",
     "textOpenLocation": "Открыть папку",
-    "textOrientation": "Ориентация",
+    "textOrientation": "Ориентация страницы",
     "textOwner": "Владелец",
     "textPages": "Страницы",
     "textPageSize": "Размер страницы",
@@ -832,7 +836,26 @@
     "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
     "txtOk": "Ok",
-    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен"
+    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен",
+    "textAboutGroup": "О программе",
+    "textDocumentSetup": "Настройка документа",
+    "textHelpCenter": "Справочный центр",
+    "textHeadings": "Заголовки",
+    "textSaveCopy": "Сохранить копию",
+    "textSaveACopy": "Сохранить копию",
+    "textSaveACopyAs": "Сохранить копию как",
+    "textTools": "Инструменты",
+    "textSettingsGroup": "Настройки",
+    "textPreferences": "Параметры",
+    "textHelpAndFeedback": "Справка и обратная связь",
+    "textView": "Вид",
+    "textShare": "Поделиться",
+    "textMobileViewWarning": "Часть содержимого этого документа будет скрыта в мобильном виде.",
+    "textStyleGroup": "Стиль",
+    "textSpellingGroup": "Орфография",
+    "textDisplayGroup": "Отображение",
+    "textSaveACopyHeader": "Сохранить копию",
+    "textSaveConnectedStorage": "Файл будет сохранен в подключенное хранилище"
   },
   "Toolbar": {
     "btnRestartNow": "Перезапустить сейчас",
@@ -848,6 +871,11 @@
     "textSwitchedMobileView": "Переключено на мобильный вид",
     "textSwitchedStandardView": "Переключено на стандартный вид",
     "textSwitchToDesktop": "Переключить в десктопный режим",
-    "warnEmptyRequiredField": "Заполните все обязательные поля для отправки формы."
+    "warnEmptyRequiredField": "Заполните все обязательные поля для отправки формы.",
+    "textSave": "Сохранить",
+    "textDontSave": "Не сохранять",
+    "textCancel": "Отмена",
+    "textSaveData": "Сохраните изменения перед выходом",
+    "textUnsavedData": "Несохраненные данные"
   }
 }

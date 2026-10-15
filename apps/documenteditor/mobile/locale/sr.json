@@ -167,7 +167,9 @@
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUnderline": "Podvuci",
       "textUsers": "Korisnici",
-      "textWidow": "Kontrola udovice"
+      "textWidow": "Kontrola udovice",
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -181,7 +183,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje",
@@ -426,7 +428,9 @@
     "textWrapText": "Upakuj tekst",
     "textYourOption": "Tvoja opcija",
     "txtHeight": "Visina",
-    "txtWidth": "Širina "
+    "txtWidth": "Širina ",
+    "txtCustom": "Prilagođeno",
+    "textCurrentFont": "Glavni tekst"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
@@ -744,7 +748,7 @@
     "textExport": "Izvoz",
     "textExportAs": "Izvezi kao",
     "textFastWV": "Brzi Mrežni Prikaz",
-    "textFeedback": "Povratne Informacije i Podrška",
+    "textFeedback": "Kontaktirajte podršku",
     "textFillingForms": "Popunjavanje formi",
     "textFind": "Pronađi",
     "textFindAndReplace": "Pronađi i Zameni",
@@ -776,7 +780,7 @@
     "textOk": "OK",
     "textOpenFile": "Unesi lozinku da otvoriš fajl",
     "textOpenLocation": "Otvorena lokacija",
-    "textOrientation": "Orijentacija ",
+    "textOrientation": "Orijentacija stranice",
     "textOwner": "Vlasnik",
     "textPages": "Stranice",
     "textPageSize": "Veličina stranice",
@@ -832,7 +836,26 @@
     "txtDownloadTxt": "Preuzmite TXT",
     "txtIncorrectPwd": "Lozinka je netačna",
     "txtOk": "OK",
-    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
+    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana",
+    "textAboutGroup": "O",
+    "textDocumentSetup": "Podešavanje dokumenta",
+    "textHelpCenter": "Centar za pomoć",
+    "textHeadings": "Naslovi",
+    "textSaveCopy": "Sačuvaj kopiju",
+    "textSaveACopy": "Sačuvaj kopiju",
+    "textSaveACopyAs": "Sačuvaj kopiju kao",
+    "textTools": "Alati",
+    "textView": "Prikaz",
+    "textSettingsGroup": "Podešavanja",
+    "textPreferences": "Podešavanja",
+    "textHelpAndFeedback": "Pomoć i povratne informacije",
+    "textShare": "Podeli",
+    "textMobileViewWarning": "Deo sadržaja ovog dokumenta biće sakriven u mobilnom prikazu.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Pravopis",
+    "textDisplayGroup": "Ekran",
+    "textSaveACopyHeader": "Sačuvaj kopiju",
+    "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju"
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",
@@ -848,6 +871,11 @@
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
     "textSwitchToDesktop": "Prebaci na Desktop verziju",
-    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   }
 }

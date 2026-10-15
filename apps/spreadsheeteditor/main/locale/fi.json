@@ -588,6 +588,9 @@
   "SSE.Controllers.DocumentHolder.rightText": "Oikea",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Sarakkeen Leveys {0} symbolit ({1} pikseliä)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Rivin korkeus {0} pistettä ({1} pikseliä)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Korjaa tekoälyllä",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Korjaa kaavan solussa %1, se palauttaa arvon %2. Käytä korjattua kaavaa soluun.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Korjaa kaavan solussa %1, se ei ole kelvollinen kaava. Käytä korjattua kaavaa soluun.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Paina CTRL näppäintä ja klikkaa linkkiä",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Lisää vasemmalle",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Lisää ylös",
@@ -1062,8 +1065,8 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Luodaksesi yhdistelmäkaavion valitse ainakin kaksi tietosarjaa.",
   "SSE.Controllers.Toolbar.errorMaxRows": "VIRHE! Tietosarjojen maksimimäärä kaaviossa on 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Virheellinen rivin järjestys. Jotta voit luoda pörssikaavion, niin aseta tiedot seuraavassa järjestyksessä: <br> avaushinta, korkein hinta, halvin hinta, sulkuhinta.",
-  "SSE.Controllers.Toolbar.helpChartTab": "Kaikki kaavioasetukset ovat nyt saatavilla työkalupalkin omistetussa Kaavion suunnittelu -välilehdessä.",
-  "SSE.Controllers.Toolbar.helpChartTabHeader": "Kaavion suunnittelu -välilehti",
+  "SSE.Controllers.Toolbar.helpAITools": "Tekoäly auttaa sinua luomaan ja muokkaamaan asiakirjojasi.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Tekoälytyökalut",
   "SSE.Controllers.Toolbar.textAccent": "Aksentit",
   "SSE.Controllers.Toolbar.textBracket": "Hakasulkeet",
   "SSE.Controllers.Toolbar.textFontSizeErr": "Syötetty arvo ei ole oikein.<br>Ole hyvä ja syötä numeerinen arvo välillä 1-409",
@@ -2838,5 +2841,6 @@
   "SSE.Views.WatchDialog.textDeleteAll": "Poista kaikki",
   "SSE.Views.WatchDialog.textFormula": "Kaava",
   "SSE.Views.WatchDialog.textSheet": "Taulukko",
-  "SSE.Views.WatchDialog.textValue": "Arvo"
+  "SSE.Views.WatchDialog.textValue": "Arvo",
+  "Common.Controllers.Desktop.hintBtnHome": "Näytä pääikkuna"
 }

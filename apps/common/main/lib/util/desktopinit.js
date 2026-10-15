@@ -40,6 +40,7 @@ if ( window.AscDesktopEditor ) {
 
     window.on_native_message = function (cmd, param) {
         if ( /window:features/.test(cmd) ) {
+            window.keepfeaturesjson = param;
             var obj = JSON.parse(param);
             if ( obj.singlewindow !== undefined ) {
                 desktop.features.singlewindow = obj.singlewindow;

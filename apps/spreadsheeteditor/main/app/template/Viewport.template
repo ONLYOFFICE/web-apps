@@ -13,6 +13,7 @@
                     <div class="layout-ct vbox">
                         <div id="cell-editing-box" class="layout-item" style="height:18px;"></div>
                         <div id="editor_sdk" class="layout-item"></div>
+                        <div id="plugin-fab-container"></div>
                     </div>
                 </div>
                 <div id="right-menu" class="layout-item hint-section" data-layout-name="rightMenu"></div>

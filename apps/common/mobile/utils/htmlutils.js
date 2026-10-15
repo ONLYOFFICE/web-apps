@@ -85,7 +85,8 @@ const supportedThemes = {
     'theme-light': 'light',
     'theme-dark': 'dark',
     'default-light': 'light',
-    'default-dark': 'dark'
+    'default-dark': 'dark',
+    'theme-system': 'system'
 };
 
 let obj;
@@ -98,10 +99,8 @@ if (!obj) {
             type: supportedThemes[uithemeParam]
         };
     } else {
-        let theme_type = window.native?.editorConfig?.theme?.type;
-        if (!theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme_type = 'dark';
-
-        const id = theme_type === 'dark' ? 'theme-dark' : 'theme-light';
+        const nativeThemeId = `theme-${window.native?.editorConfig?.theme?.type}`;
+        const id = supportedThemes[nativeThemeId] ? nativeThemeId : 'theme-system';
         obj = {
             id,
             type: supportedThemes[id]

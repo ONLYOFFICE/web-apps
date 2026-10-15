@@ -238,7 +238,7 @@ define([
             // off preview review changes
             var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
             if (review && review.isPreviewChangesMode()) {
-                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || 'markup';
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || Asc.c_oAscDisplayModeInReview.Edit;
                 review.turnDisplayMode(value);
                 review.view && review.view.turnDisplayMode(value);
             }

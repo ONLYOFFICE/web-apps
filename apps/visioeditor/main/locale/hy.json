@@ -302,6 +302,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "Կապը ընդատվել է</b><br> Փորձում է միանալ: Խնդրում ենք ստուգել կապի կարգավորումները:",
   "VE.Controllers.Statusbar.zoomText": "Խոշորացնել {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
+  "VE.Controllers.Toolbar.helpAITools": "ԱԲ-ն օգնում է ձեզ ստեղծել և խմբագրել ձեր փաստաթղթերը։",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "ԱԲ գործիքներ",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Զգուշացում",
   "VE.Controllers.Toolbar.txtUntitled": "Անանուն",
   "VE.Views.DocumentHolder.guestText": "Հյուր",

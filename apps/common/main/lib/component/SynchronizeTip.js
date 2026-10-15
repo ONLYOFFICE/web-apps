@@ -49,7 +49,8 @@ define([
                 showLink: true,
                 showButton: false,
                 closable: true,
-                textHeader: ''
+                textHeader: '',
+                speechScreenReader: true    // whether to announce 'textHeader' and 'text' via aria-live for screen readers
             },
 
             template: _.template([
@@ -130,6 +131,7 @@ define([
                 } else
                     this.render();
                 this.automove && $(window).on('resize', this.binding.windowresize);
+                this._speechFromScreenReader();
             },
 
             hide: function() {
@@ -234,6 +236,15 @@ define([
                 if (this.text !== text) {
                     this.text = text;
                     this.cmpEl.find('.tip-text').text(text);
+                    this._speechFromScreenReader();
+                }
+            },
+
+            _speechFromScreenReader: function() {
+                if(Common.Utils.InternalSettings.get("app-settings-screen-reader") && Common.Utils.ScreeenReaderHelper && 
+                    this.options.speechScreenReader && (this.text || this.textHeader)
+                ) {
+                    Common.Utils.ScreeenReaderHelper.speech([this.textHeader, this.text].filter(Boolean).join('. '));
                 }
             },
 
@@ -354,7 +365,7 @@ define([
                 !props.noHighlight && targetEl.addClass('highlight-tip');
 
                 if (props.isNewFeature) {
-                    props.header = '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>' + props.header;
+                    props.header = props.header + '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>';
                 }
 
                 props.tip = new Common.UI.SynchronizeTip({

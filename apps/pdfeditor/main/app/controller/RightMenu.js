@@ -92,13 +92,19 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             // this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
-            // this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.SendForSigning] = {panelId: "id-send-for-signing-settings",  panel: rightMenu.sendForSigningSettings, btn: rightMenu.btnSendForSigning,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.FillingStatus] = {panelId: "id-filling-status-settings",  panel: rightMenu.fillingStatusSettings, btn: rightMenu.btnFillingStatus,  hidden: 1, props: {}, locked: false};
+            rightMenu.btnAnnotation.on('click', function() {
+                Common.UI.TooltipManager.closeTip('annotationSettings');
+            });
         },
 
         setApi: function(api) {
             this.api = api;
-            // this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
+            this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
@@ -109,7 +115,7 @@ define([
         },
 
         onRightMenuClick: function(menu, type, minimized, event) {
-            if (!minimized && this.editMode && this.mode.isPDFEdit) {
+            if (!minimized && this.editMode) {
                 if (event) { // user click event
                     var idx = this._priorityArr.indexOf(type);
                     if (idx>=0)
@@ -133,7 +139,7 @@ define([
         },
 
         onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
-            if (!(this.editMode && this.mode.isPDFEdit) && !forceSignature)
+            if (!this.editMode && !forceSignature || this.rightmenu.GetActivePane() == 'id-send-for-signing-settings')
                 return;
 
             var open = this._initSettings ? !Common.localStorage.getBool("pdfe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
@@ -142,6 +148,10 @@ define([
             var needhide = true;
             for (var i=0; i<this._settings.length; i++) {
                 if (i==Common.Utils.documentSettingsType.Signature) continue;
+                if (i==Common.Utils.documentSettingsType.FillingStatus) {
+                    this._settings[i].hidden = 0;
+                    continue;
+                }
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = undefined;
@@ -168,6 +178,8 @@ define([
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                         this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
                     }
+                } else if(settingsType == Common.Utils.documentSettingsType.Annotation) {
+                    this._settings[settingsType].hidden = this.mode.isPDFFill ? 1 : 0;
                 }
             }
 
@@ -189,7 +201,7 @@ define([
                         pnl.btn.setDisabled(false);
                         this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
                     }
-                    if ( i!=Common.Utils.documentSettingsType.Signature)
+                    if ( i!=Common.Utils.documentSettingsType.Signature && i!=Common.Utils.documentSettingsType.FillingStatus)
                         lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -223,19 +235,26 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
-                // else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
 
                 if(!this.rightmenu.isPluginButtonPressed()) {
                     if (active !== undefined) {
                         this.rightmenu.SetActivePane(active, open);
                         if (active!=Common.Utils.documentSettingsType.Signature)
                             this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
-                        // else
-                        //     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                        else
+                            this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                         (active !== currentactive) && this.rightmenu.updateScroller();
                     } else
                         this.rightmenu.clearSelection();
                 }
+            }
+
+            if (this._settings[Common.Utils.documentSettingsType.Annotation].hidden)
+                Common.UI.TooltipManager.closeTip('annotationSettings');
+            else {
+                Common.UI.TooltipManager.getNeedShow('annotationSettings') && Common.UI.TooltipManager.closeTip('signatureTip');
+                Common.UI.TooltipManager.showTip('annotationSettings');
             }
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
@@ -258,11 +277,20 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
                 // this.rightmenu.chartSettings.disableControls(disabled);
+                this.rightmenu.annotationSettings.disableControls(disabled);
 
-                // if (this.rightmenu.signatureSettings) {
-                //     !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
-                //     allowSignature && disabled && this.onFocusObject([], true); // force press signature button
-                // }
+                this.rightmenu.fillingStatusSettings && this.rightmenu.fillingStatusSettings.disableControls(disabled);
+                this.rightmenu.sendForSigningSettings && this.rightmenu.sendForSigningSettings.disableControls(disabled);
+
+                if (this.rightmenu.signatureSettings && this.rightmenu.btnSignature) {
+                    if(allowSignature) {
+                        const signType = Common.Utils.documentSettingsType.Signature;
+                        this.rightmenu.btnSignature.click();  // force press signature button
+                        this._settings[signType].panel.ChangeSettings.call(this._settings[signType].panel);
+                    } else  {
+                        this.rightmenu.btnSignature.setDisabled(disabled);
+                    }
+                }
 
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
@@ -272,6 +300,7 @@ define([
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                     // this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnAnnotation.setDisabled(disabled);
                     this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
@@ -370,16 +399,16 @@ define([
             }
         },
 
-        // onApiUpdateSignatures: function(valid){
-        //     if (!this.rightmenu.signatureSettings) return;
-        //
-        //     var disabled = (!valid || valid.length<1),
-        //         type = Common.Utils.documentSettingsType.Signature;
-        //     this._settings[type].hidden = disabled ? 1 : 0;
-        //     this._settings[type].btn.setDisabled(disabled);
-        //     this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
-        //     this._settings[type].panel.setLocked(this._settings[type].locked);
-        // },
+        onApiUpdateSignatures: function(valid){
+            if (!this.rightmenu.signatureSettings) return;
+        
+            var disabled = (!valid || valid.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
+        },
 
         getDocumentSettingsType: function(type) {
             switch (type) {
@@ -395,6 +424,8 @@ define([
                 //     return Common.Utils.documentSettingsType.Chart;
                 case Asc.c_oAscTypeSelectElement.Field:
                     return Common.Utils.documentSettingsType.Form;
+                case Asc.c_oAscTypeSelectElement.Annot:
+                    return Common.Utils.documentSettingsType.Annotation;
             }
         },
 
@@ -415,7 +446,7 @@ define([
                     this.rightmenu.toggleActivePluginButton(false);
                     this.rightmenu.clearSelection();
                     this.rightmenu.hide();
-                    // this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 } else {
                     this.rightmenu.show();
                     var selectedElements = this.api.getSelectedElements();
@@ -427,6 +458,7 @@ define([
                     Common.localStorage.setBool('pdfe-hidden-rightmenu', !status);
                     Common.Utils.InternalSettings.set("pdfe-hidden-rightmenu", !status);
                 }
+                !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
@@ -434,7 +466,18 @@ define([
         },
 
         addNewPlugin: function (button, $button, $panel) {
-            this.getApplication().getController('Viewport').applyEditorMode(true);
+            if(!this.rightmenu.api) {
+                const mainController = this.getApplication().getController('Main');
+                this.setApi(mainController.api);
+                this.setMode(mainController.appOptions);
+                this.rightmenu.render(mainController.appOptions);
+                this.rightmenu.setApi(this.api);
+                this.rightmenu.setMode(mainController.appOptions);
+            }
+            if(this.rightmenu.$el.is(':hidden')) {
+                this.onRightMenuHide(undefined, true, true);
+            }
+
             this.rightmenu.insertButton(button, $button);
             this.rightmenu.insertPanel($panel);
         },
@@ -448,6 +491,19 @@ define([
             this.rightmenu.onBtnMenuClick();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu)
+
+            if(this.rightmenu.getVisibleButtons().length == 0) {
+                this.onRightMenuHide(undefined, false, true);
+            }
+        },
+
+        openSendForSigning: function() {
+            const activePanelId = this.rightmenu.GetActivePane();
+            if(activePanelId != 'id-send-for-signing-settings') {
+                const panelType = Common.Utils.documentSettingsType.SendForSigning;
+                this._settings[panelType].btn.trigger('click', this._settings[panelType].btn, null, true);
+                this._settings[panelType].btn.setDisabled(false);
+            }
         },
 
         onHidePlugins: function() {

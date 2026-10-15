@@ -50,6 +50,7 @@ import AddView from '../view/add/Add';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 import { DrawController } from "../../../../common/mobile/lib/controller/Draw";
+import ZoomToast from '../../../../common/mobile/lib/controller/ZoomToast';
 
 export const MainContext = createContext();
 
@@ -295,6 +296,7 @@ class MainPage extends Component {
                                 openOptions={this.handleClickToOpenOptions.bind(this)} 
                             />
                         }   
+                        <ZoomToast />
                     </Page>
                 </MainContext.Provider>
             </Themes>

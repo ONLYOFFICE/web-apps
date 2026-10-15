@@ -105,7 +105,7 @@ define([], function () { 'use strict';
                 '<li id="<%= id %>" data-value="<%= value %>">',
                     '<a tabindex="-1" type="menuitem" langval="<%= value %>">',
                         '<div>',
-                            '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                            '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>" aria-hidden="true"></i>',
                             '<%= displayValue %>',
                         '</div>',
                         '<label style="opacity: 0.6"><%= displayValueEn %></label>',

@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Revocare",
     "textOk": "OK",
-    "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati? "
+    "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati?"
   },
   "Controller": {
     "Main": {
@@ -69,7 +69,7 @@
       "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
-      "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
+      "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoResources": "Serverul %1 nu are suficiente resurse pentru a deschide acest document pentru editare. Acest document va fi deschis doar pentru vizualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
@@ -79,7 +79,7 @@
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
-    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul.",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
@@ -145,7 +145,7 @@
     "loadThemeTextText": "Încărcarea temei...",
     "loadThemeTitleText": "Încărcare temă",
     "openTextText": "Deschiderea fișierului...",
-    "openTitleText": "Deschidere fișier",
+    "openTitleText": "Deschiderea fișierului",
     "printTextText": "Imprimarea documentului...",
     "printTitleText": "Imprimarea documentului",
     "savePreparingText": "Pregătire pentru salvare",
@@ -172,7 +172,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
       "textCancel": "Revocare",
-      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare: ",
       "textOk": "OK"
     },
     "Settings": {
@@ -216,7 +216,8 @@
       "textVersion": "Versiune",
       "textVisioInfo": "Informații Vizualizator diagrame",
       "textVisioSettings": "Setări Vizualizator diagrame",
-      "textVisioTitle": "Titlu Vizualizator diagrame"
+      "textVisioTitle": "Titlu Vizualizator diagrame",
+      "textOpenLocation": "Accesează locația"
     }
   }
 }

@@ -75,6 +75,7 @@ define([
         selChartText:   'sel-chart-txt',
         selRange:       'sel-range',
         selRangeEdit:   'sel-range-edit',
+        inLightTheme:   'light-theme',
         lostConnect:    'disconnect',
         coAuth:         'co-auth',
         coAuthText:     'co-auth-text',
@@ -2581,7 +2582,6 @@ define([
             } else
             if ( tab == 'file' ) {
                 me.fireEvent('file:open');
-                me.setTab(tab);
             }
             if ( me.isTabActive('home'))
                 me.fireEvent('home:open');
@@ -2940,7 +2940,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -3045,7 +3045,7 @@ define([
                         restoreHeight: 50,
                         // groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)

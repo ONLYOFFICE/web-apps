@@ -33,7 +33,8 @@
       "textResolve": "Risolvere",
       "textSharingSettings": "Impostazioni di condivisione",
       "textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
-      "textUsers": "Utenti"
+      "textUsers": "Utenti",
+      "textEnterComment": "Inserisci commento"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colori personalizzati",
@@ -428,7 +429,8 @@
     "txtEditingMode": "Imposta modalità di modifica...",
     "uploadImageTextText": "Caricamento dell'immagine in corso...",
     "uploadImageTitleText": "Caricamento immagine",
-    "waitText": "Si prega di attendere"
+    "waitText": "Si prega di attendere",
+    "changesSaved": "Tutte le modifiche sono state salvate"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Avvertimento",
@@ -468,7 +470,12 @@
     "textEnterNewFileName": "Immetti un nuovo nome file",
     "textOk": "OK",
     "textRenameFile": "Rinomina file",
-    "textSwitchToDesktop": "Passa al desktop"
+    "textSwitchToDesktop": "Passa al desktop",
+    "textSave": "Salva",
+    "textDontSave": "Non salvare",
+    "textCancel": "Annulla",
+    "textSaveData": "Salva le modifiche prima di uscire",
+    "textUnsavedData": "Dati non salvati"
   },
   "View": {
     "Add": {

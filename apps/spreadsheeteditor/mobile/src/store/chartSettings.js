@@ -186,6 +186,9 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.comboBarLine,            thumb: ChartComboColumnLine.id },
             { type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary,   thumb: ChartComboColumnLineSecondaryAxis.id },
             { type: Asc.c_oAscChartTypeSettings.comboAreaBar,            thumb: ChartComboColumnAreaStack.id },
+            { type: Asc.c_oAscChartTypeSettings.radar,                   thumb: 'radar'},
+            { type: Asc.c_oAscChartTypeSettings.radarMarker,             thumb: 'radarMarker'},
+            { type: Asc.c_oAscChartTypeSettings.radarFilled,             thumb: 'radarFilled'},
         ];
         const columns = 3;
         let row = -1;

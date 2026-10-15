@@ -1,6 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Ostrzeżenie",
-  "Common.Controllers.Desktop.hintBtnHome": "Pokaż Główne okno",
+  "Common.Controllers.Desktop.hintBtnHome": "Pokaż główne okno",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Utwórz z szablonu",
   "Common.Controllers.Plugins.helpMoveMacros": "Przełącz się do zakładki Widok by rozpocząć pracę z makrami.",
   "Common.Controllers.Plugins.helpMoveMacrosHeader": "Przeniesiony przycisk Makr",
@@ -309,6 +309,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Połączenie zostało przerwane</b><br>Trwa próba ponownego połączenia. Sprawdź ustawienia połączenia.",
   "VE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Próbujesz wykonać działanie, do którego nie masz uprawnień.<br>Proszę skontaktować się z administratorem Serwera Dokumentów.",
+  "VE.Controllers.Toolbar.helpAITools": "AI pomoże Ci tworzyć i edytować dokumenty.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Narzędzia AI",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Ostrzeżenie",
   "VE.Controllers.Toolbar.txtUntitled": "Nienazwany",
   "VE.Views.DocumentHolder.guestText": "Gość",

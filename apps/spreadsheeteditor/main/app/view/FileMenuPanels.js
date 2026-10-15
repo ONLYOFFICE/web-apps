@@ -43,6 +43,7 @@ define([], function () {
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'XLS',  imgCls: 'xls',  type: Asc.c_oAscFileType.XLS},
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
@@ -65,9 +66,9 @@ define([], function () {
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                '</div></div>',
+                                '</button></div>',
                             '<% } %>',
                         '<% }) %>',
                         '<div class="divider"></div>',
@@ -81,6 +82,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -98,6 +100,7 @@ define([], function () {
                 fileType: (this.fileType || 'xlsx').toLowerCase(),
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'SSE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -107,27 +110,62 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'xlsx').toLowerCase(),
+                itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.XLSM && fileType !== 'xlsm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) {
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -146,6 +184,7 @@ define([], function () {
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX, ext: '.xlsx'},
+            {name: 'XLS',  imgCls: 'xls',  type: Asc.c_oAscFileType.XLS, ext: '.xls'},
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS, ext: '.ods'},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV, ext: '.csv'},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
@@ -167,9 +206,9 @@ define([], function () {
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                '</div></div>',
+                                '</button></div>',
                             '<% } %>',
                         '<% }) %>',
                         '<div class="divider"></div>',
@@ -183,6 +222,7 @@ define([], function () {
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -200,6 +240,7 @@ define([], function () {
                 fileType: (this.fileType || 'xlsx').toLowerCase(),
                 header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'SSE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -209,27 +250,62 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'xlsx').toLowerCase(),
+                itemWidth = 70 + 24, // width + margin
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.XLSM && fileType !== 'xlsm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) {
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -261,10 +337,10 @@ define([], function () {
                     '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                    '<td colspan = "2"><div id="fms-chb-cell-autocomplete"></div></td>',
                 '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
@@ -426,6 +502,16 @@ define([], function () {
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCutCopyPaste %></label></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan = "2"><span id="fms-chb-image-copying"></span></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCalculating %></label></td>',
                 '</tr>',
@@ -636,6 +722,14 @@ define([], function () {
                 }
             });
 
+            this.chImageCopying = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-image-copying'),
+                labelText: this.textImageCopying,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.textForceSave,
@@ -819,6 +913,14 @@ define([], function () {
             this.chTooltip = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-function-tooltip'),
                 labelText: this.strFunctionTooltip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chCellAutoComplete = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-cell-autocomplete'),
+                labelText: this.strCellAutoComplete,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -1175,6 +1277,8 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
+            this.chCellAutoComplete.setValue(Common.Utils.InternalSettings.get("sse-settings-cell-autocomplete"));
+            this.chImageCopying.setValue(Common.Utils.InternalSettings.get("sse-settings-image-copying"));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1317,6 +1421,10 @@ define([], function () {
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
 
+            Common.localStorage.setItem("sse-settings-cell-autocomplete", this.chCellAutoComplete.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-image-copying", this.chImageCopying.isChecked() ? 1 : 0);
+
             this.mode.isEdit && Common.localStorage.setBool("sse-settings-def-sheet-rtl", this.rbSheetRtl.getValue());
 
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
@@ -1435,13 +1543,15 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader && (!this.mode.isDesktopApp || !this.mode.isOffline),
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('sse-quick-access-save', true),
                     print: Common.localStorage.getBool('sse-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('sse-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('sse-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('sse-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('sse-quick-access-redo', true),
+                    download: Common.localStorage.getBool('sse-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();
@@ -2863,6 +2973,7 @@ define([], function () {
 
             this._initSettings = true;
             this._originalPageSize = undefined;
+            this._customPageSize = undefined;
             this._colorPrinting = '';
             this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
@@ -3472,18 +3583,13 @@ define([], function () {
             });
             var newSelectedOption = null;
 
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
-
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -3496,14 +3602,19 @@ define([], function () {
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
                             Common.Utils.Metric.getCurrentMetricName()
-                        ]
+                        ],
+                        size: [prevSelectedOption.get('size')[0], prevSelectedOption.get('size')[1]]
                     }
                 } else {
-                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
-                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
+                    const size = this._customPageSize || this._originalPageSize || {w: 210, h:297};
+                    const _w = size.w,
+                        _h = size.h;
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = SSE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {
@@ -3514,7 +3625,8 @@ define([], function () {
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
                                 Common.Utils.Metric.getCurrentMetricName()
-                            ]
+                            ],
+                            size: [_w, _h]
                         };
                     }
 
@@ -3532,6 +3644,12 @@ define([], function () {
                 this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+
+            if(newSelectedOption && newSelectedOption.custom && newSelectedOption.size) {
+                this.setCustomPageSize(newSelectedOption.size[0], newSelectedOption.size[1]);
+            } else {
+                this._customPageSize = null;
             }
         },
 
@@ -3684,6 +3802,10 @@ define([], function () {
 
         setOriginalPageSize: function (w, h) {
             this._originalPageSize = {w: w, h: h};
+        },
+
+        setCustomPageSize: function (w, h) {
+            this._customPageSize = {w: w, h: h};
         },
 
         expandPrintTitles: function () {

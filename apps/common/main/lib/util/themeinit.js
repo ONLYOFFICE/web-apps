@@ -116,7 +116,7 @@
         if ( window.Common && window.Common.Utils )
             window.Common.Utils.injectSvgIcons([base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg', '../../common/main/resources/img/doc-formats/formats@2.5x.svg'], true);
         else {
-            window.uitheme.svg_icons = [base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
+            window.uitheme.svg_icons = [base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg', '../../common/main/resources/img/doc-formats/formats@2.5x.svg'];
         }
     }
 

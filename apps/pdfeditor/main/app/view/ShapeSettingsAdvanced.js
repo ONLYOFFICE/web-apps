@@ -62,7 +62,6 @@ define([
                 items: [
                     {panelId: 'id-adv-shape-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textPlacement},
-                    {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
@@ -318,27 +317,6 @@ define([
             });
             this.radioFit.on('change', _.bind(this.onRadioFitChange, this));
 
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#shape-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
-
             // Shape
             this._arrCapType = [
                 {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
@@ -421,10 +399,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                        '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
+                        '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -442,10 +420,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -469,10 +447,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -490,10 +468,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -560,11 +538,10 @@ define([
             return this.btnsCategory.concat([
                 this.inputShapeName,// 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
-                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 3 tab
-                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
-                this.spnColumns, this.spnSpacing, // 5 tab
-                this.inputAltTitle, this.textareaAltDescription  // 6 tab
+                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 2 tab
+                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
+                this.spnColumns, this.spnSpacing, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -581,18 +558,15 @@ define([
                         me.spnWidth.focus();
                         break;
                     case 2:
-                        me.spnAngle.focus();
-                        break;
-                    case 3:
                         me.cmbCapType.focus();
                         break;
-                    case 4:
+                    case 3:
                         me.spnMarginTop.focus();
                         break;
-                    case 5:
+                    case 4:
                         me.spnColumns.focus();
                         break;
-                    case 6:
+                    case 5:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -610,15 +584,10 @@ define([
 
         _setDefaults: function(props) {
             if (props ){
-                if (props.get_FromSmartArt()) {
-                    this.btnsCategory[2].setDisabled(true);
-                }
                 if (props.get_FromSmartArtInternal()) {
                     this.radioNofit.setDisabled(true);
                     this.radioShrink.setDisabled(true);
                     this.radioFit.setDisabled(true);
-                    this.chFlipHor.setDisabled(true);
-                    this.chFlipVert.setDisabled(true);
                     this.btnsCategory[1].setDisabled(true);
                 }
 
@@ -672,10 +641,10 @@ define([
                         this.radioShrink.setValue(true, true);
                         break;
                 }
-                this.btnsCategory[4].setDisabled(null === margins);   // Margins
+                this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal()
+                this.btnsCategory[4].setDisabled(props.get_FromSmartArtInternal()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -692,13 +661,6 @@ define([
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
-
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                value = props.asc_getFlipH();
-                this.chFlipHor.setValue((value==undefined || value===null) ? 'indeterminate' : value);
-                value = props.asc_getFlipV();
-                this.chFlipVert.setValue((value==undefined || value===null) ? 'indeterminate' : value);
 
                 this._changedProps = new Asc.asc_CShapeProperty();
             }
@@ -731,12 +693,6 @@ define([
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
-            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            if (this.chFlipHor.getValue()!=='indeterminate')
-                this._changedProps.asc_putFlipH(this.chFlipHor.getValue()==='checked');
-            if (this.chFlipVert.getValue()!=='indeterminate')
-                this._changedProps.asc_putFlipV(this.chFlipVert.getValue()==='checked');
-
             Common.localStorage.setItem("pdfe-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;
         },
@@ -745,7 +701,7 @@ define([
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
-                    this.btnsCategory[3].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[2].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -929,11 +885,6 @@ define([
         strColumns: 'Columns',
         textSpacing: 'Spacing between columns',
         textColNumber: 'Number of columns',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textTextBox: 'Text Box',
         textAutofit: 'AutoFit',
         textNofit: 'Do not Autofit',

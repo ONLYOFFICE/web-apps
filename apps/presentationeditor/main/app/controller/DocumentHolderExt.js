@@ -206,6 +206,9 @@ define([], function () {
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
+            view.menuCopyHyperlinkPara.on('click', _.bind(me.onCopyHyperlink, me));
+            view.menuCopyHyperlinkTable.on('click', _.bind(me.onCopyHyperlink, me));
+            view.menuCopyHyperlinkPic.on('click', _.bind(me.onCopyHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkPic.on('click', _.bind(me.removeHyperlink, me));
@@ -251,6 +254,7 @@ define([], function () {
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
             view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
             view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
@@ -403,7 +407,7 @@ define([], function () {
                     setTimeout(function() {
                         Common.UI.warning({
                             maxwidth: 500,
-                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, url),
+                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, Common.Utils.String.htmlEncode(url)),
                             buttons: ['no', 'yes'],
                             primary: 'no',
                             callback: function(btn) {
@@ -819,8 +823,8 @@ define([], function () {
                 [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
@@ -832,7 +836,14 @@ define([], function () {
                 [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
-                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+                [_set.funnel]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'legend'],
+                [_set.histogram]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.waterfall]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.boxWhisker]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
+                [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
          dh.onChartElement = function(menu, item) {
@@ -972,15 +983,15 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
-                // case 'bShowDataNone':
-                //     chartProps.setDisplayDataTable(false, false);
-                //     break;
-                // case 'bShowDataTable':
-                //     chartProps.setDisplayDataTable(true, false);
-                //     break;
-                // case 'bShowLegendKeys':
-                //     chartProps.setDisplayDataTable(true, true);
-                //     break;
+                case 'bShowDataNone':
+                    chartProps.setDisplayDataTable(false, false);
+                    break;
+                case 'bShowDataTable':
+                    chartProps.setDisplayDataTable(true, false);
+                    break;
+                case 'bShowLegendKeys':
+                    chartProps.setDisplayDataTable(true, true);
+                    break;
                 case 'noneError':
                     chartProps.setDisplayErrorBars(false);
                     break;
@@ -1157,12 +1168,18 @@ define([], function () {
                 labelsMenu.items[9].setVisible(LabelGroup5);
             }
             
-            // const tableMenu = menu.items[4].menu;
-            // highlightSubmenuItem(tableMenu.items[0], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[1], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[2], false,'table');
+            const tableMenu = menu.items[4].menu;
+            const dataTableState = chartProps.getDataTable && chartProps.getDataTable();
+            tableMenu.clearAll(true);
+            if (dataTableState === true) {
+                tableMenu.items[2].setChecked(true);
+            } else if (dataTableState === false) {
+                tableMenu.items[1].setChecked(true);
+            } else {
+                tableMenu.items[0].setChecked(true);
+            }
 
-            const errorBarsMenu = menu.items[4].menu;
+            const errorBarsMenu = menu.items[5].menu;
             errorBarsMenu.clearAll(true);
             if (errorBarType === null) {
                 errorBarsMenu.items[0].setChecked(true);
@@ -1174,7 +1191,7 @@ define([], function () {
                 errorBarsMenu.items[3].setChecked(true);
             }
 
-            const gridMenu = menu.items[5].menu;
+            const gridMenu = menu.items[6].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
             if (RadarChart) {
@@ -1191,7 +1208,7 @@ define([], function () {
                 gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
-            const legendMenu = menu.items[6].menu;
+            const legendMenu = menu.items[7].menu;
             legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
             legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
             legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
@@ -1200,7 +1217,7 @@ define([], function () {
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
-            const trendlinesMenu = menu.items[7].menu;
+            const trendlinesMenu = menu.items[8].menu;
             trendlinesMenu.clearAll(true);
             if (trendlineState.type === null) {
                 trendlinesMenu.items[0].setChecked(true);
@@ -1577,6 +1594,11 @@ define([], function () {
             }
         };
 
+        dh.onCopyHyperlink = function(item, e){
+            var url = item.hyperProps && item.hyperProps.value && item.hyperProps.value.get_Value();
+            if (url) this.api && this.api.asc_CopyData(url);
+        };
+
         dh.removeHyperlink = function(item) {
             if (this.api){
                 this.api.remove_Hyperlink();
@@ -1735,7 +1757,7 @@ define([], function () {
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj, true);
@@ -1986,14 +2008,13 @@ define([], function () {
         };
 
         dh.onPrintSelection = function () {
-            if (this.api){
-                var printopt = new Asc.asc_CAdjustPrint();
-                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                opts.asc_setAdvancedOptions(printopt);
-                this.api.asc_Print(opts);
-                this.editComplete();
-            }
+            setTimeout(function(){
+                const app = this.getApplication();
+                const mainController = app.getController('Main');
+                mainController.onPrint();
+                const printController = app.getController('Print');
+                printController && printController.setCmbRangeValue(Asc.c_oAscPresentationRangeType.SelectedSlides);
+            }.bind(this), 0);
         };
 
         dh.onNewSlide = function () {
@@ -2270,6 +2291,11 @@ define([], function () {
 
         dh.onImgEditPoints = function(item) {
             this.api && this.api.asc_editPointsGeometry();
+        };
+
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
         };
 
         dh.onShapeAdvanced = function(item) {

@@ -336,6 +336,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Connessione persa</b><br>Tentativo di connessione in corso. Si prega di controllare le impostazioni di connessione.",
   "VE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non disponi di permessi sufficienti.<br>Ti preghiamo di contattare l'amministratore del Server dei Documenti.",
+  "VE.Controllers.Toolbar.helpAITools": "L'IA ti aiuta a creare e modificare i tuoi documenti.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Strumenti IA",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Avvertimento",
   "VE.Controllers.Toolbar.txtUntitled": "Senza titolo",
   "VE.Views.DocumentHolder.guestText": "Ospite",

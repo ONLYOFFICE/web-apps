@@ -13,7 +13,7 @@ path_to_compare = "../apps"
 cmd_args = sys.argv[1:]
 for i in cmd_args:
     if i == '--check':
-	    merge_dicts = False
+        merge_dicts = False
     elif i == '--verbose':
         verbose_out = True
     elif i[:2] != '--' and os.path.isdir(i):
@@ -32,7 +32,7 @@ def compareDicts(keypath, dict1, dict2):
             dict2[k] = compareDicts(k_path, v, dict2[k])
         else:
             sum_key_count += 1
-            if not k.startswith("del_") and k not in dict2:
+            if not k.startswith("del_") and (k not in dict2 or dict2[k] == ''):
                 lost_key_count += 1
                 dict2[k] = v
                 if verbose_out: print(f'  key {k_path} not exists')

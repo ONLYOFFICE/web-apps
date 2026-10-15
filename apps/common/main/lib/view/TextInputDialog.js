@@ -50,6 +50,8 @@ define([], function () { 'use strict';
                 header: !!options.title,
                 label: options.label || '',
                 description: options.description || '',
+                helpUrl: options.helpUrl || '',
+                textReadMore: this.textReadMore,
                 width: 330 || options.width,
                 cls: 'modal-dlg',
                 buttons: ['ok', 'cancel']
@@ -61,8 +63,9 @@ define([], function () { 'use strict';
                         '<label><%= label %></label>',
                     '</div>',
                     '<div id="id-dlg-label-custom-input" class="input-row"></div>',
-                    '<div class="input-row <% if (!description) { %> hidden <% } %>">',
-                        '<label class="light"><%= description %></label>',
+                    '<div class="<% if (!helpUrl) { %> input-row <% } %> <% if (!description && !helpUrl) { %> hidden <% } %>" <% if (helpUrl) { %> style="margin-bottom: 8px;" <% } %>>',
+                        '<label class="light <% if (!description) { %> hidden <% } %>" <% if (helpUrl) { %> style="opacity: 0.7;" <% } %>><%= description %></label>',
+                        '<label id="id-dlg-textinput-help" class="light link <% if (!helpUrl) { %> hidden <% } %>" style="margin-left: 5px;"><%= textReadMore %></label>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -108,6 +111,13 @@ define([], function () { 'use strict';
             me.inputLabel.setValue(me.options.value || '');
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
+
+            if (this.options.helpUrl) {
+                $window.find('#id-dlg-textinput-help').on('click', function() {
+                    if (me.options.helpClick) me.options.helpClick();
+                    else window.open(me.options.helpUrl, '_blank');
+                });
+            }
         },
 
         getFocusedComponents: function() {
@@ -149,7 +159,9 @@ define([], function () { 'use strict';
             }
 
             this.close();
-        }
+        },
+
+        textReadMore: 'Read more'
 
     }, Common.Views.TextInputDialog || {}));
 

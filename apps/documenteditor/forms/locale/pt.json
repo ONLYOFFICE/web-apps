@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "A conexão com a Internet foi restaurada e a versão do arquivo foi alterada. <br> Antes de continuar a trabalhar, você precisa fazer o download do arquivo ou copiar seu conteúdo para garantir que nada seja perdido e, em seguida, recarregar esta página.",
   "DE.Controllers.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "A ligação foi perdida. Você ainda pode ver o documento,<br> mas não pode fazer o download ou imprimir até que a conexão seja restaurada.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Este formulário está pronto para preenchimento baseado em função. Clique no botão de status para verificar o estágio de preenchimento.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imagem do arquivo",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Imagem do armazenamento",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Imagem da URL",
@@ -212,5 +211,10 @@
   "DE.Views.ApplicationView.txtPrint": "Imprimir",
   "DE.Views.ApplicationView.txtSearch": "Pesquisar",
   "DE.Views.ApplicationView.txtShare": "Compartilhar",
-  "DE.Views.ApplicationView.txtTheme": "Tema de interface"
+  "DE.Views.ApplicationView.txtTheme": "Tema de interface",
+  "DE.Views.FillingStatusSettings.txtComplete": "Completeo",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "O documento está assinado",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Status de preenchimento",
+  "DE.Views.RightMenu.ariaRightMenu": "Menu à direita",
+  "DE.Views.RightMenu.txtFillingStatus": "Status de preenchimento"
 }

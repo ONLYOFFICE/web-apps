@@ -199,6 +199,7 @@ define([
                     this.api.asc_registerCallback('asc_onOpenFilePdfForm',          _.bind(this.onOpenFilePdfForm, this));
                     this.api.asc_registerCallback('asc_onValidateErrorPdfForm',     _.bind(this.onValidateErrorPdfForm, this));
                     this.api.asc_registerCallback('asc_onFormatErrorPdfForm',       _.bind(this.onFormatErrorPdfForm, this));
+                    this.api.asc_registerCallback('asc_onAskEditPassword',          _.bind(this.onAskEditPassword, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -664,7 +665,7 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
@@ -879,6 +880,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:'connected'});
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -971,8 +973,10 @@ define([
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection:'disconnected'});
                         var me = this;
                             me._state.timerDisconnect = setTimeout(function(){
+                                Common.Gateway.sendInfo({connection:'reconnecting'});
                             Common.UI.TooltipManager.showTip('disconnect');
                             }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -1088,6 +1092,8 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
+                me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
+                me.api.asc_registerCallback('asc_onCompletePreparingOForm', _.bind(me.onCompletePreparingOForm, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -1108,10 +1114,15 @@ define([
                     statusbarController         = application.getController('Statusbar'),
                     documentHolderController    = application.getController('DocumentHolder'),
                     leftmenuController          = application.getController('LeftMenu'),
+                    rightmenuController         = application.getController('RightMenu'),
                     chatController              = application.getController('Common.Controllers.Chat'),
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     navigationController        = application.getController('Navigation');
 
+                if (this.appOptions.isEdit) {
+                    rightmenuController.getView('RightMenu').setApi(this.api);
+                    rightmenuController.getView('RightMenu').setMode(this.appOptions);
+                }
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.createDelayedElements().setApi(me.api);
@@ -1145,6 +1156,7 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
+                    me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
 
                     var timer_sl = setTimeout(function(){
 
@@ -1182,7 +1194,7 @@ define([
                         me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
                     }
                 });
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection:'connected'});
 
                 if (!!me.appOptions.sharingSettingsUrl && me.appOptions.sharingSettingsUrl.length || me.appOptions.canRequestSharingSettings) {
                     Common.Gateway.on('showsharingsettings', _.bind(me.changeAccessRights, me));
@@ -1345,6 +1357,7 @@ define([
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && (this.editorConfig.mode !== 'view');
                 this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense && (this.permissions.edit !== false || this.appOptions.isDesktopApp && this.appOptions.isOffline);
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
+                this.appOptions.isViewForm     = false; // Toggles when in ‘view-form’ mode
                 // isPDFFill - can only fill forms, co-edit and save changes to file
                 this.appOptions.isPDFFill = pdfEdit && this.appOptions.canLicense && (this.permissions.fillForms!==false) && !this.appOptions.canPDFAnnotate && !this.appOptions.canPDFEdit && (this.editorConfig.mode !== 'view');
                 this.appOptions.canSwitchMode = this.appOptions.isPDFAnnotate && this.appOptions.canPDFEdit; // switch between View/annotate and pdf edit
@@ -1374,11 +1387,13 @@ define([
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= false;//this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPDFSignatureSupport = this.appOptions.canPDFEdit;
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false) && !this.appOptions.isForm;
                 this.appOptions.isEditTextSupport = this.appOptions.isEdit;
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
-                this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+                this.appOptions.canSubmitForms = this.appOptions.isPDFFill && this.appOptions.canLicense && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object') &&
+                    !!this.editorConfig.customization.submitForm && (typeof this.editorConfig.customization.submitForm !== 'object' || this.editorConfig.customization.submitForm.visible!==false);
                 // TODO: check view mode
                 this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -1390,6 +1405,10 @@ define([
                 this.appOptions.showSaveButton = this.appOptions.isEdit && !this.appOptions.isPDFFill && (this.appOptions.canSaveToFile || this.appOptions.canDownload);
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
                 this.appOptions.canCopy        = this.permissions.copy !== false;
+                
+                this.appOptions.canStartFilling = this.editorConfig.canStartFilling && !this.appOptions.isPDFFill;
+                this.appOptions.canRequestStartFilling = this.editorConfig.canRequestStartFilling && !this.appOptions.isPDFFill;
+                this.appOptions.showStartFillingButton = (this.appOptions.canStartFilling || this.appOptions.canRequestStartFilling) && this.appOptions.isPDFEdit; // show Start Filling button in the header
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1454,7 +1473,7 @@ define([
                 this.api.asc_setPdfViewer((this.editorConfig.mode === 'view') && !this.appOptions.isXpsViewer);
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
-                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms :
+                this.api.asc_setRestriction(this.appOptions.canSubmitForms ? Asc.c_oAscRestrictionType.OnlyForms :
                                             this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
 
                 this.api.asc_LoadDocument();
@@ -1577,22 +1596,45 @@ define([
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
                     this.appOptions.isPDFEdit = true;
                     this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='comment' && this.appOptions.canPDFAnnotate) {
                     this.appOptions.isPDFEdit = false;
                     this.appOptions.isPDFAnnotate = true;
+                    this.appOptions.isViewForm = false;
                 } else if (mode==='view') {
-                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
+                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = this.appOptions.isViewForm = false;
+                } else if(mode==='view-form') {
+                    this.appOptions.isPDFEdit = false;
+                    this.appOptions.isViewForm = true;
                 }
-                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+                this.appOptions.showStartFillingButton = (this.appOptions.canStartFilling || this.appOptions.canRequestStartFilling) && this.appOptions.isPDFEdit;
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
-                var app = this.getApplication(),
-                    toolbar = app.getController('Toolbar');
+                const app = this.getApplication();
+                const toolbar = app.getController('Toolbar');
                 toolbar.applyMode(activeTab);
+                toolbar.disableEditing(mode==='view-form');
                 app.getController('Viewport').applyEditorMode();
-                app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
+                
+                const formsTabController = app.getController('FormsTab');
+                const role = new AscCommon.CRestrictionSettings();
+                role.put_OFormRole(formsTabController.getCurrentViewRole());
+                let restrictionType;
+                if(this.appOptions.isViewForm) {
+                    restrictionType = Asc.c_oAscRestrictionType.OnlyForms;
+                } else if(this.appOptions.isPDFEdit) {
+                    restrictionType = Asc.c_oAscRestrictionType.None;
+                } else {
+                    restrictionType = Asc.c_oAscRestrictionType.View;
+                }
+                this.api.asc_setRestriction(restrictionType, role);
+                formsTabController.view && formsTabController.view.btnViewFormRoles.toggle(mode == 'view-form', true);
+
+                const selectedElements = this.api.getSelectedElements();
+                if (selectedElements.length > 0)
+                    toolbar.onApiFocusObject(selectedElements);
             },
 
             onPdfModeCoAuthApply: function() {
@@ -1614,6 +1656,26 @@ define([
                     this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
 
                 this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+            },
+
+            onStartFilling: function(disconnect, roles) {
+                this._isFillInitiator = true;
+                this._rolesForFilling = roles;
+                this.api.asc_CompletePreparingOForm(!!disconnect);
+                !disconnect && this.onDisconnectEveryone(); // disable editing only for current user
+            },
+
+            onDisconnectEveryone: function() {
+                Common.NotificationCenter.trigger('pdf:mode-apply', 'comment');
+                appHeader.onStartFilling();
+                !this._isFillInitiator && Common.UI.warning({
+                                            msg  : this.warnStartFilling,
+                                            buttons: ['ok']
+                                        });
+            },
+
+            onCompletePreparingOForm: function() {
+                Common.Gateway.startFilling(this._rolesForFilling);
             },
 
             applyModeCommonElements: function() {
@@ -2099,6 +2161,8 @@ define([
                 appHeader.setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings, options) {
@@ -2611,6 +2675,35 @@ define([
                         });
                     }
                 }.bind(this));
+            },
+
+            onAskEditPassword: function(pwd) {
+                if (!this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    let newPwd;
+                    const me = this;
+                    const win = new Common.Views.OpenDialog({
+                        title: me.txtUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.txtDocUnlockDescription,
+                        validatePwd: pwd!==undefined,
+                        handler: function (result, value) {
+                            if (result === 'ok' && value && value.drmOptions) {
+                                const currentPwd = value.drmOptions.asc_getPassword();
+                                if (!me.api.asc_CheckEditPassword(currentPwd)) {
+                                    newPwd = currentPwd;
+                                }
+                            }
+                        }
+                    }).on('close', function() {
+                        if (newPwd!==undefined) {
+                            setTimeout(function() {
+                                me.onAskEditPassword(newPwd);
+                            }, 100);
+                        }
+                    });
+                    win.show();
+                }
             },
 
             onClearDummyComment: function() {

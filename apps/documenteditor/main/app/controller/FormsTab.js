@@ -368,7 +368,7 @@ define([
             // off preview review changes
             var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
             if (review && review.isPreviewChangesMode()) {
-                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || 'markup';
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || Asc.c_oAscDisplayModeInReview.Edit;
                 review.turnDisplayMode(value);
                 review.view && review.view.turnDisplayMode(value);
             }
@@ -587,9 +587,6 @@ define([
                             me.view && me.view.showFillingForms(true);
                         } else {
                             role.put_OFormNoRole(true);
-                            me.view && config.canRequestFillingStatus && Common.UI.TooltipManager.showTip({
-                                step: 'showFillStatus', name: 'de-help-tip-fill-status', text: me.view.helpTextFillStatus, target: '#slot-btn-fill-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300
-                            });
                         }
                     } else // can fill all fields
                         me.view && me.view.showFillingForms(true);
@@ -687,7 +684,7 @@ define([
         onManagerClick: function() {
             var me = this;
             this.closeHelpTip('roles', true);
-            this.api.asc_GetOForm() && (new DE.Views.RolesManagerDlg({
+            this.api.asc_GetOForm() && (new Common.Views.RolesManagerDlg({
                 api: me.api,
                 handler: function(result, settings) {
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -824,7 +821,7 @@ define([
 
                 const formManager = this.api.asc_GetOForm();
 
-                new DE.Views.RoleEditDlg({
+                new Common.Views.RoleEditDlg({
                     oformManager: formManager,
                     colors: [],
                     isEdit: false,

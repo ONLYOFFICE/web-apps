@@ -167,7 +167,9 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textEnterComment": "Kommentar eingeben",
+      "textMention": "Kommentieren oder erwähnen mit + oder @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -181,7 +183,7 @@
       "dark": "Dunkel",
       "light": "Hell",
       "system": "Wie im System",
-      "textTheme": "Thema"
+      "textTheme": "Thema der Benutzeroberfläche"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -426,7 +428,9 @@
     "textWrapText": "Textumbruch",
     "textYourOption": "Ihre Option",
     "txtHeight": "Höhe",
-    "txtWidth": "Breite"
+    "txtWidth": "Breite",
+    "txtCustom": "Benutzerdefiniert",
+    "textCurrentFont": "Haupttext"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -744,7 +748,7 @@
     "textExport": "Export",
     "textExportAs": "Exportieren als",
     "textFastWV": "Schnelle Web-Anzeige",
-    "textFeedback": "Feedback und Support",
+    "textFeedback": "Support kontaktieren",
     "textFillingForms": "Ausfüllen von Formularen",
     "textFind": "Suche",
     "textFindAndReplace": "Suchen und ersetzen",
@@ -776,7 +780,7 @@
     "textOk": "OK",
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
     "textOpenLocation": "Ordner öffnen",
-    "textOrientation": "Orientierung",
+    "textOrientation": "Seitenausrichtung",
     "textOwner": "Besitzer",
     "textPages": "Seiten",
     "textPageSize": "Seitengröße",
@@ -832,7 +836,26 @@
     "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
     "txtOk": "OK",
-    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
+    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
+    "textAboutGroup": "Info",
+    "textDocumentSetup": "Dokumenteinrichtung",
+    "textHelpCenter": "Hilfe-Center",
+    "textHeadings": "Überschriften",
+    "textSaveCopy": "Kopie speichern",
+    "textSaveACopy": "Kopie speichern",
+    "textSaveACopyAs": "Kopie speichern als",
+    "textTools": "Tools",
+    "textView": "Anzeigen",
+    "textSettingsGroup": "Einstellungen",
+    "textPreferences": "Einstellungen",
+    "textHelpAndFeedback": "Hilfe & Feedback",
+    "textShare": "Freigeben",
+    "textMobileViewWarning": "Ein Teil des Inhalts dieses Dokuments wird in der mobilen Ansicht ausgeblendet.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Rechtschreibung",
+    "textDisplayGroup": "Anzeigen",
+    "textSaveACopyHeader": "Kopie speichern",
+    "textSaveConnectedStorage": "Die Datei wird auf dem verbundenen Speicher gespeichert"
   },
   "Toolbar": {
     "btnRestartNow": "Jetzt neu starten",
@@ -848,6 +871,11 @@
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
     "textSwitchToDesktop": "In den Desktopmodus wechseln",
-    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   }
 }

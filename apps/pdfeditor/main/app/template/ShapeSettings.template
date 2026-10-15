@@ -170,10 +170,11 @@
             <table cols="2" style="width: 100%;">
                 <tr>
                     <td class="padding-small">
-                        <label class="input-label"><%= scope.textRotate90 %></label>
+                        <label class="input-label"><%= scope.textRotate %></label>
                         <div>
                             <div id="shape-button-270" class="margin-right-4"></div>
-                            <div id="shape-button-90"></div>
+                            <div id="shape-button-90" class="margin-right-4"></div>
+                            <div id="shape-spin-rotate"></div>
                         </div>
                     </td>
                     <td class="padding-small padding-left-4">

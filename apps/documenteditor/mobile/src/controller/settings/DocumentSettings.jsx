@@ -35,6 +35,7 @@
 
 import React, {Component} from 'react';
 import {DocumentSettings} from '../../view/settings/DocumentSettings';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import { inject, observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { f7 } from 'framework7-react';
@@ -143,6 +144,16 @@ class DocumentSettingsController extends Component {
     }
 }
 
+    switchNoCharacters(value) {
+        LocalStorage.setBool("de-mobile-no-characters", value);
+        Common.EditorApi.get().put_ShowParaMarks(value);
+    }
+
+    switchShowTableEmptyLine(value) {
+        LocalStorage.setBool("de-mobile-hidden-borders", value);
+        Common.EditorApi.get().put_ShowTableEmptyLine(value);
+    }
+
     // Color Schemes
 
     initPageColorSchemes() {
@@ -165,6 +176,8 @@ class DocumentSettingsController extends Component {
                               onColorSchemeChange={this.onColorSchemeChange}
                               initPageColorSchemes={this.initPageColorSchemes}
                               onToggleHyphenation={this.onToggleHyphenation}
+                              switchNoCharacters={this.switchNoCharacters}
+                              switchShowTableEmptyLine={this.switchShowTableEmptyLine}
             />
         )
     }

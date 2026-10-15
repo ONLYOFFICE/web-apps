@@ -1,3 +1,8 @@
+.cell-editor {
+    --icon-brand-primary: var(--icon-fill-green-brand-primary);
+    --icon-brand-secondary: var(--icon-fill-green-brand-secondary);
+}
+
 .icon-svg {
     fill: @brand-cell;
     color: @brand-cell;
@@ -122,6 +127,15 @@
     }
     &.chart-combo-column-area-stack {
         background-image: url('@{common-image-path}/charts/chart-combo-column-area-stack.svg');
+    }
+    &.radar {
+        background-image: url('@{app-image-path}/charts/chart-26.png');
+    }
+    &.radarMarker {
+        background-image: url('@{app-image-path}/charts/chart-27.png');
+    }
+    &.radarFilled {
+        background-image: url('@{app-image-path}/charts/chart-28.png');
     }
 }
 

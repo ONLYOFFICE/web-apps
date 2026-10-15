@@ -1,8 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 30 30">
   <g class="icon-resolve-comment-check">
-    <g class="icon-fill-gray-secondary">
-      <path fill="#8E8E93" d="m6.822 14.177 6.88 6.88-1.146 1.147-6.88-6.88 1.146-1.147Z"/>
-      <path fill="#8E8E93" d="m11.41 21.057 13.759-13.76 1.147 1.147-13.76 13.76-1.147-1.147Z"/>
-    </g>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M23.5 8.5 12.1 20 7 15.286" class="icon-stroke-gray-primary"/>
   </g>
 </svg>

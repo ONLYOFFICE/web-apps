@@ -33,23 +33,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { Fragment, useEffect, useState } from 'react';
-import { inject, observer } from "mobx-react";
-import {
-    Block,
-    BlockTitle,
-    Button,
-    f7,
-    Link,
-    List,
-    ListInput,
-    ListItem,
-    Navbar,
-    NavRight,
-    Page,
-    Segmented,
-    Toggle
-} from 'framework7-react';
+import React, {Fragment, useState, useEffect, useMemo} from 'react';
+import {observer, inject} from "mobx-react";
+import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, ListInput, Block, Range} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { CustomColorPicker, ThemeColorPalette } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -139,6 +125,13 @@ const getFormatIcon = (cellFormat, cellFormatType) => {
     return typeMap[cellFormatType] ?? IconAddCustomFormat.id;
 };
 
+const normalizeFontSize = value => {
+    const size = Number(value);
+    return Number.isFinite(size) && size > 0 ? size : 0;
+};
+
+const formatFontSize = (size, ptText) => `${normalizeFontSize(size)} ${ptText}`;
+
 const EditCell = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -154,7 +147,7 @@ const EditCell = props => {
     const fontName = fontInfo.name || _t.textFonts;
     const fontSize = fontInfo.size;
     const fontColor = storeCellSettings.fontColor;
-    const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
+    const displaySize = formatFontSize(fontSize, _t.textPt);
     const fillColor = storeCellSettings.fillColor;
 
     const isBold = storeCellSettings.isBold;
@@ -177,7 +170,8 @@ const EditCell = props => {
             <List>
                 <ListItem title={fontName} link="/edit-cell-text-fonts/" after={displaySize} routeProps={{
                     onFontSize: props.onFontSize,
-                    onFontClick: props.onFontClick
+                    onFontClick: props.onFontClick,
+                    applyFontSize: props.applyFontSize
                 }}/>
             </List>
                 {!wsProps.FormatCells && 
@@ -324,7 +318,8 @@ const PageFontsCell = props => {
     const storeCellSettings = props.storeCellSettings;
     const fontInfo = storeCellSettings.fontInfo;
     const size = fontInfo.size;
-    const displaySize = typeof size === 'undefined' ? _t.textAuto : size + ' ' + _t.textPt;
+    const currentSize = normalizeFontSize(size);
+    const [displaySize, setDisplaySize] = useState(currentSize);
     const curFontName = fontInfo.name;
     const fonts = storeCellSettings.fontsArray;
     const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
@@ -336,6 +331,10 @@ const PageFontsCell = props => {
     const thumbContext = storeTextSettings.thumbContext;
     const spriteCols = storeTextSettings.spriteCols;
     const spriteThumbs = storeTextSettings.spriteThumbs;
+
+    useEffect(() => {
+        setDisplaySize(currentSize);
+    }, [currentSize]);
 
     const addRecentStorage = () => {
         setRecent(getImageUri(arrayRecentFonts));
@@ -380,6 +379,16 @@ const PageFontsCell = props => {
         return null;
     }
 
+    const currentFont = useMemo(
+        () => (curFontName ? fonts.find(f => f.name === curFontName) : null),
+        [curFontName, fonts]
+    );
+
+    const currentFontImage = useMemo(
+        () => (currentFont ? getImageUri([currentFont])[0] : null),
+        [currentFont]
+    );
+
     return (
         <Page>
             <Navbar title={_t.textFonts} backLink={_t.textBack}>
@@ -394,9 +403,15 @@ const PageFontsCell = props => {
                     </NavRight>
                 }
             </Navbar>
-            <List>
+            <List className ="font">
                 <ListItem title={_t.textSize}>
-                    {!isAndroid && <div slot='after-start'>{displaySize}</div>}
+                    {!isAndroid && <div slot="after-start">
+                        <Link className="item-link size-label" onClick={() => props.f7router.navigate('/edit-text-size-custom/', {props: {
+                            initialValue: displaySize,
+                            applyFontSize: props.applyFontSize},})}>
+                            {formatFontSize(displaySize, _t.textPt)}
+                        </Link>
+                    </div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.onFontSize(size, true)}}>
@@ -404,7 +419,13 @@ const PageFontsCell = props => {
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                                 : ' - '}
                             </Button>
-                            {isAndroid && <label>{displaySize}</label>}
+                            {isAndroid && 
+                                <Link outline className="item-link size-label" onClick={() => props.f7router.navigate('/edit-text-size-custom/', { props: {
+                                    initialValue: displaySize,              
+                                    applyFontSize: props.applyFontSize},})}>
+                                    {formatFontSize(displaySize, _t.textPt)}
+                                </Link>
+                            }
                             <Button outline className='increment item-link' onClick={() => {props.onFontSize(size, false)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
@@ -413,7 +434,24 @@ const PageFontsCell = props => {
                         </Segmented>
                     </div>
                 </ListItem>
+                <ListItem>
+                    <div slot="inner" style={{ width: '100%' }}>
+                        <Range min={0} max={300} step={1} value={displaySize} onRangeChange={(value) => setDisplaySize(value)} 
+                            onRangeChanged={(value) => {if (value > 0 && value !== currentSize) props.applyFontSize(value);}}
+                        />
+                    </div>
+                </ListItem>
             </List>
+            {!!currentFont && !!currentFontImage && 
+                <>
+                    <BlockTitle>{_t.textCurrentFont}</BlockTitle>
+                    <List>
+                        <ListItem className="font-item" key={`current-${currentFont.name}`}>
+                            <img src={currentFontImage} style={{ width: `${iconWidth}px`, height: `${iconHeight}px` }} />
+                        </ListItem>
+                    </List>
+                </>
+            }
             <BlockTitle>{_t.textFonts}</BlockTitle>
             {!!arrayRecentFonts.length &&
                 <List>
@@ -1576,7 +1614,6 @@ const PageCellDirection = props => {
         </Page>
     )
 }
-
 
 const PageEditCell = inject("storeCellSettings", "storeWorksheets")(observer(EditCell));
 const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageTextColorCell));

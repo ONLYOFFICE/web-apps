@@ -58,6 +58,7 @@ define([], function () { 'use strict';
             this.api = this.options.api;
             this.props = this.options.props;
             this.fontStore = this.options.fontStore;
+            this.hasField = this.options.hasField !== false;
             this.mode = 0; // 0 - upload, 1 - draw, 2 - type
             this.storage    = !!this.options.storage;
             this.isImageLoaded = false;
@@ -103,6 +104,7 @@ define([], function () { 'use strict';
                         '<div style="flex-grow: 1;display: flex; justify-content: center;"><div id="btn-sign-undo" class="img-draw margin-right-5 hidden"></div><div id="btn-sign-redo" class="img-draw hidden"></div></div>',
                         '<button type="button" class="btn btn-text-default auto" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
                     '</div>',
+                    '<div id="pdf-sign-ch-save" class="input-row" style="margin: 0 0 5px;"></div>',
                 '</div>',
             ].join('');
 
@@ -147,7 +149,7 @@ define([], function () { 'use strict';
                 parentEl: $window.find('#id-dlg-pdf-select-image'),
                 cls: 'btn-text-menu-default',
                 caption: this.textSelect,
-                style: 'width: 142px;',
+                style: 'min-width: 142px;',
                 menu: new Common.UI.Menu({
                     style: 'min-width: 142px;',
                     maxHeight: 200,
@@ -169,8 +171,15 @@ define([], function () { 'use strict';
                 el: $window.find('#pdf-sign-ch-back'),
                 labelText: this.txtRemBack
             });
+            this.chRemBack.setDisabled(true);
             this.chRemBack.on('change', function(field, newValue, oldValue, eOpts){
                 me.props && me.props.put_RemoveBackground(field.getValue()==='checked');
+            });
+
+            this.chSave = new Common.UI.CheckBox({
+                el: $window.find('#pdf-sign-ch-save'),
+                labelText: this.txtSaveSignature,
+                value: 'checked'
             });
 
             this.cmbFonts = new Common.UI.ComboBoxFonts({
@@ -218,8 +227,10 @@ define([], function () { 'use strict';
                 me.props && me.props.put_TypeFontSize(record.value);
             });
             this.cmbFontSize.setValue(this.font.size);
-            this.cmbFontSize.on('changed:before', _.bind(this.onFontSizeChanged, this, true));
-            this.cmbFontSize.on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
+            this.cmbFontSize.on({
+                'changed:before': this.onFontSizeChanged.bind(this, true),
+                'changed:after': this.onFontSizeChanged.bind(this, false),
+            });
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $window.find('#pdf-sign-bold'),
@@ -257,6 +268,7 @@ define([], function () { 'use strict';
                 color: 'auto',
                 auto: true,
                 menu: true,
+                ariaLabel: this.textColor,
                 takeFocusOnClose: true
             });
 
@@ -313,8 +325,11 @@ define([], function () { 'use strict';
                 takeFocusOnClose: true
             });
             this.cmbLineSize.setValue(2);
-            this.cmbLineSize.on('selected', function(combo, record) {
-                me.props && me.props.put_LineSize(record.value);
+            this.cmbLineSize.on({
+                'selected': function(combo, record) {
+                                me.props && me.props.put_LineSize(record.value);
+                            },
+                'changed:before': this.onLineSizeChanged.bind(this),
             });
 
             this.btnUndo = new Common.UI.Button({
@@ -352,7 +367,7 @@ define([], function () { 'use strict';
 
         getFocusedComponents: function() {
             return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor,
-                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.btnClear].concat(this.getFooterButtons());
+                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.chSave, this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -372,6 +387,7 @@ define([], function () { 'use strict';
                 me.uploadPreviewPnl.toggleClass('hidden', false);
                 me.props.updateView(0);
                 me.btnOk.setDisabled(false);
+                me.chRemBack.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
 
@@ -383,7 +399,6 @@ define([], function () { 'use strict';
             };
             this.api.asc_registerCallback('asc_CanUndoSignature', onCanUndoChanged);
             this.api.asc_registerCallback('asc_CanRedoSignature', onCanRedoChanged);
-            this.restoreSignature();
 
             var insertImageFromStorage = function(data) {
                 if (data && data._urls && data.c==='signature') {
@@ -392,6 +407,21 @@ define([], function () { 'use strict';
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
 
+            me.uploadEmptyPnl.parent().on({
+                dragover: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'copy';
+                    return false;
+                },
+                drop: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    var files = event.dataTransfer.files;
+                    if (files && files.length > 0) me.props && me.props.putFile(files[0]);
+                    return false;
+                }
+            });
               
             me.keydownHandler = function(e) {
                 if (!(me.$window && me.$window.is(':visible'))) return;
@@ -426,15 +456,27 @@ define([], function () { 'use strict';
             const $window = this.getChild();
             $window.find('.dlg-btn').on('click', e => {
                 const result = e.currentTarget.getAttribute('result');
-                if (result === 'ok' && me.props) {
-                    const serialized = me.props.serialize();
-                    serialized.mode = me.mode;
-                    Common.localStorage.setItem(me.getKey(), JSON.stringify(serialized));
-                }
+                me.saveSignature(result);
                 if ( me.options.handler )
                     me.options.handler.call(me, result);
                 me.close();
             });
+        },
+
+        saveSignature: function(result) {
+            if (result === 'ok' && this.props) {
+                const serialized = this.props.serialize();
+                if (!serialized.signatureImage) return;
+                serialized.mode = this.mode;
+                var key = this.getKey();
+                if (this.chSave.getValue() === 'checked') {
+                    serialized['vectorImage'] = this.props.getVectorImage();
+                    if (key) Common.localStorage.setItem(key, JSON.stringify(serialized));
+                    Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
+                } else if (key) {
+                    Common.localStorage.removeItem(key);
+                }
+            }
         },
 
         updateThemeColors: function() {
@@ -442,59 +484,12 @@ define([], function () { 'use strict';
         },
 
         getSignatureId: function() {
-            return this.props ? this.props.getResult().internalId : '';
+            return (this.props && this.hasField) ? this.props.get_FormId() : '';
         },
 
         getKey: function() {
-            return 'dialog-signature-' + this.getSignatureId();
-        },
-
-        getStoredData: function() {
-            var storedJson = Common.localStorage.getItem(this.getKey());
-            if (!storedJson) return null;
-            return JSON.parse(storedJson);
-        },
-
-        restoreSignature: function() {
-            if (!this.props) return;
-
-            var data = this.getStoredData();
-            if (!data) return;
-
-            this.props.deserialize(data);
-
-            var mode = data.mode !== undefined ? data.mode : 0;
-            this.mode = mode;
-            this.btnUpload.toggle(mode === 0, true);
-            this.btnDraw.toggle(mode === 1, true);
-            this.btnType.toggle(mode === 2, true);
-            this.ShowHideElem(mode);
-
-            if (mode === 1) {
-                var lineColor = data.lineColor;
-                if (lineColor) this.btnLineColor.setColor(lineColor.replace('#', ''));
-                if (data.lineSize) this.cmbLineSize.setValue(data.lineSize);
-            } else if (mode === 2) {
-                if (data.text) this.inputName.setValue(data.text);
-                if (data.font) {
-                    this.font.name = data.font;
-                    var rec = this.fontStore && this.fontStore.findWhere({name: data.font});
-                    if (rec) this.cmbFonts.selectRecord(rec);
-                    this.props.put_TypeFont(data.font);
-                }
-                if (data.fontSize) {
-                    this.font.size = data.fontSize;
-                    this.cmbFontSize.setValue(data.fontSize);
-                }
-                if (data.bold !== undefined) {
-                    this.font.bold = data.bold;
-                    this.btnBold.toggle(data.bold);
-                }
-                if (data.italic !== undefined) {
-                    this.font.italic = data.italic;
-                    this.btnItalic.toggle(data.italic);
-                }
-            }
+            var id = this.options.signatureId || this.getSignatureId();
+            return id ? 'dialog-signature-' + id : null;
         },
 
         onImgModeClick: function(mode, btn) {
@@ -569,6 +564,7 @@ define([], function () { 'use strict';
                 if (state == 'ok' && this.btnOk.isDisabled()) {
                     return;
                 }
+                this.saveSignature(state);
                 this.options.handler.call(this, state, this.getSettings());
             }
 
@@ -583,6 +579,8 @@ define([], function () { 'use strict';
                     this.uploadEmptyPnl.toggleClass('hidden', false);
                     this.uploadPreviewPnl.toggleClass('hidden', true);
                     this.btnOk.setDisabled(true);
+                    this.chRemBack.setValue('unchecked');
+                    this.chRemBack.setDisabled(true);
                     break;
                 case 1:
                     this.props.clearDraw();
@@ -632,6 +630,23 @@ define([], function () { 'use strict';
             }
         },
 
+        onLineSizeChanged: function(combo, record, e) {
+            const item = combo.store.findWhere({
+                displayValue: record.value
+            });
+
+            if (!item) {
+                const value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                if (!value) {
+                    let value = combo.getValue();
+                    combo.setRawValue(value + ' px');
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        },
+
         onChangeName: function (input, value) {
             this.props && this.props.setText(value);
         },
@@ -652,7 +667,8 @@ define([], function () { 'use strict';
         tipUndo: 'Undo',
         tipRedo: 'Redo',
         textBold: 'Bold',
-        textItalic: 'Italic'
+        textItalic: 'Italic',
+        txtSaveSignature: 'Save signature'
 
     }, Common.Views.PdfSignDialog || {}))
 });

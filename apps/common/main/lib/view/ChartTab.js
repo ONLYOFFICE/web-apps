@@ -355,6 +355,38 @@ define([
                                 })
                             },
                             {
+                                caption: me.textDataTable,
+                                value: 'dataTable',
+                                disabled: false,
+                                menu: new Common.UI.Menu({
+                                    cls: 'shifted-right',
+                                    menuAlign: 'tl-tr',
+                                    items: [
+                                        {
+                                            caption: me.textNone,
+                                            value: 'bShowDataNone',
+                                            stopPropagation: true,
+                                            toggleGroup: 'dataTable',
+                                            checkable: true
+                                        },
+                                        {
+                                            caption: me.textShowDataTable,
+                                            value: 'bShowDataTable',
+                                            stopPropagation: true,
+                                            toggleGroup: 'dataTable',
+                                            checkable: true
+                                        },
+                                        {
+                                            caption: me.textShowLegendKeys,
+                                            value: 'bShowLegendKeys',
+                                            stopPropagation: true,
+                                            toggleGroup: 'dataTable',
+                                            checkable: true
+                                        }
+                                    ]
+                                })
+                            },
+                            {
                                 caption: me.textErrorBars,
                                 value: 'errorBars',
                                 disabled: false,
@@ -839,7 +871,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)

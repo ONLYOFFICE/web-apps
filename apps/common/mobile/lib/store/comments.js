@@ -108,6 +108,7 @@ export class storeComments {
             comment.parsedName = changeComment.parsedName;
             comment.userInitials = changeComment.userInitials;
             comment.userColor = changeComment.userColor;
+            comment.userAvatar = changeComment.userAvatar;
             comment.resolved = changeComment.resolved;
             comment.quote = changeComment.quote;
             comment.time = changeComment.time;

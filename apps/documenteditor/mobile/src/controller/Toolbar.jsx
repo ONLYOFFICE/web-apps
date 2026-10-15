@@ -535,6 +535,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             forceDesktopMode={forceDesktopMode}
             isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
             isSaveBadgeShown={appOptions.isSaveBadgeShown}
+            disableForceDesktop={appOptions.disableForceDesktop !== false}
         />
     )
 }));

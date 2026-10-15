@@ -128,7 +128,7 @@
   "Common.Views.Plugins.textBackgroundPlugins": "Plugins de fondo",
   "Common.Views.Plugins.textClosePanel": "Cerrar plugin",
   "Common.Views.Plugins.textLoading": "Cargando",
-  "Common.Views.Plugins.textSettings": "Configuración",
+  "Common.Views.Plugins.textSettings": "Ajustes",
   "Common.Views.Plugins.textStart": "Iniciar",
   "Common.Views.Plugins.textStop": "Detener",
   "Common.Views.Plugins.textTheListOfBackgroundPlugins": "La lista de plugins de fondo",
@@ -334,6 +334,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Se ha perdido la conexión</b><br>Intentando conectar. Por favor, compruebe la configuración de la conexión.",
   "VE.Controllers.Statusbar.zoomText": "Ampliación {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Está tratando de realizar una acción para la cual no tiene permiso.<br>Por favor, contacte con su administrador del servidor de documentos.",
+  "VE.Controllers.Toolbar.helpAITools": "La IA le ayuda a crear y editar sus documentos.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Herramientas de IA",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Advertencia",
   "VE.Controllers.Toolbar.txtUntitled": "Sin título",
   "VE.Views.DocumentHolder.guestText": "Invitado",
@@ -479,5 +481,7 @@
   "VE.Views.ViewTab.textZoom": "Ampliación",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a la página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar al ancho",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "VE.Controllers.Main.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "VE.Controllers.Main.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
 }

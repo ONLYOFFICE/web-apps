@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!documenteditor/main/app/template/RightMenu.template',
@@ -52,6 +53,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
+    'common/main/lib/view/SendForSigningSettings',
     'documenteditor/main/app/view/ParagraphSettings',
     // 'documenteditor/main/app/view/HeaderFooterSettings',
     'documenteditor/main/app/view/ImageSettings',
@@ -62,8 +64,7 @@ define([
     'documenteditor/main/app/view/TextArtSettings',
     'documenteditor/main/app/view/SignatureSettings',
     'documenteditor/main/app/view/FormSettings',
-    'documenteditor/main/app/view/SendForSigningSettings',
-    'documenteditor/main/app/view/FillingStatusSettings',
+    'common/main/lib/view/FillingStatusSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -121,7 +122,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-paragraph',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this.btnTable = new Common.UI.Button({
                     hint: this.txtTableSettings,
@@ -130,7 +132,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-table',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this.btnImage = new Common.UI.Button({
                     hint: this.txtImageSettings,
@@ -139,7 +142,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-image',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
 
                 // this.btnHeaderFooter = new Common.UI.Button({
@@ -167,7 +171,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-shape',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
     
                 this.btnTextArt = new Common.UI.Button({
@@ -177,7 +182,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-textart',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
     
                 this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
@@ -220,7 +226,8 @@ define([
                         disabled: true,
                         iconCls: 'btn-mailmerge',
                         toggleGroup: 'tabpanelbtnsGroup',
-                        allowMouseEventsOnDisabled: true
+                        allowMouseEventsOnDisabled: true,
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge};
                     this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
@@ -236,7 +243,8 @@ define([
                         disabled: true,
                         iconCls: 'btn-menu-signature',
                         toggleGroup: 'tabpanelbtnsGroup',
-                        allowMouseEventsOnDisabled: true
+                        allowMouseEventsOnDisabled: true,
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature};
                     this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
@@ -252,7 +260,8 @@ define([
                         disabled: true,
                         iconCls: 'btn-field',
                         toggleGroup: 'tabpanelbtnsGroup',
-                        allowMouseEventsOnDisabled: true
+                        allowMouseEventsOnDisabled: true,
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
                     this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
@@ -269,7 +278,8 @@ define([
                         disabled: true,
                         iconCls: 'btn-menu-send-to-sign',
                         toggleGroup: 'tabpanelbtnsGroup',
-                        allowMouseEventsOnDisabled: true
+                        allowMouseEventsOnDisabled: true,
+                        ariaExpanded: true
                     });
                     this._settings[Common.Utils.documentSettingsType.SendForSigning]   = {panel: "id-send-for-signing-settings", btn: this.btnSendForSigning};
                     this.btnSendForSigning.setElement($markup.findById('#id-right-menu-send-for-signing'), false); 
@@ -291,7 +301,7 @@ define([
                             btn.$el.blur();
                         }
                     }.bind(this));
-                    this.sendForSigningSettings = new DE.Views.SendForSigningSettings({
+                    this.sendForSigningSettings = new Common.Views.SendForSigningSettings({
                         handler: function(state, options) {
                             if(state == 'submit') {
                                 me.disableUIForSendForSigning(false);
@@ -317,13 +327,14 @@ define([
                     disabled: false,
                     iconCls: 'btn-filling-status',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.FillingStatus]   = {panel: "id-filling-status-settings", btn: this.btnFillingStatus};
                 this.btnFillingStatus.setElement($markup.findById('#id-right-menu-filling-status'), false); 
                 this.btnFillingStatus.render().setVisible(true);
                 this.btnFillingStatus.on('click', this.onBtnMenuClick.bind(this));
-                this.fillingStatusSettings = new DE.Views.FillingStatusSettings();
+                this.fillingStatusSettings = new Common.Views.FillingStatusSettings();
             }
 
             if (_.isUndefined(this.scroller)) {
@@ -397,24 +408,15 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const viewport = DE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.hideItemResizer('right', !isPlugin);
-
-                const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("de-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
@@ -440,6 +442,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -463,13 +467,17 @@ define([
 
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -479,7 +487,6 @@ define([
             let newDocMode;
             if(status) {
                 const header = DE.getController('Viewport').getView('Common.Views.Header');
-                this._disableUIForSendForSigningState
                 this._sendForSigningState = {
                     docMode: (header &&
                         header.btnDocMode &&
@@ -519,7 +526,7 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
@@ -527,7 +534,28 @@ define([
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             if ( !this.isPluginButtonPressed() ) {
-                this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+                this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
+            }
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const viewport = DE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.hideItemResizer('right', this.minimizedMode || !isPlugin);
+
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
+            } else {
+                const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
             }
         },
 

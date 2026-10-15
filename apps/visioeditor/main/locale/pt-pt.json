@@ -17,6 +17,8 @@
   "VE.Controllers.Main.warnLicenseAnonymous": "Acesso negado a utilizadores anónimos.<br>Este documento será aberto apenas para visualização.",
   "VE.Controllers.Search.warnReplaceString": "{0} não é um caractere especial válido para a janela Substituir com.",
   "VE.Controllers.Statusbar.textDisconnect": "<b>Ligação perdida</b><br>A tentar novamente. Por favor, verifique as definições da ligação.",
+  "VE.Controllers.Toolbar.helpAITools": "A IA ajuda-o a criar e editar os seus documentos.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Ferramentas de IA",
   "VE.Views.FileMenu.btnRightsCaption": "Direitos de acesso",
   "VE.Views.FileMenu.btnSettingsCaption": "Definições avançadas",
   "VE.Views.FileMenuPanels.DocumentInfo.txtAddAuthor": "Adicionar autor",
@@ -25,5 +27,6 @@
   "VE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Definições avançadas",
   "VE.Views.LeftMenu.tipAbout": "Acerca",
   "VE.Views.PrintWithPreview.txtAllPages": "Todas as páginas",
-  "VE.Views.ViewTab.textAlwaysShowToolbar": "Mostrar sempre a barra de ferramentas"
+  "VE.Views.ViewTab.textAlwaysShowToolbar": "Mostrar sempre a barra de ferramentas",
+  "Common.Controllers.Desktop.hintBtnHome": "Mostrar janela principal"
 }

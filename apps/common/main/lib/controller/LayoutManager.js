@@ -253,7 +253,10 @@ Common.UI.LayoutManager = new(function() {
             */
             plugin.tabs && plugin.tabs.forEach(function(tab) {
                 if (tab) {
-                    var added = [],
+                    let _set = Common.enumLock,
+                        lockInViewModeKeys = [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
+                        added = [],
+                        addedWithViewModeLock = [],
                         removed = preventRemove ? [] : _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
 
                     if (!_arrPlugins[plugin.guid])
@@ -269,11 +272,10 @@ Common.UI.LayoutManager = new(function() {
                             return;
                         }
 
-                        let btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id),
-                            _set = Common.enumLock;
+                        let btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id);
                         if (btn) { // change caption, hint, disable state, menu items
                             if (btn instanceof Common.UI.Button) {
-                                var caption = item.text || '';
+                                var caption = !!item.text ? Common.Utils.String.htmlEncode(item.text) : '';
                                 if (btn.options.caption !== (caption || ' ')) {
                                     btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('nocaption', !caption);
                                     btn.setCaption(caption || ' ');
@@ -281,6 +283,7 @@ Common.UI.LayoutManager = new(function() {
                                 }
                                 btn.updateHint(item.hint || '');
                                 (item.disabled!==undefined) && Common.Utils.lockControls(_set.customLock, !!item.disabled, {array: [btn]});
+                                item.pressed!=undefined && !btn.isDisabled() && btn.toggle(item.pressed);
                                 if (btn.menu && item.items && item.items.length > 0) {// update menu items
                                     if (typeof btn.menu !== 'object') {
                                         btn.setMenu(new Common.UI.Menu({items: []}));
@@ -303,12 +306,13 @@ Common.UI.LayoutManager = new(function() {
                                 menu: item.items,
                                 split: item.items && !!item.split,
                                 enableToggle: item.enableToggle && (!item.items || !!item.split),
+                                pressed: !!item.pressed,
                                 value: item.id,
                                 guid: plugin.guid,
                                 tabid: tab.id,
                                 separator: item.separator,
                                 hint: item.hint || '',
-                                lock: item.lockInViewMode ? [_set.customLock, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [_set.customLock],
+                                lock: item.lockInViewMode ? lockInViewModeKeys.concat([_set.customLock]) : [_set.customLock],
                                 dataHint: '1',
                                 dataHintDirection: 'bottom',
                                 dataHintOffset: 'small'
@@ -327,9 +331,21 @@ Common.UI.LayoutManager = new(function() {
                                 });
                             }
                             added.push(btn);
+                            item.lockInViewMode && addedWithViewModeLock.push(btn);
                             item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
                         }
                     });
+
+                    // Apply current view mode lock states to newly added buttons.
+                    // A lock key is considered active if at least one existing control has it in its keepState
+                    if (addedWithViewModeLock.length) {
+                        const lockedKeys = lockInViewModeKeys.filter(function(lockKey) {
+                            return lockKey && _arrControls.some(function(ctrl) {
+                                return ctrl && ctrl.keepState && _.contains(ctrl.keepState, lockKey);
+                            });
+                        });
+                        lockedKeys.length && Common.Utils.lockControls(lockedKeys, true, {array: addedWithViewModeLock});
+                    }
 
                     toolbar.addCustomControls({action: tab.id, caption: tab.text || ''}, added, removed);
                     if (!toolbar.customButtonsArr)

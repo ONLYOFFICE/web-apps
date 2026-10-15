@@ -49,6 +49,16 @@
     width: 98px;
     height: 125px;
     cursor: pointer;
+    padding: 0;
+    border: 0;
+    background: none;
+
+    &:focus {
+        outline: 2px solid @border-control-focus-ie;
+        outline: 2px solid @border-control-focus;
+        outline-offset: 1px;
+    }
+
     .svg-format- {
         &pptx {
             background: ~"url('@{common-image-const-path}/doc-formats/large/pptx.svg') no-repeat center";
@@ -85,6 +95,12 @@
         }
         &odg {
             background: ~"url('@{common-image-const-path}/doc-formats/large/odg.svg') no-repeat center";
+        }
+        &animation {
+            background: ~"url('@{common-image-const-path}/doc-formats/large/animated.svg') no-repeat center";
+        }
+        &video {
+            background: ~"url('@{common-image-const-path}/doc-formats/large/video.svg') no-repeat center";
         }
     }
 
