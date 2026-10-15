@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>NOT funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>NOT funkcija</h1>
+			<p><b>NOT</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#logical" onclick="onhyperlinkclick(this)">logičkih funkcija</a>. Koristi se za proveru da li je logička vrednost koju unesete TRUE ili FALSE. Funkcija vraća TRUE ako je argument FALSE, i FALSE ako je argument TRUE.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>NOT(logical)</em></b></p> 
+			<p><b>NOT</b> funkcija ima sledeći argument:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>logical</em></b></td>
+                    <td>Vrednost koja se može evaluirati kao TRUE ili FALSE.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>NOT</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+			<p>Postoji argument: <em>logical</em> = <b>A1&lt;100</b>, gde je <b>A1</b> <b>12</b>. Ovaj logički izraz je <b>TRUE</b>. Dakle, funkcija vraća <b>FALSE</b>.</p>
+			<p><img alt="NOT funkcija: FALSE" src="../images/notfalse.png" /></p>
+			<p>Ako promenimo vrednost <b>A1</b> sa <b>12</b> na <b>112</b>, funkcija vraća <b>TRUE</b>:</p>
+			<p><img alt="NOT funkcija: TRUE" src="../images/nottrue.png" /></p>
+		</div>
+	</body>
+</html>

@@ -458,6 +458,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Otomatik Düzeltme Seçenekleri",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Sütun Genişliği {0} sembol  ({1} piksel)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Satır Yüksekliği {0} puan ({1} piksel)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Yapay Zeka ile Düzelt",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "%1 hücresindeki formülü düzeltin, %2 döndürüyor. Düzeltilmiş formülü hücreye uygulayın.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "%1 hücresindeki formülü düzeltin, geçerli bir formül değil. Düzeltilmiş formülü hücreye uygulayın.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Açmak için bağlantıya tıklayın veya hücreyi seçmek için fare düğmesini tıklayın ve basılı tutun.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Insert Left",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Insert Top",
@@ -771,6 +774,7 @@
   "SSE.Controllers.Main.textNeedSynchronize": "Güncellemeleriniz var",
   "SSE.Controllers.Main.textNo": "Hayır",
   "SSE.Controllers.Main.textNoLicenseTitle": "Lisans limitine ulaşıldı.",
+  "SSE.Controllers.Main.textNoResourcesTitle": "Yetersiz kaynak",
   "SSE.Controllers.Main.textPaidFeature": "Ücretli Özellik",
   "SSE.Controllers.Main.textPleaseWait": "Operasyon beklenenden daha çok vakit alabilir. Lütfen bekleyin...",
   "SSE.Controllers.Main.textReconnect": "Yeniden bağlanıldı",
@@ -1047,6 +1051,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Lisansın süresi doldu.<br>Belge düzenleme işlevine erişiminiz yok.<br>Lütfen yöneticinizle iletişime geçin.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor.<br>Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
   "SSE.Controllers.Main.warnNoLicense": "Düzenleyiciler %1 eşzamanlı bağlantı sınırına ulaştı. Bu belge yalnızca görüntüleme için açılacaktır.<br>Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
+  "SSE.Controllers.Main.warnNoResources": "%1 sunucusu bu belgeyi düzenleme için açacak yeterli kaynağa sahip değil. Bu belge yalnızca görüntüleme için açılacaktır.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
   "SSE.Controllers.Print.strAllSheets": "Tüm Tablolar",
@@ -1071,6 +1076,8 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Bir kombinasyon grafiği oluşturmak için en az iki veri serisi seçin.",
   "SSE.Controllers.Toolbar.errorMaxRows": "HATA! Her grafik için maksimum veri serileri sayısı 255'tir",
   "SSE.Controllers.Toolbar.errorStockChart": "Yanlış dizi sırası. Stok grafiği oluşturma için tablodaki verileri şu sırada yerleştirin:<br> açılış fiyatı, maksimum fiyat, minimum fiyat, kapanış fiyatı. ",
+  "SSE.Controllers.Toolbar.helpAITools": "Yapay zekâ, belgelerinizi oluşturmanıza ve düzenlemenize yardımcı olur.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Yapay Zekâ Araçları",
   "SSE.Controllers.Toolbar.textAccent": "Aksanlar",
   "SSE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "SSE.Controllers.Toolbar.textDirectional": "Yönlü",
@@ -3455,5 +3462,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası",
+  "Common.Controllers.Desktop.hintBtnHome": "Ana pencereyi göster"
 }

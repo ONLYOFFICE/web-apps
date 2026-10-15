@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poređenje i kombinovanje dokumenata</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Uputstvo kako da uporedite i spojite dva dokumenta" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Poređenje i kombinovanje dokumenata</h1>
+        <p><a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač dokumenata</b></a> omogućava vam da održite jedinstven timski pristup radu: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">delite</a> fajlove i fascikle, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">zajednički uređujete</a> dokumente u realnom vremenu, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">komunicirate</a> direktno u uređivaču, <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">komentarišete</a> delove dokumenta koji zahtevaju dodatne sugestije, čuvate <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">verzije dokumenta</a> za kasniju upotrebu, <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">pregledate</a> dokumente i unosite izmene bez direktnog menjanja fajla.</p>
+        <p>Ako želite da uporedite i spojite dva dokumenta, <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač dokumenata</b></a> nudi funkciju <b>Uporedi</b>. Ona omogućava prikazivanje razlika između dva dokumenta i njihovo spajanje prihvatanjem izmena pojedinačno ili svih odjednom.</p>
+        <p>Funkcija <b>Kombinuj</b> može izgledati isto, ali sa jednom važnom razlikom – praćene izmene (Tracked Changes) u obe verzije spajaju se u jednu verziju, a ostatak teksta se poredi.</p>
+        <p>Nakon spajanja dokumenata, rezultat će biti sačuvan na portalu kao nova verzija originalnog fajla.</p>
+        <p>Ako ne želite da spojite dokumente koji se porede, možete odbiti sve izmene kako bi originalni dokument ostao nepromenjen.</p>
+
+        <h3 id="choosedocument">Izbor dokumenta za poređenje</h3>
+        <p>Da biste uporedili dva dokumenta, otvorite originalni dokument i izaberite drugi dokument za poređenje:</p>
+        <ol>
+            <li>idite na karticu <b>Saradnja</b> na gornjoj alatnoj traci i kliknite na dugme <div class="icon icon-comparebutton"></div> <b>Uporedi</b>,</li>
+            <li>
+                izaberite jednu od sledećih opcija za učitavanje dokumenta:
+                <ul>
+                    <li>opcija <b>Dokument sa fajla</b> otvara standardni dijalog za izbor fajla. Potražite željeni <em>.docx</em> fajl na svom računaru i kliknite na <b>Otvori</b>.</li>
+                    <li>
+                        opcija <b>Dokument sa URL-a</b> otvara prozor gde možete uneti link ka fajlu sačuvanom u trećem servisu (npr. Nextcloud), ako imate prava pristupa. Link mora biti <b>direktan link za preuzimanje fajla</b>. Kada unesete link, kliknite <b>OK</b>.
+                        <p class="note"><b>Napomena</b>: Direktan link omogućava preuzimanje fajla bez otvaranja u pregledaču. Na primer, u Nextcloudu otvorite meni fajla → opcija <b>Detalji</b> → ikonica <b>Kopiraj direktan link</b>. Za druge servise pogledajte njihovu dokumentaciju.</p>
+                    </li>
+                    <li class="onlineDocumentFeatures">opcija <b>Dokument iz skladišta</b> otvara prozor <b>Izbor izvora podataka</b>. Tu se prikazuje lista svih <em>.docx</em> fajlova sa portala kojima imate pristup. Navigaciju kroz sekcije modula <b>Dokumenti</b> vršite pomoću menija sa leve strane. Izaberite dokument i kliknite <b>OK</b>.</li>
+                    <li>opcija <b>Podešavanja poređenja</b> otvara prozor sa opcijama poređenja. Možete prikazivati izmene na <em>nivou karaktera</em> ili na <em>nivou reči</em>.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Kada je drugi dokument odabran, proces poređenja počinje i dokument se otvara u režimu <b>Pregled</b>. Sve izmene su obeležene bojom i možete ih pregledati, prihvatiti ili odbiti pojedinačno ili sve odjednom. Takođe je moguće menjati režim prikaza: pre poređenja, tokom poređenja ili kako će izgledati posle prihvatanja svih izmena.</p>
+
+        <h3 id="choosedocument_combine">Izbor dokumenta za kombinovanje</h3>
+        <p>Da biste kombinovali dva dokumenta, otvorite originalni dokument i izaberite drugi dokument za kombinovanje:</p>
+        <ol>
+            <li>idite na karticu <b>Saradnja</b> na gornjoj alatnoj traci i kliknite na dugme <div class="icon icon-combinebutton"></div> <b>Kombinuj</b>,</li>
+            <li>
+                izaberite jednu od sledećih opcija za učitavanje dokumenta:
+                <ul>
+                    <li>opcija <b>Dokument sa fajla</b> otvara standardni dijalog za izbor fajla. Potražite željeni <em>.docx</em> fajl na svom računaru i kliknite na <b>Otvori</b>.</li>
+                    <li>
+                        opcija <b>Dokument sa URL-a</b> otvara prozor gde možete uneti link ka fajlu sačuvanom u trećem servisu (npr. Nextcloud). Link mora biti <b>direktan link za preuzimanje fajla</b>. Kada unesete link, kliknite <b>OK</b>.
+                        <p class="note"><b>Napomena</b>: Direktan link omogućava preuzimanje fajla bez otvaranja u pregledaču. Na primer, u Nextcloudu otvorite meni fajla → opcija <b>Detalji</b> → ikonica <b>Kopiraj direktan link</b>. Za druge servise pogledajte njihovu dokumentaciju.</p>
+                    </li>
+                    <li class="onlineDocumentFeatures">opcija <b>Dokument iz skladišta</b> otvara prozor <b>Izbor izvora podataka</b>. Tu se prikazuje lista svih <em>.docx</em> fajlova sa portala kojima imate pristup. Navigaciju kroz sekcije modula <b>Dokumenti</b> vršite pomoću menija sa leve strane. Izaberite dokument i kliknite <b>OK</b>.</li>
+                    <li>opcija <b>Podešavanja poređenja</b> otvara prozor sa opcijama poređenja. Možete prikazivati izmene na <em>nivou karaktera</em> ili na <em>nivou reči</em>.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Kada je drugi dokument odabran, proces kombinovanja počinje i dokument se otvara u režimu <b>Pregled</b>. Sve izmene su obeležene bojom i možete ih pregledati, prihvatiti ili odbiti pojedinačno ili sve odjednom. Takođe je moguće menjati režim prikaza: pre kombinovanja, tokom kombinovanja ili kako će izgledati posle prihvatanja svih izmena.</p>
+
+        <h3 id="displaymode">Izbor režima prikaza izmena</h3>
+        <p>Kliknite na dugme <span class="icon icon-review_displaymode"></span> <b>Režim prikaza</b> na gornjoj alatnoj traci i izaberite jedan od dostupnih režima:</p>
+        <ul>
+            <li>
+                <b>Oznake i oblačići</b> – podrazumevani režim. Prikazuje dokument <b>tokom poređenja/kombinovanja</b>. Omogućava pregled i uređivanje izmena. Oblačići sadrže ime recenzenta, datum i vreme izmene. Pomoću oblačića možete prihvatiti (oznaka ✓) ili odbiti (oznaka ✗) promenu.
+                <p><img alt="Upoređivanje dokumenata - oznake i oblačići" src="../images/compare_markup_balloons.png" /></p>
+            </li>
+            
+            <li>
+                <b>Samo oznake</b> – koristi se za prikaz dokumenta <b>tokom poređenja/kombinovanja</b>. Omogućava pregled i uređivanje izmena, ali bez oblačića.
+                <p><img alt="Upoređivanje dokumenata - oznake" src="../images/compare_markup.png" /></p>
+            </li>
+            <li>
+                <b>Konačni</b> – prikazuje dokument <b>nakon poređenja/kombinovanja</b> kao da su sve izmene prihvaćene. Ova opcija ne prihvata stvarno izmene, već samo prikazuje konačan izgled. U ovom režimu ne možete uređivati dokument.
+                <p><img alt="Upoređivanje dokumenata - konačni" src="../images/compare_final.png" /></p>
+            </li>
+            <li>
+                <b>Originalni</b> – prikazuje dokument <b>pre poređenja/kombinovanja</b> kao da su sve izmene odbijene. Ne odbija stvarno izmene, već samo prikazuje original. U ovom režimu ne možete uređivati dokument.
+                <p><img alt="Upoređivanje dokumenata - originalni" src="../images/compare_original.png" /></p>
+            </li>
+        </ul>
+
+        <h3 id="managechanges">Prihvatanje ili odbijanje izmena</h3>
+        <p>Koristite dugmad <span class="icon icon-review_previous"></span> <b>Prethodno</b> i <span class="icon icon-review_next"></span> <b>Sledeće</b> na gornjoj alatnoj traci za navigaciju kroz izmene.</p>
+        <p>Da prihvatite trenutnu izmenu, možete:</p>
+        <ul>
+            <li>kliknuti na dugme <div class="icon icon-review_accepttoptoolbar"></div> <b>Prihvati</b> na gornjoj alatnoj traci, ili</li>
+            <li>kliknuti na strelicu ispod dugmeta <b>Prihvati</b> i izabrati <b>Prihvati trenutnu izmenu</b> (izmene se prihvataju i prelazi se na sledeću), ili</li>
+            <li>kliknuti na dugme <b>Prihvati</b> <div class="icon icon-review_accept"></div> u iskačućem prozoru izmene.</li>
+        </ul>
+        <p>Da brzo prihvatite sve izmene, kliknite na strelicu ispod dugmeta <span class="icon icon-review_accepttoptoolbar"></span> <b>Prihvati</b> i izaberite opciju <b>Prihvati sve izmene</b>.</p>
+        <p>Da odbijete trenutnu izmenu, možete:</p>
+        <ul>
+            <li>kliknuti na dugme <div class="icon icon-review_rejecttoptoolbar"></div> <b>Odbij</b> na gornjoj alatnoj traci, ili</li>
+            <li>kliknuti na strelicu ispod dugmeta <b>Odbij</b> i izabrati <b>Odbij trenutnu izmenu</b> (izmene se odbijaju i prelazi se na sledeću), ili</li>
+            <li>kliknuti na dugme <b>Odbij</b> <div class="icon icon-review_reject"></div> u iskačućem prozoru izmene.</li>
+        </ul>
+        <p>Da brzo odbijete sve izmene, kliknite na strelicu ispod dugmeta <span class="icon icon-review_rejecttoptoolbar"></span> <b>Odbij</b> i izaberite opciju <b>Odbij sve izmene</b>.</p>
+
+        <h3 id="comparisonnotes">Dodatne informacije o poređenju i kombinovanju</h3>
+        <h4>Način poređenja</h4>
+        <p>Dokumenti se porede <b>po rečima</b>. Ako reč sadrži promenu makar jednog karaktera (npr. obrisan ili zamenjen karakter), razlika će biti prikazana kao promena cele reči.</p>
+        <p>Na slici ispod original sadrži reč „Characters“, a dokument za poređenje reč „Character“.</p>
+        <p><img alt="Upoređivanje dokumenata - metod" src="../images/compare_method.png" /></p>
+
+        <h4>Autorstvo dokumenta</h4>
+        <p>Kada se pokrene proces poređenja, drugi dokument se učitava i poredi sa trenutnim.</p>
+        <ul>
+            <li>Ako učitani dokument sadrži podatke kojih nema u originalu, oni će biti označeni kao dodati od strane recenzenta.</li>
+            <li>Ako original sadrži podatke kojih nema u učitanom dokumentu, oni će biti označeni kao obrisani od strane recenzenta.</li>
+        </ul>
+        <p>Ako su autori oba dokumenta ista osoba, u oblačiću izmene se prikazuje isto ime.</p>
+        <p>Ako su autori različiti, autor drugog dokumenta se prikazuje kao autor dodatih/obrisanih izmena.</p>
+
+        <h4>Postojanje praćenih izmena u dokumentu</h4>
+        <p>Ako originalni dokument već sadrži izmene napravljene u režimu pregleda, one će biti prihvaćene u procesu <b>poređenja</b>. Kada izaberete drugi fajl, pojaviće se odgovarajuće upozorenje.</p>
+        <p>U tom slučaju, kada odaberete režim prikaza <b>Originalni</b>, dokument neće sadržati nikakve izmene.</p>
+        <p>Ako oba dokumenta sadrže izmene iz režima pregleda, one će biti objedinjene u jednoj verziji tokom <b>kombinovanja</b>.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Uklanjanje duplikata</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Uklanjanje duplikata u izabranom opsegu podataka." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Uklanjanje duplikata</h1>
+            <p>U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>-u možete ukloniti duplirane vrednosti iz izabranog opsega podataka ili iz <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatirane tabele</a>.</p>
+            <p>Da biste uklonili duplikate:</p>
+            <ol>
+                <li>Izaberite potreban opseg ćelija koji sadrži duplirane vrednosti.</li>
+                <li>Pređite na karticu <b>Data</b> i kliknite na dugme <div class = "icon icon-removeduplicates_icon"></div> <b>Remove Duplicates</b> na gornjoj alatnoj traci.
+                <p>Ako želite da uklonite duplikate iz formatirane tabele, možete koristiti i opciju <span class="icon icon-removeduplicates"></span> <b>Remove duplicates</b> na desnoj bočnoj traci.</p>
+                <p>Ako izaberete samo određeni deo opsega podataka, pojaviće se prozor sa upozorenjem u kojem će vas sistem pitati da li želite da proširite izbor kako bi se obuhvatio ceo opseg podataka ili da nastavite sa trenutno izabranim podacima. Kliknite na dugme <b>Expand</b> ili <b>Remove in selected</b>. Ako izaberete opciju <b>Remove in selected</b>, duplirane vrednosti u ćelijama koje se nalaze pored izabranog opsega neće biti uklonjene.</p>
+                <p><img alt="Remove Duplicates warning" src="../images/removeduplicates_warning.png" /></p>
+                <p> Otvoriće se prozor <b>Remove Duplicates</b>:</p>
+                    <p><img alt="Remove Duplicates" src="../images/removeduplicates_window.png" /></p>
+                </li>
+                <li>Izaberite potrebne opcije u prozoru <b>Remove Duplicates</b>:
+                <ul>
+                    <li><b>My data has headers</b> – označite ovu opciju da biste izuzeli zaglavlja kolona iz izbora.</li>
+                    <li><b>Columns</b> – ostavite podrazumevanu opciju <b>Select All</b> ili je poništite i izaberite samo potrebne kolone.</li>
+                </ul>
+                </li>
+                <li>Kliknite na dugme <b>OK</b>.</li>
+            </ol>            
+            <p>Duplirane vrednosti iz izabranog opsega podataka biće uklonjene i pojaviće se prozor sa informacijama o tome koliko je duplikata uklonjeno i koliko je jedinstvenih vrednosti ostalo:</p>
+            <p><img alt="Removed duplicates" src="../images/removeduplicates_result.png" /></p>
+            <p>Ako želite da odmah vratite obrisane podatke, koristite ikonu <b>Undo</b> <span class="icon icon-undo"></span> na gornjoj alatnoj traci ili kombinaciju tastera <em>Ctrl+Z</em>.</p>
+            
+		</div>
+	</body>
+</html>

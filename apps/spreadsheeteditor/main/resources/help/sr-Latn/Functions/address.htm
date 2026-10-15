@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>ADDRESS funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>ADDRESS funkcija</h1>
+			<p>Funkcija <b>ADDRESS</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i reference</a>. Koristi se za vraćanje tekstualnog prikaza adrese ćelije.</p>
+            <h3>Sintaksa</h3> 
+			<p><b><em>ADDRESS(row_num, column_num, [abs_num], [a1], [sheet_text])</em></b></p> 
+            <p>Funkcija <b>ADDRESS</b> ima sledeće argumente:</p>			
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>row_num</em></b></td>
+                    <td>Broj reda koji se koristi u adresi ćelije.</td>
+                </tr>
+                <tr>
+                    <td><b><em>column_num</em></b></td>
+                    <td>Broj kolone koji se koristi u adresi ćelije.</td>
+                </tr>
+                <tr>
+                    <td><b><em>abs_num</em></b></td>
+                    <td>Tip reference. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>a1</em></b></td>
+                    <td>Opciona logička vrednost: TRUE ili FALSE. Ako je postavljena na TRUE ili je izostavljena, funkcija će vratiti referencu u A1 formatu. Ako je postavljena na FALSE, funkcija će vratiti referencu u R1C1 formatu.</td>
+                </tr>
+                <tr>
+                    <td><b><em>sheet_text</em></b></td>
+                    <td>Naziv radnog lista koji se koristi u adresi ćelije. Ovo je opciona vrednost. Ako se izostavi, funkcija će vratiti adresu ćelije bez naziva lista.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>abs_num</em></b> može imati jednu od sledećih vrednosti:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Značenje</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1 ili izostavljeno</em></b></td>
+                    <td>Apsolutno referenciranje</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Apsolutni red; relativna kolona</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Relativni red; apsolutna kolona</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>Relativno referenciranje</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>ADDRESS</b>.</p>			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>ADDRESS</b>.</p>
+			<p><img alt="ADDRESS funkcija" src="../images/address.png" /></p>
+		</div>
+	</body>
+</html>

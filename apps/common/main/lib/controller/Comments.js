@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Comments.js
@@ -98,6 +101,7 @@ define([
                     // reply handlers
 
                     'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:addComment':       _.bind(this.onAddComment, this),
                     'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
                     'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
                     'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
@@ -122,6 +126,7 @@ define([
                     // reply handlers
 
                     'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:addComment':       _.bind(this.onAddComment, this),
                     'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
                     'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
                     'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
@@ -483,6 +488,24 @@ define([
 
             return false;
         },
+        onAddComment: function (id, commentVal) {
+            var me = this, comment = me.findComment(id);
+            var ascComment = me.buildComment(comment);
+            if (!ascComment) {
+                return false;
+            }
+
+            if (comment && !comment.get('comment')) {
+                ascComment.asc_putText(commentVal);
+                ascComment.asc_putUserId(me.currentUserId);
+                ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
+
+                me.api.asc_changeComment(id, ascComment);
+                me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), commentVal);
+
+                return true;
+            }
+        },
         onAddReplyComment: function (id, replyVal) {
             if (replyVal.length > 0) {
                 var me = this, uid = null, comment = me.findComment(id);
@@ -662,38 +685,106 @@ define([
 
         // SDK
 
+        getAnnotText: function (annotType) {
+            var text = null;
+
+            switch (annotType) {
+                case AscPDF.ANNOTATIONS_TYPES.Circle:
+                    text = this.textCircle;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Square:
+                    text = this.textSquare;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.FreeText:
+                    text = this.textFreeText;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Line:
+                    text = this.textLine;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Ink:
+                    text = this.textInk;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Polygon:
+                    text = this.textPolygon;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.PolyLine:
+                    text = this.textPolyLine;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Stamp:
+                    text = this.textStamp;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Highlight:
+                    text = this.textHighlight;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Strikeout:
+                    text = this.textStrikeout;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Underline:
+                    text = this.textUnderline;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Caret:
+                    text = this.textCaret;
+                    break;
+                case AscPDF.ANNOTATIONS_TYPES.Redact:
+                    text = this.textRedact;
+                    break;
+            }
+
+            return text;
+        },
+
         onApiAddComment: function (id, data) {
             if (this.isPDFEditor && (this.findComment(id) || this.findCommentInGroup(id))) return; // fix for PDF, do not add comment with existing id
 
             var requestObj = {},
-                comment = this.readSDKComment(id, data, requestObj);
+                comment = this.readSDKComment(id, data, requestObj),
+                text = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+
             if (comment) {
-                if (comment.get('groupName')) {
-                    this.addCommentToGroupCollection(comment);
-                    (_.indexOf(this.collection.groups, comment.get('groupName'))>-1) && this.collection.push(comment);
-                } else
-                    this.collection.push(comment);
+                text && comment.set('annotation', text) && comment.set('isAnnotation', true);
+                const guid = comment.get('guid');
+                const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
+                if(duplicateComment) {
+                    duplicateComment.set('uid', id);
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
+                } else {
+                    if (comment.get('groupName')) {
+                        this.addCommentToGroupCollection(comment);
+                        (_.indexOf(this.collection.groups, comment.get('groupName'))>-1) && this.collection.push(comment);
+                    } else
+                        this.collection.push(comment);
 
-                this.updateComments(true, this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc'); // don't sort by position
+                    this.updateComments(true, this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc'); // don't sort by position
 
-                if (this.showPopover) {
-                    if (null !== data.asc_getQuoteText()) {
-                        this.api.asc_selectComment(id);
-                        this._dontScrollToComment = true;
-                        this.api.asc_showComment(id, true);
+                    if (this.showPopover) {
+                        if (null !== data.asc_getQuoteText()) {
+                            this.api.asc_selectComment(id);
+                            this._dontScrollToComment = true;
+                            this.api.asc_showComment(id, true);
+                        }
+
+                        this.showPopover = undefined;
+                        this.editPopover = false;
                     }
-
-                    this.showPopover = undefined;
-                    this.editPopover = false;
+                    requestObj.arrIds && requestObj.arrIds.length && Common.UI.ExternalUsers.get('info', requestObj.arrIds);
                 }
-                requestObj.arrIds && requestObj.arrIds.length && Common.UI.ExternalUsers.get('info', requestObj.arrIds);
             }
         },
         onApiAddComments: function (data) {
             var requestObj = {};
             for (var i = 0; i < data.length; ++i) {
-                var comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
-                comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
+                const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
+                var text = this.isPDFEditor && this.getAnnotText(data[i].asc_getAnnotType());
+
+                comment && text && comment.set('annotation', text) && comment.set('isAnnotation', true);
+                const guid = comment.get('guid');
+                const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
+                if(duplicateComment) {
+                    duplicateComment.set('uid', comment.get('uid'));
+                    text && duplicateComment.set('annotation', text) && duplicateComment.set('isAnnotation', true);
+                } else {
+                    comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
+                }
             }
             this.updateComments(true, this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc');
             requestObj.arrIds && requestObj.arrIds.length && Common.UI.ExternalUsers.get('info', requestObj.arrIds);
@@ -767,6 +858,8 @@ define([
                     needSort = (this.getComparator() == 'author-asc' || this.getComparator() == 'author-desc') && (data.asc_getUserName() !== comment.get('username')) ||
                                 hideComment !== comment.get('hide');
                 comment.set('comment',  data.asc_getText());
+                var annotText = this.isPDFEditor && this.getAnnotText(data.asc_getAnnotType());
+                annotText && comment.set('annotation', annotText) && comment.set('isAnnotation', true);
                 comment.set('userid',   userid);
                 comment.set('username', data.asc_getUserName());
                 comment.set('initials', Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())));
@@ -1144,6 +1237,9 @@ define([
         findComment: function (uid) {
             return this.collection.findWhere({uid: uid});
         },
+        findCommentByGuid: function (guid) {
+            return this.collection.findWhere({guid: guid});
+        },
         findPopupComment: function (id) {
             return this.popoverComments.findWhere({id: id});
         },
@@ -1151,6 +1247,13 @@ define([
             for (var name in this.groupCollection) {
                 var store = this.groupCollection[name],
                     model = store.findWhere({uid: id});
+                if (model) return model;
+            }
+        },
+        findCommentInGroupByGuid: function (guid) {
+            for (var name in this.groupCollection) {
+                var store = this.groupCollection[name],
+                    model = store.findWhere({guid: guid});
                 if (model) return model;
             }
         },
@@ -1317,6 +1420,8 @@ define([
                 guid                : data.asc_getGuid(),
                 userid              : userid,
                 username            : data.asc_getUserName(),
+                isAnnotation        : false,
+                annotation          : null,
                 initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())),
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
@@ -1559,7 +1664,7 @@ define([
                     for (i = 0; i < comments.length; ++i) {
                         comment = this.findComment(comments[i].asc_getId());
                         if (comment) {
-                            comment.set('editTextInPopover', t.mode.canEditComments && AscCommon.UserInfoParser.canEditComment(comment.username));// dont't edit comment when customization->commentAuthorOnly is true or when permissions.editCommentAuthorOnly is true
+                            comment.set('editTextInPopover', t.mode.canEditComments && AscCommon.UserInfoParser.canEditComment(comment.username));// dont't edit comment when permissions.editCommentAuthorOnly is true
                             comment.set('hint', false);
                             this.popoverComments.push(comment);
                         }

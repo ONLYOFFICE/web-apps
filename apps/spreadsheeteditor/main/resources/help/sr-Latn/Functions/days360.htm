@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DAYS360 funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DAYS360 funkcija</h1>
+			<p>Funkcija <b>DAYS360</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#datetime" onclick="onhyperlinkclick(this)">funkcija za datum i vreme</a>. Koristi se za vraćanje broja dana između dva datuma (<em>start_date</em> i <em>end_date</em>) zasnovano na 360-dnevnoj godini koristeći jedan od metoda izračunavanja (američki ili evropski).</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>DAYS360(start_date, end_date, [method])</em></b></p> 
+			<p>Funkcija <b>DAYS360</b> ima sledeće argumente:</p> 			
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>start_date</em></b></td>
+                    <td><b><em>start_date</em></b> i <b><em>end_date</em></b> su dva datuma između kojih želite da izračunate broj dana.</td>
+                </tr>
+				<tr>
+                    <td><b><em>end_date</em></b></td>
+                    <td><b><em>start_date</em></b> i <b><em>end_date</em></b> su dva datuma između kojih želite da izračunate broj dana.</td>
+                </tr>
+				<tr>
+                    <td><b><em>method</em></b></td>
+                    <td>Opcioni logički parametar: <b>TRUE</b> ili <b>FALSE</b>. Ako je postavljen na <b>TRUE</b>, izračunavanje se vrši po evropskom metodu, gde datumi početka i kraja koji padaju na 31. dan meseca postaju jednaki 30. danu istog meseca.<br />
+						Ako je <b>FALSE</b> ili nije naveden, izračunavanje se vrši po američkom metodu: ako je početni datum poslednji dan meseca, postaje jednak 30. danu istog meseca. Ako je krajnji datum poslednji dan meseca, a početni datum je raniji od 30. dana, krajnji datum postaje 1. sledećeg meseca. U suprotnom, krajnji datum postaje 30. dan istog meseca.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>DAYS360</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>DAYS360</b>.</p>
+			<p><img alt="DAYS360 Function" src="../images/days360.png" /></p>
+		</div>
+	</body>
+</html>

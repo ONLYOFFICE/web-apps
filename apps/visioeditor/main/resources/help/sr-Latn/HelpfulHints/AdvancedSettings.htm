@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Napredna podešavanja Prikazivača dijagrama</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="The advanced settings of the Diagram Viewer" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Napredna podešavanja Prikazivača dijagrama</h1>
+        <p> <!--<a href="https://www.onlyoffice.com/en/pdf-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)">--><b>Diagram Viewer</b><!--</a>--> omogućava vam da promenite njegova napredna podešavanja. Da biste im pristupili, otvorite karticu <b>File</b> na gornjoj traci sa alatima i izaberite <b>Advanced Settings</b> opciju.</p>
+        <p>Napredna podešavanja su grupisana na sledeći način:</p>
+
+        <h3>Izgled</h3>
+        <ol>
+            <li>
+                 <b>Interface theme</b> opcija koristi se za promenu šeme boja interfejsa uređivača.
+                    <ul>
+                        <li> <b>Same as system</b> opcija omogućava da uređivač prati temu interfejsa vašeg sistema.</li>
+                        <li> <b>Light</b> šema boja obuhvata standardne boje crvene cigle, bele i svetlosive sa manjim kontrastom u UI elementima, pogodnim za rad tokom dana.</li>
+                        <li> <b>Classic Light</b> šema boja obuhvata standardne boje crvene cigle, bele i svetlosive.</li>
+                        <li> <b>Dark</b> šema boja obuhvata crnu, tamnosivu i svetlosivu boju, pogodnu za rad noću.</li>
+                        <li> <b>Contrast Dark</b> šema boja obuhvata crnu, tamnosivu i belu boju sa većim kontrastom u UI elementima i naglašava radnu površinu fajla.</li>
+                        <li> <b>Gray</b> šema boja obuhvata svetliju sivu boju i deluje kao ujednačeno svetla šema boja.</li>
+                    </ul>
+            </li>
+            <li> <b>Tab style</b> opcija koristi se za promenu načina isticanja kartica: <em>Fill</em> za popunjavanje izabrane kartice tamnijom bojom, ili <em>Line</em> za podvlačenje izabrane kartice.</li>
+            <li> <b>Koristi boju alatne trake kao pozadinu kartica</b> koristi se za popunjavanje kartica istom bojom kao pozadina interfejsa kartica.</li>
+        </ol>
+
+        <h3>Workspace</h3>
+        <ol>
+            <li> <b>Uključite podršku za čitač ekrana</b> opcija koristi se za omogućavanje podrške softverima za čitanje ekrana.</li>
+            <li> <b>Koristite taster Alt za navigaciju kroz korisnički interfejs pomoću tastature</b> opcija koristi se da omogući korišćenje tastera <em>Alt</em> / <em>Option</em> u prečicama na tastaturi.</li>
+            <li>
+                 <b>Podrazumevan Zoom Value</b> opcija koristi se za podešavanje podrazumevanog nivoa zumiranja, birajući ga iz liste dostupnih opcija od 50% do 500%. Takođe možete izabrati opcije <em>Fit to Page</em>, <em>Fit to Width</em>, ili <em>Last Used</em>.
+                <p class="note"> <em>Poslednje korišćeno</em> opcija odnosi se na poslednje postavljeno skaliranje tokom trenutne sesije.</p>
+            </li>
+            <li>
+                 <b>Font Hinting</b> opcija koristi se za izbor načina prikaza fontova u Prikazivaču dijagrama.
+                <ul>
+                    <li>Izaberite <b>As Windows</b> ako vam se dopada način na koji se fontovi obično prikazuju u Windows-u, tj. korišćenjem Windows font hintinga.</li>
+                    <li>Izaberite <b>As OS X</b> ako vam se dopada način na koji se fontovi obično prikazuju na Mac-u, tj. bez font hintinga.</li>
+                    <li>Izaberite <b>Native</b> ako želite da se tekst prikazuje sa hintingom koji je ugrađen u font fajlove.</li>
+                    <li>
+                        <b>Podrazumevani cache mode</b> - koristi se za izbor režima keširanja karaktera fonta. Ne preporučuje se menjanje bez potrebe. Može biti korisno samo u nekim slučajevima, na primer, kada dođe do problema u Google Chrome pregledaču sa uključenim hardverskim ubrzanjem.
+                        <p>Prikazivač dijagrama ima dva cache moda:</p>
+                        <ol>
+                            <li>U <b>prvom cache modu</b>, svako slovo se kešira kao posebna slika.</li>
+                            <li>U <b>Drugom cache modu</b>, bira se slika određene veličine u koju se slova dinamički smeštaju, a implementiran je i mehanizam za dodelu/uklanjanje memorije u ovoj slici. Ako nema dovoljno memorije, kreira se druga slika itd.</li>
+                        </ol>
+                        <p> <b>Podrazumevani cache mode</b> podešavanje primenjuje ova dva režima keširanja različito u zavisnosti od pregledača:</p>
+                        <ul>
+                            <li>Kada je <b>Podrazumevani cache mode</b> uključen, Internet Explorer (v. 9, 10, 11) koristi  <b>drugi cache mode</b>, a ostali pregledači <b>prvi cache mode</b>.</li>
+                            <li>Kada je <b>Podrazumevani cache mode</b> isključen, Internet Explorer (v. 9, 10, 11) koristi <b>prvi cache mode</b>, a ostali pregledači <b>drugi cache mode</b>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <p>Da biste sačuvali izvršene promene, kliknite <b>Apply</b> dugme.</p>
+    </div>
+</body>
+</html>

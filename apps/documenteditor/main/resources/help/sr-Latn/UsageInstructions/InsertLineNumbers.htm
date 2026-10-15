@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ubaci brojeve linija</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Ubaci brojeve linija u Document Editor" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Ubaci brojeve linija</h1>
+        <p>ONLYOFFICE <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> može automatski brojati linije u dokumentu. Ova funkcija može biti korisna kada želite da se pozovete na određenu liniju dokumenta, npr. u pravnom ugovoru ili kodu. Koristite alat <span class = "icon icon-linenumbers_icon"></span> <b>Brojevi linija</b> da primenite numerisanje linija. Imajte na umu da numeracija linija nije primenjena na tekst unutar objekata kao što su tabele, tekstualni okviri, grafikoni, zaglavlja/podnožja itd. Ovi objekti se tretiraju kao jedna linija.</p>
+        <h2>Primena numerisanja linija</h2>
+        <ol>
+            <li>Otvorite <b>Izgled</b> tab na gornjoj alatnoj traci i kliknite na <div class = "icon icon-linenumbers_icon"></div> <b>Brojevi linija</b> ikonu.</li>
+            <li>
+                Izaberite željene parametre u otvorenom padajućem meniju za brzu primenu:
+                <ul>
+                    <li><b>Kontinuirano</b> - svaka linija dokumenta će dobiti redni broj.</li>
+                    <li><b>Ponovo na svakoj strani</b> - numeracija linija će se ponovo započeti na svakoj stranici dokumenta.</li>
+                    <li><b>Ponovo u svakoj sekciji</b> - numeracija linija će se ponovo započeti u svakoj sekciji dokumenta. Pogledajte <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">ovaj vodič</a> za više informacija o sekcijama.</li>
+                    <li><b>Preskoči trenutni pasus</b> - trenutni pasus neće biti numerisan. Da biste isključili više pasusa, selektujte ih levi klikom pre primene ove opcije.</li>
+                </ul>
+            </li>
+            <li>
+                Po potrebi podesite napredne parametre. Kliknite na stavku <b>Opcije numerisanja linija</b> u padajućem meniju <b>Brojevi linija</b>. Obeležite <b>Dodaj numeraciju linija</b> da primenite numeraciju i pristupite naprednim parametrima:
+                <p><img alt="Prozor za numeraciju linija" src="../images/linenumbers_window.png" /></p>
+                <ul>
+                    <li><b>Počni od</b> - postavlja početni broj numeracije. Podrazumevana vrednost je <b>1</b>.</li>
+                    <li><b>Od teksta</b> - određuje razmak između brojeva i teksta. Unesite željenu vrednost u cm. Podrazumevano je <b>Automatski</b>.</li>
+                    <li><b>Broji po</b> - definiše redne brojeve ako se ne broji po 1, npr. po 2, 3, 4 itd. Unesite željenu vrednost. Podrazumevano je <b>1</b>.</li>
+                    <li><b>Ponovo na svakoj strani</b> - numeracija počinje iznova na svakoj stranici.</li>
+                    <li><b>Ponovo u svakoj sekciji</b> - numeracija počinje iznova u svakoj sekciji.</li>
+                    <li><b>Kontinuirano</b> - svaka linija dobija redni broj.</li>
+                    <li><b>Primeni promene na</b> - određuje deo dokumenta na koji će se primeniti numeracija. Izaberite: <b>Trenutna sekcija</b>, <b>Od ove tačke nadalje</b>, <b>Ceo dokument</b>. Podrazumevano je <b>Ceo dokument</b>.</li>
+                    <li>Kliknite <b>OK</b> za primenu promena.</li>
+                </ul>
+            </li>
+        </ol>
+        <h2>Uklanjanje numeracije linija</h2>
+        <p>Da uklonite numeraciju linija,</p>
+        <ol>
+            <li>otvorite <b>Izgled</b> tab na gornjoj alatnoj traci i kliknite na <div class = "icon icon-linenumbers_icon"></div> <b>Brojevi linija</b> ikonu,</li>
+            <li>izaberite <b>Nijedno</b> u otvorenom meniju ili kliknite na <b>Opcije numerisanja linija</b> i uklonite ček sa <b>Dodaj numeraciju linija</b> u prozoru <b>Brojevi linija</b>.</li>
+        </ol>
+    </div>
+</body>
+</html>

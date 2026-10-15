@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {Component} from 'react';
 import { f7, Popup, Popover, View } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -41,18 +76,32 @@ class AddLinkController extends Component {
                 if ( !api.asc_isWorksheetHidden(wsc) ) {
                     items.unshift({
                         value: wsc,
-                        caption: api.asc_getWorksheetName(wsc)
+                        caption: api.asc_getWorksheetName(wsc),
+                        type: 'sheet'
                     });
                     if (wsc === aws) {
                         this.activeSheet = {
                             value: wsc,
-                            caption: api.asc_getWorksheetName(wsc)
+                            caption: api.asc_getWorksheetName(wsc),
+                            type: 'sheet'
                         }
                     }
                 }
             }
-            this.sheets = items;
         }
+        const definedNames = api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true) || [];
+        definedNames.forEach((definedName) => {
+            if (!definedName.asc_getIsHidden()) {
+                const scope = definedName.asc_getScope();
+                const name = (definedName.asc_getIsXlnm() && scope !== null ? api.asc_getWorksheetName(scope) + '!' : '') + definedName.asc_getName();
+                items.push({
+                    value: name,
+                    caption: name,
+                    type: 'name'
+                });
+            }
+        });
+        this.sheets = items;
     }
 
     onInsertLink (args) {
@@ -91,7 +140,7 @@ class AddLinkController extends Component {
             link.asc_setHyperlinkUrl(url);
             display = url;
         } else {
-            const isValid = api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, args.url, false);
+            const isValid = args.isDefinedName ? Asc.c_oAscError.ID.No : api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, args.url, false);
 
             if (isValid !== Asc.c_oAscError.ID.No) {
                 f7.dialog.alert(_t.textInvalidRange, _t.notcriticalErrorTitle);
@@ -99,10 +148,15 @@ class AddLinkController extends Component {
             }
 
             link.asc_setType(Asc.c_oAscHyperlinkType.RangeLink);
-            link.asc_setSheet(args.sheet);
-            link.asc_setRange(args.url);
+            if (args.isDefinedName) {
+                link.asc_setSheet(null);
+                link.asc_setLocation(args.url);
+            } else {
+                link.asc_setSheet(args.sheet);
+                link.asc_setRange(args.url);
+            }
 
-            display = args.sheet + '!' + args.url;
+            display = args.isDefinedName ? args.url : args.sheet + '!' + args.url;
         }
 
         if(this.displayText !== 'locked') {

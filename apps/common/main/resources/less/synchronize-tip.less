@@ -6,14 +6,22 @@
         .font-size-medium();
         .font-weight-bold();
         margin-bottom: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        & + br {
+            display: none;
+        }
 
         span {
+            flex-shrink: 0;
             .font-size-large();
             background: #4A87E7;
             color: #fff;
             padding: calc(@scaled-one-px-value-ie * 2) 6px calc(@scaled-one-px-value-ie * 4);
             padding: calc(@scaled-one-px-value * 2) 6px calc(@scaled-one-px-value * 4);
-            margin-right: 6px;
+            .margin-left(6px);
             border-radius: 4px;
         }
     }

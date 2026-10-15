@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -57,6 +60,32 @@ define([
 
             this.actionsMap = {};
             this.eventsMap = {};
+            /**
+             * Priority list of key shortcuts per action.
+             * Key — action id (e.g. "Copy"), value — array of shortcuts for that
+             * action listed in priority order: the lower the index in the array,
+             * the higher the shortcut's priority when sorting.
+             */
+            this.shortcutPriorityList = {
+                Copy: [
+                    // Ctrl + C
+                    {
+                        altKey: false,
+                        commandKey: false,
+                        ctrlKey: true,
+                        keyCode: 67,
+                        shiftKey: false
+                    },
+                    // ⌘ + C
+                    {
+                        altKey: false,
+                        commandKey: true,
+                        ctrlKey: false,
+                        keyCode: 67,
+                        shiftKey: false
+                    }
+                ]
+            };
         },
 
         setApi: function(api) {
@@ -159,7 +188,7 @@ define([
                         ascShortcut: ascShortcut,
                     }
                 });
-                actionItem.shortcuts = actionItem.shortcuts.sort(this._sortComparator);
+                actionItem.shortcuts = actionItem.shortcuts.sort(this._sortComparator.bind(this));
             }
 
             this._eventsTrigger();
@@ -197,7 +226,7 @@ define([
             });
 
             const action = this.getActionsMap()[actionType];
-            resultShortcuts = resultShortcuts.sort(this._sortComparator);
+            resultShortcuts = resultShortcuts.sort(this._sortComparator.bind(this));
             action && (action.shortcuts = resultShortcuts);
 
             // Remove shortcuts from other actions if they conflict with updated shortcuts
@@ -474,7 +503,7 @@ define([
                     }
                 }
                 if(this.actionsMap[actionType]) {
-                    this.actionsMap[actionType].shortcuts = shortcuts.sort(this._sortComparator);
+                    this.actionsMap[actionType].shortcuts = shortcuts.sort(this._sortComparator.bind(this));
                 }
             }
         },
@@ -490,7 +519,8 @@ define([
                     });
                 }
 
-                this.api.asc_resetAllShortcutTypes();
+                if (this.api.asc_resetAllShortcutTypes)
+                    this.api.asc_resetAllShortcutTypes();
                 
                 const modifiedShortcuts = _.flatten(_.values(storage));
                 if(modifiedShortcuts.length) {
@@ -576,6 +606,7 @@ define([
         },
 
         _sortComparator: function(first, second) {
+            const me = this;
             const priorityModifierKeys = ['asc_IsCommand', 'asc_IsCtrl', 'asc_IsAlt', 'asc_IsShift'];
             function getWeight(ascShortcut) {
                 // Search for the first modifier key
@@ -597,6 +628,34 @@ define([
 
                 // weight = range for main key + “cost” of extra keys
                 return keyIndex * 100 + extras;
+            }
+
+            function getPriorityIndex (ascShortcut) {
+                const list = me.shortcutPriorityList && 
+                    me.shortcutPriorityList[me._getDefaultShortcutActionsInvert()[ascShortcut.type]];
+                if (!list || !list.length) return -1;
+
+                return _.findIndex(list, function(p) {
+                    return (
+                        p.altKey === ascShortcut.asc_IsAlt() &&
+                        p.commandKey === ascShortcut.asc_IsCommand() &&
+                        p.ctrlKey === ascShortcut.asc_IsCtrl() &&
+                        p.shiftKey === ascShortcut.asc_IsShift() &&
+                        p.keyCode === ascShortcut.asc_GetKeyCode()
+                    );
+                });
+            };
+
+            // Explicit priority from shortcutPriorityList — sort by position in the list.
+            const firstPriorityIndex = getPriorityIndex(first.ascShortcut);
+            const firstHasPriority = firstPriorityIndex !== -1;
+            const secondPriorityIndex = getPriorityIndex(second.ascShortcut);
+            const secondHasPriority = secondPriorityIndex !== -1;
+
+            if (firstHasPriority && !secondHasPriority) return -1;
+            if (!firstHasPriority && secondHasPriority) return 1;
+            if (firstHasPriority && secondHasPriority) {
+                return firstPriorityIndex - secondPriorityIndex;
             }
 
             if (first.ascShortcut.asc_IsLocked() && !second.ascShortcut.asc_IsLocked()) return -1;

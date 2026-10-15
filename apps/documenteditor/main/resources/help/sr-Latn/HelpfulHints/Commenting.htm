@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Komentarisanje dokumenata</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Saveti za saradničko komentarisanje" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Komentarisanje dokumenata</h1>
+        <p><a href="https://www.onlyoffice.com/sr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač dokumenata</b></a> omogućava timski rad: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">delite</a> fajlove i foldere, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">saradjujte</a> u realnom vremenu, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">komunicirajte</a> direktno u editoru, čuvajte <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">verzije dokumenata</a>, <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">pregledajte</a> i dodajte izmene bez uređivanja fajla, <a href="../HelpfulHints/Comparison.htm" onclick="onhyperlinkclick(this)">uporedite i spojite</a> dokumente za lakšu obradu.</p>
+        <p>U <b>Uređivaču dokumenata</b> možete ostaviti komentare na sadržaj bez direktnog menjanja. Za razliku od <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">ćaskanja</a>, komentari ostaju dok ih ne obrišete.</p>
+        <h3>Ostavljanje komentara i odgovaranje</h3>
+        <p>Da ostavite komentar,</p>
+        <ol>
+            <li>označite deo teksta za koji želite komentar,</li>
+            <li>
+                pređite na karticu <b>Umetanje</b> ili <b>Saradnja</b> i kliknite na dugme <div class="icon icon-comment_toptoolbar"></div> <b>Komentar</b>, ili<br>
+                koristite ikonu <div class="icon icon-commentsicon"></div> na levom panelu da otvorite panel <b>Komentari</b>, zatim kliknite na dugme <b>Dodaj komentar</b>, ili kliknite na simbol <b>Više</b> i izaberite <b>Dodaj komentar dokumentu</b> da biste ostavili komentar na ceo dokument, ili<br>
+                kliknite desnim tasterom na izabrani tekst i izaberite <b>Dodaj komentar</b> iz kontekstnog menija,
+            </li>
+            <li>unesite tekst komentara,</li>
+            <li>kliknite na dugme <b>Dodaj komentar</b>.</li>
+        </ol>
+        <p>Komentar će se pojaviti u panelu <b>Komentari</b> sa leve strane. Svaki korisnik može odgovoriti na komentar, postavljati pitanja ili izveštavati o urađenom. Da odgovorite, kliknite na link <b>Dodaj odgovor</b> ispod komentara, unesite odgovor i pritisnite dugme <b>Odgovori</b>.</p>
+        <p>Ako koristite <b>Strogi</b> režim saradnje, novi komentari drugih korisnika postaju vidljivi tek nakon što kliknete na ikonu <span class="icon icon-saveupdate"></span> u gornjem levom uglu alatne trake.</p>
+        <h3>Isključivanje prikaza komentara</h3>
+        <p>Označeni tekst će biti istaknut u dokumentu. Da biste videli komentar, kliknite unutar označenog teksta. Da isključite ovaj prikaz,</p>
+        <ol>
+            <li>kliknite na karticu <b>Fajl</b> na gornjoj traci,</li>
+            <li>izaberite <b>Napredne postavke</b>,</li>
+            <li>isključite opciju <b>Prikaz komentara</b>.</li>
+        </ol>
+        <p>Sada će komentarisani delovi biti istaknuti samo ako kliknete na ikonu <span class="icon icon-commentsicon"></span>.</p>
+        <h3>Upravljanje komentarima</h3>
+        <p>Komentarima možete upravljati putem ikona u balonu komentara ili u panelu <b>Komentari</b> sa leve strane:</p>
+        <ul>
+            <li>
+                sortirajte komentare klikom na ikonu <div class="icon icon-sortcommentsicon"></div>:
+                <ul>
+                    <li>po datumu: <b>Najnoviji</b> ili <b>Najstariji</b> (po defaultu)</li>
+                    <li>po autoru: <b>Autor A-Z</b> ili <b>Autor Z-A</b></li>
+                    <li>po lokaciji: <b>Od vrha</b> ili <b>Od dna</b>. Uobičajeni redosled je: <em>komentari na tekst</em>, <em>fusnote</em>, <em>endnote</em>, <em>zaglavlja/podnožja</em>, <em>na ceo dokument</em>.</li>
+                    <li>po grupama: <b>Svi</b> ili konkretna grupa (ako je funkcionalnost dostupna).
+                    <p><img alt="Sortiranje komentara" src="../images/sortcomments.png" /></p>
+                    </li>
+                </ul>
+            <li>izmenite selektovani komentar klikom na ikonu <div class="icon icon-editcommenticon"></div>,</li>
+            <li>obrišite selektovani komentar klikom na ikonu <div class="icon icon-deletecommenticon"></div>,</li>
+            <li>zatvorite selektovanu diskusiju klikom na ikonu <div class="icon icon-resolveicon"></div> ako je problem rešen. Diskusija dobija status rešeno. Ponovo je otvorite klikom na <div class="icon icon-resolvedicon"></div>.Da sakrijete rešene komentare, u kartici <b>Fajl</b> otvorite <b>Napredne postavke</b>, isključite <b>Prikaz rešених komentara</b> i kliknite <b>Primeni</b>. U tom slučaju, rešeni komentari će se prikazivati samo klikom na <div class="icon icon-commentsicon"></div>.</li>
+            <li>da upravljate komentarima grupno, na kartici <b>Saradnja</b> otvorite padajući meni <b>Reši</b> i izaberite opciju: <b>reši trenutne komentare</b>, <b>reši moje komentare</b> ili <b>reši sve komentare</b> u dokumentu.</li>
+        </ul>
+        <h3>Dodavanje pominjanja</h3>
+        <p class="note">Pominjanja se mogu dodavati samo komentarima vezanim za tekstualne delove, ne i celom dokumentu.</p>
+        <p>Prilikom pisanja komentara, opcija <b>pominjanja</b> omogućava da upozorite osobu i da joj se pošalje obaveštenje putem emaila i <b>Talk</b>.</p>
+        <p>Da biste dodali pomen,</p>
+        <ol>
+            <li>unesite znak "+" ili "@" bilo gde u tekstu komentara - otvoriće se lista korisnika na portalu. Možete i kucati ime korisnika da biste ubrzali pretragu.</li>
+            <li>izaberite korisnika sa liste. Ako fajl nije podeljen sa pomenutim korisnikom, pojaviće se prozor <b>Postavke deljenja</b> sa osnovnim pravom <b>Samo za čitanje</b>. <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">Promenite ako je potrebno</a>.</li>
+            <li>kliknite <b>OK</b>.</li>
+        </ol>
+        <p>Komentator će dobiti email obaveštenje o pominjanju, a ukoliko je fajl podeljen, biće obavešten i u okviru sistema.</p>
+        <h3>Brisanje komentara</h3>
+        <p>Da biste obrisali komentare,</p>
+        <ol>
+            <li>kliknite dugme <div class="icon icon-removecomment_toptoolbar"></div> <b>Ukloni</b> na kartici <b>Saradnja</b> na gornjoj alatnoj traci,</li>
+            <li>izaberite opciju iz menija:
+                <ul>
+                    <li><b>Ukloni trenutni komentar</b> - uklanja izabrani komentar zajedno sa odgovorima (ako postoje),</li>
+                    <li><b>Ukloni moje komentare</b> - uklanja komentare koje ste vi dodali zajedno sa odgovorima, ne brišući tuđe komentare,</li>
+                    <li><b>Ukloni sve komentare</b> - uklanja sve komentare u dokumentu.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Za zatvaranje panela sa komentarima kliknite ponovo na ikonu <span class="icon icon-commentsicon"></span> na levom panelu.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-honeycomb">
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M21.5 4.996v14a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1v-14a1 1 0 0 1 1-1h17a1 1 0 0 1 1 1Z" class="icon-stroke-gray-primary"/>
+    <path fill="#BE6650" fill-rule="evenodd" d="M19.75 5.496a.25.25 0 0 1 .25.25v12.5a.25.25 0 0 1-.25.25h-9.037l1.857-2.785-1.857-2.786H7.928L6.07 15.71l1.858 2.785H4.25a.25.25 0 0 1-.25-.25v-12.5a.25.25 0 0 1 .25-.25h15.5Zm-5.322 4.646-1.858 2.786 1.858 2.786h2.785l1.857-2.787-1.857-2.785h-2.785Zm-7.429-.928L8.856 12h2.786l1.857-2.786-1.857-2.786H8.856L7 9.214Zm6.499-2.786 1.857 2.786h2.786l1.857-2.786-.62-.928h-5.26l-.62.928Z" class="icon-fill-red-brend-transition-primary" clip-rule="evenodd"/>
+    <path fill="#FBE4DE" d="M12.57 15.714 10.713 18.5H7.928L6.07 15.714l1.858-2.786h2.785l1.857 2.786Zm6.5-2.786-1.857 2.786h-2.785l-1.858-2.787 1.858-2.785h2.785l1.857 2.786Zm-5.571-3.714L11.642 12H8.856L7 9.214l1.857-2.786h2.786L13.5 9.214Zm6.5-2.786-1.857 2.786h-2.786L13.5 6.428l.62-.928h5.26l.62.928Z" class="icon-fill-red-brend-transition-secondary"/>
+  </g>
+</svg>

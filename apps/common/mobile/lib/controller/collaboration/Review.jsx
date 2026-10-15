@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { Component } from 'react'
 import Notifications from '../../../utils/notifications.js'
 import {observer, inject} from "mobx-react"
@@ -12,6 +47,7 @@ class InitReview extends Component {
 
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onShowRevisionsChange', this.onChangeReview.bind(this));
+            api.asc_registerCallback('asc_onChangeDisplayModeInReview', this.onChangeDisplayMode.bind(this));
         });
 
         Common.Notifications.on('document:ready', () => {
@@ -20,7 +56,6 @@ class InitReview extends Component {
             const isProtected = appOptions.isProtected;
 
             let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
-            (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
             trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
                 && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
 
@@ -37,21 +72,36 @@ class InitReview extends Component {
                 let viewReviewMode = (appOptions.isEdit || appOptions.isRestrictedEdit) ? null : LocalStorage.getItem("de-view-review-mode");
                 if (viewReviewMode === null) {
                     viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
-                    !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
-                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
+                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : undefined;
                 }
-                let displayMode = viewReviewMode.toLocaleLowerCase();
-                let type = Asc.c_oAscDisplayModeInReview.Edit;
-                switch (displayMode) {
-                    case 'final':
-                        type = Asc.c_oAscDisplayModeInReview.Final;
-                        break;
-                    case 'original':
-                        type = Asc.c_oAscDisplayModeInReview.Original;
-                        break;
+
+                if(viewReviewMode) {
+                    switch (viewReviewMode) {
+                        case 'markup':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Edit;
+                            break;
+                        case 'final':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Final;
+                            break;
+                        case 'original':
+                            viewReviewMode = Asc.c_oAscDisplayModeInReview.Original;
+                            break;
+                    }   
                 }
-                api.asc_SetDisplayModeInReview(type);
-                props.storeReview.changeDisplayMode(displayMode);
+                if (typeof viewReviewMode === "string") {
+                    const trimmed = viewReviewMode.trim();
+                    if (trimmed !== "") {
+                        const num = Number(trimmed);
+                        if (!Number.isNaN(num)) {
+                            viewReviewMode = num;
+                        }
+                    }
+                }
+
+                if(viewReviewMode != null) {
+                    api.asc_SetDisplayModeInReview(viewReviewMode);
+                }
+                props.storeReview.changeDisplayMode(viewReviewMode || Asc.c_oAscDisplayModeInReview.Edit);
             }
         });
     }
@@ -59,6 +109,10 @@ class InitReview extends Component {
     onChangeReview (data, isShow) {
         const storeReview = this.props.storeReview;
         storeReview.changeArrReview(data);
+    }
+
+    onChangeDisplayMode(mode) {
+        this.props.storeReview.changeDisplayMode(mode);
     }
 
     render() {
@@ -76,7 +130,6 @@ class Review extends Component {
         this.editorPrefix = window.editorType || '';
 
         let trackChanges = this.appConfig.customization && this.appConfig.customization.review ? this.appConfig.customization.review.trackChanges : undefined;
-        (trackChanges===undefined) && (trackChanges = this.appConfig.customization ? this.appConfig.customization.trackChanges : undefined);
         trackChanges = this.appConfig.isReviewOnly || trackChanges === true || trackChanges !== false
             && LocalStorage.getBool(`${this.editorPrefix}-mobile-track-changes-${this.appConfig.fileKey || ''}`);
 
@@ -108,16 +161,7 @@ class Review extends Component {
 
     onDisplayMode (mode) {
         const api = Common.EditorApi.get();
-        let type = Asc.c_oAscDisplayModeInReview.Edit;
-        switch (mode) {
-            case 'final':
-                type = Asc.c_oAscDisplayModeInReview.Final;
-                break;
-            case 'original':
-                type = Asc.c_oAscDisplayModeInReview.Original;
-                break;
-        }
-        api.asc_SetDisplayModeInReview(type);
+        api.asc_SetDisplayModeInReview(mode);
         !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit && LocalStorage.setItem("de-view-review-mode", mode);
         this.props.storeReview.changeDisplayMode(mode);
     }

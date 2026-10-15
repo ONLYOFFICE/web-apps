@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  FormSettings.js
@@ -68,7 +71,8 @@ define([
 
             this._state = {
                 DisabledControls: undefined,
-                LockDelete: undefined
+                LockDelete: undefined,
+                SpellCheck: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -111,6 +115,7 @@ define([
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
             this.TagSettings = el.find('#form-txt-tag').closest('tr');
+            this.SpellCheckSettings = el.find('#form-chb-spellcheck').closest('tr');
 
             !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide().next('tr').hide();
         },
@@ -293,6 +298,16 @@ define([
             });
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
             this.spnMaxChars.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.chSpellcheck = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-spellcheck'),
+                labelText: this.textSpellcheck,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chSpellcheck.on('change', this.onChSpellcheck.bind(this));
+            this.lockedControls.push(this.chSpellcheck);
 
             this.chComb = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-comb'),
@@ -1034,6 +1049,18 @@ define([
             }
         },
 
+        onChSpellcheck: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_SpellCheck(checked);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onChAutofit: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
             if (this.api && !this._noApply) {
@@ -1429,6 +1456,12 @@ define([
                         this._state.Key = undefined;
                     }
 
+                    val = formPr.get_SpellCheck();
+                    if (this._state.SpellCheck!=val) {
+                        this.chSpellcheck.setValue(val !== false, true);
+                        this._state.SpellCheck=val;
+                    }
+
                     val = formPr.get_Role();
                     if (this._state.Role!==val) {
                         this.cmbRoles.setValue(val ? val : '');
@@ -1609,7 +1642,8 @@ define([
                     var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect || this._state.DisabledControls;
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
-                    this.chRequired.setDisabled(isSignature || this._state.DisabledControls);
+                    this.chRequired.setDisabled(this._state.DisabledControls);
+                    this.chSpellcheck.setDisabled(this._state.DisabledControls);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1746,6 +1780,11 @@ define([
                 this.isSignature = isSignature;
 
                 this._state.internalId = this.internalId;
+                this.chSpellcheck && this.cmbFormat && this.chSpellcheck.$el.closest('tr').toggle(
+                    !formTextPr ||
+                    this._state.FormatType === Asc.TextFormFormatType.None ||
+                    this._state.FormatType === Asc.TextFormFormatType.Letter
+                );
             }
         },
 
@@ -1776,6 +1815,7 @@ define([
                             checkable: true
                         }), {caption: '--'}],
                     menu        : true,
+                    ariaLabel   : this.textColor,
                     colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
                             'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
                     themecolors: 0,
@@ -1796,6 +1836,7 @@ define([
                     parentEl: $('#form-background-color-btn'),
                     transparent: true,
                     menu: true,
+                    ariaLabel: this.textBackgroundColor,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1838,7 +1879,8 @@ define([
             this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
-            this.chRequired.setDisabled(this.isSignature || this._state.DisabledControls);
+            this.chRequired.setDisabled(this._state.DisabledControls);
+            this.chSpellcheck.setDisabled(this._state.DisabledControls);
         },
 
         showHideControls: function(type, textProps, specProps, isSimpleInsideComplex, isSignature) {
@@ -1847,7 +1889,10 @@ define([
                 radioboxOnly = false,
                 listOnly = false,
                 imageOnly = false,
-                dateOnly = false;
+                dateOnly = false,
+                comboboxOnly = false;
+            if (type == Asc.c_oAscContentControlSpecificType.ComboBox) {
+            comboboxOnly = true;}
             if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 listOnly = !!specProps;
             } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -1877,6 +1922,7 @@ define([
             this.DefValueText.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
             this.DefValueDropDown.toggleClass('hidden', type !== Asc.c_oAscContentControlSpecificType.DropDownList);
             this.TagSettings.toggleClass('hidden', isSignature || isSimpleInsideComplex);
+            this.SpellCheckSettings.toggleClass('hidden', !(comboboxOnly || textOnly));
         },
 
         onSelectItem: function(listView, itemView, record) {
@@ -2000,7 +2046,7 @@ define([
 
                     const formManager = this.api.asc_GetOForm();
 
-                    new DE.Views.RoleEditDlg({
+                    new Common.Views.RoleEditDlg({
                         oformManager: formManager,
                         colors: [],
                         isEdit: false,

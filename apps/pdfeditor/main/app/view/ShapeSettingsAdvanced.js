@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ShapeSettingsAdvanced.js
@@ -59,7 +62,6 @@ define([
                 items: [
                     {panelId: 'id-adv-shape-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textPlacement},
-                    {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
@@ -315,27 +317,6 @@ define([
             });
             this.radioFit.on('change', _.bind(this.onRadioFitChange, this));
 
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#shape-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#shape-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
-
             // Shape
             this._arrCapType = [
                 {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
@@ -418,10 +399,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                        '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
+                        '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -439,10 +420,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -466,10 +447,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrStyles),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -487,10 +468,10 @@ define([
                 store: new Common.UI.DataViewStore(_arrSize),
                 formTemplate: _.template([
                     '<div class="form-control" style="width: 100px;">',
-                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
+                    '<i class="img-arrows" aria-hidden="true"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" aria-hidden="true">' +
                     '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: this.updateFormControl
@@ -557,11 +538,10 @@ define([
             return this.btnsCategory.concat([
                 this.inputShapeName,// 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
-                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 3 tab
-                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
-                this.spnColumns, this.spnSpacing, // 5 tab
-                this.inputAltTitle, this.textareaAltDescription  // 6 tab
+                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 2 tab
+                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
+                this.spnColumns, this.spnSpacing, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -578,18 +558,15 @@ define([
                         me.spnWidth.focus();
                         break;
                     case 2:
-                        me.spnAngle.focus();
-                        break;
-                    case 3:
                         me.cmbCapType.focus();
                         break;
-                    case 4:
+                    case 3:
                         me.spnMarginTop.focus();
                         break;
-                    case 5:
+                    case 4:
                         me.spnColumns.focus();
                         break;
-                    case 6:
+                    case 5:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -607,15 +584,10 @@ define([
 
         _setDefaults: function(props) {
             if (props ){
-                if (props.get_FromSmartArt()) {
-                    this.btnsCategory[2].setDisabled(true);
-                }
                 if (props.get_FromSmartArtInternal()) {
                     this.radioNofit.setDisabled(true);
                     this.radioShrink.setDisabled(true);
                     this.radioFit.setDisabled(true);
-                    this.chFlipHor.setDisabled(true);
-                    this.chFlipVert.setDisabled(true);
                     this.btnsCategory[1].setDisabled(true);
                 }
 
@@ -669,10 +641,10 @@ define([
                         this.radioShrink.setValue(true, true);
                         break;
                 }
-                this.btnsCategory[4].setDisabled(null === margins);   // Margins
+                this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal()
+                this.btnsCategory[4].setDisabled(props.get_FromSmartArtInternal()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -689,13 +661,6 @@ define([
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
-
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                value = props.asc_getFlipH();
-                this.chFlipHor.setValue((value==undefined || value===null) ? 'indeterminate' : value);
-                value = props.asc_getFlipV();
-                this.chFlipVert.setValue((value==undefined || value===null) ? 'indeterminate' : value);
 
                 this._changedProps = new Asc.asc_CShapeProperty();
             }
@@ -728,12 +693,6 @@ define([
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
-            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            if (this.chFlipHor.getValue()!=='indeterminate')
-                this._changedProps.asc_putFlipH(this.chFlipHor.getValue()==='checked');
-            if (this.chFlipVert.getValue()!=='indeterminate')
-                this._changedProps.asc_putFlipV(this.chFlipVert.getValue()==='checked');
-
             Common.localStorage.setItem("pdfe-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;
         },
@@ -742,7 +701,7 @@ define([
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
-                    this.btnsCategory[3].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[2].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -926,11 +885,6 @@ define([
         strColumns: 'Columns',
         textSpacing: 'Spacing between columns',
         textColNumber: 'Number of columns',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textTextBox: 'Text Box',
         textAutofit: 'AutoFit',
         textNofit: 'Do not Autofit',

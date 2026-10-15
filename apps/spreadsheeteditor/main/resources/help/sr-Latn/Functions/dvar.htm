@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DVAR funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DVAR funkcija</h1>
+			<p><b>DVAR</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#database" onclick="onhyperlinkclick(this)">baza podataka funkcija</a>. Koristi se za procenu varijanse populacije zasnovane na uzorku koristeći brojeve u polju (koloni) zapisa u listi ili bazi podataka koji zadovoljavaju uslove koje odredite.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>DVAR(database, field, criteria)</em></b></p> 
+            <p><b>DVAR</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>database</em></b></td>
+                    <td>Opseg ćelija koji čine bazu podataka. Mora sadržati naslove kolona u prvom redu.</td>
+                </tr>
+				<tr>
+                    <td><b><em>field</em></b></td>
+                    <td>Argument koji određuje koje polje (tj. kolona) treba koristiti. Može biti broj željene kolone ili naslov kolone u navodnicima.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria</em></b></td>
+                    <td>Opseg ćelija koji sadrže uslove. Mora sadržati bar jedno ime polja (naslov kolone) i najmanje jednu ćeliju ispod koja određuje uslov koji će se primeniti na ovo polje u bazi podataka. Opseg <b><em>criteria</em></b> ne sme se preklapati sa opsegom <b><em>database</em></b>.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>DVAR</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>DVAR</b> funkcija.</p>
+			<p><img alt="DVAR funkcija" src="../images/dvar.png" /></p>
+		</div>
+	</body>
+</html>

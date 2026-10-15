@@ -176,7 +176,7 @@ def traverse_icons(mainnode):
 
     # collect items for export
     nodes_to_export = []
-    names_map = {}  # node_id → base_name (из title-name)
+    names_map = {}  # node_id → base_name (from title-name)
 
     for icon in icons:
         # title_node = find_node_by_name(icon, "title")
@@ -193,14 +193,14 @@ def traverse_icons(mainnode):
             names_map[node["id"]] = base_name
 
     if nodes_to_export:
-        print(f"Экспортируем {len(nodes_to_export)} видимых иконок...")
+        print(f"Exporting {len(nodes_to_export)} visible icons...")
 
         # with open("./child2.json", "w") as f:
         #     json.dump(nodes_to_export, f, indent=4)
 
         export_and_save_images(FIGMA_FILE_KEY, nodes_to_export, names_map, output_path, SCALE)
     else:
-        print("🖼️ Нет видимых иконок для экспорта")
+        print("No visible icons to export")
 
 if __name__ == "__main__":
     print("load the main node...")

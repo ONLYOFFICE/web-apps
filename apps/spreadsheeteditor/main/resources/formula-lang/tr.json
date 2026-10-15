@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#HESAPLA!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Boşluk Hatası",
+			"div": "Sıfıra Bölünme Hatası",
+			"value": "Değerde Hata Var",
+			"ref": "Geçersiz Hücre Başvurusu Hatası",
+			"name": "Geçersiz Ad Hatası",
+			"num": "Sayı Hatası",
+			"na": "Değer Kullanılamaz Hatası",
+			"calc": "Boş Dizi",
+			"spill": "Taşma aralığı boş değil"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adres",
 			"col": "sütun",

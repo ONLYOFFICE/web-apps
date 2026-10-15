@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([
     'core',
@@ -186,11 +189,17 @@ define([
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
+            this.leftMenu.getMenu('file').setSaveFormats(this.getSaveFormats());
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
+        },
+
+        getSaveFormats: function() {
+            var formats = this.api ? this.api.getSaveFormats() : undefined;
+            return formats != undefined && !_.isArray(formats) ? [formats] : formats;
         },
 
         setMode: function(mode) {
@@ -517,6 +526,10 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
             this.api.asc_SetSmoothScrolling(value);
 
+            value = parseInt(Common.localStorage.getItem("sse-settings-image-copying"));
+            Common.Utils.InternalSettings.set("sse-settings-image-copying", value);
+            this.api.asc_setPutImageToClipboard(!!value);
+
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 if (this.mode.canChangeCoAuthoring) {
@@ -541,6 +554,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
                 Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("sse-settings-cell-autocomplete", true);
+                Common.Utils.InternalSettings.set("sse-settings-cell-autocomplete", value);
+                this.api.asc_setAutoCompleteEnabled(value);
 
                 value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
                 Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
@@ -618,8 +635,6 @@ define([
             var recentDocPage = window.open(url);
             if (recentDocPage)
                 recentDocPage.focus();
-
-            Common.component.Analytics.trackEvent('Open Recent');
         },
 
         clickToolbarSettings: function(obj) {
@@ -752,12 +767,7 @@ define([
 
                 if (state) {
                     this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                    Common.UI.TooltipManager.getNeedShow('commentFilter') && Common.UI.TooltipManager.closeTip('rtlDirection');
-                    setTimeout(function() {
-                        Common.UI.TooltipManager.showTip('commentFilter');
-                    }, 10);
-                } else
-                    Common.UI.TooltipManager.closeTip('commentFilter');
+                }
 
                 if (!state) $(this.leftMenu.btnComments.el).blur();
             }
@@ -782,9 +792,6 @@ define([
                         this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
-                }
-                if (state) {
-                    Common.UI.TooltipManager.closeTip('chartElements');
                 }
             }
         },
@@ -815,6 +822,9 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        return false;
+                    }
                     if (this.mode.isEditMailMerge || this.mode.isEditOle) {
                         this.leftMenu.fireEvent('search:show');
                         return false;

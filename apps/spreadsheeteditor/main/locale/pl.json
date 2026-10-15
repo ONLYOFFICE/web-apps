@@ -503,6 +503,9 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "Opcje autokorekty",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Szerokość kolumny {0} symbole ({1} piksele)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Wysokość wiersza: {0} punktów ({1} pikseli)",
+  "SSE.Controllers.DocumentHolder.textFixFormula": "Napraw za pomocą AI",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPrompt": "Napraw formułę w komórce %1, zwraca ona %2. Zastosuj poprawioną formułę do komórki.",
+  "SSE.Controllers.DocumentHolder.textFixFormulaPromptInvalid": "Napraw formułę w komórce %1, nie jest to prawidłowa formuła. Zastosuj poprawioną formułę do komórki.",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Kliknij łącze, aby je otworzyć lub naciśnij i przytrzymaj przycisk myszy, aby zaznaczyć komórkę.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Wstaw lewy",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Wstaw górny",
@@ -814,6 +817,7 @@
   "SSE.Controllers.Main.textNeedSynchronize": "Masz aktualizacje",
   "SSE.Controllers.Main.textNo": "Nie",
   "SSE.Controllers.Main.textNoLicenseTitle": "Osiągnięto limit licencji",
+  "SSE.Controllers.Main.textNoResourcesTitle": "Niewystarczające zasoby",
   "SSE.Controllers.Main.textPaidFeature": "Płatna funkcja",
   "SSE.Controllers.Main.textPleaseWait": "Operacja może potrwać dłużej niż oczekiwano. Proszę czekać...",
   "SSE.Controllers.Main.textReconnect": "Połączenie przywrócone",
@@ -1092,6 +1096,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencja wygasła.<br>Nie masz dostępu do edycji dokumentu.<br>Proszę skontaktować się ze swoim administratorem.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Licencja musi zostać odnowiona.<br>Masz ograniczony dostęp do edycji dokumentu.<br>Skontaktuj się ze swoim administratorem, aby uzyskać pełny dostęp.",
   "SSE.Controllers.Main.warnNoLicense": "Osiągnięto limit jednoczesnych połączeń z %1 edytorami. Ten dokument zostanie otwarty tylko do odczytu.<br>Skontaktuj się z %1 zespołem sprzedaży w celu omówienia indywidualnych warunków licencji.",
+  "SSE.Controllers.Main.warnNoResources": "Serwer %1 nie ma wystarczających zasobów, aby otworzyć ten dokument do edycji. Dokument zostanie otwarty tylko do podglądu.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Osiągnąłeś limit dla użytkownika. Skontaktuj się z zespołem sprzedaży %1 w celu uzyskania osobistych warunków aktualizacji.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",
   "SSE.Controllers.PivotTable.strSheet": "Arkusz",
@@ -1119,6 +1124,8 @@
   "SSE.Controllers.Toolbar.errorComboSeries": "Wybierz co najmniej dwie serie danych, aby utworzyć wykres kombi.",
   "SSE.Controllers.Toolbar.errorMaxRows": "BŁĄD! Maksymalna liczba serii danych na wykresie wynosi 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nieprawidłowa kolejność wierszy. Aby zbudować wykres akcji, umieść dane na arkuszu w następującej kolejności:<br> cena otwarcia, cena maksymalna, cena minimalna, cena zamknięcia.",
+  "SSE.Controllers.Toolbar.helpAITools": "AI pomoże Ci tworzyć i edytować dokumenty.",
+  "SSE.Controllers.Toolbar.helpAIToolsHeader": "Narzędzia AI",
   "SSE.Controllers.Toolbar.textAccent": "Akcenty",
   "SSE.Controllers.Toolbar.textBracket": "Klamry",
   "SSE.Controllers.Toolbar.textDirectional": "Wskazówki",
@@ -3565,5 +3572,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
+  "Common.Controllers.Desktop.hintBtnHome": "Pokaż główne okno"
 }

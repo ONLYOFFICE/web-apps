@@ -1,0 +1,16 @@
+{
+  "Controller": {
+    "Main": {
+      "advDRMPassword": "Adgangskode",
+      "textOpenFile": "Angiv en adgangskode for at åbne filen",
+      "txtIncorrectPwd": "Adgangskoden er forkert"
+    }
+  },
+  "Error": {
+    "errorFilePassProtect": "Filen er beskyttet med en adgangskode og kan ikke åbnes.",
+    "errorLoadingFont": "Skrifttyper er ikke indlæst.<br>Kontakt venligst din administrator.",
+    "errorSetPassword": "Adgangskoden kunne ikke gemmes.",
+    "errorToken": "Dokumentets sikkerhedstoken er ikke oprettet korrekt.<br>Kontakt venligst din administrator.",
+    "errorTokenExpire": "Dokumentets sikkerhedstoken er udløbet.<br>Kontakt venligst din administrator. "
+  }
+}

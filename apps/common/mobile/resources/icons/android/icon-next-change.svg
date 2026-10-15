@@ -1,3 +1,5 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9.98438 6L15.9844 12L9.98438 18L8.57812 16.5938L13.1719 12L8.57812 7.40625L9.98438 6Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-next-change">
+    <path fill="#000" d="m9.984 6 6 6-6 6-1.406-1.406L13.172 12 8.578 7.406 9.984 6Z" class="Vector"/>
+  </g>
 </svg>

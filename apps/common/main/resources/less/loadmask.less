@@ -28,10 +28,6 @@
     color: @text-contrast-background;
     .border-radius(@border-radius-large);
 
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%);
-
     & > div {
         display: inline-block;
         vertical-align: middle;
@@ -60,13 +56,16 @@
         color: @text-normal;
         padding: 8px;
         top: 78px;
-        transform: translate(-50%, 0);
 
         .asc-loadmask-image {
             //background-image: ~"url(@{common-image-const-path}/load-mask/loading.svg#small)";
             background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
             height: @loadmask-small-image-height;
             width: @loadmask-small-image-width;
+
+            .theme-type-dark & {
+                filter: invert(100%);
+            }
         }
 
         .asc-loadmask-title {

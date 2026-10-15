@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Eroare de nul",
+			"div": "Eroare de împărțire la zero",
+			"value": "Eroare în valoare",
+			"ref": "Eroare de referință nevalidă la celulă",
+			"name": "Eroare de nume nevalid",
+			"num": "Eroare de număr",
+			"na": "Eroare de valoare indisponibilă",
+			"calc": "Matrice goală",
+			"spill": "Zona de vărsare nu este necompletată"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adresă",
 			"col": "coloană",

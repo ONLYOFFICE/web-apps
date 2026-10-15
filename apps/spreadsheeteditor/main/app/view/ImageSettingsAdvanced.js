@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ImageSettingsAdvanced.js
@@ -55,7 +58,6 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-snap',       panelCaption: this.textSnap},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
@@ -73,27 +75,6 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var me = this;
-
-            // Rotation
-            this.spnAngle = new Common.UI.MetricSpinner({
-                el: $('#image-advanced-spin-angle'),
-                step: 1,
-                width: 80,
-                defaultUnit : "°",
-                value: '0 °',
-                maxValue: 3600,
-                minValue: -3600
-            });
-
-            this.chFlipHor = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-hor'),
-                labelText: this.textHorizontally
-            });
-
-            this.chFlipVert = new Common.UI.CheckBox({
-                el: $('#image-advanced-checkbox-vert'),
-                labelText: this.textVertically
-            });
 
             // Snapping
             this.radioTwoCell = new Common.UI.RadioBox({
@@ -144,9 +125,8 @@ define([
 
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
-                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 1 tab
-                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+                this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 0 tab
+                this.inputAltTitle, this.textareaAltDescription  // 1 tab
             ]).concat(this.getFooterButtons());
         },
 
@@ -157,12 +137,9 @@ define([
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnAngle.focus();
-                        break;
-                    case 1:
                         me.radioTwoCell.focus();
                         break;
-                    case 2:
+                    case 1:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -191,11 +168,6 @@ define([
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
 
-                value = props.asc_getRot();
-                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                this.chFlipHor.setValue(props.asc_getFlipH());
-                this.chFlipVert.setValue(props.asc_getFlipV());
-
                 value = props.asc_getAnchor();
                 switch (value) {
                     case AscCommon.c_oAscCellAnchorType.cellanchorTwoCell:
@@ -209,9 +181,6 @@ define([
                         break;
                 }
 
-                var pluginGuid = props.asc_getPluginGuid();
-                this.btnsCategory[0].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
-
                 this._changedProps = new Asc.asc_CImgProperty();
             }
         },
@@ -223,10 +192,6 @@ define([
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
-            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            this._changedProps.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-            this._changedProps.asc_putFlipV(this.chFlipVert.getValue()=='checked');
-
             return { imageProps: this._changedProps} ;
         },
 
@@ -235,11 +200,6 @@ define([
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textRotation: 'Rotation',
-        textAngle: 'Angle',
-        textFlipped: 'Flipped',
-        textHorizontally: 'Horizontally',
-        textVertically: 'Vertically',
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',

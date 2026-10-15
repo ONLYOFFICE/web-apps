@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Korišćenje formula u tabelama</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Ubacivanje formula u ćelije tabele za izvođenje jednostavnih proračuna nad podacima" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Korišćenje formula u tabelama</h1>
+            <h3>Ubacivanje formule</h3>
+			<p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-u</b></a> možete izvršavati jednostavne proračune nad podacima u ćelijama tabele dodavanjem formula. Da biste ubacili formulu u ćeliju tabele:</p>
+			<ol>
+				<li>postavite kursor u ćeliju u kojoj želite da se prikaže rezultat,</li>
+                <li>kliknite na dugme <b>Dodaj formulu</b> u desnom panelu,</li>
+				<li>u otvorenom prozoru <b>Podešavanja formule</b>, unesite potrebnu formulu u polje <b>Formula</b>.
+                    <p>Formulu možete uneti ručno koristeći uobičajene matematičke operatore (+, -, *, /), npr. <em>=A1*B2</em>, ili koristiti padajuću listu <b>Umetni funkciju</b> da odaberete neku od ugrađenih funkcija, npr. <em>=PRODUCT(A1,B2)</em>.</p>
+                    <p><img alt="Dodavanje formule" src="../images/formula_settings.png" /></p>					
+				</li>
+                <li>ručno navedite potrebne argumente unutar zagrada u polju <b>Formula</b>. Ako funkcija zahteva više argumenata, oni moraju biti odvojeni zarezima.</li>
+                <li>koristite padajuću listu <b>Format broja</b> ako želite da rezultat bude prikazan u određenom formatu broja,</li>
+				<li>kliknite <b>OK</b>.</li>
+			</ol>
+            <p>Rezultat će biti prikazan u odabranoj ćeliji.</p>
+            <p>Da biste izmenili dodatnu formulu, odaberite rezultat u ćeliji i kliknite na dugme <b>Dodaj formulu</b> u desnom panelu, izvršite potrebne izmene u prozoru <b>Podešavanja formule</b> i kliknite <b>OK</b>.</p>
+            <hr />
+            <h3>Dodavanje referenci na ćelije</h3>
+            <p>Možete koristiti sledeće argumente za brzo dodavanje referenci na opsege ćelija:</p>
+            <ul>
+                <li><b>GORE</b> - referenca na sve ćelije u koloni iznad odabrane ćelije</li>
+                <li><b>LEVO</b> - referenca na sve ćelije u redu levo od odabrane ćelije</li>
+                <li><b>DOLE</b> - referenca na sve ćelije u koloni ispod odabrane ćelije</li>
+                <li><b>DESNO</b> - referenca na sve ćelije u redu desno od odabrane ćelije</li>
+            </ul>
+            <p>Ovi argumenti se mogu koristiti sa funkcijama AVERAGE, COUNT, MAX, MIN, PRODUCT, SUM.</p>
+            <p>Možete takođe ručno uneti reference na određenu ćeliju (npr. <em>A1</em>) ili opseg ćelija (npr. <em>A1:B3</em>).</p>
+            <h3>Korišćenje obeleživača</h3>
+            <p>Ako ste dodali <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">obeleživače</a> u određene ćelije tabele, možete ih koristiti kao argumente pri unosu formula.</p>
+            <p>U prozoru <b>Podešavanja formule</b>, postavite kursor unutar zagrada u polju <b>Formula</b> gde želite da se doda argument i koristite padajuću listu <b>Umetni obeleživač</b> da odaberete jedan od prethodno dodatih obeleživača.</p>
+            <h3>Ažuriranje rezultata formule</h3>
+            <p>Ako promenite neke vrednosti u ćelijama tabele, potrebno je ručno ažurirati rezultate formula:</p>
+            <ul>
+                <li>Za ažuriranje jednog rezultata formule, odaberite potreban rezultat i pritisnite <b>F9</b> ili kliknite desnim tasterom miša na rezultat i izaberite opciju <b>Ažuriraj polje</b> iz menija.</li>
+                <li>Za ažuriranje više rezultata formula, odaberite potrebne ćelije ili celu tabelu i pritisnite <b>F9</b>.</li>
+            </ul>
+            <hr />
+            <h3>Ugrađene funkcije</h3>
+            <p>Možete koristiti sledeće standardne matematičke, statističke i logičke funkcije:</p>
+            <table>
+                <tr>
+                    <td width="20%"><b>Kategorija</b></td>
+                    <td width="20%"><b>Funkcija</b></td>
+                    <td width="35%"><b>Opis</b></td>
+                    <td width="25%"><b>Primer</b></td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>ABS(x)</td>
+                    <td>Funkcija vraća apsolutnu vrednost broja.</td>
+                    <td>=ABS(-10)<br />Vraća 10</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>AND(logical1, logical2, ...)</td>
+                    <td>Funkcija proverava da li je logička vrednost TRUE ili FALSE. Vraća 1 (TRUE) ako su svi argumenti TRUE.</td>
+                    <td>=AND(1&gt;0,1&gt;3)<br />Vraća 0</td>
+                </tr>
+                <tr>
+                    <td>Statistička</td>
+                    <td>AVERAGE(argument-list)</td>
+                    <td>Funkcija računa prosečnu vrednost iz opsega podataka.</td>
+                    <td>=AVERAGE(4,10)<br />Vraća 7</td>
+                </tr>
+                <tr>
+                    <td>Statistička</td>
+                    <td>COUNT(argument-list)</td>
+                    <td>Funkcija broji broj odabranih ćelija koje sadrže brojeve, ignorišući prazne ćelije ili ćelije sa tekstom.</td>
+                    <td>=COUNT(A1:B3)<br />Vraća 6</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>DEFINED()</td>
+                    <td>Funkcija proverava da li je vrednost u ćeliji definisana. Vraća 1 ako je definisana i izračunata bez greške, inače vraća 0.</td>
+                    <td>=DEFINED(A1)</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>FALSE()</td>
+                    <td>Funkcija vraća 0 (FALSE) i <b>ne</b> zahteva argument.</td>
+                    <td>=FALSE<br />Vraća 0</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>IF(logical_test, value_if_true, value_if_false)</td>
+                    <td>Funkcija proverava logički izraz i vraća jednu vrednost ako je TRUE, a drugu ako je FALSE.</td>
+                    <td>=IF(3&gt;1,1,0)<br />Vraća 1</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>INT(x)</td>
+                    <td>Funkcija vraća celobrojni deo zadatog broja.</td>
+                    <td>=INT(2.5)<br />Vraća 2</td>
+                </tr>
+                <tr>
+                    <td>Statistička</td>
+                    <td>MAX(number1, number2, ...)</td>
+                    <td>Funkcija pronalazi najveći broj u opsegu podataka.</td>
+                    <td>=MAX(15,18,6)<br />Vraća 18</td>
+                </tr>
+                <tr>
+                    <td>Statistička</td>
+                    <td>MIN(number1, number2, ...)</td>
+                    <td>Funkcija pronalazi najmanji broj u opsegu podataka.</td>
+                    <td>=MIN(15,18,6)<br />Vraća 6</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>MOD(x, y)</td>
+                    <td>Funkcija vraća ostatak pri deljenju broja sa zadatim deliocem.</td>
+                    <td>=MOD(6,3)<br />Vraća 0</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>NOT(logical)</td>
+                    <td>Funkcija proverava da li je logička vrednost FALSE. Vraća 1 (TRUE) ako je argument FALSE, inače vraća 0 (FALSE).</td>
+                    <td>=NOT(2&lt;5)<br />Vraća 0</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>OR(logical1, logical2, ...)</td>
+                    <td>Funkcija proverava da li je logička vrednost TRUE ili FALSE. Vraća 0 (FALSE) ako su svi argumenti FALSE.</td>
+                    <td>=OR(1&gt;0,1&gt;3)<br />Vraća 1</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>PRODUCT(argument-list)</td>
+                    <td>Funkcija množi sve brojeve u odabranom opsegu ćelija i vraća proizvod.</td>
+                    <td>=PRODUCT(2,5)<br />Vraća 10</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>ROUND(x, num_digits)</td>
+                    <td>Funkcija zaokružuje broj na željeni broj decimala.</td>
+                    <td>=ROUND(2.25,1)<br />Vraća 2.3</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>SIGN(x)</td>
+                    <td>Funkcija vraća znak broja. Ako je broj pozitivan, vraća <b>1</b>. Ako je negativan, vraća <b>-1</b>. Ako je <b>0</b>, vraća <b>0</b>.</td>
+                    <td>=SIGN(-12)<br />Vraća -1</td>
+                </tr>
+                <tr>
+                    <td>Matematička</td>
+                    <td>SUM(argument-list)</td>
+                    <td>Funkcija sabira sve brojeve u odabranom opsegu ćelija i vraća rezultat.</td>
+                    <td>=SUM(5,3,2)<br />Vraća 10</td>
+                </tr>
+                <tr>
+                    <td>Logička</td>
+                    <td>TRUE()</td>
+                    <td>Funkcija vraća 1 (TRUE) i <b>ne</b> zahteva argument.</td>
+                    <td>=TRUE<br />Vraća 1</td>
+                </tr>
+            </table>             
+		</div>
+	</body>
+</html>

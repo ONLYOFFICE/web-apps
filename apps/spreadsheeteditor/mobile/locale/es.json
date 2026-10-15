@@ -33,7 +33,9 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios"
+      "textUsers": "Usuarios",
+      "textEnterComment": "Escribir comentario",
+      "textMention": "Comente o mencione con + o @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -44,7 +46,7 @@
       "dark": "Oscuro",
       "light": "Claro",
       "system": "Igual que el sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema de la interfaz"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
@@ -88,7 +90,12 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
+    "menuAddColumn": "Añadir columna",
+    "menuAddRow": "Añadir fila",
+    "menuDeleteColumn": "Eliminar columna",
+    "menuDeleteRow": "Eliminar fila",
+    "menuSelectAll": "Seleccionar todo"
   },
   "Controller": {
     "Main": {
@@ -221,6 +228,7 @@
       "textNo": "No",
       "textNoChoices": "No hay opciones para rellenar la celda.<br>Sólo se pueden seleccionar valores de texto de la columna para su sustitución.",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+      "textNoResourcesTitle": "Recursos insuficientes",
       "textNoMatches": "No hay coincidencias",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
@@ -244,6 +252,7 @@
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
       "warnLicenseLimitedRenewed": "La licencia necesita renovación. Tiene acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener acceso completo",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
+      "warnNoResources": "El servidor %1 no tiene suficientes recursos para abrir este documento para su edición. El documento se abrirá solo en modo de visualización.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
@@ -380,7 +389,10 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+    "errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo.",
+    "errorCopyRangeTooLarge": "El rango seleccionado es demasiado grande para copiarlo en su totalidad. Solo se ha copiado una parte en el portapapeles. Seleccione un rango más pequeño e inténtelo de nuevo."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -424,7 +436,8 @@
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Subiendo imagen...",
     "uploadImageTitleText": "Subiendo imagen",
-    "waitText": "Por favor, espere..."
+    "waitText": "Por favor, espere...",
+    "changesSaved": "Se han guardado todos los cambios"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertencia",
@@ -451,7 +464,8 @@
     "textTabColor": "Color de la pestaña",
     "textUnhide": "Volver a mostrar",
     "textWarnDeleteSheet": "La hoja puede tener datos. ¿Continuar con la operación?",
-    "warnAddSheetCsv": "El formato CSV no permite guardar un archivo de varias hojas. Solo se guardará la hoja activa. Para mantener todas las hojas, guarde el archivo en un formato diferente."
+    "warnAddSheetCsv": "El formato CSV no permite guardar un archivo de varias hojas. Solo se guardará la hoja activa. Para mantener todas las hojas, guarde el archivo en un formato diferente.",
+    "textUnhideSheets": "Mostrar hojas ocultas"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",
@@ -463,7 +477,12 @@
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
     "textOk": "OK",
     "textRenameFile": "Renombrar archivo",
-    "textSwitchToDesktop": "Cambiar a escritorio"
+    "textSwitchToDesktop": "Cambiar a escritorio",
+    "textSave": "Guardar",
+    "textDontSave": "No guardar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Guarde los cambios antes de salir",
+    "textUnsavedData": "Datos no guardados"
   },
   "View": {
     "Add": {
@@ -529,7 +548,12 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textSheets": "Hojas",
+      "textLinkTo": "Vincular a",
+      "textDefinedName": "Nombre definido",
+      "textStyle": "Estilo",
+      "textTable": "Tabla"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -620,7 +644,7 @@
       "textGeneral": "General",
       "textGridlines": "Líneas de cuadrícula",
       "textHigh": "Alto",
-      "textHorizontal": "Horizontal ",
+      "textHorizontal": "Horizontal",
       "textHorizontalAxis": "Eje horizontal",
       "textHorizontalText": "Texto horizontal",
       "textHundredMil": "100.000.000",
@@ -629,7 +653,7 @@
       "textHyperlink": "Enlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
-      "textIn": "En",
+      "textIn": "Hacia dentro",
       "textInnerBottom": "Abajo en el interior",
       "textInnerTop": "Arriba en el interior",
       "textInsideBorders": "Bordes internos",
@@ -673,7 +697,7 @@
       "textOk": "Aceptar",
       "textOnTickMarks": "Marcas de graduación",
       "textOpacity": "Opacidad ",
-      "textOut": "Fuera",
+      "textOut": "Hacia fuera",
       "textOuterTop": "Arriba en el exterior",
       "textOutsideBorders": "Bordes externos",
       "textOverlay": "Superposición",
@@ -737,7 +761,24 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor "
+      "txtSortLow2High": "Ordenar de menor a mayor ",
+      "txtCustom": "Personalizado",
+      "textCurrentFont": "Texto principal",
+      "textSheets": "Hojas",
+      "textLinkTo": "Vincular a",
+      "textDefinedName": "Nombre definido",
+      "textTotalRow": "Fila de totales",
+      "textTable": "Tabla",
+      "textStyleOptions": "Opciones de estilo",
+      "textRow": "Fila",
+      "textLastColumn": "Última columna",
+      "textHeaderRow": "Fila de encabezado",
+      "textFilterButton": "Botón de filtro",
+      "textDeleteTable": "Eliminar tabla",
+      "textColumn": "Columna",
+      "textBandedColumns": "Columnas con bandas",
+      "textBandedRows": "Filas con bandas",
+      "textFirstColumn": "Primera columna"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -785,7 +826,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
       "textEncoding": "Codificación",
       "textExample": "Ejemplo",
-      "textFeedback": "Comentarios y asistencia",
+      "textFeedback": "Contactar con el soporte técnico",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -812,7 +853,7 @@
       "textNoMatches": "No hay coincidencias",
       "textOk": "OK",
       "textOpenFile": "Introduzca una contraseña para abrir el archivo",
-      "textOrientation": "Orientación ",
+      "textOrientation": "Orientación de la página",
       "textOwner": "Propietario",
       "textPoint": "Punto",
       "textPortrait": "Vertical",
@@ -840,7 +881,7 @@
       "textSpreadsheetTitle": "Título de hoja de cálculo",
       "textSubject": "Asunto",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema de la interfaz",
       "textTitle": "Título",
       "textTop": "Arriba",
       "textUnitOfMeasurement": "Unidad de medida",
@@ -897,7 +938,28 @@
       "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
       "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato.",
-      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?",
+      "textAutoSaveDocument": "Guardado automático",
+      "textOpenLocation": "Abrir ubicación",
+      "textSaveDocument": "Guardar",
+      "textDarkDocument": "Documento oscuro",
+      "textPreferences": "Preferencias",
+      "textHelpCenter": "Centro de Ayuda",
+      "textSaveACopy": "Guardar una copia",
+      "textSaveACopyAs": "Guardar una copia como",
+      "textTools": "Herramientas",
+      "textSettingsGroup": "Ajustes",
+      "textAboutGroup": "Acerca de",
+      "textHelpAndFeedback": "Ayuda y comentarios",
+      "textShare": "Compartir",
+      "textStyleGroup": "Estilo",
+      "textSaveACopyHeader": "Guardar una copia",
+      "textSaveConnectedStorage": "El archivo se guardará en el almacenamiento conectado",
+      "textGridlines": "Líneas de cuadrícula",
+      "textHeadings": "Encabezados",
+      "textSpreadsheetSetup": "Configuración de la hoja de cálculo",
+      "textViewGroup": "Vista",
+      "textLanguageAndRegion": "Idioma y región"
     }
   }
 }

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>TEXTAFTER Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="TEXTAFTER funkcija se koristi za vraćanje teksta koji se nalazi nakon određenih razdelnika." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>TEXTAFTER Funkcija</h1>
+			<p><b>TEXTAFTER</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">tekstualnih i podataka funkcija</a>. Koristi se za vraćanje teksta koji se nalazi nakon razdelnika.</p>
+			<h3>Sintaksa</h3>
+			<p><b><em>TEXTAFTER(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])</em></b></p>
+			<p><b>TEXTAFTER</b> funkcija ima sledeće argumente:</p>
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+					<th style="background-color: #f4f4f4"><b>Opis</b></th>
+				</tr>
+				<tr>
+					<td><b><em>text</em></b></td>
+					<td>Tekst u kome se pretražuje. Korišćenje džoker karaktera nije dozvoljeno. Ako je <b>text</b> prazan, funkcija vraća prazan tekst.</td>
+				</tr>
+				<tr>
+					<td><b><em>delimiter</em></b></td>
+					<td>Tekst koji označava mesto nakon kojeg funkcija izvlači tekst.</td>
+				</tr>
+				<tr>
+					<td><b><em>instance_num</em></b></td>
+					<td>Opcioni argument. Određuje koje pojavljivanje razdelnika funkcija koristi za izvlačenje teksta. Po default-u, <b>instance_num</b> je <b>1</b>. Negativan broj pretražuje tekst od kraja.</td>
+				</tr>
+				<tr>
+					<td><b><em>match_mode</em></b></td>
+					<td>Opcioni argument. Određuje da li je pretraga osetljiva na velika/mala slova. Po default-u je osetljiva. Sledeće vrednosti se koriste: <b>0</b> za osetljivo, <b>1</b> za neosetljivo na velika/mala slova.</td>
+				</tr>
+				<tr>
+					<td><b><em>match_end</em></b></td>
+					<td>Opcioni argument. Tretira kraj teksta kao razdelnik. Po default-u tekst se tačno poklapa. Sledeće vrednosti se koriste: <b>0</b> za <b>ne</b> poklapanje razdelnika sa krajem teksta, <b>1</b> za poklapanje razdelnika sa krajem teksta.</td>
+				</tr>
+				<tr>
+					<td><b><em>if_not_found</em></b></td>
+					<td>Opcioni argument. Postavlja vrednost koja se vraća ako poklapanje nije pronađeno.</td>
+				</tr>
+			</table>
+			<h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>TEXTAFTER</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>TEXTAFTER</b> funkcija.</p>
+			<p><img alt="TEXTAFTER Funkcija" src="../images/textafter.png" /></p>
+		</div>
+	</body>
+</html>

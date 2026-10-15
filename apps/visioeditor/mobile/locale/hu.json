@@ -15,6 +15,7 @@
       "textBack": "Vissza",
       "textCancel": "Mégse",
       "textCollaboration": "Együttműködés",
+      "textEditUser": "A fájlt szerkesztő felhasználók:",
       "textOk": "OK",
       "textSharingSettings": "Megosztási beállítások",
       "textUsers": "Felhasználók"
@@ -28,7 +29,8 @@
   },
   "ContextMenu": {
     "menuCancel": "Mégse",
-    "textOk": "OK"
+    "textOk": "OK",
+    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?"
   },
   "Controller": {
     "Main": {
@@ -36,7 +38,11 @@
       "advDRMPassword": "Jelszó",
       "closeButtonText": "Fájl bezárása",
       "criticalErrorTitle": "Hiba",
+      "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon a rendszergazdához.",
       "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
+      "errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
+      "errorUpdateVersion": "A dokumentum verziója megváltozott. Az oldal újratöltődik.",
+      "leavePageText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
       "textBuyNow": "Weboldalt meglátogatása",
@@ -46,10 +52,13 @@
       "textGuest": "Vendég",
       "textNo": "Nem",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoResourcesTitle": "Nincs elég erőforrás",
       "textOk": "OK",
       "textOpenFile": "Adjon meg egy jelszót a fájl megnyitáshoz",
       "textPaidFeature": "Fizetős funkció",
       "textYes": "Igen",
+      "tipLicenseExceeded": "A dokumentum írásvédett módban van megnyitva, mivel a licenc által megengedett egyidejű kapcsolatok maximális száma elérte a megengedett legnagyobb számot.<br><br>Kérjük, próbálja újra később, vagy vegye fel a kapcsolatot a dokumentum tulajdonosával, ha szerkesztési hozzáférésre van szüksége.",
+      "tipLicenseUsersExceeded": "A dokumentum írásvédett módban van megnyitva, mivel elérte a licenc által a dokumentumok szerkesztésére engedélyezett felhasználók maximális számát.<br><br>Kérjük, próbálja meg később, vagy vegye fel a kapcsolatot a dokumentum tulajdonosával, ha szerkesztési hozzáférésre van szüksége.",
       "titleLicenseExp": "Lejárt licenc",
       "titleLicenseNotActive": "A licenc nem aktív",
       "titleReadOnly": "Csak olvasható mód",
@@ -58,10 +67,13 @@
       "txtIncorrectPwd": "Érvénytelen jelszó",
       "warnLicenseAnonymous": "Hozzáférés megtagadva az ismeretlen felhasználók számára.<br>Ez a dokumentum csak olvasásra nyílik meg.",
       "warnLicenseBefore": "A licenc nem aktív.<br>Vegye fel a kapcsolatot a rendszergazdával",
+      "warnLicenseExp": "Az Ön licence lejárt. Kérjük, frissítse licencét majd frissítse az oldalt.",
       "warnLicenseLimitedNoAccess": "A licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Vegye fel a kapcsolatot a rendszergazdával.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében vegye fel a kapcsolatot rendszergazdával",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
-      "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért."
+      "warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
+      "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }
   },
   "Error": {
@@ -70,28 +82,50 @@
     "criticalErrorExtTextClose": "A szerkesztő bezárásához kattintson az „OK” gombra.",
     "criticalErrorTitle": "Hiba",
     "downloadErrorText": "Sikertelen letöltés.",
+    "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon a rendszergazdához.",
     "errorBadImageUrl": "A kép webcíme helytelen",
+    "errorConnectToServer": "Ezt a dokumentumot nem lehet menteni. Ellenőrizze a kapcsolat beállításait, vagy forduljon a rendszergazdához.<br>Ha az \"OK\" gombra kattint, a rendszer felkéri a dokumentum letöltésére.",
+    "errorCopyDisabled": "Biztonsági okokból a dokumentum tartalma nem másolható.",
     "errorDatabaseConnection": "Külső hiba.<br>Adatbázis-kapcsolati hiba. Vegye igénybe a támogatásunkat.",
     "errorDataEncrypted": "Titkosított változások érkeztek, amelyeket nem sikerült visszafejteni.",
     "errorDataRange": "Hibás adattartomány.",
     "errorDefaultMessage": "Hibakód: %1",
     "errorDirectUrl": "Ellenőrizze a dokumentumra mutató hivatkozást.<br>Ennek a hivatkozásnak a letöltéshez közvetlen hivatkozásnak kell lennie.",
+    "errorEditingDownloadas": "Hiba történt a dokumentummal végzett munka során.<br>A fájl biztonsági másolatának helyi mentéséhez használja a „Letöltés” lehetőséget.",
     "errorEmailClient": "Nem található e-mail kliens",
+    "errorFileNotAssembled": "Ez a fájl egy szerverről származó biztonsági másolatból lett megnyitva, és nem kerül mentésre a tárhelyre. A „Mentés másként…” opcióval mentheti el egy meghajtóra.",
+    "errorFilePassProtect": "A fájl jelszóval védett, és nem lehetett megnyitni.",
+    "errorFileSizeExceed": "A fájl mérete meghaladja a kiszolgáló korlátját.<br>Vegye fel a kapcsolatot a rendszergazdával.",
+    "errorForcedViewMode": "Ez a fájl megtekintési módban van megnyitva. A fájl szerkesztésre van zárolva, vagy a hozzáférési jogosultságai nem teszik lehetővé a szerkesztést.",
+    "errorForceSave": "Hiba történt a fájl mentése közben. Használja a „Letöltés másként” opciót a fájl számítógépére való mentéséhez, vagy próbálja meg később újra.",
+    "errorInconsistentExt": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma nem felel meg a fájlkiterjesztésnek.",
+    "errorInconsistentExtDocx": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma szöveges dokumentumnak (pl. docx) felel meg, de kiterjesztése nem megfelelő: %1.",
     "errorInconsistentExtPdf": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma a következő formátumok egyikének felel meg: pdf/djvu/xps/oxps, de kiterjesztése nem egyezik meg: %1.",
     "errorInconsistentExtPptx": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma megfelel a prezentációknak (pl. pptx), de kiterjesztése nem megfelelő: %1.",
+    "errorInconsistentExtXlsx": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma megfelel a táblázatoknak (pl. xlsx), de kiterjesztése nem megfelelő: %1.",
+    "errorKeyEncrypt": "Ismeretlen kulcsleíró",
     "errorKeyExpire": "Kulcsleíró lejárt",
     "errorLoadingFont": "A betűtípusok nem töltődnek be.<br>Vegye fel a kapcsolatot a dokumentumkiszolgáló rendszergazdájával.",
+    "errorSaveWatermark": "Ez a fájl egy másik domainhez kapcsolt vízjelképet tartalmaz.<br>Ahhoz, hogy PDF-ben látható legyen, frissítse a vízjelképet úgy, hogy ugyanarról a domainről mutasson, mint a dokumentum, vagy töltse fel a számítógépéről.",
     "errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Töltse újra az oldalt.",
     "errorSessionIdle": "A dokumentumot hosszú ideje nem szerkesztették. Kérem, töltse újra az oldalt.",
     "errorSessionToken": "Megszakadt a kapcsolat a kiszolgálóval. Töltse újra az oldalt.",
     "errorSetPassword": "A jelszót nem lehet beállítani.",
+    "errorToken": "A dokumentum biztonsági tokenje nem megfelelő.<br>Kérjük, lépjen kapcsolatba a Dokumentumszerver rendszergazdájával.",
+    "errorTokenExpire": "A dokumentum biztonsági tokenje lejárt.<br>Kérjük, lépjen kapcsolatba a dokumentumszerver rendszergazdájával.",
     "errorUpdateVersionOnDisconnect": "Az internetkapcsolat helyreállt és a fájl verziója megváltozott.<br>Mielőtt folytatná a munkát, töltse le a fájlt vagy másolja át annak tartalmát megbizonyosodva arról, hogy semmi sem veszett el, végül töltse újra ezt az oldalt.",
+    "errorUserDrop": "A dokumentum jelenleg nem elérhető.",
+    "errorUsersExceed": "Túllépte a csomagja által engedélyezett felhasználók számát",
     "errorViewerDisconnect": "A kapcsolat megszakadt. Továbbra is megtekintheti a dokumentumot,<br>de nem tudja letölteni vagy kinyomtatni, amíg a kapcsolat vissza nem áll és az oldal újra be nem töltődik.",
     "notcriticalErrorTitle": "Figyelmeztetés",
     "openErrorText": "Hiba történt a fájl megnyitásakor",
+    "saveErrorText": "Hiba történt a fájl mentése közben",
     "scriptLoadError": "A kapcsolat túl lassú, egyes összetevőket nem sikerült betölteni. Töltse újra az oldalt.",
     "textOk": "OK",
-    "unknownErrorText": "Ismeretlen hiba."
+    "unknownErrorText": "Ismeretlen hiba.",
+    "uploadImageExtMessage": "Ismeretlen képformátum.",
+    "uploadImageFileCountMessage": "Nincs kép feltöltve.",
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -126,6 +160,8 @@
   },
   "Toolbar": {
     "btnRestartNow": "Újraindítás most",
+    "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
+    "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
     "textEnterNewFileName": "Adjon meg egy új fájlnevet",
@@ -136,6 +172,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textCancel": "Mégse",
+      "textInvalidName": "A fájlnév nem tartalmazhatja a következő karaktereket:",
       "textOk": "OK"
     },
     "Settings": {

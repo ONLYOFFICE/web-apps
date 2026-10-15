@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>CELL funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>CELL funkcija</h1>
+			<p>Funkcija <b>CELL</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#information" onclick="onhyperlinkclick(this)">informacionih funkcija</a>. Koristi se za vraćanje informacija o formatiranju, lokaciji ili sadržaju ćelije.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>CELL(info_type, [reference])</em></b></p> 
+            <p>Funkcija <b>CELL</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>info_type</em></b></td>
+                    <td>Tekstualna vrednost koja određuje koju informaciju o ćeliji želite da dobijete. Ovo je obavezan argument. Dostupne vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>reference</em></b></td>
+                    <td>Ćelija o kojoj želite da dobijete informacije. Ako se izostavi, informacije se vraćaju za poslednju izmenjenu ćeliju. Ako je argument <em>reference</em> naveden kao opseg ćelija, funkcija vraća informacije za gornju levu ćeliju opsega.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>info_type</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Tip informacije</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>"address"</em></b></td>
+                    <td>Vraća referencu na ćeliju.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"col"</em></b></td>
+                    <td>Vraća broj kolone u kojoj se ćelija nalazi.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"color"</em></b></td>
+                    <td>Vraća 1 ako je ćelija formatirana u boji za negativne vrednosti; u suprotnom vraća 0.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"contents"</em></b></td>
+                    <td>Vraća vrednost koju ćelija sadrži.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"filename"</em></b></td>
+                    <td>Vraća naziv datoteke koja sadrži ćeliju.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"format"</em></b></td>
+                    <td>Vraća tekstualnu vrednost koja odgovara numeričkom formatu ćelije. Tekstualne vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"parentheses"</em></b></td>
+                    <td>Vraća 1 ako je ćelija formatirana sa zagradama za pozitivne ili sve vrednosti; u suprotnom vraća 0.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"prefix"</em></b></td>
+                    <td>Vraća jednostruki navodnik (') ako je tekst u ćeliji poravnat ulevo, dvostruki navodnik (") ako je tekst poravnat udesno, znak ^ ako je tekst centriran, <!--obrnuta kosa crta (\) ako je tekst poravnat popunjavanjem,--> i prazan tekst ("") ako ćelija sadrži bilo šta drugo.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"protect"</em></b></td>
+                    <td>Vraća 0 ako ćelija nije zaključana; vraća 1 ako je ćelija zaključana.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"row"</em></b></td>
+                    <td>Vraća broj reda u kojem se ćelija nalazi.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"type"</em></b></td>
+                    <td>Vraća "b" za praznu ćeliju, "l" za tekstualnu vrednost i "v" za bilo koju drugu vrednost u ćeliji.</td>
+                </tr>
+                <tr>
+                    <td><b><em>"width"</em></b></td>
+                    <td>Vraća širinu ćelije, zaokruženu na ceo broj.</td>
+                </tr>
+            </table>
+            <p>Ispod možete videti tekstualne vrednosti koje funkcija vraća za argument <em>"format"</em></p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Format broja</b></th>
+                    <th style="background-color: #f4f4f4"><b>Vraćena tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>Opšti</em></b></td>
+                    <td>G</td>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>F0</td>
+                </tr>
+                <tr>
+                    <td><b><em>#,##0</em></b></td>
+                    <td>,0</td>
+                </tr>
+                <tr>
+                    <td><b><em>0.00</em></b></td>
+                    <td>F2</td>
+                </tr>
+                <tr>
+                    <td><b><em>#,##0.00</em></b></td>
+                    <td>,2</td>
+                </tr>
+                <tr>
+                    <td><b><em>$#,##0_);($#,##0)</em></b></td>
+                    <td>C0</td>
+                </tr>
+                <tr>
+                    <td><b><em>$#,##0_);[Red]($#,##0)</em></b></td>
+                    <td>C0-</td>
+                </tr>
+                <tr>
+                    <td><b><em>$#,##0.00_);($#,##0.00)</em></b></td>
+                    <td>C2</td>
+                </tr>
+                <tr>
+                    <td><b><em>$#,##0.00_);[Red]($#,##0.00)</em></b></td>
+                    <td>C2-</td>
+                </tr>
+                <tr>
+                    <td><b><em>0%</em></b></td>
+                    <td>P0</td>
+                </tr>
+                <tr>
+                    <td><b><em>0.00%</em></b></td>
+                    <td>P2</td>
+                </tr>
+                <tr>
+                    <td><b><em>0.00E+00</em></b></td>
+                    <td>S2</td>
+                </tr>
+                <tr>
+                    <td><b><em># ?/? or # ??/??</em></b></td>
+                    <td>G</td>
+                </tr>
+                <tr>
+                    <td><b><em>m/d/yy or m/d/yy h:mm or mm/dd/yy</em></b></td>
+                    <td>D4</td>
+                </tr>
+                <tr>
+                    <td><b><em>d-mmm-yy or dd-mmm-yy</em></b></td>
+                    <td>D1</td>
+                </tr>
+                <tr>
+                    <td><b><em>d-mmm or dd-mmm</em></b></td>
+                    <td>D2</td>
+                </tr>
+                <tr>
+                    <td><b><em>mmm-yy</em></b></td>
+                    <td>D3</td>
+                </tr>
+                <tr>
+                    <td><b><em>mm/dd</em></b></td>
+                    <td>D5</td>
+                </tr>
+                <tr>
+                    <td><b><em>h:mm AM/PM</em></b></td>
+                    <td>D7</td>
+                </tr>
+                <tr>
+                    <td><b><em>h:mm:ss AM/PM</em></b></td>
+                    <td>D6</td>
+                </tr>
+                <tr>
+                    <td><b><em>h:mm</em></b></td>
+                    <td>D9</td>
+                </tr>
+                <tr>
+                    <td><b><em>h:mm:ss</em></b></td>
+                    <td>D8</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p>Imajte u vidu da je ovo formula niza. Da biste saznali više, pročitajte članak <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Umetanje formula niza</a>.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>CELL</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>CELL</b>.</p>
+			<p><img alt="CELL Function" src="../images/cell.png" /></p>
+		</div>
+	</body>
+</html>

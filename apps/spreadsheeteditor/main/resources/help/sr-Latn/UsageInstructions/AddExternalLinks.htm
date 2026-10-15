@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje spoljnih linkova u ćelije</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Dodajte spoljni link u ćeliju ili opseg ćelija u drugoj radnoj svesci" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Dodavanje spoljnih linkova u ćelije</h1>
+            <h3>Dodavanje spoljnih linkova</h3>
+            <p>U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a> možete da kreirate spoljni link ka ćeliji ili opsegu ćelija u drugoj radnoj svesci. Spoljni linkovi ka ćelijama mogu se kreirati između fajlova unutar trenutnog portala (u online editoru) ili između lokalnih fajlova (u desktop editoru).</p>
+            <p class="note"><b>Napomena</b>: u online editoru, mogućnost ubacivanja podataka putem spoljnog linka mora biti implementirana i na strani integratora (npr. u sistemu za upravljanje dokumentima treće strane).</p>
+            <p>Ako se podaci u izvornoj radnoj svesci promene, možete ažurirati vrednosti u odredišnoj radnoj svesci bez ponovnog ručnog kopiranja.</p>
+            <p>Da biste dodali spoljni link,</p>
+            <ol>
+                <li>otvorite izvornu radnu svesku i odredišnu radnu svesku,</li>
+                <li>u izvornoj radnoj svesci kopirajte ćeliju ili opseg ćelija (Ctrl+C),</li>
+                <li>u odredišnoj radnoj svesci nalepite kopirane podatke (Ctrl+V),</li>
+                <li>kliknite na dugme Paste Special i izaberite opciju <b>Paste link</b> (ili koristite taster <em>Ctrl</em> da biste otvorili meni <b>Paste Special</b>, a zatim pritisnite <em>N</em>).</li>
+            </ol>
+            <p>Link će biti dodat. Ako kliknete na ćeliju koja sadrži spoljni link, u traci sa formulama izgledaće ovako: <code>='[SourceWorkbook.xlsx]Sheet1'!A1</code>.</p>
+            <p>Da biste ažurirali dodate spoljne linkove,</p>
+            <ol>
+                <li>pređite na karticu <b>Data</b>,</li>
+                <li>
+                    kliknite na dugme <b>External Links</b>,
+                    <p><img alt="External Links" src="../images/externallinks.png" /></p>
+                </li>
+                <li>aktivirajte opciju <b>Automatically update data from the linked sources</b> da biste stalno održavali <em>sve podatke</em> ažurnim,</li>
+                <li>da biste ažurirali <em>određene vrednosti</em>, izaberite ih i kliknite na dugme <b>Update values</b>.</li>
+            </ol>
+            <p>Status će biti promenjen na „OK“.</p>
+            <p>U istom prozoru <b>External links</b> možete kliknuti na dugme <b>Open source</b> da biste otvorili izvornu radnu svesku; ili kliknuti na dugme <b>Change source</b> da biste promenili izvorni link.</p>
+            <p>Kada otvorite radnu svesku koja sadrži spoljne linkove, pojavljuje se upozorenje:</p>
+            <p><img alt="External Links" src="../images/extlinkwarning.png" /></p>
+            <p>Kliknite na <b>Update</b> da biste ažurirali sve spoljne linkove.</p>
+            <p>Da biste prekinuli dodate spoljne linkove,</p>
+            <ol>
+                <li>pređite na karticu <b>Data</b>,</li>
+                <li>kliknite na dugme <b>External Links</b>,</li>
+                <li>izaberite željeni link sa liste,</li>
+                <li>kliknite na dugme <b>Break Links</b> ili kliknite na strelicu pored njega i izaberite da li želite da <b>Break links</b> (trenutno izabrane) ili <b>Break all links</b>.</li>
+            </ol>
+            <p>Linkovi će biti prekinuti i vrednosti se više neće ažurirati.</p>
+
+            <h3>Dodavanje spoljnih podataka</h3>
+            <p>Možete da se referencirate na podatke iz druge radne sveske. Da biste to uradili,</p>
+            <ol>
+                <li>otvorite izvornu radnu svesku i odredišnu radnu svesku,</li>
+                <li>počnite sa unosom formule,</li>
+                <li>kliknite levim tasterom miša na ćeliju na koju želite da se referencirate, u drugoj radnoj svesci.</li>
+            </ol>
+        </div>
+	</body>
+</html>

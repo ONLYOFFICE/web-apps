@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *    FileMenuPanels.js
@@ -62,7 +65,8 @@ define([], function () {
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
+            // {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
@@ -75,9 +79,9 @@ define([], function () {
                     '<% _.each(rows, function(row) { %>',
                             '<% _.each(row, function(item) { %>',
                                 '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                    '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                         '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                    '</div></div>',
+                                    '</button></div>',
                                 '<% } %>',
                             '<% }) %>',
                         '<div class="divider"></div>',
@@ -92,6 +96,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -123,6 +128,7 @@ define([], function () {
                 fileType: (this.fileType || 'docx').toLowerCase(),
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'DE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -132,27 +138,62 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'docx').toLowerCase(),
+                itemWidth = 70 + 24,
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.DOCM && fileType !== 'docm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) { 
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -184,7 +225,8 @@ define([], function () {
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'},
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
+            // {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP,  ext: '.hwp'}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
@@ -198,9 +240,9 @@ define([], function () {
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><button type="button" class="btn-doc-format" tabindex="0" aria-label="<%= item.name %>" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                '</div></div>',
+                                '</button></div>',
                             '<% } %>',
                         '<% }) %>',
                         '<div class="divider"></div>',
@@ -215,6 +257,7 @@ define([], function () {
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+            this.saveFormats = options.saveFormats;
 
             Common.NotificationCenter.on({
                 'window:resize': _.bind(function() {
@@ -246,6 +289,7 @@ define([], function () {
                 fileType: (this.fileType || 'docx').toLowerCase(),
                 header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'DE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+            this.$el.on('keydown', '.btn-doc-format', this.onFormatKeyDown.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -255,27 +299,62 @@ define([], function () {
                 });
             }
 
-            var itemWidth = 70 + 24, // width + margin
+            return this;
+        },
+
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            this.isVisible() && this.updateFormats();
+            return this;
+        },
+
+        updateFormats: function() {
+            var allowed = this.saveFormats;
+
+            var isVisibleFormat = function (type) {
+                return !allowed || type === '' || _.isNaN(type) || allowed.indexOf(type) !== -1;
+            };
+            $('.btn-doc-format',this.el).each(function (index, el) {
+                $(el).parent().toggle(isVisibleFormat(parseInt(el.getAttribute('format'))));
+            });
+
+            var fileType = (this.fileType || 'docx').toLowerCase(),
+                itemWidth = 70 + 24,
                 maxCount = 0;
-            this.formats.forEach(_.bind(function (item, index) {
-                var count = item.length;
+            this.formats.forEach(function (row) {
+                var count = 0;
+                row.forEach(function (item) {
+                    if (item.type === Asc.c_oAscFileType.DOCM && fileType !== 'docm') return;
+                    isVisibleFormat(item.type) && count++;
+                });
                 if (count > maxCount) {
                     maxCount = count;
                 }
-            }, this));
+            });
             this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
 
-            if (Common.Utils.innerWidth() >= this.maxWidth) {
-                this.$el.find('.divider').css('width', '100%');
-                this.isDivided = true;
-            }
-
-            return this;
+            this.isDivided = Common.Utils.innerWidth() >= this.maxWidth;
+            this.$el.find('.divider').css('width', this.isDivided ? '100%' : '0');
         },
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateFormats();
             this.scroller && this.scroller.update();
+        },
+
+        onFormatKeyDown: function(e) {
+            if (e.keyCode !== Common.UI.Keys.TAB) return;
+            if (Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()) return;
+            var items = $('.btn-doc-format', this.el).filter(':visible'),
+                idx = items.index(e.currentTarget);
+            if (e.shiftKey && idx === 0) {
+                e.preventDefault();
+                items.last().focus();
+            } else if (!e.shiftKey && idx === items.length - 1) {
+                e.preventDefault();
+                items.first().focus();
+            }
         },
 
         onFormatClick: function(e) {
@@ -1209,13 +1288,15 @@ define([], function () {
                 showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                showDownload: this.mode.canDownload && this.mode.twoLevelHeader && (!this.mode.isDesktopApp || !this.mode.isOffline),
                 mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('de-quick-access-save', true),
                     print: Common.localStorage.getBool('de-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('de-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('de-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('de-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('de-quick-access-redo', true),
+                    download: Common.localStorage.getBool('de-quick-access-download', false)
                 }
             });
             this.dlgQuickAccess.show();
@@ -3229,18 +3310,13 @@ define([], function () {
             });
             var newSelectedOption = null;
 
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
-
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -3260,7 +3336,10 @@ define([], function () {
                         _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = DE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {

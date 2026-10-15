@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje pozadine i ivica ćelija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Podesite stil ćelija dodavanjem pozadine i ivica ćelija" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Dodavanje pozadine i ivica ćelija</h1>            
+            <h3>Dodavanje pozadine ćelije</h3>
+            <p>Da biste primenili i formatirali pozadinu ćelije u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a>,</p>
+            <ol>
+                <li>
+                    izaberite ćeliju ili opseg ćelija pomoću miša ili ceo radni list pritiskom na kombinaciju tastera <b>Ctrl+A</b>,
+                    <p class="note"><b>Napomena</b>: takođe možete izabrati više nepovezanih ćelija ili opsega ćelija držeći taster <b>Ctrl</b> dok birate ćelije/opsege mišem.</p>
+                </li>
+                <li>da biste primenili popunu <em>jednobojnom bojom</em> na pozadinu ćelije, kliknite na ikonu <b>Boja pozadine</b> <div class="icon icon-backgroundcolor"></div> na kartici <b>Home</b> na gornjoj traci sa alatkama i izaberite željenu boju. 
+                </li>
+                <li>da biste koristili druge tipove popune, kao što su <em>gradijent</em> ili <em>šablon</em>, kliknite na ikonu <b>Podešavanja ćelije</b> <div class="icon icon-cellsettings_rightpanel"></div> na desnoj bočnoj traci i koristite odeljak <b>Fill</b>:
+                    <ul>
+                        <li>
+                            <b>Color Fill</b> – izaberite ovu opciju da biste naveli jednobojnu boju kojom želite da popunite izabrane ćelije.
+                            <p><img alt="Color Fill" src="../images/cell_fill_color.png" /></p>
+                            <p id="color">Kliknite na obojeno polje ispod i izaberite jednu od sledećih paleta:</p>
+                            <p><img alt="Palette" src="../images/palette.png" /></p>
+                            <ul>
+                                <li><b>Theme Colors</b> – boje koje odgovaraju izabranoj šemi boja tabele.</li>
+                                <li><b>Standard Colors</b> – skup podrazumevanih boja. Izabrana šema boja ne utiče na njih.</li>
+                                <li>
+                                    Takođe možete primeniti <b>prilagođenu boju</b> koristeći dve različite opcije:
+                                    <ul>
+                                        <li>
+                                            <b>Eyedropper</b> – koristite ovu opciju da biste izabrali željenu boju klikom na nju u tabeli.
+                                        </li>
+                                        <li>
+                                            <b>More colors</b> – kliknite na ovaj natpis ako željena boja nedostaje među dostupnim paletama. Izaberite potreban opseg boja pomeranjem vertikalnog klizača i podesite konkretnu boju povlačenjem birača boje unutar velikog kvadratnog polja. Kada izaberete boju pomoću birača, odgovarajuće RGB i sRGB vrednosti boje biće prikazane u poljima sa desne strane. Takođe možete definisati boju na osnovu RGB modela boja unošenjem odgovarajućih numeričkih vrednosti u polja <b>R</b>, <b>G</b>, <b>B</b> (crvena, zelena, plava) ili unosom sRGB heksadecimalnog koda u polje označeno znakom <b>#</b>. Izabrana boja se pojavljuje u okviru <b>New</b> za pregled. Ako je objekat prethodno bio popunjen nekom prilagođenom bojom, ta boja se prikazuje u okviru <b>Current</b> kako biste mogli da uporedite originalnu i izmenjenu boju. Kada je boja definisana, kliknite na dugme <b>Add</b>:
+                                            <p><img alt="Palette - Custom Color" src="../../../../../../common/main/resources/help/en/images/palette_custom.png" /></p>
+                                            <p>Prilagođena boja će biti primenjena na izabrani element i dodata u paletu <b>Recent colors</b>.</p>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Gradient Fill</b> – popunite izabrane ćelije sa dve boje koje se glatko prelaze jedna u drugu.
+                            <p><img alt="Gradient Fill" src="../images/cell_fill_gradient.png" /></p>
+                            <ul>
+                                <li><b>Angle</b> – ručno navedite tačnu vrednost u stepenima koja definiše smer gradijenta (boje se menjaju u pravoj liniji pod navedenim uglom).</li>
+                                <li><b>Direction</b> – izaberite unapred definisan šablon iz menija. Dostupni su sledeći smerovi: gore-levo ka dole-desno (<em>45&deg;</em>), gore ka dole (<em>90&deg;</em>), gore-desno ka dole-levo (<em>135&deg;</em>), desno ka levo (<em>180&deg;</em>), dole-desno ka gore-levo (<em>225&deg;</em>), dole ka gore (<em>270&deg;</em>), dole-levo ka gore-desno (<em>315&deg;</em>), levo ka desno (<em>0&deg;</em>).</li>
+                                <li>
+                                    <b>Gradient Point</b> je specifična tačka za prelaz iz jedne boje u drugu.
+                                    <ul>
+                                        <li>Koristite dugme <div class="icon icon-addgradientpoint"></div> <b>Add Gradient Point</b> ili klizač da biste dodali gradijentnu tačku. Možete dodati do 10 gradijentnih tačaka. Svaka sledeća dodata tačka neće uticati na trenutni izgled gradijentne popune. Koristite dugme <div class="icon icon-removegradientpoint"></div> <b>Remove Gradient Point</b> da biste obrisali određenu gradijentnu tačku.</li>
+                                        <li>Koristite klizač da biste promenili poziciju gradijentne tačke ili navedite <b>Position</b> u procentima za precizno pozicioniranje.</li>
+                                        <li>Da biste primenili boju na gradijentnu tačku, kliknite na tačku na klizaču, a zatim kliknite na <b>Color</b> da biste izabrali željenu boju.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Pattern</b> – izaberite ovu opciju da biste popunili izabrane ćelije dvobojnim dizajnom sastavljenim od pravilno ponavljanih elemenata.
+                            <p><img alt="Pattern Fill" src="../images/cell_fill_pattern.png" /></p>
+                            <ul>
+                                <li><b>Pattern</b> – izaberite jedan od unapred definisanih dizajna iz menija.</li>
+                                <li><b>Foreground color</b> – kliknite na ovo polje boje da biste promenili boju elemenata šablona.</li>
+                                <li><b>Background color</b> – kliknite na ovo polje boje da biste promenili boju pozadine šablona.</li>
+                            </ul>
+                        </li>
+                        <li><b>No Fill</b> – izaberite ovu opciju ako ne želite da koristite popunu.</li>
+                    </ul>
+                </li>
+            </ol>
+                        
+            <h3 id="cell_borders">Dodavanje ivica ćelija</h3>
+			<p>Da biste dodali i formatirali ivice na radnom listu,</p>
+			<ol>
+				<li>izaberite ćeliju, opseg ćelija pomoću miša ili ceo radni list pritiskom na kombinaciju tastera <b>Ctrl+A</b>,
+                <p class="note"><b>Napomena</b>: takođe možete izabrati više nepovezanih ćelija ili opsega ćelija držeći taster <b>Ctrl</b> dok birate ćelije/opsege mišem.</p>
+                </li>
+				<li>kliknite na ikonu <b>Ivica</b> <div class="icon icon-addborders"></div> na kartici <b>Home</b> na gornjoj traci sa alatkama ili kliknite na ikonu <b>Podešavanja ćelije</b> <div class="icon icon-cellsettings_rightpanel"></div> na desnoj bočnoj traci i koristite odeljak <b>Borders Style</b>,
+                <p><img alt="Cell settings tab" src="../images/cellsettingstab.png" /></p>
+                </li>
+				<li>izaberite stil ivica koji želite da primenite: 
+                <ol>
+                    <li>otvorite podmeni <b>Border Style</b> <div class="icon icon-borderstyle"></div> i izaberite jednu od dostupnih opcija, </li>
+                    <li>otvorite podmeni ikone <b>Border Color</b> <div class="icon icon-bordercolor"></div> ili koristite paletu <b>Color</b> na desnoj bočnoj traci i izaberite željenu boju iz palete,</li>
+                    <li>izaberite jedan od dostupnih šablona ivica: <b>Outside Borders</b> <div class="icon icon-outsideborders"></div>, <b>All Borders</b> <div class="icon icon-allborders"></div>, <b>Top Borders</b> <div class="icon icon-topborders"></div>, <b>Bottom Borders</b> <div class="icon icon-bottomborders"></div>, <b>Left Borders</b> <div class="icon icon-leftborders"></div>, <b>Right Borders</b> <div class="icon icon-rightborders"></div>, <b>No Borders</b> <div class="icon icon-noborders"></div>, <b>Inside Borders</b> <div class="icon icon-insideborders"></div>, <b>Inside Vertical Borders</b> <div class="icon icon-insideverticalborders"></div>, <b>Inside Horizontal Borders</b> <div class="icon icon-insidehorizontalborders"></div>, <b>Diagonal Up Border</b> <div class="icon icon-diagonal_up_border"></div>, <b>Diagonal Down Border</b> <div class="icon icon-diagonal_down_border"></div>.</li>
+                </ol>
+                </li>
+			</ol>
+		</div>
+	</body>
+</html>

@@ -8,6 +8,98 @@
 @red: #f00;
 @autoColor: @black;
 
+.icon-fill-gray-primary {
+    fill: var(--icon-fill-grey-primary, #444444);
+}
+
+.icon-stroke-gray-primary {
+    stroke: var(--icon-stroke-grey-primary, #444444);
+}
+
+.icon-fill-gray-secondary {
+    fill: var(--icon-fill-grey-secondary, #8E8E93);
+}
+
+.icon-fill-blue-primary {
+    fill: var(--icon-fill-blue-primary, #446ECA);
+}
+
+.icon-stroke-blue-primary {
+    stroke: var(--icon-stroke-blue-primary, #446ECA);
+}
+
+.icon-fill-blue-secondary {
+    fill: var(--icon-fill-blue-secondary, #DCE7FA);
+}
+
+.icon-fill-red {
+    fill: var(--icon-fill-red, #FF3B30);
+}
+
+.icon-stroke-red {
+    stroke: var(--icon-stroke-red, #FF3B30);
+}
+
+.icon-fill-green {
+    fill: var(--icon-fill-green, #009900);
+}
+
+.icon-stroke-green {
+    stroke: var(--icon-stroke-green, #009900);
+}
+
+.icon-stroke-white-base {
+    stroke: var(--icon-stroke-white-base, #FFFFFF);
+}
+
+.icon-fill-blue-brand-primary {
+    fill: var(--icon-fill-blue-brand-primary, #446995);
+}
+
+.icon-stroke-blue-brand-primary {
+    stroke: var(--icon-stroke-blue-brand-primary, #446995);
+}
+
+.icon-fill-blue-brand-secondary {
+    fill: var(--icon-fill-blue-brand-secondary, #E5F0FF);
+}
+
+.icon-fill-green-brand-primary {
+    fill: var(--icon-fill-green-brand-primary, #40865C);
+}
+
+.icon-stroke-green-brand-primary {
+    stroke: var(--icon-stroke-green-brand-primary, #40865C);
+}
+
+.icon-fill-green-brand-secondary {
+    fill: var(--icon-fill-green-brand-secondary, #D9EFE2);
+}
+
+.icon-fill-red-brand-primary {
+    fill: var(--icon-fill-red-brand-primary, #BE6650);
+}
+
+.icon-fill-red-brand-secondary {
+    fill: var(--icon-fill-red-brand-secondary, #FBE4DE);
+}
+
+.icon-fill-type-preview {
+    fill: var(--icon-fill-type-preview, #555555);
+}
+
+.icon-fill-brand-primary {
+    fill: var(--icon-brand-primary, #446ECA);
+}
+
+.icon-stroke-brand-primary {
+    stroke: var(--icon-brand-primary, #446ECA);
+}
+
+.icon-fill-brand-secondary {
+    fill: var(--icon-brand-secondary, #DCE7FA);
+}
+
 .row {
     --f7-cols-per-row: 1;
     align-items: flex-start;
@@ -83,6 +175,20 @@
     .icon-back {
         color: @toolbar-icons;
     }
+    .link {
+        &.notify {
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    bottom: 8px;
+                    right: 10px;
+                    background-color: @background-notification-badge;
+                    border-radius: 6px;
+                }
+        }
+    }
 }
 
 .page.page-with-subnavbar {
@@ -150,6 +256,21 @@
                 padding-right: 15px;
                 &:before {
                     content: none;
+                }
+            }
+        }
+
+        &.notify {
+            .item-media {
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    bottom: 8px;
+                    right: 1px;
+                    background-color: @background-notification-badge;
+                    border-radius: 6px;
                 }
             }
         }
@@ -244,6 +365,8 @@
 }
 
 .popover {
+    box-shadow: 0 10px 100px 0 rgba(0, 0, 0, 0.3);
+
     .page .list:first-child:last-child {
         ul {
             border-radius: 0;
@@ -255,6 +378,10 @@
             }
         }
     }
+}
+
+.sheet-modal, .dropdown-list-popup {
+    box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.16);
 }
 
 // .popover .list + .list {
@@ -274,7 +401,11 @@
         .thumb {
             width: 100%;
             height: 100%;
-            background-color: @brandColor;
+
+            .thumb-icon {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }
@@ -292,8 +423,12 @@
         .thumb {
             width: 100%;
             height: 100%;
-            background-size: contain;
-            background-repeat: no-repeat;
+
+            .thumb-icon {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

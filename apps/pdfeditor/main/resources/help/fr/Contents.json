@@ -1,28 +1,164 @@
 [
-    {"src": "ProgramInterface/ProgramInterface.htm", "name": "PrÈsentation de l'interface utilisateur de l'Èditeur de PDF", "headername": "Interface du programme"},
-    {"src": "ProgramInterface/FileTab.htm", "name": "Onglet Fichier"},
-    {"src": "ProgramInterface/HomeTab.htm", "name": "Onglet Accueil"},
-    {"src": "ProgramInterface/InsertTab.htm", "name": "Onglet Insertion"},
-    { "src": "ProgramInterface/CommentTab.htm", "name": "Onglet Commentaires" },
-    {"src": "ProgramInterface/ViewTab.htm", "name": "Onglet Affichage"},
-    {"src": "ProgramInterface/PluginsTab.htm", "name": "Onglet Modules complÈmentaires"},
-    { "src": "UsageInstructions/OpenCreateNew.htm", "name": "CrÈer un nouveau document ou ouvrir un document existant", "headername": "OpÈrations de base" },
-    { "src": "UsageInstructions/FillingOutForm.htm", "name": "Remplir un formulaire" },
-    { "src": "UsageInstructions/EditPDF.htm", "name": "Modifier un fichier PDF" },
-	{ "src": "HelpfulHints/Communicating.htm", "name": "Communiquer en temps rÈel", "headername": "…dition collaborative" },
-	{"src": "HelpfulHints/Commenting.htm", "name": "Commenter un fichier PDF"},
-	{"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner ‡ main levÈe dans un document PDF" },
-	{"src": "UsageInstructions/HTML.htm", "name": "Modifier HTML", "headername": "Plugins"},
-	{"src": "UsageInstructions/WordCounter.htm", "name": "Compter des mots"},
-	{ "src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
-    { "src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
-    {"src": "UsageInstructions/Speech.htm", "name": "Lire le texte ‡ haute voix" },
-    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'Èdition" },
-    {"src": "UsageInstructions/ViewPDFInfo.htm", "name": "Afficher les informations sur le document PDF", "headername": "Outils et paramËtres"},
-	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Enregistrer, tÈlÈcharger et imprimer un document PDF" },
-    {"src": "HelpfulHints/AdvancedSettings.htm", "name": "ParamËtres avancÈs de l'Èditeur de PDF"},
-    {"src": "HelpfulHints/Navigation.htm", "name": "ParamËtres d'affichage et outils de navigation" },
-	{"src": "HelpfulHints/Search.htm", "name": "Fonction de recherche"},
-    {"src": "HelpfulHints/About.htm", "name": "¿ propos de l'Èditeur de PDF", "headername": "Astuces utiles"},
-    { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Raccourcis clavier" }
+    {
+        "src": "ProgramInterface/ProgramInterface.htm",
+        "name": "Pr√©sentation de l'interface utilisateur de l'√©diteur de PDF",
+        "headername": "Interface du programme"
+    },
+    {
+        "src": "ProgramInterface/FileTab.htm",
+        "name": "Onglet Fichier"
+    },
+    {
+        "src": "ProgramInterface/HomeTab.htm",
+        "name": "Onglet Accueil"
+    },
+    {
+        "src": "ProgramInterface/InsertTab.htm",
+        "name": "Onglet Insertion"
+    },
+    {
+        "src": "ProgramInterface/CommentTab.htm",
+        "name": "Onglet Commentaires"
+    },
+    {
+        "src": "ProgramInterface/ViewTab.htm",
+        "name": "Onglet Affichage"
+    },
+    {
+        "src": "ProgramInterface/PluginsTab.htm",
+        "name": "Onglet Modules compl√©mentaires"
+    },
+    {
+        "src": "ProgramInterface/CollaborationTab.htm",
+        "name": "Onglet Collaboration"
+    },
+    {
+        "src": "ProgramInterface/ProtectionTab.htm",
+        "name": "Onglet Protection"
+    },
+    {
+        "src": "ProgramInterface/RedactTab.htm",
+        "name": "Onglet Biffer"
+    },
+    {
+        "src": "UsageInstructions/OpenCreateNew.htm",
+        "name": "Cr√©er un nouveau document ou ouvrir un document existant",
+        "headername": "Op√©rations de base"
+    },
+    {
+        "src": "UsageInstructions/FillingOutForm.htm",
+        "name": "Remplir un formulaire"
+    },
+    {
+        "src": "UsageInstructions/EditPDF.htm",
+        "name": "Modifier un fichier PDF"
+    },
+    {
+        "src": "HelpfulHints/Communicating.htm",
+        "name": "Communiquer en temps r√©el",
+        "headername": "√âdition collaborative"
+    },
+    {
+        "src": "HelpfulHints/Commenting.htm",
+        "name": "Commenter un fichier PDF"
+    },
+    {
+        "src": "UsageInstructions/DrawingOperations.htm",
+        "name": "Dessiner √† main lev√©e dans un document PDF"
+    },
+    {
+        "src": "UsageInstructions/HTML.htm",
+        "name": "Modifier HTML",
+        "headername": "Plugins"
+    },
+    {
+        "src": "UsageInstructions/WordCounter.htm",
+        "name": "Compter des mots"
+    },
+    {
+        "src": "UsageInstructions/Thesaurus.htm",
+        "name": "Remplacer un mot par synonyme"
+    },
+    {
+        "src": "UsageInstructions/Translator.htm",
+        "name": "Traduire un texte"
+    },
+    {
+        "src": "UsageInstructions/Speech.htm",
+        "name": "Lire le texte √† haute voix"
+    },
+    {
+        "src": "UsageInstructions/CommunicationPlugins.htm",
+        "name": "Communiquer lors de l'√©dition"
+    },
+    {
+        "src": "UsageInstructions/ViewPDFInfo.htm",
+        "name": "Afficher les informations sur le document PDF",
+        "headername": "Outils et param√®tres"
+    },
+    {
+        "src": "UsageInstructions/SavePrintDownload.htm",
+        "name": "Enregistrer, t√©l√©charger et imprimer un document PDF"
+    },
+    {
+        "src": "UsageInstructions/CollaborativeEditing.htm",
+        "name": "Collaborer sur des fichiers PDF en temps r√©el"
+    },
+    {
+        "src": "UsageInstructions/Password.htm",
+        "name": "Prot√©ger des formulaires PDF avec un mot de passe"
+    },
+    {
+        "src": "UsageInstructions/Redact.htm",
+        "name": "Caviarder des fichiers PDF"
+    },
+    {
+        "src": "UsageInstructions/Speechinput.htm",
+        "name": "Saisie vocale"
+    },
+    {
+        "src": "UsageInstructions/Typograf.htm",
+        "name": "Corrections typographiques"
+    },
+    {
+        "src": "UsageInstructions/UsingMacros.htm",
+        "name": "Utiliser des macros"
+    },
+    {
+        "src": "HelpfulHints/AdvancedSettings.htm",
+        "name": "Param√®tres avanc√©s de l'√©diteur de PDF"
+    },
+    {
+        "src": "HelpfulHints/Navigation.htm",
+        "name": "Param√®tres d'affichage et outils de navigation"
+    },
+    {
+        "src": "HelpfulHints/Search.htm",
+        "name": "Fonction de recherche"
+    },
+    {
+        "src": "HelpfulHints/About.htm",
+        "name": "√Ä propos de l'√©diteur de PDF",
+        "headername": "Astuces utiles"
+    },
+    {
+        "src": "HelpfulHints/KeyboardShortcuts.htm",
+        "name": "Raccourcis clavier"
+    },
+    {
+        "src": "HelpfulHints/CollaborativeEditing.htm",
+        "name": "Collaborer sur des fichiers PDF en temps r√©el"
+    },
+    {
+        "src": "HelpfulHints/Password.htm",
+        "name": "Prot√©ger des formulaires PDF avec un mot de passe"
+    },
+    {
+        "src": "HelpfulHints/SupportedFormats.htm",
+        "name": "Formats des fichiers PDF pris en charge"
+    },
+    {
+        "src": "HelpfulHints/VersionHistory.htm",
+        "name": "Historique des versions"
+    }
 ]

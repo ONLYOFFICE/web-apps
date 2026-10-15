@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>AGGREGATE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>AGGREGATE funkcija</h1>
+			<p>Funkcija <b>AGGREGATE</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#mathtrigonometry" onclick="onhyperlinkclick(this)">matematičkih i trigonometrijskih funkcija</a>. Ova funkcija se koristi za vraćanje agregirane vrednosti u listi ili bazi podataka. Funkcija <b>AGGREGATE</b> može primeniti različite agregatne funkcije na listu ili bazu podataka uz opciju ignorisanja skrivenih redova i vrednosti sa greškama.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>AGGREGATE(function_num, options, ref1, [ref2], ...)</em></b></p> 
+            <p>Funkcija <b>AGGREGATE</b> ima sledeće argumente:</p> 
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>function_num</em></b></td>
+                    <td>Numerička vrednost koja određuje koju funkciju treba koristiti. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>options</em></b></td>
+                    <td>Numerička vrednost koja određuje koje vrednosti treba ignorisati. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>ref1</em></b></td>
+                    <td>Prva numerička vrednost za koju želite da dobijete agregiranu vrednost.</td>
+                </tr>
+                <tr>
+                    <td><b><em>ref2</em></b></td>
+                    <td>Do 253 numeričke vrednosti ili referenca na opseg ćelija koji sadrži vrednosti za koje želite agregiranu vrednost. Ovo je opcioni argument.</td>
+                </tr>
+            </table>
+			<p>Argument <b><em>function_num</em></b> može imati jednu od sledećih vrednosti:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>function_num</b></th>
+                    <th style="background-color: #f4f4f4"><b>Funkcija</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">AVERAGE</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">COUNT</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">COUNTA</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td><a href="../Functions/max.htm" onclick="onhyperlinkclick(this)">MAX</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td><a href="../Functions/min.htm" onclick="onhyperlinkclick(this)">MIN</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td><a href="../Functions/product.htm" onclick="onhyperlinkclick(this)">PRODUCT</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td><a href="../Functions/stdev-s.htm" onclick="onhyperlinkclick(this)">STDEV.S</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>8</em></b></td>
+                    <td><a href="../Functions/stdev-p.htm" onclick="onhyperlinkclick(this)">STDEV.P</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>9</em></b></td>
+                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SUM</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>10</em></b></td>
+                    <td><a href="../Functions/var-s.htm" onclick="onhyperlinkclick(this)">VAR.S</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>11</em></b></td>
+                    <td><a href="../Functions/var-p.htm" onclick="onhyperlinkclick(this)">VAR.P</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>12</em></b></td>
+                    <td><a href="../Functions/median.htm" onclick="onhyperlinkclick(this)">MEDIAN</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>13</em></b></td>
+                    <td><a href="../Functions/mode-sngl.htm" onclick="onhyperlinkclick(this)">MODE.SNGL</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>14</em></b></td>
+                    <td><a href="../Functions/large.htm" onclick="onhyperlinkclick(this)">LARGE</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>15</em></b></td>
+                    <td><a href="../Functions/small.htm" onclick="onhyperlinkclick(this)">SMALL</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>16</em></b></td>
+                    <td><a href="../Functions/percentile-inc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.INC</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>17</em></b></td>
+                    <td><a href="../Functions/quartile-inc.htm" onclick="onhyperlinkclick(this)">QUARTILE.INC</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>18</em></b></td>
+                    <td><a href="../Functions/percentile-exc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.EXC</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>19</em></b></td>
+                    <td><a href="../Functions/quartile-exc.htm" onclick="onhyperlinkclick(this)">QUARTILE.EXC</a></td>
+                </tr>
+            </table> 
+			<p>Argument <b><em>options</em></b> može imati jednu od sledećih vrednosti:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Ponašanje</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0 ili izostavljeno</em></b></td>
+                    <td>Ignoriše ugnježdene <a href="../Functions/subtotal.htm" onclick="onhyperlinkclick(this)">SUBTOTAL</a> i AGGREGATE funkcije</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Ignoriše skrivene redove, ugnježdene <a href="../Functions/subtotal.htm" onclick="onhyperlinkclick(this)">SUBTOTAL</a> i AGGREGATE funkcije</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Ignoriše vrednosti sa greškama, ugnježdene <a href="../Functions/subtotal.htm" onclick="onhyperlinkclick(this)">SUBTOTAL</a> i AGGREGATE funkcije</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Ignoriše skrivene redove, vrednosti sa greškama, ugnježdene <a href="../Functions/subtotal.htm" onclick="onhyperlinkclick(this)">SUBTOTAL</a> i AGGREGATE funkcije</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>Ne ignoriše ništa</td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td>Ignoriše skrivene redove</td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td>Ignoriše vrednosti sa greškama</td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td>Ignoriše skrivene redove i vrednosti sa greškama</td>
+                </tr>
+            </table>            
+            <h3>Napomene</h3>
+            <p>Ako želite da koristite neku od sledećih funkcija: <a href="../Functions/large.htm" onclick="onhyperlinkclick(this)">LARGE</a>, <a href="../Functions/small.htm" onclick="onhyperlinkclick(this)">SMALL</a>, <a href="../Functions/percentile-inc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.INC</a>, <a href="../Functions/quartile-inc.htm" onclick="onhyperlinkclick(this)">QUARTILE.INC</a>, <a href="../Functions/percentile-exc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.EXC</a> ili <a href="../Functions/quartile-exc.htm" onclick="onhyperlinkclick(this)">QUARTILE.EXC</a>, <b><em>ref1</em></b> mora biti referenca na opseg ćelija, a <b><em>ref2</em></b> mora biti drugi argument koji je neophodan za ove funkcije (<b><em>k</em></b> ili <b><em>quart</em></b>).</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Funkcija</b></th>
+                    <th style="background-color: #f4f4f4"><b>Sintaksa</b></th>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/large.htm" onclick="onhyperlinkclick(this)">LARGE</a></td>
+                    <td>LARGE(array, k)</td>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/small.htm" onclick="onhyperlinkclick(this)">SMALL</a></td>
+                    <td>SMALL(array, k)</td>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/percentile-inc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.INC</a></td>
+                    <td>PERCENTILE.INC(array, k)</td>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/quartile-inc.htm" onclick="onhyperlinkclick(this)">QUARTILE.INC</a></td>
+                    <td>QUARTILE.INC(array, quart)</td>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/percentile-exc.htm" onclick="onhyperlinkclick(this)">PERCENTILE.EXC</a></td>
+                    <td>PERCENTILE.EXC(array, k)</td>
+                </tr>
+                <tr>
+                    <td><a href="../Functions/quartile-exc.htm" onclick="onhyperlinkclick(this)">QUARTILE.EXC</a></td>
+                    <td>QUARTILE.EXC(array, quart)</td>
+                </tr>
+            </table>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>AGGREGATE</b>.</p>
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>AGGREGATE</b> kada je primenjena funkcija <b>SUM</b>.</p>
+			<p><img alt="AGGREGATE Function" src="../images/aggregate.png" /></p>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>AGGREGATE</b> kada je primenjena funkcija <b>LARGE</b>, <b><em>ref1</em></b> je referenca na opseg ćelija, a <b><em>k</em></b> je jednako 2. Funkcija vraća drugu najveću vrednost u ćelijama A1-A4.</p>
+            <p><img alt="AGGREGATE Function" src="../images/aggregate2.png" /></p>
+		</div>
+	</body>
+</html>

@@ -40,4 +40,15 @@
     .back-reader-mode {
         margin-left: 10px;
     }
+
+    .popover__titled .table-panel,
+    .popover__titled .filter-panel {
+        .list:last-child {
+            li:last-child {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
 }

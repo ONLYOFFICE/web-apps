@@ -498,6 +498,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Errore nullo",
+			"div": "Errore di divisione per zero",
+			"value": "Errore nel valore",
+			"ref": "Errore di riferimento cella non valido",
+			"name": "Errore di nome non valido",
+			"num": "Errore di numero",
+			"na": "Errore di valore non disponibile",
+			"calc": "Matrice vuota",
+			"spill": "L'intervallo di espansione non è vuoto"
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "indirizzo",
 			"col": "col",

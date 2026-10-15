@@ -1,1 +1,6 @@
-<svg width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 5H4v17h20V5zM4 4a1 1 0 0 0-1 1v17a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4z" fill="#000"/><path opacity=".4" d="M24 22H4V5h10v8h10v9z" fill="#000"/><path d="m24 7-10 6h10V7z" fill="url(#a)"/><defs><linearGradient id="a" x1="21" y1="13" x2="21" y2="7" gradientUnits="userSpaceOnUse"><stop stop-opacity=".4"/><stop offset="1" stop-opacity="0"/></linearGradient></defs></svg>
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M25 23H3V5h22zM4 22h20V6H4z" fill="#000"/>
+    <path opacity=".4" d="M14 7v7h9v7H5V7z" fill="#000"/>
+    <path opacity=".2" d="m23 11-9 3 9-7z" fill="#000"/>
+    <path opacity=".3" d="M23 14h-9l9-3z" fill="#000"/>
+</svg>

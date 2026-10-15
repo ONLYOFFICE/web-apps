@@ -1,12 +1,52 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { useContext, useEffect } from 'react';
 import { View, Popup, Popover, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import SpreadsheetSettingsController from '../../controller/settings/SpreadsheetSettings.jsx';
 import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
+import { HelpAndFeedback } from "./HelpAndFeedback";
+import LanguageAndRegionController from '../../controller/settings/LanguageAndRegion.jsx';
 import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
 import { DownloadWithTranslation } from '../../controller/settings/Download.jsx';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import { SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins } from './SpreadsheetSettings.jsx';
-import { MacrosSettings, RegionalSettings, FormulaLanguage, ThemeSettings } from './ApplicationSettings.jsx';
+import { MacrosSettings, ThemeSettings } from './ApplicationSettings.jsx';
+import { RegionalSettings, FormulaLanguage } from './LanguageAndRegion.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
@@ -39,6 +79,10 @@ const routes = [
         component: DownloadWithTranslation
     },
     {
+        path: '/saveacopy/',
+        component: SaveACopyController
+    },
+    {
         path: '/application-settings/',
         component: ApplicationSettingsController
     },
@@ -65,6 +109,18 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/help-and-feedback/',
+        component: HelpAndFeedback
+    },
+    {
+        path: '/language-and-region/',
+        component: LanguageAndRegionController
+    },
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
     },
     // Version History 
     {
@@ -99,14 +155,10 @@ const SettingsView = () => {
     return (
         !Device.phone ?
             <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/' style={{ height: '410px' }}>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' style={{ height: '410px' }} />
             </Popover> :
             <Popup className="settings-popup" onPopupClosed={() => mainContext.closeOptions('settings')}>
-                <View routes={routes} url='/settings-page/'>
-                    <SettingsPage />
-                </View>
+                <View routes={routes} url='/settings-page/' />
             </Popup>
     )
 }

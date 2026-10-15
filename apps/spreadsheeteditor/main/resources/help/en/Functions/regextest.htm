@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>REGEXTEST Function</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>REGEXTEST Function</h1>
+            <p>The <b>REGEXTEST</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">text and data functions</a>. It is used to check whether any part of supplied text matches a regular expression pattern, returning TRUE or FALSE.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXTEST(text, pattern, [case_sensitivity])</em></b></p>
+            <p>The <b>REGEXTEST</b> function has the following arguments:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>The text string or reference to a cell containing the text you want to test against the pattern.</td>
+                </tr>
+                <tr>
+                    <td><b><em>pattern</em></b></td>
+                    <td>The regular expression ("regex") that describes the pattern of text you want to match.</td>
+                </tr>
+                <tr>
+                    <td><b><em>case_sensitivity</em></b></td>
+                    <td>Determines whether the match is case-sensitive. It is an optional argument. If omitted, the match is case-sensitive (0). Enter <b>0</b> for case-sensitive matching or <b>1</b> for case-insensitive matching.</td>
+                </tr>
+            </table>
+
+            <h3>Notes</h3>
+            <p>When writing regex patterns, symbols called "tokens" can be used that match with a variety of characters. These are some simple tokens for reference:</p>
+            <ul>
+                <li><b>[0-9]</b>: any numerical digit</li>
+                <li><b>[a-z]</b>: a character in the range of a to z</li>
+                <li><b>[A-Z]</b>: a character in the range of A to Z</li>
+                <li><b>.</b>: any single character</li>
+                <li><b>*</b>: zero or more of the preceding character</li>
+                <li><b>+</b>: one or more of the preceding character</li>
+                <li><b>^</b>: start of the string</li>
+                <li><b>$</b>: end of the string</li>
+                <li><b>\</b>: escape character (e.g., <b>\(</b> matches a literal parenthesis)</li>
+                <li><b>{n}</b>: exactly n occurrences of the preceding character</li>
+            </ul>
+            <p>The function returns <b>TRUE</b> if the pattern matches any part of the text, and <b>FALSE</b> if no match is found.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>REGEXTEST</b> function.</p>
+
+            <h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>REGEXTEST</b> function.</p>
+            <p><img alt="REGEXTEST Function" src="../images/regextest.png" /></p>
+        </div>
+	</body>
+</html>

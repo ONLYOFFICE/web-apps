@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje hiperveza</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte hiperveze ka reči ili tekstualnom fragmentu koji vode ka eksternom veb-sajtu ili drugom radnom listu" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Dodavanje hiperveza</h1>
+			<p>Da biste dodali hipervezu u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a>,</p>
+			<ol>
+				<li>izaberite ćeliju u koju treba dodati hipervezu,</li>
+                <li>pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama,</li>
+				<li>kliknite na ikonu <div class="icon icon-addhyperlink"></div> <b>Hyperlink</b> na gornjoj traci sa alatkama,</li>
+				<li>pojaviće se prozor <b>Hyperlink Settings</b> i moći ćete da podesite parametre hiperveze:
+				<ul>
+					<li>Izaberite željeni tip linka:
+						<p>Koristite opciju <b>External Link</b> i unesite URL u formatu <em>http://www.example.com</em> u polje <b>Link to</b> ako želite da dodate hipervezu koja vodi ka <b>eksternom</b> veb-sajtu. Ako želite da dodate hipervezu ka <b>lokalnom</b> fajlu, unesite URL u formatu <em>file://path/Spreadsheet.xlsx</em> (za Windows) ili <em>file:///path/Spreadsheet.xlsx</em> (za MacOS i Linux) u polje <b>Link to</b>.</p>
+						<p class="note">Tip hiperveze <em>file://path/Spreadsheet.xlsx</em> ili <em>file:///path/Spreadsheet.xlsx</em> može se otvoriti samo u desktop verziji editora. U veb editoru možete samo dodati link, ali ne i otvoriti ga.</p>
+                        <p><img alt="Hyperlink Settings window" src="../../../../../../common/main/resources/help/en/images/hyperlinkwindow.png" /></p>
+						<p>Koristite opciju <b>Internal Data Range</b>, izaberite radni list i opseg ćelija u poljima ispod ili prethodno dodati <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">Named range</a> ako želite da dodate hipervezu koja vodi ka određenom opsegu ćelija u istoj tabeli.</p>
+						<p>Takođe možete generisati eksterni link koji vodi ka određenoj ćeliji ili opsegu ćelija klikom na dugme <b>Get Link</b> ili korišćenjem opcije <b>Get link to this range</b> u kontekstnom meniju koji se pojavljuje desnim klikom na željeni opseg ćelija. Opcija <b>Get link to this range</b> dostupna je i u režimu pregleda.</p>
+                        <p><img alt="Hyperlink Settings window" src="../images/internallink.png" /></p>
+					</li>
+					<li><b>Display</b> – unesite tekst koji će biti klikabilan i voditi ka veb-adresi navedenoj u gornjem polju.
+					<p class="note"><b>Napomena</b>: ako izabrana ćelija već sadrži podatke, oni će se automatski prikazati u ovom polju.</p>
+					</li>
+					<li><b>ScreenTip Text</b> – unesite tekst koji će biti prikazan u malom iskačućem prozoru kao kratka napomena ili oznaka povezana sa hipervezom.</li>
+				</ul>				
+				</li>
+				<li>kliknite na dugme <b>OK</b>.</li>
+			</ol>
+            <p>Da biste dodali hipervezu, možete koristiti i kombinaciju tastera <b>Ctrl+K</b> ili kliknuti desnim tasterom miša na mesto gde treba dodati hipervezu i izabrati opciju <b>Hyperlink</b> iz kontekstnog menija.</p>
+			<p>Kada pređete kursorom preko dodate hiperveze, pojaviće se ScreenTip. Da biste otvorili link, kliknite na link u tabeli. Da biste izabrali ćeliju koja sadrži link bez njegovog otvaranja, kliknite i držite taster miša.</p>
+			<p>Da biste obrisali dodatu hipervezu, aktivirajte ćeliju koja sadrži hipervezu i pritisnite taster <b>Delete</b>, ili kliknite desnim tasterom miša na ćeliju i izaberite opciju <b>Clear All</b> iz padajuće liste.</p>
+		</div>
+	</body>
+</html>

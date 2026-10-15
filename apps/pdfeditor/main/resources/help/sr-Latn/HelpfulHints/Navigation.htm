@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Podešavanja prikaza i alati za navigaciju</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="Opis podešavanja prikaza i alata za navigaciju kao što su zumiranje, dugmad za prethodnu/sledeću stranicu" />
+	<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+	<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+	<script type="text/javascript" src="../callback.js"></script>
+	<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+	<div class="mainpart">
+		<div class="search-field">
+			<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+		</div>
+		<h1>Podešavanja prikaza i alati za navigaciju</h1>
+		<p> <!--<a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)">--><b>PDF Editor</b><!--</a>--> nudi nekoliko alata za pregled i navigaciju vašeg PDF-a: zumiranje, navigaciju kroz naslove, izbor teme interfejsa itd.</p>
+		<h3>Podesite parametre prikaza</h3>
+		<p>
+			Da biste podesili podrazumevana podešavanja prikaza i izabrali najudobniji režim rada, idite na <b>View</b> karticu i izaberite koje elemente interfejsa želite da sakrijete ili prikažete.
+			Možete izabrati sledeće opcije na <b>View</b> kartici:
+		</p>
+		<ul>
+			<li><b>Naslovi</b> – prikazuje naslove PDF-a na levom panelu.</li>
+			<li><b>Zoom</b> – postavlja željeni nivo zumiranja od 50% do 500%. Ista opcija nalazi se i na <b>Home</b> kartici.</li>
+			<li><b>Prilagodi stranici</b> - uklapa celu stranicu PDF-a u vidljivi deo radne oblasti.</li>
+			<li><b>Prilagodi širini</b> - uklapa širinu PDF stranice u vidljivi deo radne oblasti.</li>
+			<li><b>Tema interfejsa</b> – izaberite jednu od dostupnih tema interfejsa iz padajućeg menija: <em>Same as system</em>, <em>Light</em>, <em>Classic Light</em>, <em>Dark</em>, <em>Contrast Dark</em>, <em>Gray</em>, <em>Modern Light</em>, i <em>Modern Dark</em>. Kada je <em>Dark</em>, <em>Contrast Dark</em> ili <em>Modern Dark</em> tema omogućena, <b>Dark Document</b> prekidač postaje aktivan; koristite ga za podešavanje radne oblasti na belu ili tamnosivu.</li>
+			<li>
+				<b>Always Show Toolbar</b> – kada je isključeno, gornja traka sa komandama biće sakrivena dok nazivi kartica ostaju vidljivi.
+				<p class="note">Alternativno, dvoklik na bilo koju karticu sakriva ili prikazuje gornju traku.</p>
+			</li>
+			<li><b>Status Bar</b> – kada je isključeno, statusna traka na dnu gde su <b>Zoom</b>, <b>Fit to page</b>, <b>Fit to width</b> dugmići biće sakriveni. Da biste prikazali skrivenu <b>statusnu traku</b>, omogućite ovu opciju.</li>
+			<li><b>Left Panel</b> - kada je isključeno, sakriva levi panel gde se <b>Search</b>, <b>Comments</b>, itd. dugmići nalaze. Da biste prikazali levi panel, uključite ovu opciju.</li>
+		</ul>
+		<p>
+			Kada su <b>Comments</b> <span class="onlineDocumentFeatures"> ili <b>Chat</b></span> panel otvoreni, širina leve bočne trake može se prilagoditi prevlačenjem:
+			pomerite kursor preko ivice panela dok se ne pojavi dvosmerna strelica i prevucite desno da proširite panel ili levo da ga vratite na prvobitnu širinu.
+		</p>
+		<h3 id="navigationtools">Koristite alate za navigaciju</h3>
+		<h4>Navigacija stranicama</h4>
+		<p>Idite na <b>Home</b> karticu, gde se nalaze dugmad za navigaciju stranicama.</p>
+		<ul>
+			<li><div class="icon icon-pagenumber"></div> - prikazuje broj stranice i ukupan broj stranica u PDF-u. Kliknite polje, unesite broj stranice i pritisnite <code>Enter</code> da biste skočili direktno na nju. Isti indikator broja stranice može se naći i u donjem levom uglu.</li>
+			<li><div class="icon icon-firstpage"></div> - prelazak na prvu stranicu PDF-a.</li>
+			<li><div class="icon icon-nextpage"></div> - prelazak na sledeću stranicu PDF-a. Isto dugme se nalazi i u donjem levom uglu.</li>
+			<li><div class="icon icon-previouspage"></div> - prelazak na prethodnu stranicu PDF-a. Isto dugme se nalazi i u donjem levom uglu.</li>
+			<li><div class="icon icon-lastpage"></div> - prelazak na poslednju stranicu PDF-a.</li>
+		</ul>
+		<h4>Naslovi</h4>
+		<p>Kliknite <b>Settings</b> ikonu desno od panela <span class="icon icon-navigationicon"></span> <b>Headings</b> i izaberite jednu od dostupnih opcija iz menija:</p>
+		<p>
+			<img alt="NavigationPanel" src="../images/navigationpanel_viewer.png" />
+			<ul>
+				<li><b>Expand all</b> - proširuje sve nivoe naslova u <b>Headings</b> panelu.</li>
+				<li><b>Collapse all</b> - skuplja sve nivoe, osim <em>nivoa 1</em>, u <b>Headings</b> panelu.</li>
+				<li><b>Expand to level</b> - da biste proširili strukturu naslova na izabrani nivo. Npr., ako izaberete <em>nivo 3</em>, onda će nivoi 1, 2 i 3 biti prošireni, dok će nivo 4 i svi niži nivoi biti sažeti.</li>
+				<li><b>Font size</b> – da biste prilagodili veličinu fonta teksta panela <b>Naslovi</b> izborom jedne od dostupnih unapred podešenih postavki: <em>Mali</em>, <em>Srednji</em> i <em>Veliki</em>.</li>
+				<li><b>Wrap long headings</b> – prelama duge naslove u više redova.</li>
+			</ul>
+		<p>Da ručno proširite ili skupite pojedinačne nivoe naslova, koristite strelice levo od naziva.</p>
+		<p>Da zatvorite <b>Headings</b> panel, kliknite <span class="icon icon-navigationicon"></span> <b>Headings</b> ikonu na levoj bočnoj traci ponovo.</p>
+		<h4>Page Thumbnails</h4>
+		<p>Kliknite <span class="icon icon-search_options"></span> na <span class="icon icon-pagethumbnails"></span> <b>Page Thumbnails</b> panel da pristupite <b>Thumbnails podešavanjima</b>:</p>
+		<p><img alt="Page thumbnails settings" src="../images/pagethumbnails_settings.png" /></p>
+		<ul>
+			<li>Prevucite klizač da podesite veličinu sličica.</li>
+			<li> <b>Označi vidljivi deo stranice</b> je podrazumevano aktivno da bi se označila oblast koja je trenutno na ekranu. Kliknite na nju da biste je onemogućili.</li>
+		</ul>
+		<p>Klik desnim tasterom na stranicu otkriva sledeće opcije: <em>Umetnite praznu stranicu pre</em> (trenutne), <em>Umetnite praznu stranicu posle</em> (trenutne), <em>Rotirajte stranicu udesno</em>, <em>Rotirajte stranicu ulevo</em>, <em>Obrišite stranicu</em>. Ove opcije se dostupne samo u <b>Edit PDF</b> režimu.</p>
+		<p>Da zatvorite <b>panel Thumbnail stranica</b>, kliknite na ikonu <span class="icon icon-pagethumbnails"></span> <b>Thumbnails stranica</b> na levoj bočnoj traci još jednom.</p>
+		<h4>Zoom</h4>
+		<p> <b>Zoom</b> dugmići se nalaze u donjem desnom uglu i koriste se za uveličavanje i umanjivanje trenutnog PDF dokumenta.</p>
+		<p>
+			Da promenite trenutno izabranu vrednost uveličanja koja je prikazana u procentima, kliknite na nju i izaberite jednu od dostupnih opcija uveličanja sa liste (50% / 75% / 100% / 125% / 150% / 175% / 200% / 300% / 400% / 500%)
+			ili koristite <b>Zoom in</b> <span class="icon icon-zoomin"></span> ili <b>Zoom out</b> <span class="icon icon-zoomout"></span> dugmiće. Podešeno skaliranje se zadržava za sve datoteke tokom trenutne sesije.
+		</p>
+		<p>Kliknite na ikonu <b>Prilagodi širini</b> <span class="icon icon-fitwidth"></span> da prilagodite širinu stranice dokumenta vidljivom delu radnog prostora.</p>
+		<p>Da prilagodite celu stranicu dokumenta vidljivom delu radnog prostora, kliknite na ikonu <b>Prilagodi stranici</b> <span class="icon icon-fitpage"></span>.</p>
+		<p>Postavke uveličanja su takođe dostupne na kartici <a href="../ProgramInterface/ViewTab.htm" onclick="onhyperlinkclick(this)">Prikaz</a>.</p>
+	</div>
+</body>
+</html>

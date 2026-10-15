@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {List, ListItem, Page, Navbar, Icon, ListButton, BlockTitle, Segmented, Button} from 'framework7-react';
@@ -67,25 +102,8 @@ const PageBreak = props => {
                         <SvgIcon slot="media" symbolId={IconStringBreakAndroid.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
-                <ListItem title={_t.textSectionBreak} link={'/add-section-break/'} routeProps={{
-                    onInsertSectionBreak: props.onInsertSectionBreak
-                }}>
-                    {Device.ios ? 
-                        <SvgIcon slot="media" symbolId={IconSectionBreakIos.id} className={'icon icon-svg'} /> :
-                        <SvgIcon slot="media" symbolId={IconSectionBreakAndroid.id} className={'icon icon-svg'} />
-                    }
-                </ListItem>
             </List>
-        </Page>
-    )
-};
-
-const PageSectionBreak = props => {
-    const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
-    return (
-        <Page>
-            <Navbar title={_t.textSectionBreak} backLink={_t.textBack}/>
+            <BlockTitle>{_t.textSectionBreak}</BlockTitle>
             <List>
                 <ListItem title={_t.textNextPage} link='#' className='no-indicator' onClick={() => {
                     props.onInsertSectionBreak('next')
@@ -283,6 +301,5 @@ export {
     AddOtherContainer as AddOther,
         PageNumber as PageAddNumber,
         PageBreak as PageAddBreak,
-        PageSectionBreak as PageAddSectionBreak,
     PageFootnote as PageAddFootnote,
 };

@@ -155,6 +155,7 @@
       "textHasMacros": "此檔案包含自動巨集程式。<br>是否要執行這些巨集？",
       "textNo": "否",
       "textNoLicenseTitle": "已達到授權人數限制",
+      "textNoResourcesTitle": "資源不足",
       "textNoMatches": "沒有符合的結果",
       "textOk": "確定",
       "textOpenFile": "請輸入用於開啟文件的密碼",
@@ -179,6 +180,7 @@
       "warnLicenseLimitedNoAccess": "授權過期。 因此無法編輯文件。 請聯繫您的管理員。",
       "warnLicenseLimitedRenewed": "授權需更新。您只有限制的文件編輯功能。<br>請聯絡您的管理員以取得完整存取權限。",
       "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
+      "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您無權編輯此檔案。"
     }
@@ -199,6 +201,7 @@
     "errorBadImageUrl": "圖片網址不正確",
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorConnectToServer": "無法儲存此文件。請檢查連線設定或聯絡系統管理員。<br>當您按下確定按鈕時，將會提示您下載文件。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorDatabaseConnection": "外部錯誤。<br>資料庫連線錯誤。請聯絡支援部門。",
     "errorDataEncrypted": "已接收到加密的更改，無法解密。",
     "errorDataRange": "資料範圍不正確。",

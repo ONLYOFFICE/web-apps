@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje kontrola sadržaja</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Umetnite kontrole sadržaja da kreirate formular sa poljima za unos koja mogu da popune drugi korisnici, ili zaštitite delove dokumenta od uređivanja ili brisanja" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Umetanje kontrola sadržaja</h1>
+            <p>ONLYOFFICE <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> omogućava umetanje <b>klasičnih</b> kontrola sadržaja, tj. one su potpuno <b>kompatibilne unazad</b> sa drugim programima za obradu teksta kao što je Microsoft Word.</p>
+            <p>ONLYOFFICE Document Editor podržava sledeće klasične kontrole sadržaja: <em>Obični tekst</em>, <em>Obogaćeni tekst</em>, <em>Slika</em>, <em>Combo box</em>, <em>Drop-down lista</em>, <em>Datum</em>, <em>Check box</em>.</p>
+            <ul>
+                <li><em>Obični tekst</em> je objekat koji sadrži tekst koji se ne može formatirati. Kontrole običnog teksta ne mogu sadržati više od jednog pasusa.</li>
+                <li><em>Obogaćeni tekst</em> je objekat koji sadrži tekst koji se može formatirati. Kontrole obogaćenog teksta mogu sadržati više pasusa, lista i objekata (slike, oblike, tabele itd.).</li>
+                <li><em>Slika</em> je objekat koji sadrži jednu sliku.</li>
+                <li><em>Combo box</em> je objekat koji sadrži padajuću listu sa skupom opcija. Omogućava izbor jedne od unapred definisanih vrednosti sa liste i uređivanje izabrane vrednosti po potrebi.</li>
+                <li><em>Drop-down lista</em> je objekat koji sadrži padajuću listu sa skupom opcija. Omogućava izbor jedne od unapred definisanih vrednosti sa liste. Izabrana vrednost se ne može uređivati.</li>
+                <li><em>Datum</em> je objekat koji sadrži kalendar i omogućava izbor datuma.</li>
+                <li><em>Check box</em> je objekat koji omogućava prikaz dva stanja: čekirano i nečekirano.</li>
+            </ul>
+            <h3>Dodavanje kontrola sadržaja</h3>
+            <h5>Kreiranje nove kontrole običnog teksta</h5>
+            <ol>
+                <li>pozicionirajte kursor na mesto u liniji teksta gde želite da dodate kontrolu,<br />ili selektujte deo teksta koji želite da pretvorite u kontrolu.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite opciju <b>Obični tekst</b> iz menija.</li>
+            </ol>
+            <p>Kontrola sadržaja će biti umetnuta na mesto kursora u postojećoj liniji teksta. Zamenite podrazumevani tekst unutar kontrole ("Your text here") sopstvenim tekstom: selektujte podrazumevani tekst i unesite novi ili kopirajte tekst odakle god i nalepite ga u kontrolu. Kontrole običnog teksta ne dozvoljavaju prelome linija i ne mogu sadržati druge objekte poput slika, tabela itd.</p>
+            <p><img alt="Nova kontrola običnog teksta" src="../images/addedcontentcontrol.png" /></p>
+            <h5>Kreiranje nove kontrole obogaćenog teksta</h5>
+            <ol>
+                <li>pozicionirajte kursor na liniju teksta gde želite da dodate kontrolu,<br />ili selektujte jedan ili više pasusa koji će postati sadržaj kontrole.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite opciju <b>Obogaćeni tekst</b> iz menija.</li>
+            </ol>
+            <p>Kontrola će biti umetnuta u novom pasusu. Zamenite podrazumevani tekst unutar kontrole ("Your text here") sopstvenim tekstom: selektujte podrazumevani tekst i unesite novi tekst ili nalepite tekst iz drugog izvora. Kontrole obogaćenog teksta dozvoljavaju prelome linija, tj. mogu sadržati više pasusa, kao i neke objekte poput slika, tabela i drugih kontrola sadržaja.</p>
+            <p><img alt="Kontrola obogaćenog teksta" src="../images/richtextcontentcontrol.png" /></p>
+            <h5>Kreiranje nove kontrole slike</h5>
+            <ol>
+                <li>pozicionirajte kursor na liniju teksta gde želite da dodate kontrolu.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite opciju <b>Slika</b> iz menija - kontrola će biti umetnuta na mesto kursora.</li>
+                <li>kliknite <div class = "icon icon-image_settings_icon"></div> ikonu slike iznad kontrole - otvoriće se standardni prozor za izbor fajla. Izaberite sliku sa računara i kliknite <b>Open</b>.</li>
+            </ol>
+            <p>Izabrana slika će biti prikazana unutar kontrole. Da zamenite sliku, kliknite <span class = "icon icon-image_settings_icon"></span> ikonu slike iznad kontrole i izaberite drugu sliku.</p>
+            <p><span class = "big big-picturecontentcontrol"></span></p>
+            <h5>Kreiranje nove Combo box ili Drop-down liste</h5>
+            <p><em>Combo box</em> i <em>Drop-down lista</em> sadrže padajuću listu sa skupom opcija. One se kreiraju gotovo na isti način. Glavna razlika je u tome što se izabrana vrednost u <em>Drop-down listi</em> ne može menjati, dok se u <em>Combo box-u</em> može zameniti.</p>
+            <ol>
+                <li>pozicionirajte kursor na liniju teksta gde želite da dodate kontrolu.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite <b>Combo box</b> ili <b>Drop-down list</b> iz menija - kontrola će biti umetnuta na mesto kursora.</li>
+                <li>desni klik na dodatnu kontrolu i izaberite <b>Content control settings</b> iz kontekstualnog menija.</li>
+                <li>u otvorenom <b>Content Control Settings</b> prozoru, prebacite se na <b>Combo box</b> ili <b>Drop-down list</b> tab, u zavisnosti od tipa kontrole.
+                    <p><img alt="Prozor sa podešavanjima Combo box-a" src="../images/comboboxsettings.png" /></p>
+                </li>
+                <li>
+                    da dodate novu stavku liste, kliknite <b>Add</b> i popunite polja u otvorenom prozoru:
+                    <p><img alt="Dodavanje vrednosti u Combo box" src="../images/comboboxaddvalue.png" /></p>
+                    <ol>
+                        <li>unesite tekst u <b>Display name</b>, npr. <em>Da</em>, <em>Ne</em>, <em>Drugo</em>. Ovaj tekst će biti prikazan u kontroli u dokumentu.</li>
+                        <li>Po default-u, tekst u <b>Value</b> polju odgovara tekstu iz <b>Display name</b>. Ako želite da izmenite <b>Value</b>, unesena vrednost mora biti jedinstvena za svaku stavku.</li>
+                        <li>Kliknite <b>OK</b>.</li>
+                    </ol>
+                </li>
+                <li>stavke liste možete uređivati ili brisati koristeći <b>Edit</b> i <b>Delete</b> dugmad ili menjati redosled koristeći <b>Up</b> i <b>Down</b> dugmad.</li>
+                <li>Kada su sve opcije postavljene, kliknite <b>OK</b> da sačuvate podešavanja i zatvorite prozor.</li>
+            </ol>
+            <p><img alt="Nova Combo box kontrola" src="../images/comboboxcontentcontrol.png" /></p>
+            <p>Klikom na strelicu desno u <b>Combo box</b> ili <b>Drop-down list</b> kontroli otvara se lista i birate željenu stavku. U <b>Combo box-u</b> možete izmeniti prikazani tekst, dok <b>Drop-down lista</b> ne dozvoljava uređivanje izabrane stavke.</p>
+            <p><img alt="Combo box kontrola" src="../images/comboboxcontentcontrol2.png" /></p>
+            <h5>Kreiranje nove kontrole datuma</h5>
+            <ol>
+                <li>pozicionirajte kursor na mesto gde želite da dodate kontrolu.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite <b>Date</b> opciju - kontrola sa trenutnim datumom će biti umetnuta na mesto kursora.</li>
+                <li>desni klik na kontrolu i izaberite <b>Content control settings</b>.</li>
+                <li>
+                    u prozoru, prebacite se na <b>Date format</b> tab.
+                    <p><img alt="Prozor sa podešavanjima datuma" src="../images/datesettings.png" /></p>
+                </li>
+                <li>izaberite <b>Jezik</b> i format datuma iz <b>Display the date like this</b> liste.</li>
+                <li>Kliknite <b>OK</b> da sačuvate podešavanja.</li>
+            </ol>
+            <p><span class = "big big-datecontentcontrol"></span></p>
+            <p>Klikom na strelicu desno otvara se kalendar i birate željeni datum.</p>
+            <p><img alt="Kontrola datuma" src="../images/datecontentcontrol2.png" /></p>
+            <h5>Kreiranje nove Check box kontrole</h5>
+            <ol>
+                <li>pozicionirajte kursor na liniju teksta gde želite da dodate kontrolu.</li>
+                <li>prebacite se na <b>Insert</b> tab u vrhu alatne trake.</li>
+                <li>kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone.</li>
+                <li>izaberite <b>Check box</b> opciju - kontrola će biti umetnuta na mesto kursora.</li>
+                <li>desni klik na kontrolu i izaberite <b>Content control settings</b>.</li>
+                <li>
+                    u prozoru prebacite se na <b>Check box</b> tab.
+                    <p><img alt="Prozor sa podešavanjima Check box-a" src="../images/checkboxsettings.png" /></p>
+                </li>
+                <li>Kliknite <b>Checked symbol</b> da izaberete simbol za čekiran, ili <b>Unchecked symbol</b> za nečekiran status. Otvoriće se prozor sa simbolima. Više o simbolima pročitajte u <a href="../UsageInstructions/InsertSymbols.htm" onclick="onhyperlinkclick(this)">ovom članku</a>.</li>
+                <li>Kada izaberete simbole, kliknite <b>OK</b> da sačuvate.</li>
+            </ol>
+            <p>Kontrola se prikazuje kao nečekirana.</p>
+            <p><span class = "icon icon-checkboxcontentcontrol"></span></p>
+            <p>Klikom na kontrolu ona se označava simbolom iz <b>Checked symbol</b> liste.</p>
+            <p><span class = "icon icon-checkboxcontentcontrol2"></span></p>
+            
+            <p class="note"><b>Napomena</b>: Granice kontrole vidljive su samo kada je kontrola selektovana. Granice se ne prikazuju u štampanoj verziji.</p>
+
+            <h3>Premestanje kontrola sadržaja</h3>
+            <p>Kontrole sadržaja se mogu premestiti: kliknite dugme levo od kontrole da je selektujete i prevucite je na drugo mesto bez puštanja miša.</p>
+            <p><img alt="Premestanje kontrole sadržaja" src="../images/movecontentcontrol.png" /></p>
+            <p>Kontrole se takođe mogu <b>kopirati i nalepiti</b>: selektujte kontrolu i koristite <b>Ctrl+C/Ctrl+V</b>.</p>
+            
+            <h3>Uređivanje kontrola običnog i obogaćenog teksta</h3>
+            <p>Tekst u kontrolama običnog i obogaćenog teksta može se formatirati ikonama u vrhu: možete promeniti <a href="../UsageInstructions/FontTypeSizeColor.htm" onclick="onhyperlinkclick(this)">font, veličinu, boju</a>, primeniti <a href="../UsageInstructions/DecorationStyles.htm" onclick="onhyperlinkclick(this)">stilove</a> i <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">formatiranje</a>. Moguće je koristiti <b>Paragraph - Advanced settings</b> prozor iz kontekstualnog menija ili desnog sidebar-a. Obogaćeni tekst može koristiti linijske razmake, uvlačenja, tabove itd.</p>
+            
+            <h3>Promena podešavanja kontrola sadržaja</h3>
+            <p>Bez obzira na tip kontrole, podešavanja se menjaju u <b>General</b> i <b>Locking</b> sekcijama <b>Content Control Settings</b> prozora.</p>
+            <p>Da otvorite podešavanja:</p>
+            <ul>
+                <li>Selektujte kontrolu, kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone i izaberite <b>Control Settings</b>.</li>
+                <li>Desni klik na kontrolu i izaberite <b>Content control settings</b>.</li>
+            </ul>
+            <p>Otvara se prozor. Na <b>General</b> tabu možete podesiti:</p>
+            <p><img alt="Prozor sa General podešavanjima" src="../images/ccsettingswindow.png" /></p>
+            <ul>
+                <li>Unesite <b>Title</b>, <b>Placeholder</b> ili <b>Tag</b>. Title se prikazuje kada je kontrola selektovana, Placeholder je glavni tekst unutar kontrole, a Tag služi za referencu u kodu.</li>
+                <li>Odaberite <b>Bounding box</b> ili <b>None</b>. Ako odaberete box, možete promeniti <b>Color</b> i kliknuti <b>Apply to All</b> da se primeni na sve kontrole.</li>
+                <li>Označite <b>Remove content control when contents are edited</b> da se kontrola ukloni, ali sadržaj ostane.</li>
+            </ul>
+            <p>Na <b>Locking</b> tabu možete zaštititi kontrolu od brisanja ili uređivanja:</p>
+            <p><img alt="Prozor sa Locking podešavanjima" src="../images/ccsettingswindow2.png" /></p>
+            <ul>
+                <li><b>Content control cannot be deleted</b> - zaštita od brisanja.</li>
+                <li><b>Contents cannot be edited</b> - zaštita sadržaja.</li>
+            </ul>
+            <p>Za određene kontrole postoji i treći tab sa specifičnim podešavanjima: <em>Combo box</em>, <em>Drop-down list</em>, <em>Date</em>, <em>Check box</em>. Opisano je u sekcijama o dodavanju ovih kontrola.</p>
+            <p>Kliknite <b>OK</b> da primenite promene.</p>
+            <p>Kontrole se mogu označiti bojom:</p>
+            <ol>
+                <li>Selektujte kontrolu klikom na dugme levo od nje,</li>
+                <li>Kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone,</li>
+                <li>Izaberite <b>Highlight Settings</b>,</li>
+                <li>Odaberite boju iz <b>Theme Colors</b>, <b>Standard Colors</b> ili <b>Custom Color</b>. Da uklonite boju, izaberite <b>No highlighting</b>.</li>
+            </ol>
+            <p>Izabrane opcije se primenjuju na sve kontrole u dokumentu.</p>
+            <h3>Uklanjanje kontrola sadržaja</h3>
+            <p>Da uklonite kontrolu, ali ostavite sadržaj:</p>
+            <ul>
+                <li>Kliknite strelicu pored <div class = "icon icon-insertccicon"></div> <b>Content Controls</b> ikone i izaberite <b>Remove content control</b>.</li>
+                <li>Desni klik na kontrolu i izaberite <b>Remove content control</b>.</li>
+            </ul>
+            <p>Da uklonite kontrolu i njen sadržaj, selektujte je i pritisnite <b>Delete</b>.</p>
+	    
+        </div>
+	</body>
+</html>

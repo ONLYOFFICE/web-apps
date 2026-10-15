@@ -1,3 +1,37 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 import React, { Component, Fragment } from 'react'
 import { inject } from "mobx-react";
@@ -31,7 +65,8 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     "storeChartSettings",
     "storeLinkSettings",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeReview"
     )
 class MainController extends Component {
     constructor (props) {
@@ -116,8 +151,11 @@ class MainController extends Component {
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
+                Common.MentionUsers.init(this.editorConfig.canRequestUsers);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
+
+                this.props.storeAppOptions.wopi = this.editorConfig.wopi;
 
                 let value = LocalStorage.getItem("pe-mobile-macros-mode");
                 if (value === null) {
@@ -189,7 +227,7 @@ class MainController extends Component {
                 this.api.asc_registerCallback('asc_onMacrosPermissionRequest', this.onMacrosPermissionRequest.bind(this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', this.onRunAutostartMacroses.bind(this));
                 this.api.asc_setDocInfo(docInfo);
-                this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+                this.api.asc_getEditorPermissions();
 
                 // Presentation Info
 
@@ -202,6 +240,10 @@ class MainController extends Component {
                 if (data.doc) {
                     Common.Notifications.trigger('setdoctitle', data.doc.title);
                 }
+            };
+
+            const loadBinary = data => {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             };
 
             const onEditorPermissions = params => {
@@ -275,6 +317,7 @@ class MainController extends Component {
                     Common.Gateway.on('init',           loadConfig);
                     Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
+                    Common.Gateway.on('opendocumentfrombinary', loadBinary);
                     Common.Gateway.appReady();
 
                     Common.Gateway.on('internalcommand', function(data) {
@@ -326,6 +369,7 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
         this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
+        this.api.asc_registerCallback('asc_onCollaborativeChanges',  this.onCollaborativeChanges.bind(this));
 
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.ApplyEditRights);
@@ -379,7 +423,14 @@ class MainController extends Component {
     }
 
     onDocumentCanSaveChanged (isCanSave) {
-        //
+        const storeAppOptions = this.props.storeAppOptions;
+        storeAppOptions.changeIsSaveBadgeShown(isCanSave ? !storeAppOptions.isAutosave : false);
+    }
+
+    onCollaborativeChanges () {
+        const storeAppOptions = this.props.storeAppOptions;
+        if (!storeAppOptions.isSaveBadgeShown) storeAppOptions.changeIsSaveBadgeShown(true);
+        storeAppOptions.changeSavingDocStatusText('');
     }
 
     onBeforeUnload () {
@@ -426,6 +477,7 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
             storePresentationSettings.changeSizeIndex(width, height);
+            storePresentationSettings.changeSlideOrientation(width, height);
         });
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
@@ -542,6 +594,8 @@ class MainController extends Component {
                 storePresentationInfo.changeTitle(meta.title);
             }
         });
+
+        Common.Notifications.on('update:windowtitle', force => this.updateWindowTitle(force));
     }
 
     insertImageFromStorage(data) {
@@ -569,6 +623,8 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
 
+        this.props.storeReview.changeDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
+
         this.api.SetDrawingFreeze(false);
 
         Common.Notifications.trigger('preloader:close');
@@ -578,9 +634,14 @@ class MainController extends Component {
         const zf = (value!==null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : -1);
         (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+        this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+
         value = LocalStorage.getBool("pe-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck===false));
         appSettings.changeSpellCheck(value);
         this.api.asc_setSpellCheck(value);
+
+        appOptions.changeAutosave(LocalStorage.itemExists('pe-mobile-autosave') ? LocalStorage.getBool("pe-mobile-autosave") : true);
 
         this.updateWindowTitle(true);
 
@@ -654,7 +715,7 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
         if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
-            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
+            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS || licType === Asc.c_oLicenseResult.NotEnoughResources
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
 
@@ -670,9 +731,11 @@ class MainController extends Component {
         const { t } = this.props;
         const _t = t('Controller.Main', {returnObjects:true});
 
-        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoLicense = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoResources  = _t.warnNoResources.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
+        const textNoResourcesTitle = _t.textNoResourcesTitle.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
         if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
@@ -722,7 +785,10 @@ class MainController extends Component {
                 title = _t.titleReadOnly;
                 license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
-                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
+                if (license === Asc.c_oLicenseResult.NotEnoughResources)
+                    title = textNoResourcesTitle;
+                license = (license === Asc.c_oLicenseResult.NotEnoughResources) ? warnNoResources :
+                          (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
                     text: _t.textBuyNow,
                     bold: true,
@@ -860,7 +926,18 @@ class MainController extends Component {
                 content: Device.ios ?
                 '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
                 buttons: buttons,
-                cssClass: 'dlg-adv-options'
+                cssClass: 'dlg-adv-options',
+                on: {
+                    opened: () => {
+                        const passwordField = document.querySelector('#modal-password');
+                        passwordField.addEventListener('keyup', (e) => {
+                            if (e.key === 'Enter') {
+                                buttons[0].onClick();
+                                f7.dialog.close();
+                            }
+                        });
+                    },
+                }
             }).open();
             this.isDRM = true;
         }
@@ -883,6 +960,9 @@ class MainController extends Component {
                 window.document.title = title;
             }
 
+            if (isModified)
+                this.props.storeAppOptions.changeSavingDocStatusText('');
+
             this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
             this._state.isDocModified = isModified;
         }
@@ -893,7 +973,6 @@ class MainController extends Component {
 
         if (this.api)
             this.api.asc_Print();
-        Common.component.Analytics.trackEvent('Print');
     }
 
     onPrintUrl (url) {
@@ -937,8 +1016,6 @@ class MainController extends Component {
                 text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
                 closeButton: true
             }).open();
-
-            Common.component.Analytics.trackEvent('External Error');
         }
     }
 

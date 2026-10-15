@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>STEYX Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>STEYX Funkcija</h1>
+			<p><b>STEYX</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za vraćanje standardne greške predviđene vrednosti y za svaki x na regresionoj liniji.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>STEYX(known_y's, known_x's)</em></b></p> 
+			<p><b>STEYX</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>known_y's</em></b></td>
+                    <td>Niz zavisnih promenljivih.</td>
+                </tr>
+				<tr>
+                    <td><b><em>known_x's</em></b></td>
+                    <td>Niz nezavisnih promenljivih sa istim brojem elemenata kao što sadrži <b><em>known_y's</em></b>.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+				<p>Prazne ćelije, logičke vrednosti, tekst ili vrednosti greške koje se unesu kao deo niza se ignorišu. Ako se unesu direktno u funkciju, tekstualne reprezentacije brojeva i logičke vrednosti se tumače kao brojevi.</p>
+				<p><b><em>known_y's</em></b> i <b><em>known_x's</em></b> moraju sadržati isti broj podataka, u suprotnom funkcija vraća vrednost greške <b>#N/A</b>.</p> 
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>STEYX</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>STEYX</b> funkcija.</p>
+			<p><img alt="STEYX Funkcija" src="../images/steyx.png" /></p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DB funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>DB funkcija</h1>
+            <p>Funkcija <b>DB</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje amortizacije sredstva za određeni računovodstveni period koristeći metodu fiksnog opadajućeg salda.</p>
+            <h3>Sintaksa</h3>
+            <p><b><em>DB(cost, salvage, life, period, [month])</em></b></p>
+            <p>Funkcija <b>DB</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>cost</em></b></td>
+                    <td>Trošak sredstva.</td>
+                </tr>
+				<tr>
+                    <td><b><em>salvage</em></b></td>
+                    <td>Vrednost sredstva na kraju njegovog životnog veka.</td>
+                </tr>
+				<tr>
+                    <td><b><em>life</em></b></td>
+                    <td>Ukupan broj perioda u životnom veku sredstva.</td>
+                </tr>
+                <tr>
+                    <td><b><em>period</em></b></td>
+                    <td>Period za koji želite da izračunate amortizaciju. Vrednost mora biti izražena u istim jedinicama kao <b><em>life</em></b>.</td>
+                </tr>
+                <tr>
+                    <td><b><em>month</em></b></td>
+                    <td>Broj meseci u prvoj godini. Ovo je opcioni argument. Ako nije naveden, funkcija pretpostavlja da je <b><em>month</em></b> 12.</td>
+                </tr>
+            </table>
+            
+            <h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>DB</b>.</p>
+            
+            <h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>DB</b>.</p>
+            <p><img alt="DB Function" src="../images/db.png" /></p>
+        </div>
+    </body>
+</html>

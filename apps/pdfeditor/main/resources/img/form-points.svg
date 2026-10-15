@@ -1,0 +1,22 @@
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="svg-icon-Point" viewBox="0 0 20 28">
+        <g id="Point">
+            <path id="Ellipse 121 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M9.5 17C10.8807 17 12 15.8807 12 14.5C12 13.1193 10.8807 12 9.5 12C8.11929 12 7 13.1193 7 14.5C7 15.8807 8.11929 17 9.5 17ZM9.5 18C11.433 18 13 16.433 13 14.5C13 12.567 11.433 11 9.5 11C7.567 11 6 12.567 6 14.5C6 16.433 7.567 18 9.5 18Z"/>
+        </g>
+    </symbol>
+    <symbol id="svg-icon-StartPoint" viewBox="20 0 20 28">
+        <g id="StartPoint">
+            <path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M32 14.5C32 15.8807 30.8807 17 29.5 17C28.1193 17 27 15.8807 27 14.5C27 13.1193 28.1193 12 29.5 12C30.8807 12 32 13.1193 32 14.5ZM33 14.5C33 16.433 31.433 18 29.5 18C27.567 18 26 16.433 26 14.5C26 12.567 27.567 11 29.5 11C31.433 11 33 12.567 33 14.5ZM29.5 18H30V20H29V18H29.5ZM30 22V24H29V22H30ZM30 28V26H29V28H30Z"/>
+        </g>
+    </symbol>
+    <symbol id="svg-icon-MiddlePoint" viewBox="40 0 20 28">
+        <g id="MiddlePoint">
+            <path id="Union_2" fill-rule="evenodd" clip-rule="evenodd" d="M49 2H50V4H49V2ZM49.5 17C50.8807 17 52 15.8807 52 14.5C52 13.1193 50.8807 12 49.5 12C48.1193 12 47 13.1193 47 14.5C47 15.8807 48.1193 17 49.5 17ZM49.5 18C51.433 18 53 16.433 53 14.5C53 12.567 51.433 11 49.5 11H50V10H49V11H49.5C47.567 11 46 12.567 46 14.5C46 16.433 47.567 18 49.5 18ZM49.5 18H49V20H50V18H49.5ZM50 6H49V8H50V6ZM50 22V24H49V22H50ZM50 28V26H49V28H50Z"/>
+        </g>
+    </symbol>
+    <symbol id="svg-icon-EndPoint" viewBox="60 0 20 28">
+        <g id="EndPoint">
+            <path id="Union_3" fill-rule="evenodd" clip-rule="evenodd" d="M70 2H69V4H70V2ZM72 14.5C72 15.8807 70.8807 17 69.5 17C68.1193 17 67 15.8807 67 14.5C67 13.1193 68.1193 12 69.5 12C70.8807 12 72 13.1193 72 14.5ZM73 14.5C73 16.433 71.433 18 69.5 18C67.567 18 66 16.433 66 14.5C66 12.567 67.567 11 69.5 11C71.433 11 73 12.567 73 14.5ZM69.5 11H69V10H70V11H69.5ZM69 6H70V8H69V6Z"/>
+        </g>
+    </symbol>
+</svg>

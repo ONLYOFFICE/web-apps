@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Provera pravopisa</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Provera pravopisa teksta na vašem jeziku tokom uređivanja dokumenta" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>Provera pravopisa</h1>
+			<p><a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> omogućava proveru pravopisa teksta na određenom jeziku i ispravljanje grešaka tokom uređivanja. U <em>desktop verziji</em> moguće je i dodavati reči u prilagođeni rečnik koji se koristi u sva tri editora.</p>
+			<p class="note">Počevši od <b>verzije 6.3</b>, ONLYOFFICE editori podržavaju <b>SharedWorker</b> interfejs za glatkiji rad bez značajne potrošnje memorije. Ako vaš pregledač ne podržava SharedWorker, biće aktivan samo <b>Worker</b>. Više informacija o SharedWorker-u možete pronaći u <a href="https://javascript.plainenglish.io/introduction-to-shared-workers-533d9abe9de3" target="_blank" onclick="onhyperlinkclick(this)">ovom članku</a>.</p>
+			<p>Prvo, <b>izaberite jezik</b> za dokument. Kliknite na ikonu <span class="icon icon-document_language"></span> <b>Postavi jezik dokumenta</b> na statusnoj traci. U otvorenom prozoru izaberite željeni jezik i kliknite <b>OK</b>. Izabrani jezik će se primeniti na ceo dokument. Kasnije će se prikazivati kao nedavno korišćen jezik i biće dostupan za brzi pristup u istom meniju. U <em>desktop verziji</em>, jezici instalirani sa vašim operativnim sistemom pojavljuju se na vrhu liste jezika pravopisnog proverivača.</p>
+			<p><img alt="Prozor za postavljanje jezika dokumenta" src="../../../../../../common/main/resources/help/en/images/document_language_window.png" /></p>
+			<p>Da biste <b>izabrali drugi jezik</b> za neki deo dokumenta, označite željeni tekst mišem i koristite meni <img alt="Provera pravopisa - selektor jezika teksta" src="../images/spellchecking_language.png" /> na statusnoj traci.</p>
+			<p>Da biste <b>uključili</b> opciju provere pravopisa, možete:</p>
+            <ul>
+                <li>kliknuti na ikonu <div class = "icon icon-spellcheckdeactivated"></div> <b>Provera pravopisa</b> na statusnoj traci, ili</li>
+                <li>otvoriti karticu <b>Fajl</b> u gornjoj alatnoj traci, izabrati <b>Napredna podešavanja</b>, označiti opciju <b>Uključi proveru pravopisa</b> i kliknuti <b>Primeni</b>.</li>
+            </ul>
+            <p>Sve pogrešno napisane reči biće podvučene crvenom linijom.</p>
+			<p>Desni klik na potrebnu reč aktivira meni u kojem možete:</p>
+			<ul>
+			<li>izabrati neku od predloženih reči ispravno napisanu da zamenite pogrešno napisanu. Ako postoji previše varijanti, u meniju se pojavljuje opcija <b>Više varijanti...</b>,</li>
+			<li>koristiti opciju <b>Ignoriši</b> da preskočite samo tu reč i uklonite podvlačenje, ili <b>Ignoriši sve</b> da preskočite sve iste reči u tekstu,</li>
+            <li>ako trenutna reč nije u rečniku, možete je dodati u prilagođeni rečnik. Ta reč više neće biti tretirana kao greška. Ova opcija je dostupna u <em>desktop verziji</em>,</li>
+			<li>izabrati drugi jezik za ovu reč.</li>
+			</ul>  
+            <p><img alt="Provera pravopisa" src="../images/spellchecking.png" /></p>
+            <p>Da biste <b>isključili</b> opciju provere pravopisa, možete:</p>
+            <ul>
+                <li>kliknuti na ikonu <div class = "icon icon-spellcheckactivated"></div> <b>Provera pravopisa</b> na statusnoj traci, ili</li>
+                <li>otvoriti karticu <b>Fajl</b> u gornjoj alatnoj traci, izabrati <b>Napredna podešavanja</b>, opozvati izbor opcije <b>Uključi proveru pravopisa</b> i kliknuti <b>Primeni</b>.</li>
+            </ul>
+		</div>
+	</body>
+</html>

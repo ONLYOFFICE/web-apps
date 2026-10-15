@@ -1,10 +1,46 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {useState, useEffect, Fragment, useRef} from 'react';
 import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
+import { attachMention, getMention } from './mention';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconDoneCommentWhite from '@common-android-icons/icon-done-comment-white.svg';
+import IconDoneComment from '@common-android-icons/icon-done-comment.svg';
 import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconResolveCommentAndroid from '@common-android-icons/icon-resolve-comment.svg';
@@ -31,10 +67,18 @@ const sliceQuote = (text) => {
 };
 
 function svgIcon(symbolId) {
-    return `<svg class="icon icon-svg icon-svg__white">
+    return `<svg class="icon icon-svg">
         <use href="#${symbolId}"></use>
     </svg>`;
 };
+
+const getUserBadgeTemplate = (userInfo) => {
+    const avatar = userInfo.avatar ? Common.Utils.String.htmlEncode(userInfo.avatar) : '';
+    const style = avatar ? `background-image: url(${avatar});` : `background-color: ${userInfo.color};`;
+    return `<div class="initials" style="${style}">${avatar ? '' : (userInfo.initials || '')}</div>`;
+};
+
+const getUserBadgeStyle = (color, avatar) => ({ backgroundColor: avatar ? '' : color, backgroundImage: avatar ? `url(${avatar})` : 'none'});
 
 // Add comment
 
@@ -42,6 +86,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const userInfo = props.userInfo;
+    const storeAppOptions = props.storeAppOptions;
     const [stateText, setText] = useState('');
     let refInputComment = useRef(null);
 
@@ -51,6 +96,10 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
         if(refInputComment) {
             refInputComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -66,7 +115,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                 </NavLeft>
                 <NavTitle>{_t.textAddComment}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.add-comment-popup');
                               setTimeout(() => {
@@ -74,19 +123,17 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                                   props.onAddNewComment(stateText, false)
                               }, 500);
                     }}>
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(userInfo.color, userInfo.avatar)}>{!userInfo.avatar && userInfo.initials}</div>
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea autoFocus placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
+                    <textarea autoFocus placeholder={getMention(storeAppOptions, _t, _t.textEnterComment)} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
                 </div>
             </div>
         </Popup>
@@ -97,10 +144,11 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const userInfo = props.userInfo;
-    const templateInitials = `<div class="initials" style="background-color: ${userInfo.color};">${userInfo.initials}</div>`;
+    const templateInitials = getUserBadgeTemplate(userInfo);
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('add-comment-dialog'),
@@ -113,17 +161,17 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         </div>
                         <div class="title">${_t.textAddComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id)  : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneComment.id)  : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
-                <div class='wrap-comment'>
-                    <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
-                        <div class='name'>${userInfo.name}</div>
-                    </div>
-                    <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textAddComment}'></textarea>
+                    <div class='wrap-comment'>
+                        <div class="comment-header">
+                            ${templateInitials}
+                            <div class='name'>${userInfo.name}</div>
+                        </div>
+                        <div class='wrap-textarea'>
+                        <textarea id='comment-text' placeholder='${getMention(props.storeAppOptions, _t, _t.textEnterComment)}'></textarea>
                     </div>
                 </div>`,
             on: {
@@ -152,6 +200,12 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         }
                     });
                     done.classList.add('disabled');
+
+                    dialogMention = (props.storeAppOptions && props.storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
+                },
+                closed: () => {
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -183,12 +237,12 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
         <Actions id='comment-menu' opened={opened} onActionsClosed={() => openActionComment(false)}>
             <ActionsGroup>
                 {comment && <Fragment>
-                    {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
+                    <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
                     {!comment.resolved && comment.editable ?
                         <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textResolve}</ActionsButton> :
                        comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
                     }
-                    <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
+                    {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
                     {comment.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteComment', comment);}}>{_t.textDeleteComment}</ActionsButton>}
                 </Fragment>
                 }
@@ -220,7 +274,7 @@ const ReplyActions = ({comment, reply, onCommentMenuClick, opened, openActionRep
 };
 
 // Edit comment
-const EditCommentPopup = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
+const EditCommentPopup = inject("storeComments")(observer(({storeComments, comment, onEditComment, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState(comment.comment);
@@ -232,8 +286,11 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
         if(refInputEditComment) {
             refInputEditComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputEditComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
-   
     return (
         <Popup className="edit-comment-popup">
             <Navbar>
@@ -247,7 +304,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                 </NavLeft>
                 <NavTitle>{_t.textEditComment}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.edit-comment-popup');
                               setTimeout(() => {
@@ -256,35 +313,38 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                               }, 500);
                           }}
                     >
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${comment.userColor}`}}>{comment.userInitials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                     <div>
                         <div className='name'>{comment.parsedName}</div>
                         <div className='comment-date'>{comment.date}</div>
                     </div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textEditComment} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputEditComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textEditComment)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputEditComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const EditCommentDialog = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
+const EditCommentDialog = inject("storeComments")(observer(({storeComments, comment, onEditComment, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${comment.userColor};">${comment.userInitials}</div>`;
+    const templateInitials = getUserBadgeTemplate({
+        avatar: comment.userAvatar,
+        color: comment.userColor,
+        initials: comment.userInitials
+    });
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('edit-comment-dialog'),
@@ -297,20 +357,20 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                         </div>
                         <div class="title">${_t.textEditComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div>
                             <div class='name'>${comment.parsedName}</div>
                             <div class='comment-date'>${comment.date}</div>
                         </div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textEditComment}' autofocus>${comment.comment}</textarea>
+                        <textarea id='comment-text' placeholder='${getMention(storeAppOptions, _t, _t.textEditComment)}' autofocus>${comment.comment}</textarea>
                     </div>
                 </div>`,
             on: {
@@ -337,12 +397,16 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                             done.classList.remove('disabled');
                         }
                     });
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -358,15 +422,15 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
     );
 }));
 
-const EditComment = ({comment, onEditComment}) => {
+const EditComment = ({comment, onEditComment, storeAppOptions}) => {
     return (
         Device.phone ?
-            <EditCommentPopup comment={comment} onEditComment={onEditComment}/> :
-            <EditCommentDialog comment={comment} onEditComment={onEditComment}/>
+            <EditCommentPopup comment={comment} onEditComment={onEditComment} storeAppOptions={storeAppOptions}/> :
+            <EditCommentDialog comment={comment} onEditComment={onEditComment} storeAppOptions={storeAppOptions}/>
     )
 };
 
-const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply}) => {
+const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState('');
@@ -378,6 +442,10 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
         if(refInputReplyComment) {
             refInputReplyComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(refInputReplyComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -393,7 +461,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                 </NavLeft>
                 <NavTitle>{_t.textAddReply}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.add-reply-popup');
                               setTimeout(() => {
@@ -401,32 +469,31 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                                   onAddReply(comment, stateText);
                               }, 500);
                           }}>
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(userInfo.color, userInfo.avatar)}>{!userInfo.avatar && userInfo.initials}</div>
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textAddReply} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputReplyComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textAddReply)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputReplyComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply}) => {
+const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${userInfo.color};">${userInfo.initials}</div>`;
+    const templateInitials = getUserBadgeTemplate(userInfo);
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('add-reply-dialog'),
@@ -439,17 +506,17 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         </div>
                         <div class="title">${_t.textAddReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='reply-text' placeholder='${_t.textAddReply}' autofocus></textarea>
+                        <textarea id='reply-text' placeholder='${getMention(storeAppOptions, _t, _t.textAddReply)}' autofocus></textarea>
                     </div>
                 </div>`,
             on: {
@@ -477,12 +544,16 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         }
                     });
                     done.classList.add('disabled');
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -498,15 +569,15 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
     );
 }));
 
-const AddReply = ({userInfo, comment, onAddReply}) => {
+const AddReply = ({userInfo, comment, onAddReply, storeAppOptions}) => {
     return (
         Device.phone ?
-            <AddReplyPopup userInfo={userInfo} comment={comment} onAddReply={onAddReply}/> :
-            <AddReplyDialog userInfo={userInfo} comment={comment} onAddReply={onAddReply}/>
+            <AddReplyPopup userInfo={userInfo} comment={comment} onAddReply={onAddReply} storeAppOptions={storeAppOptions}/> :
+            <AddReplyDialog userInfo={userInfo} comment={comment} onAddReply={onAddReply} storeAppOptions={storeAppOptions}/>
     )
 };
 
-const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const [stateText, setText] = useState(reply.reply);
@@ -518,6 +589,10 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
         if(relInputReplyComment) {
             relInputReplyComment.focus();
         }
+
+        const mention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+            attachMention(relInputReplyComment, {onInsert: setText}) : null;
+        return () => mention && mention.detach();
     }, []);
 
     return (
@@ -533,7 +608,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                 </NavLeft>
                 <NavTitle>{_t.textEditReply}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.edit-reply-popup');
                               setTimeout(() => {
@@ -542,35 +617,38 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                               }, 500);
                           }}
                     >
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                     <div>
                         <div className='name'>{reply.parsedName}</div>
                         <div className='reply-date'>{reply.date}</div>
                     </div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea placeholder={_t.textEditReply} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => relInputReplyComment = el}></textarea>
+                    <textarea placeholder={getMention(storeAppOptions, _t, _t.textEditReply)} autoFocus value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => relInputReplyComment = el}></textarea>
                 </div>
             </div>
         </Popup>
     )
 }));
 
-const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply, storeAppOptions}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${reply.userColor};">${reply.userInitials}</div>`;
+    const templateInitials = getUserBadgeTemplate({
+        avatar: reply.userAvatar,
+        color: reply.userColor,
+        initials: reply.userInitials
+    });
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
+        let dialogMention;
         f7.dialog.create({
             destroyOnClose: true,
             containerEl: document.getElementById('edit-reply-dialog'),
@@ -583,20 +661,20 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                         </div>
                         <div class="title">${_t.textEditReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div>
                             <div class='name'>${reply.parsedName}</div>
                             <div class='reply-date'>${reply.date}</div>
                         </div>
                     </div>
                     <div class='wrap-textarea'>
-                        <textarea id='reply-text' placeholder='${_t.textEditComment}' autofocus>${reply.reply}</textarea>
+                        <textarea id='reply-text' placeholder='${getMention(storeAppOptions, _t, _t.textEditReply)}' autofocus>${reply.reply}</textarea>
                     </div>
                 </div>`,
             on: {
@@ -623,12 +701,16 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                             done.classList.remove('disabled');
                         }
                     });
+
+                    dialogMention = (storeAppOptions && storeAppOptions.canRequestUsers) ?
+                        attachMention(area, {}) : null;
                 },
                 open: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.add('over-popover');
                 },
                 closed: () => {
                     $$('.dialog-backdrop.backdrop-in')[0].classList.remove('over-popover');
+                    dialogMention && dialogMention.detach();
                 }
             }
         }).open();
@@ -644,11 +726,11 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
     );
 }));
 
-const EditReply = ({comment, reply, onEditReply}) => {
+const EditReply = ({comment, reply, onEditReply, storeAppOptions}) => {
     return (
         Device.phone ?
-            <EditReplyPopup comment={comment} reply={reply} onEditReply={onEditReply}/> :
-            <EditReplyDialog comment={comment} reply={reply} onEditReply={onEditReply}/>
+            <EditReplyPopup comment={comment} reply={reply} onEditReply={onEditReply} storeAppOptions={storeAppOptions}/> :
+            <EditReplyDialog comment={comment} reply={reply} onEditReply={onEditReply} storeAppOptions={storeAppOptions}/>
     )
 };
 
@@ -755,7 +837,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
                                     <div className='left'>
-                                        {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                        <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                                         <div>
                                             <div className='user-name'>{comment.parsedName}</div>
                                             <div className='comment-date'>{comment.date}</div>
@@ -763,19 +845,19 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     </div>
                                     {isEdit && !viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                            {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                                     {Device.ios ? 
                                                         comment.resolved ? 
-                                                            <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
-                                                            <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                                            <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} />
                                                     :
                                                         comment.resolved ? 
-                                                            <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
-                                                            <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                                            <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} />
                                                     }
                                                 </div> 
                                             }
-                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
+                                            {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     {Device.ios ?
@@ -802,7 +884,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                             <div className='item-title'>
                                                                 <div slot='header' className='reply-header'>
                                                                     <div className='left'>
-                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                                                                         <div>
                                                                             <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
@@ -845,7 +927,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     )
 }));
 
-const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps}) => {
+const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps, showComment}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -854,7 +936,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const canEditComments = storeAppOptions.canEditComments;
     const viewMode = !storeAppOptions.canComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
-    const comments = storeComments.showComments;
+    const activeCommentId = storeComments.showComments.length > 0 ? storeComments.showComments[0].uid : null;
+    const visibleComments = (storeComments.groupCollectionFilter || storeComments.collectionComments).filter(comment => !comment.hide);
+    const sortedComments = visibleComments.length > 0 ? [...visibleComments].sort((a, b) => a.time > b.time ? -1 : 1) : [];
+    const comments = (storeComments.showComments.length > 1 ? storeComments.showComments : sortedComments);
     const isProtected = storeAppOptions.isProtected;
     const typeProtection = storeAppOptions.typeProtection;
     const isAvailableCommenting = !isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges || typeProtection === Asc.c_oAscEDocProtect.Comments;
@@ -867,28 +952,42 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const [reply, setReply] = useState();
     const [replyActionsOpened, openActionReply] = useState(false);
 
-    const onViewPrevComment = () => {
-        if (currentIndex - 1 < 0) {
-            setCurrentIndex(comments.length - 1);
-        } else {
-            setCurrentIndex(currentIndex - 1);
+    useEffect(() => {
+        if (!comments.length) return;
+        
+        if (!activeCommentId) {
+            setCurrentIndex(0);
+            return;
         }
+
+        const index = comments.findIndex(item => item.uid === activeCommentId);
+        setCurrentIndex(index >= 0 ? index : 0);
+    }, [activeCommentId, comments.length]);
+
+    const openCommentByIndex = (index) => {
+        const nextComment = comments[index];
+        if (!nextComment) return;
+
+        setCurrentIndex(index);
+        showComment && showComment(nextComment);
     };
 
-    const onViewNextComment = () => {
-        if (currentIndex + 1 >= comments.length) {
-            setCurrentIndex(0);
-        } else {
-            setCurrentIndex(currentIndex + 1);
-        }
+    const moveComment = (step) => {
+        const nextIndex = currentIndex + step;
+        if (nextIndex < 0 || nextIndex >= comments.length) return;
+
+        openCommentByIndex(nextIndex);
     };
 
     if(!comment) {
         if (comments.length > 0) {
-            onViewNextComment();
+            setCurrentIndex(0)
         }
         return null;
     }
+
+    const isPrevDisabled = comments.length <= 1 || currentIndex <= 0;
+    const isNextDisabled = comments.length <= 1 || currentIndex >= comments.length - 1;
 
     return (
         <Fragment>
@@ -896,22 +995,20 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                 {isEdit && !viewMode &&
                     <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
-                {comments.length > 1 &&
-                    <div className='comment-navigation row'>
-                        <Link href='#' onClick={onViewPrevComment}>
-                            {Device.ios ? 
-                                <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
-                            }
-                        </Link>
-                        <Link href='#' onClick={onViewNextComment}>
-                            {Device.ios ? 
-                                <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
-                            }
-                        </Link>
-                    </div>
-                }
+                <div className='comment-navigation row'>
+                    <Link href='#' className={isPrevDisabled ? 'disabled' : ''} onClick={() => {moveComment(-1);}}>
+                        {Device.ios ? 
+                            <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </Link>
+                    <Link href='#' className={isNextDisabled ? 'disabled' : ''} onClick={() => {moveComment(1);}}>
+                        {Device.ios ? 
+                            <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </Link>
+                </div>
             </Toolbar>
             <div className='pages'>
                 <Page className='page-current-comment'>
@@ -919,7 +1016,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                         <ListItem>
                             <div slot='header' className='comment-header'>
                                 <div className='left'>
-                                    {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                    <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                                     <div>
                                         <div className='user-name'>{comment.parsedName}</div>
                                         <div className='comment-date'>{comment.date}</div>
@@ -927,21 +1024,24 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 </div>
                                 {isEdit && !viewMode &&
                                     <div className='right'>
-                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                        {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                             {Device.ios ? 
                                                 comment.resolved ? 
-                                                    <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
-                                                    <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                                    <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} />
                                             :
                                                 comment.resolved ?
-                                                    <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
-                                                    <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                                    <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} />
                                             }
                                         </div>}
-                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
+                                        {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                             <div className='comment-menu'
                                                 onClick={() => {openActionComment(true);}}>
-                                                <Icon icon='icon-menu-comment'/>
+                                                {Device.ios ?
+                                                    <SvgIcon symbolId={IconMenuCommentIos.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconMenuCommentAndroid.id} className={'icon icon-svg'} />
+                                                }
                                             </div>
                                         }
                                     </div>
@@ -962,7 +1062,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                             <div className='item-title'>
                                                                 <div slot='header' className='reply-header'>
                                                                     <div className='left'>
-                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                                                                         <div>
                                                                             <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
@@ -1004,10 +1104,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
 
 }));
 
-const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps}) => {
+const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps, showComment}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
-    });
+    }, []);
 
     const [stateHeight, setHeight] = useState('45%');
     const [stateOpacity, setOpacity] = useState(1);
@@ -1046,23 +1146,23 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
         }
     };
     return (
-        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true}>
+        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true} onSheetClosed={closeCurComments}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
-            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment}/>
         </Sheet>
     )
 };
 
-const ViewCommentPopover = ({onCommentMenuClick, onResolveComment, wsProps}) => {
+const ViewCommentPopover = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps, showComment}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
-    });
+    }, []);
 
     return (
-        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
-            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
+        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false} onPopoverClosed={closeCurComments}>
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment} />
         </Popover>
     )
 };

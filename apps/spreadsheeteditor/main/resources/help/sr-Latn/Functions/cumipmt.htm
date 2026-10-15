@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>CUMIPMT funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>CUMIPMT funkcija</h1>
+			<p>Funkcija <b>CUMIPMT</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje kumulativnih kamata plaćenih na investiciju između dva perioda, na osnovu zadate kamatne stope i konstantnog rasporeda uplata.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>CUMIPMT(rate, nper, pv, start_period, end_period, type)</em></b></p> 
+			<p>Funkcija <b>CUMIPMT</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>rate</em></b></td>
+                    <td>Kamatna stopa za investiciju.</td>
+                </tr>
+				<tr>
+                    <td><b><em>nper</em></b></td>
+                    <td>Broj uplata.</td>
+                </tr>
+				<tr>
+                    <td><b><em>pv</em></b></td>
+                    <td>Trenutna vrednost uplata.</td>
+                </tr>
+				<tr>
+                    <td><b><em>start_period</em></b></td>
+                    <td>Prvi period uključen u izračunavanje. Vrednost mora biti od <b><em>1</em></b> do <b><em>nper</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>end_period</em></b></td>
+                    <td>Zadnji period uključen u izračunavanje. Vrednost mora biti od <b><em>1</em></b> do <b><em>nper</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>type</em></b></td>
+                    <td>Period kada su uplate dospele. Ako je postavljeno na 0 ili izostavljeno, funkcija pretpostavlja da su uplate dospele na kraju perioda. Ako je <b><em>type</em></b> postavljeno na 1, uplate su dospele na početku perioda.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+            <p>Gotovina koja se plaća (npr. depoziti) prikazana je negativnim brojevima; gotovina koja se prima (npr. dividende) prikazana je pozitivnim brojevima. Jedinice za <b>rate</b> i <b>nper</b> moraju biti konzistentne: koristite N%/12 za <b>rate</b> i N*12 za <b>nper</b> za mesečne uplate, N%/4 za <b>rate</b> i N*4 za <b>nper</b> za kvartalne uplate, N% za <b>rate</b> i N za <b>nper</b> za godišnje uplate.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>CUMIPMT</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>CUMIPMT</b>.</p>
+			<p><img alt="CUMIPMT Function" src="../images/cumipmt.png" /></p>
+		</div>
+	</body>
+</html>

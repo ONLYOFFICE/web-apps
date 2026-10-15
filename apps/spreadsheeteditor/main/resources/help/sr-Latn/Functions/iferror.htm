@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>IFERROR Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="IFERROR funkcija proverava da li formula u prvom argumentu sadrži grešku." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>IFERROR Funkcija</h1>
+			<p>Funkcija <b>IFERROR</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#logical" onclick="onhyperlinkclick(this)">logičkih funkcija</a>. Koristi se za proveru da li formula u prvom argumentu sadrži grešku. Funkcija vraća rezultat formule ako nema greške, ili <b>value_if_error</b> ako greška postoji.</p>
+			<h3>Sinaksa</h3> 
+			<p><b><em>IFERROR(value, value_if_error)</em></b></p> 
+			<p>Funkcija <b>IFERROR</b> ima sledeće argumente:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>value</em></b></td>
+                    <td>Vrednost koja se proverava da li sadrži grešku.</td>
+                </tr>
+				<tr>
+                    <td><b><em>value_if_error</em></b></td>
+                    <td>Vrednost koja se vraća ako formula daje grešku. Sledeće greške se proveravaju: #N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME?, #NULL!.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>IFERROR</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Imate listu dostupnog stanja artikala i njihove ukupne vrednosti. Da biste izračunali cenu po jedinici, koristićemo funkciju <b>IFERROR</b> da proverimo da li postoje greške. Argumenti su sledeći: <em>value</em> = <b>B2/A2</b>, <em>value_if_error</em> = <b>"Nema na stanju"</b>. Formula u prvom argumentu nema grešaka za ćelije C2:C9 i C11:C14, tako da funkcija vraća rezultat izračunavanja. Međutim, za C10 i C11 je situacija suprotna jer formula pokušava deljenje sa nulom, pa dobijamo <em>"Nema na stanju"</em> kao rezultat.</p>
+			<p><img class="gif" alt="IFERROR Funkcija: ako greška" src="../images/iferror_function.webp" /></p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje hiperveza</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte hipervezе na reč ili deo teksta koji vodi na eksterni veb-sajt ili na drugi slajd u istoj prezentaciji" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Dodavanje hiperveza</h1>
+			<p>Da biste dodali hipervezу u <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a>,</p>
+			<ol>
+				<li>postavite kursor unutar tekstualnog okvira gde treba dodati hipervezу,</li>
+                <li>prebacite se na karticu <b>Umetanje</b> na gornjoj traci sa alatkama,</li>
+				<li>kliknite na ikonu <div class = "icon icon-addhyperlink"></div> <b>Hiperveza</b> na gornjoj traci sa alatkama,</li>
+				<li>nakon toga će se pojaviti prozor <b>Podešavanja hiperveze</b> u kome možete navesti parametre hiperveze:
+				<ul>
+				    <li>Izaberite tip veze koji želite da umetnete:
+				    <ul>
+						<li>
+							Koristite opciju <b>Spoljašnja veza</b> i unesite URL u formatu <em>http://www.example.com</em> u polje <b>Veza ka</b> ispod ako treba da dodate hipervezу koja vodi na <b>eksterni</b> veb-sajt. Ako treba da dodate hipervezу ka <b>lokalnoj</b> datoteci, unesite URL u formatu <em>file://path/Presentation.pptx</em> (za Windows) ili <em>file:///path/Presentation.pptx</em> (za MacOS i Linux) u polje <b>Veza ka</b>.
+							<p class="note">Tip hiperveze <em>file://path/Presentation.pptx</em> ili <em>file:///path/Presentation.pptx</em> može se otvoriti samo u desktop verziji editora. U veb editoru možete samo dodati vezu, bez mogućnosti da je otvorite.</p>
+							<p><img alt="Prozor Podešavanja hiperveze" src="../../../../../../common/main/resources/help/en/images/hyperlinkwindow.png" /></p>
+						</li>
+				    <li>Koristite opciju <b>Slajd u ovoj prezentaciji</b> i izaberite jednu od opcija ispod ako treba da dodate hipervezу koja vodi na određeni slajd u istoj prezentaciji. Dostupne su sledeće opcije: Sledeći slajd, Prethodni slajd, Prvi slajd, Poslednji slajd, Slajd sa navedenim brojem.
+				    <p><img alt="Prozor Podešavanja hiperveze" src="../images/hyperlinkwindow2.png" /></p>
+				    </li>
+				    </ul>
+				    </li>
+					<li><b>Prikaz</b> - unesite tekst koji će biti klikabilan i voditi na veb-adresu/slajd naveden u gornjem polju.</li>
+					<li><b>Tekst oblačića</b> - unesite tekst koji će postati vidljiv u malom iskačućem prozoru sa kratkom napomenom ili oznakom u vezi sa hipervezom na koju se pokazuje.</li>
+				</ul>
+				</li>
+				<li>Kliknite na dugme <b>U redu</b>.</li>
+			</ol>
+            <p>Da biste dodali hipervezу, možete takođe koristiti kombinaciju tastera <b>Ctrl+K</b> ili kliknuti desnim tasterom miša tamo gde treba dodati hipervezу i izabrati opciju <b>Hiperveza</b> u meniju desnog klika.</p>
+			<p class="note"><b>Napomena</b>: takođe je moguće izabrati znak, reč ili kombinaciju reči pomoću miša ili <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">koristeći tastaturu</a> i
+                zatim otvoriti prozor <b>Podešavanja hiperveze</b> kao što je opisano iznad. U tom slučaju, polje <b>Prikaz</b> biće popunjeno delom teksta koji ste izabrali.</p>
+			<p>Prelaskom kursora preko dodate hiperveze, pojaviće se oblačić koji sadrži tekst koji ste naveli. 
+			Vezu možete pratiti tako što ćete pritisnuti taster <b>CTRL</b> i kliknuti na vezu u svojoj prezentaciji.</p>
+			<p>Da biste izmenili ili obrisali dodatu hipervezу, kliknite na nju desnim tasterom miša, izaberite opciju <b>Hiperveza</b> u meniju desnog klika, a zatim radnju koju želite da izvršite - <b>Izmeni hipervezu</b> ili <b>Ukloni hipervezu</b>.</p>
+		</div>
+	</body>
+</html>

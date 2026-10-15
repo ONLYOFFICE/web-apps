@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Koristite Mail Merge</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Koristite Mail Merge da kreirate veliki broj personalizovanih pisama i pošaljete ih primaocima" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Koristite Mail Merge</h1>
+            <p class="note"><b>Napomena</b>: ova opcija je dostupna samo u <em>online verziji</em>.</p>
+			<p>Funkcija <b>Mail Merge</b> se koristi za kreiranje skupa dokumenata kombinujući zajednički sadržaj koji se uzima iz tekstualnog dokumenta i neke individualne komponente (varijable, kao što su imena, pozdravi itd.) koje se uzimaju iz proračunske tabele (na primer, lista kupaca). Može biti korisna ako treba da kreirate veliki broj personalizovanih pisama i pošaljete ih primaocima.</p>
+        <ul>
+            <li><b>Pripremite izvor podataka i učitajte ga u glavni dokument</b>
+            <ol>
+                <li>Izvor podataka koji se koristi za spajanje mora biti <b>.xlsx</b> proračunska tabela smeštena na vašem portalu. Otvorite postojeću tabelu ili kreirajte novu i uverite se da ispunjava sledeće zahteve.
+                <li>Tabela treba da ima zaglavlje sa naslovima kolona, jer vrednosti u prvoj ćeliji svake kolone označavaju polja spajanja (tj. varijable koje možete ubaciti u tekst). Svaka kolona treba da sadrži skup stvarnih vrednosti za jednu varijablu. Svaki red u tabeli treba da odgovara zasebnom zapisu (tj. skupu vrednosti koje pripadaju određenom primaocu). Tokom procesa spajanja, za svaki zapis će biti kreirana kopija glavnog dokumenta, a svako polje spajanja ubaćeno u glavni tekst biće zamenjeno stvarnom vrednošću iz odgovarajuće kolone. Ako planirate da šaljete rezultate putem e-pošte, tabela mora takođe da uključuje kolonu sa e-mail adresama primaoca.</li>
+                <li>
+                    Otvorite postojeći tekstualni dokument ili kreirajte novi. On mora sadržati glavni tekst, koji će biti isti za svaku verziju spojenog dokumenta. Kliknite na <b>Mail Merge</b> <div class="icon icon-mailmergeicon"></div> ikonu na <b>Collaboration</b> tabu gornje alatne trake i izaberite lokaciju izvora podataka: <b>From File</b>, <b>From URL</b> ili <b>From Storage</b>.
+                    <p><img alt="Mail Merge Options" src="../images/mailmerge_options.png" /></p>
+                </li>
+                <li>
+                    <li>Izaberite neophodni fajl ili nalepite URL i kliknite <b>OK</b>.
+                    <p>Kada se izvor podataka učita, tab <b>Mail Merge setting</b> će biti dostupan u desnoj bočnoj traci.</p>
+                    <p><img alt="Mail Merge setting tab" src="../images/right_mailmerge.png" /></p>
+                </li>
+            </ol>
+                <li><b>Proverite ili izmenite listu primaoca</b>
+                <ol>
+                    <li>Kliknite na dugme <b>Edit recipients list</b> na vrhu desne bočne trake da otvorite prozor <b>Mail Merge Recipients</b>, gde se prikazuje sadržaj izabranog izvora podataka.
+                    <p><img alt="Mail Merge Recipients window" src="../images/mailmergerecipients.png" /></p>
+                    </li>
+                    <li>
+                        U otvorenom prozoru možete dodati nove informacije, izmeniti ili obrisati postojeće podatke po potrebi. Za lakši rad sa podacima, možete koristiti ikone na vrhu prozora:
+                        <ul>
+                            <li><div class = "icon icon-copy"></div> i <div class = "icon icon-paste"></div> - za kopiranje i lepljenje kopiranih podataka</li>
+                            <li><div class = "icon icon-undo1"></div> i <div class = "icon icon-redo1"></div> - za opozivanje i ponavljanje opozvanih akcija</li>
+                            <li><div class = "icon icon-sortatoz"></div> i <div class = "icon icon-sortztoa"></div> - za sortiranje podataka unutar izabranog opsega ćelija uzlazno ili silazno</li>
+                            <li><div class = "icon icon-sortandfilter"></div> - za omogućavanje filtera za prethodno izabrani opseg ćelija ili za uklanjanje primenjenog filtera</li>
+                            <li>
+                                <div class = "icon icon-clearfilter"></div> - za brisanje svih primenjenih filter parametara
+                                <p class="note"><b>Napomena</b>: za više informacija o korišćenju filtera, molimo pogledajte odeljak <b>Sort and filter data</b> u pomoći za <b>Spreadsheet Editor</b>.</p>
+                            </li>
+                            <li>
+                                <div class = "icon icon-searchicon"></div> - za pretragu određene vrednosti i zamenu drugom, po potrebi
+                                <p class="note"><b>Napomena</b>: za više informacija o korišćenju alata Pronađi i Zameni, pogledajte odeljak <b>Search and Replace Functions</b> u pomoći za <b>Spreadsheet Editor</b>.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Nakon što su izvršene sve potrebne izmene, kliknite na dugme <b>Save & Exit</b>. Da biste odbacili izmene, kliknite na dugme <b>Close</b>.</li>
+                </ol>
+                </li>
+                <li><b>Umetnite merge polja i proverite rezultate</b>
+                <ol>
+                    <li>Postavite kursor miša na mesto gde treba umetnuti merge polje, kliknite na dugme <b>Insert Merge Field</b> na desnoj bočnoj traci i izaberite odgovarajuće polje sa liste. Dostupna polja odgovaraju podacima u prvoj ćeliji svake kolone izabranog izvora podataka. Sva potrebna polja mogu se dodati bilo gde.
+                        <p><img alt="Merge Fields section" src="../images/mergefields.png" /></p>
+                    </li>
+                    <li>Uključite prekidač <b>Highlight merge fields</b> na desnoj bočnoj traci kako bi umetnuta polja bila uočljivija u tekstu.
+                        <p><img alt="Main document with inserted fields" src="../images/insertedfields.png" /></p>
+                    </li>
+                    <li>Uključite prekidač <b>Preview results</b> na desnoj bočnoj traci da biste videli tekst u kojem su merge polja zamenjena stvarnim vrednostima iz izvora podataka. Koristite dugmad sa strelicama da biste pregledali verzije spojenog dokumenta za svaki zapis.
+                        <p><img alt="Preview results" src="../images/previewinsertedfields.png" /></p>
+                    </li>
+                </ol>
+                <ul>
+                    <li>Da biste obrisali umetnuto polje, isključite režim <b>Preview results</b>, izaberite polje mišem i pritisnite taster <b>Delete</b> na tastaturi. </li>
+                    <li>Da biste zamenili umetnuto polje, isključite režim <b>Preview results</b>, izaberite polje mišem, kliknite na dugme <b>Insert Merge Field</b> na desnoj bočnoj traci i izaberite novo polje sa liste.</li>
+                </ul>
+                </li>
+                <li><b>Odredite parametre spajanja</b>
+                <ol>
+                    <li>Izaberite tip spajanja. Možete pokrenuti masovno slanje ili sačuvati rezultat kao PDF ili DOCX fajl za štampanje ili kasnije uređivanje. Izaberite odgovarajuću opciju iz liste <b>Merge to</b>:
+                        <p><img alt="Merge type selection" src="../images/mergeto.png" /></p>
+                        <ul>
+                            <li><b>PDF</b> – za kreiranje jednog PDF dokumenta koji sadrži sve spojene kopije koje se kasnije mogu štampati</li>
+                            <li><b>DOCX</b> – za kreiranje jednog DOCX dokumenta koji sadrži sve spojene kopije koje se kasnije mogu pojedinačno uređivati</li>
+                            <li>
+                                <b>Email</b> – za slanje rezultata primaocima putem e-pošte
+                                <p class="note"><b>Napomena</b>: email adrese primalaca moraju biti navedene u učitanom izvoru podataka i morate imati povezan bar jedan email nalog u modulu <b>Mail</b> na vašem portalu.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Izaberite sve potrebne zapise koji će se primeniti:
+                        <ul>
+                            <li><b>Svi zapisi</b> (ova opcija je podrazumevano izabrana) – za kreiranje spojenih dokumenata za sve zapise iz učitanog izvora podataka</li>
+                            <li><b>Trenutni zapis</b> – za kreiranje spojenog dokumenta za zapis koji je trenutno prikazan</li>
+                            <li>
+                                <b>Od</b> ... <b>Do</b> – za kreiranje spojenih dokumenata za opseg zapisa (u ovom slučaju potrebno je navesti dve vrednosti: broj prvog zapisa i broj poslednjeg zapisa u željenom opsegu)
+                                <p class="note"><b>Napomena</b>: maksimalno dozvoljen broj primalaca je 100. Ako u izvoru podataka imate više od 100 primalaca, molimo vas da izvršite mail merge u fazama: navedite vrednosti od 1 do 100, sačekajte da se proces mail merge-a završi, a zatim ponovite operaciju navodeći vrednosti od 101 do N itd.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Završite spajanje
+                        <ul>
+                            <li>Ako ste odlučili da sačuvate rezultate spajanja kao fajl,
+                            <ul>
+                                <li>kliknite na dugme <b>Download</b> da biste sačuvali fajl na svom računaru. Preuzeti fajl ćete pronaći u podrazumevanoj <em>Downloads</em> fascikli.</li>
+                                <li>kliknite na dugme <b>Save</b> da biste sačuvali fajl na svom portalu. U otvorenom prozoru <b>Folder for save</b> možete promeniti naziv fajla i odrediti fasciklu u kojoj želite da sačuvate fajl. Takođe možete označiti polje <b>Open merged document in new tab</b> kako biste proverili rezultat kada se proces spajanja završi. Na kraju, kliknite na <b>Save</b> u prozoru <b>Folder for save</b>.</li>
+                            </ul>
+                            </li>
+                            <li>Ako ste izabrali opciju <b>Email</b>, dugme <b>Merge</b> biće dostupno na desnoj bočnoj traci. Nakon što kliknete na njega, otvoriće se prozor <b>Send to Email</b>:
+                                <p><img alt="Send to Email window" src="../images/sendtoemail.png" /></p>
+                            <ul>
+                                <li>U listi <b>From</b> izaberite odgovarajući email nalog ako imate više naloga povezanih sa modulom <b>Mail</b>.</li>
+                                <li>U listi <b>To</b> izaberite merge polje koje odgovara email adresama primalaca, ukoliko ova opcija nije automatski izabrana.</li>
+                                <li>Unesite naslov poruke u polje <b>Subject Line</b>.</li>
+                                <li>Izaberite format poruke sa liste: <b>HTML</b>, <b>Attach as DOCX</b> ili <b>Attach as PDF</b>. Kada je izabrana jedna od poslednje dve opcije, potrebno je i da navedete <b>File name</b> za priloge i unesete <b>Message</b> (tekst pisma koji će biti poslat primaocima).</li>
+                                <li>Kliknite na dugme <b>Send</b>.</li>
+                            </ul>
+                            <p>Kada se slanje završi, dobićete obaveštenje na email adresu navedenu u polju <b>From</b>.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                </li>
+            </ul>
+		</div>
+	</body>
+</html>

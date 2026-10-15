@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Upravljanje ćelijama, redovima i kolonama</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Umetnite ili obrišite ćelije, redove i kolone, sakrijte ili prikažite redove ili kolone, promenite visinu reda i širinu kolone" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Upravljanje ćelijama, redovima i kolonama</h1>
+			<p>U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> možete umetnuti prazne ćelije iznad ili levo od izabrane ćelije u radnom listu. Takođe možete umetnuti ceo red iznad izabranog ili kolonu levo od izabrane kolone. Da biste olakšali pregled velike količine informacija, možete sakriti pojedine redove ili kolone i ponovo ih prikazati. Takođe je moguće odrediti visinu određenog reda i širinu kolone.</p>
+			<h3>Umetanje ćelija, redova, kolona</h3>
+            <p><b>Da biste umetnuli praznu ćeliju levo od izabrane ćelije:</b></p>
+			<ol>
+				<li>desnim klikom izaberite ćeliju levo od koje želite da umetnete novu,</li>
+				<li>kliknite na ikonu <b>Umetni ćelije</b> <div class = "icon icon-insertcells"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama ili izaberite stavku <b>Umetni</b> iz menija na desni klik i koristite opciju <b>Pomeri ćelije udesno</b>.</li>
+			</ol>
+			<p>Program će pomeriti izabranu ćeliju udesno kako bi umetnuo praznu ćeliju.</p>
+			<p><b>Da biste umetnuli praznu ćeliju iznad izabrane ćelije:</b></p>
+			<ol>
+				<li>desnim klikom izaberite ćeliju iznad koje želite da umetnete novu,</li>
+				<li>kliknite na ikonu <b>Umetni ćelije</b> <div class = "icon icon-insertcells"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama ili izaberite stavku <b>Umetni</b> iz menija na desni klik i koristite opciju <b>Pomeri ćelije nadole</b>.</li>
+			</ol>
+			<p>Program će pomeriti izabranu ćeliju nadole kako bi umetnuo praznu ćeliju.</p>
+			<p><b>Da biste umetnuli ceo red:</b></p>
+			<ol>
+				<li>izaberite ceo red klikom na njegovo zaglavlje ili ćeliju u redu iznad kog želite da umetnete novi,
+				<p class="note"><b>Napomena</b>: da biste umetnuli više redova, izaberite potreban broj redova.</p>
+				</li>
+				<li>kliknite na ikonu <b>Umetni ćelije</b> <div class = "icon icon-insertcells"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama i koristite opciju <b>Ceo red</b>,
+                    <br />ili desnim klikom na izabranu ćeliju izaberite stavku <b>Umetni</b> iz menija na desni klik, zatim izaberite opciju <b>Ceo red</b>,
+                    <br />ili desnim klikom na izabrani red (redove) koristite opciju <b>Umetni gore</b> iz menija na desni klik.
+                </li>
+			</ol>
+			<p>Program će pomeriti izabrani red nadole kako bi umetnuo prazan red.</p>
+			<p><b>Da biste umetnuli celu kolonu:</b></p>
+			<ol>
+				<li>izaberite celu kolonu klikom na njeno zaglavlje ili ćeliju u koloni levo od koje želite da umetnete novu,
+				<p class="note"><b>Napomena</b>: da biste umetnuli više kolona, izaberite potreban broj kolona.</p>
+				</li>
+				<li>kliknite na ikonu <b>Umetni ćelije</b> <div class = "icon icon-insertcells"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama i koristite opciju <b>Cela kolona</b>,
+                    <br />ili desnim klikom na izabranu ćeliju izaberite stavku <b>Umetni</b> iz menija na desni klik, zatim izaberite opciju <b>Cela kolona</b>,
+                    <br />ili desnim klikom na izabranu kolonu (kolone) koristite opciju <b>Umetni levo</b> iz menija na desni klik.
+                </li>
+			</ol>
+			<p>Program će pomeriti izabranu kolonu udesno kako bi umetnuo praznu kolonu.</p>
+            <p>Takođe možete koristiti prečicu na tastaturi <em>Ctrl+Shift+=</em> da otvorite dijalog za umetanje novih ćelija, izaberete opciju <b>Pomeri ćelije udesno</b>, <b>Pomeri ćelije nadole</b>, <b>Ceo red</b> ili <b>Cela kolona</b> i kliknete na <b>OK</b>.</p>
+            <p><img alt="Prozor za umetanje ćelija" src="../images/insertcellwindow.png" /></p>
+            <h3>Pomeranje redova i kolona</h3>
+            <p>Da biste pomerili sadržaj reda ili kolone, izaberite ga klikom na broj (za redove) ili slovno zaglavlje (za kolone), držite levi taster miša, a zatim prevucite i otpustite na željenu lokaciju u tabeli.</p>
+            <h3>Sakrivanje i prikazivanje redova i kolona</h3>
+            <p><b>Da biste sakrili red ili kolonu:</b></p>
+            <ol>
+                <li>izaberite redove ili kolone koje želite da sakrijete,</li>
+                <li>desnim klikom na izabrane redove ili kolone izaberite opciju <b>Sakrij</b> iz menija na desni klik.</li>
+            </ol>
+            <p><b>Da biste prikazali sakrivene redove ili kolone</b>, izaberite vidljive redove iznad i ispod sakrivenih redova ili vidljive kolone levo i desno od sakrivenih kolona, desnim klikom otvorite meni i izaberite opciju <b>Prikaži</b>.</p>
+            <h3>Promena širine kolone i visine reda</h3>
+            <p><b>Širina kolone</b> određuje koliko znakova sa podrazumevanim formatiranjem može da se prikaže u ćeliji kolone. Podrazumevana vrednost je 8.43 simbola. Da biste je promenili:</p>
+            <ol>
+                <li>izaberite kolone koje želite da promenite,</li>
+                <li>desnim klikom na izabrane kolone izaberite opciju <b>Postavi širinu kolone</b> iz menija na desni klik,</li>
+                <li>izaberite jednu od dostupnih opcija:
+                    <ul>
+                        <li>izaberite opciju <b>Automatski prilagodi širinu kolone</b> da biste automatski prilagodili širinu svake kolone prema njenom sadržaju ili</li>
+                        <li>
+                            izaberite opciju <b>Prilagođena širina kolone</b> i navedite novu vrednost od 0 do 255 u prozoru <b>Prilagođena širina kolone</b>, zatim kliknite <b>OK</b>.
+                            <p><img alt="Prozor Prilagođena širina kolone" src="../images/columnwidth.png" /></p>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Da biste ručno promenili širinu jedne kolone, pomerite kursor miša preko desne ivice zaglavlja kolone tako da se kursor pretvori u dvosmernu strelicu <span class = "icon icon-changecolumnwidthcursor"></span>. Prevucite ivicu ulevo ili udesno da postavite prilagođenu širinu ili dvaput kliknite mišem da automatski promenite širinu kolone prema njenom sadržaju.</p>
+            <p><img alt="Promena širine kolone" src="../images/changecolumnwidth.png" /></p>
+            <p>Podrazumevana vrednost <b>visine reda</b> je 14.25 tačaka. Da biste je promenili:</p>
+            <ol>
+                <li>izaberite redove koje želite da promenite,</li>
+                <li>desnim klikom na izabrane redove izaberite opciju <b>Postavi visinu reda</b> iz menija na desni klik,</li>
+                <li>izaberite jednu od dostupnih opcija:
+                    <ul>
+                        <li>izaberite opciju <b>Automatski prilagodi visinu reda</b> da biste automatski prilagodili visinu svakog reda prema njegovom sadržaju ili</li>
+                        <li>
+                            izaberite opciju <b>Prilagođena visina reda</b> i navedite novu vrednost od 0 do 408.75 u prozoru <b>Prilagođena visina reda</b>, zatim kliknite <b>OK</b>.
+                            <p><img alt="Prozor Prilagođena visina reda" src="../images/rowheight.png" /></p>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Da biste ručno promenili visinu jednog reda, prevucite donju ivicu zaglavlja reda.</p>
+            <h3>Brisanje ćelija, redova, kolona</h3>
+            <p><b>Da biste obrisali nepotrebnu ćeliju, red ili kolonu:</b></p>
+			<ol>
+			<li>izaberite ćelije, redove ili kolone koje želite da obrišete,</li>
+			<li>kliknite na ikonu <b>Obriši ćelije</b> <div class = "icon icon-deletecells"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama ili izaberite stavku <b>Obriši</b> iz menija na desni klik i izaberite odgovarajuću opciju:
+			<br />ako koristite opciju <b>Pomeri ćelije ulevo</b>, ćelija desno od obrisane biće pomerena ulevo;
+			<br />ako koristite opciju <b>Pomeri ćelije nagore</b>, ćelija ispod obrisane biće pomerena nagore;
+			<br />ako koristite opciju <b>Ceo red</b>, red ispod izabranog biće pomeren nagore;
+			<br />ako koristite opciju <b>Cela kolona</b>, kolona desno od obrisane biće pomerena ulevo;
+			</li>
+			</ol>
+            <p>Takođe možete koristiti prečicu na tastaturi <em>Ctrl+Shift+-</em> da otvorite dijalog za brisanje ćelija, izaberete opciju <b>Pomeri ćelije ulevo</b>, <b>Pomeri ćelije nagore</b>, <b>Ceo red</b> ili <b>Cela kolona</b> i kliknete na <b>OK</b>.</p>
+            <p><img alt="Prozor za brisanje ćelija" src="../images/deletecellwindow.png" /></p>
+			<p>Uvek možete vratiti obrisane podatke pomoću ikone <b>Opozovi</b> <span class = "icon icon-undo"></span> na gornjoj traci sa alatkama.</p>
+		</div>
+	</body>
+</html>

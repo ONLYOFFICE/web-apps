@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Komentarisanje</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Saveti za zajedničko uređivanje" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Komentarisanje</h1>
+            <p><a target="_blank" href="https://www.onlyoffice.com/spreadsheet-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivač tabela</b></a> omogućava vam da održavate stalan timski pristup toku rada: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" onclick="onhyperlinkclick(this)">delite</a> datoteke i fascikle, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">sarađujete</a> na tabelama u realnom vremenu, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">komunicirate</a> direktno u uređivaču, čuvate <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">verzije tabela</a> za buduću upotrebu.</p>
+            <p>U <b>Uređivaču tabela</b> možete ostavljati komentare na sadržaj tabela bez njihovog stvarnog uređivanja. Za razliku od <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">poruka u ćaskanju</a>, komentari ostaju dok se ne obrišu.</p>
+            <h3>Dodavanje komentara i odgovaranje na njih</h3>
+            <p>Da biste dodali komentar,</p>
+            <ol>
+                <li>izaberite ćeliju za koju smatrate da sadrži grešku ili problem,</li>
+                <li>
+                    prebacite se na karticu <b>Umetanje</b> ili <b>Saradnja</b> na gornjoj traci sa alatkama i kliknite na dugme <div class="icon icon-comment_toptoolbar"></div> <b>Komentar</b>, ili<br />
+                    koristite ikonu <div class="icon icon-commentsicon"></div> na levoj bočnoj traci da biste otvorili panel <b>Komentari</b>, a zatim kliknite na dugme <b>Dodaj komentar</b> na gornjoj traci panela ili kliknite na simbol <b>Više</b> i izaberite opciju <b>Dodaj komentar dokumentu</b> da biste dodali komentar na celu tabelu, ili<br />
+                    kliknite desnim tasterom miša unutar izabrane ćelije i izaberite opciju <b>Dodaj komentar</b> iz menija,
+                </li>
+                <li>unesite potreban tekst,</li>
+                <li>kliknite na dugme <b>Dodaj komentar</b>/<b>Dodaj</b>.</li>
+            </ol>
+            <p>Ako koristite <b>Strogi</b> režim zajedničkog uređivanja, novi komentari koje su dodali drugi korisnici postaće vidljivi tek nakon što kliknete na ikonu <span class="icon icon-saveupdate"></span> u gornjem levom uglu gornje trake sa alatkama.</p>
+            <p>Da biste videli komentar, jednostavno kliknite unutar ćelije. Vi ili bilo koji drugi korisnik možete odgovoriti na dodati komentar postavljanjem pitanja ili izveštavanjem o obavljenom radu. U tu svrhu koristite vezu <b>Dodaj odgovor</b>, unesite tekst odgovora u polje za unos i kliknite na dugme <b>Odgovori</b>.</p>
+            <h3>Onemogućavanje prikaza komentara</h3>
+            <p>Komentar će biti prikazan u panelu sa leve strane. Narandžasti trougao će se pojaviti u gornjem desnom uglu ćelije koju ste komentarisali. Ako želite da onemogućite ovu funkciju,</p>
+            <ul>
+                <li>kliknite na karticu <b>Datoteka</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite opciju <b>Napredna podešavanja...</b>,</li>
+                <li>isključite polje <b>Uključi prikaz komentara</b>.</li>
+            </ul>
+            <p>U tom slučaju, komentarisane ćelije biće označene samo ako kliknete na ikonu <b>Komentari</b> <span class="icon icon-commentsicon"></span>.</p>
+            <h3>Upravljanje komentarima</h3>
+            <p>Dodate komentare možete upravljati pomoću ikona u balonu komentara ili u panelu <b>Komentari</b> sa leve strane:</p>
+            <ul>
+                <li>
+                    sortirajte dodate komentare klikom na ikonu <div class = "icon icon-sortcommentsicon"></div>:
+                    <ul>
+                        <li>po datumu: <b>Najnoviji</b> ili <b>Najstariji</b></li>
+                        <li>po autoru: <b>Autor od A do Z</b> ili <b>Autor od Z do A</b></li>
+                        <li>
+                            po grupi: <b>Sve</b> ili izaberite određenu grupu sa liste. Ova opcija sortiranja je dostupna ako koristite verziju koja uključuje ovu funkcionalnost.
+                            <p><img alt="Sortiranje komentara" src="../images/sortcomments.png" /></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>izmenite trenutno izabrani komentar klikom na ikonu <div class = "icon icon-editcommenticon"></div>,</li>
+                <li>obrišite trenutno izabrani komentar klikom na ikonu <div class = "icon icon-deletecommenticon"></div>,</li>
+                <li>zatvorite trenutno izabranu diskusiju klikom na ikonu <div class = "icon icon-resolveicon"></div> ako je zadatak ili problem naveden u komentaru rešen; nakon toga diskusija dobija status rešenog. Da biste je ponovo otvorili, kliknite na ikonu <div class = "icon icon-resolvedicon"></div>. Ako želite da sakrijete rešene komentare, kliknite na karticu <b>Datoteka</b> na gornjoj traci sa alatkama, izaberite opciju <b>Napredna podešavanja...</b>, isključite polje <b>Uključi prikaz rešenih komentara</b> i kliknite na <b>Primeni</b>. U tom slučaju rešeni komentari biće istaknuti samo ako kliknete na ikonu <div class = "icon icon-commentsicon"></div>,</li>
+                <li>ako želite da upravljate komentarima grupno, otvorite padajući meni <b>Reši</b> na kartici <b>Saradnja</b>. Izaberite jednu od opcija za rešavanje komentara: <b>reši trenutne komentare</b>, <b>reši moje komentare</b> ili <b>reši sve komentare</b> u tabeli.</li>
+            </ul>
+            <h3>Dodavanje pominjanja</h3>
+            <p class="note">Pominjanja možete dodavati samo u komentare vezane za sadržaj tabele, a ne za samu tabelu.</p>
+            <p>Prilikom unosa komentara možete koristiti funkciju <b>pominjanja</b> koja vam omogućava da skrenete nečiju pažnju na komentar i pošaljete obaveštenje pomenutom korisniku putem imejla i <b>Talk</b> sistema.</p>
+            <p>Da biste dodali pominjanje,</p>
+            <ol>
+                <li>unesite znak "+" ili "@" bilo gde u tekst komentara – otvoriće se lista korisnika portala. Da biste pojednostavili pretragu, možete početi da kucate željeno ime u polje komentara – lista korisnika će se menjati dok kucate.</li>
+                <li>izaberite potrebnu osobu sa liste. Ako datoteka još uvek nije podeljena sa pomenutim korisnikom, otvoriće se prozor <b>Podešavanja deljenja</b>. Tip pristupa <b>Samo za čitanje</b> je podrazumevano izabran. <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" onclick="onhyperlinkclick(this)">Promenite ga ako je potrebno</a>.</li>
+                <li>kliknite na <b>OK</b>.</li>
+            </ol>
+            <p>Pomenuti korisnik će dobiti imejl obaveštenje da je pomenut u komentaru. Ako je datoteka podeljena, korisnik će dobiti i odgovarajuće obaveštenje.</p>
+            <h3>Uklanjanje komentara</h3>
+            <p>Da biste uklonili komentare,</p>
+            <ol>
+                <li>kliknite na dugme <div class = "icon icon-removecomment_toptoolbar"></div> <b>Ukloni</b> na kartici <b>Saradnja</b> na gornjoj traci sa alatkama,</li>
+                <li>
+                    izaberite potrebnu opciju iz menija:
+                    <ul>
+                        <li><b>Ukloni trenutne komentare</b> – za uklanjanje trenutno izabranog komentara. Ako komentar ima odgovore, svi odgovori će takođe biti uklonjeni.</li>
+                        <li><b>Ukloni moje komentare</b> – za uklanjanje komentara koje ste vi dodali, bez uklanjanja komentara drugih korisnika. Ako komentar ima odgovore, svi odgovori će takođe biti uklonjeni.</li>
+                        <li><b>Ukloni sve komentare</b> – za uklanjanje svih komentara u tabeli koje ste vi i drugi korisnici dodali.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Da biste zatvorili panel sa komentarima, ponovo kliknite na ikonu <b>Komentari</b> <span class="icon icon-commentsicon"></span> na levoj bočnoj traci.</p>
+        </div>
+	</body>
+</html>

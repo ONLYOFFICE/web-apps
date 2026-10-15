@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Upravljanje slajdovima</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodavanje novih praznih slajdova, dupliranje, pomeranje ili brisanje slajdova" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Upravljanje slajdovima</h1>
+			<p>Podrazumevano, nova prezentacija sadrži jedan prazan <em>Naslovni slajd</em>. U <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a>-u možete kreirati nove slajdove, kopirati slajd i nalepiti ga kasnije na drugo mesto u listi slajdova, duplirati slajdove, pomerati slajdove radi promene njihovog redosleda, brisati nepotrebne slajdove i označiti neke slajdove kao skrivene.</p>
+			<p><b>Da biste kreirali novi slajd tipa <em>Naslov i sadržaj</em>:</b></p>
+			<ul>
+				<li>kliknite na ikonicu <div class = "icon icon-addslide"></div> <b>Add Slide</b> na tabu <b>Home</b> ili <b>Insert</b> na gornjoj alatnoj traci, ili</li>
+				<li>kliknite desnim tasterom miša na bilo koji slajd u listi i izaberite opciju <b>New Slide</b> iz kontekstnog menija, ili</li>
+                <li>pritisnite kombinaciju tastera <b>Ctrl+M</b>.</li>
+			</ul>
+            <p><b>Da biste kreirali novi slajd sa drugačijim rasporedom:</b></p>
+            <ol>
+                <li>kliknite na strelicu pored ikonice <div class = "icon icon-addslide"></div> <b>Add Slide</b> na tabu <b>Home</b> ili <b>Insert</b> na gornjoj alatnoj traci,</li>
+                <li>
+                    izaberite slajd sa potrebnim rasporedom iz menija.
+                    <p class="note"><b>Napomena</b>: raspored dodatog slajda možete promeniti u bilo kom trenutku. Za dodatne informacije o tome kako to uraditi, pogledajte odeljak <a href="../UsageInstructions/SetSlideParameters.htm#changelayout" onclick="onhyperlinkclick(this)">Podešavanje parametara slajda</a>.</p>
+                </li>
+            </ol>
+			<p>Novi slajd će biti umetnut nakon izabranog u listi postojećih slajdova sa leve strane.</p>
+			<p><b>Da biste duplirali slajdove:</b></p>
+			<ol>
+				<li>izaberite jedan ili više slajdova u listi postojećih slajdova sa leve strane,</li>
+				<li>kliknite desnim tasterom miša i izaberite opciju <b>Duplicate Slide</b> iz kontekstnog menija, ili idite na tab <b>Home</b> ili <b>Insert</b>, kliknite na dugme <b>Add slide</b> i izaberite opciju menija <b>Duplicate Slide</b>.</li>
+			</ol>
+			<p>Duplirani slajd će biti umetnut nakon izabranog u listi slajdova.</p>
+			<p><b>Da biste kopirali slajdove:</b></p>
+			<ol>
+				<li>u listi postojećih slajdova sa leve strane izaberite jedan ili više slajdova koje želite da kopirate,</li>
+				<li>pritisnite kombinaciju tastera <b>Ctrl+C</b>,</li>
+				<li>u listi slajdova izaberite slajd nakon kojeg želite da nalepite kopirani slajd.</li>
+				<li>
+					pritisnite kombinaciju tastera <b>Ctrl+V</b>.
+					<p>Nakon lepljenja kopiranog slajda, pored umetnutog slajda pojaviće se dugme <b>Paste Special</b>. Kliknite na ovo dugme da biste izabrali željenu opciju lepljenja ili koristite taster <em>Ctrl</em> u kombinaciji sa slovom navedenim u zagradi pored opcije.</p>
+					<p>
+						Dostupne su sledeće opcije <b>Paste Special</b>:
+						<ul>
+							<li><em>Use destination theme (Ctrl+H)</em> – omogućava primenu formatiranja definisanog temom trenutne prezentacije. Ova opcija se koristi podrazumevano.</li>
+							<li><em>Keep source formatting (Ctrl+K)</em> – omogućava zadržavanje izvornog formatiranja kopiranog slajda.</li>
+							<li><em>Picture (Ctrl+U)</em> – omogućava lepljenje slajda kao slike, tako da se ne može uređivati.</li>
+						</ul>
+					</p>
+				</li>
+			</ol>
+			<p><b>Da biste pomerali postojeće slajdove:</b></p>
+			<ol>
+				<li>kliknite levim tasterom miša na željeni slajd ili slajdove u listi postojećih slajdova sa leve strane,</li>
+				<li>bez puštanja tastera miša, prevucite ih na željeno mesto u listi (horizontalna linija označava novu poziciju).</li>
+			</ol>
+			<p><b>Da biste obrisali nepotrebne slajdove:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na slajd ili slajdove koje želite da obrišete u listi postojećih slajdova sa leve strane,</li>
+				<li>izaberite opciju <b>Delete Slide</b> iz kontekstnog menija.</li>
+			</ol>
+            <p><b>Da biste označili slajdove kao skrivene:</b></p>
+            <ol>
+                <li>kliknite desnim tasterom miša na slajd ili slajdove koje želite da sakrijete u listi postojećih slajdova sa leve strane,</li>
+                <li>izaberite opciju <b>Hide Slide</b> iz kontekstnog menija.</li>
+            </ol>
+            <p>Broj koji odgovara skrivenom slajdu u listi slajdova sa leve strane biće precrtan. Da biste prikazali skriveni slajd kao regularan u listi slajdova, ponovo kliknite na opciju <b>Hide Slide</b>.</p>
+            <p><div class = "big big-hidden_slide"></div></p>
+            <p class="note"><b>Napomena</b>: koristite ovu opciju ako ne želite da prikažete neke slajdove publici, ali želite da im pristupite po potrebi. Ako pokrenete projekciju u režimu <a href="../UsageInstructions/PreviewPresentation.htm#presenter" onclick="onhyperlinkclick(this)"><b>Presenter</b></a>, možete videti sve postojeće slajdove u listi sa leve strane, dok su brojevi skrivenih slajdova precrtani. Ako želite da prikažete slajd označen kao skriven drugima, samo kliknite na njega u listi slajdova sa leve strane — slajd će biti prikazan.</p>
+            <p><b>Da biste izabrali sve postojeće slajdove odjednom:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na bilo koji slajd u listi postojećih slajdova sa leve strane,</li>
+				<li>izaberite opciju <b>Select All</b> iz kontekstnog menija.</li>
+			</ol>
+			<p><b>Da biste izabrali više slajdova:</b></p>
+			<ol>
+				<li>držite pritisnut taster <b>Ctrl</b>,</li>
+				<li>izaberite potrebne slajdove levim klikom miša u listi postojećih slajdova sa leve strane.</li>
+			</ol>
+            <p class="note"><b>Napomena</b>: sve kombinacije tastera koje se mogu koristiti za upravljanje slajdovima navedene su na stranici <a href="../HelpfulHints/KeyboardShortcuts.htm#manageslides" onclick="onhyperlinkclick(this)">Prečice na tastaturi</a>.</p>
+		</div>
+	</body>
+</html>

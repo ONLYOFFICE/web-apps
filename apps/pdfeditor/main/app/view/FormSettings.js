@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  FormSettings.js
@@ -66,6 +69,7 @@ define([
             this.lockedControls = [];
             this._locked = true;
             this._originalSpecProps = null;
+            this._originalActionsProps = null;
             this._originalProps = null;
             this.defFormat = {FormatType: AscPDF.FormatType.NONE, decimal: 2, separator: AscPDF.SeparatorStyle.COMMA_DOT, negative: AscPDF.NegativeStyle.BLACK_MINUS,
                               symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 0, special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
@@ -107,9 +111,67 @@ define([
             this.labelFormName = $markup.findById('#form-settings-name');
             this.labelStyleName = $markup.findById('#form-settings-lbl-style');
             this.labelExportName = $markup.findById('#form-settings-lbl-export');
-            $markup.findById('#form-advanced-link').on('click', _.bind(this.openAdvancedSettings, this));
+            $markup.findById('#form-advanced-link').on('click', _.bind(function() { 
+                me.openAdvancedSettings();
+            }, this));
 
             // Common props
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
+                            '<% if (item.value === 0) { %>',
+                                '<a tabindex="-1" type="menuitem" style="display: block; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                                    '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
+                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                '</a>',
+                            '<% } else { %>',
+                                '<a tabindex="-1" type="menuitem" style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                                    '<span class="color" style="background: <%= item.color %>;"></span>',
+                                    '<div style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(item.displayValue) %></div>',
+                                '</a>',
+                            '<% } %>',
+                        '</li>',
+                    '<% }); %>'
+                ];
+
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></div>',
+                    '<div style="display: table-cell;"></div>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                    '</ul>',
+                '</div>'
+            ]);
+            this.cmbRoles = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-combo-roles'),
+                cls: 'menu-roles',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 194px; max-height: 205px;max-width: 400px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                style: 'width: ' + $markup.width() + 'px;',
+                editable: false,
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        formcontrol[0].innerHTML =
+                            `<span class="color" style="background: ${record.get('color')};"></span><div style="overflow: hidden; text-overflow: ellipsis;">${Common.Utils.String.htmlEncode(record.get('displayValue'))}</div>`;
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.onRefreshRolesList(this.roles);
+            this.lockedControls.push(this.cmbRoles);
+            this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
+
             this.cmbName = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-name'),
                 cls: 'input-group-nr',
@@ -241,6 +303,26 @@ define([
                 }
             }, this));
 
+            this.cmbVisibility = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-visibility'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [
+                    {displayValue: this.textVisible, value: AscPDF.Api.Types.display.visible},
+                    {displayValue: this.textHidden, value: AscPDF.Api.Types.display.hidden},
+                    {displayValue: this.textVisibleButDoesntPrint, value: AscPDF.Api.Types.display.noPrint},
+                    {displayValue: this.textHiddenButPrintable, value: AscPDF.Api.Types.display.noView}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbVisibility);
+            this.cmbVisibility.on('selected', this.onVisibilitySelect.bind(this));
+
             //Spec props
             // combobox & text field
             this.txtPlaceholder = new Common.UI.InputField({
@@ -295,7 +377,8 @@ define([
                     { displayValue: this.textDate,  value: AscPDF.FormatType.DATE },
                     { displayValue: this.textTime,  value: AscPDF.FormatType.TIME },
                     { displayValue: this.textSpecial,  value: AscPDF.FormatType.SPECIAL },
-                    { displayValue: this.textReg,  value: AscPDF.FormatType.REGULAR }],
+                    { displayValue: this.textCustom,  value: AscPDF.FormatType.CUSTOM }
+                ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -841,6 +924,9 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            if(this.api) {
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
+            }
             return this;
         },
 
@@ -965,6 +1051,14 @@ define([
             if (this.api && !this._noApply) {
                 this._state.StrokeStyle = undefined;
                 this.api.SetFieldStrokeStyle(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onVisibilitySelect: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Display = undefined;
+                this.api.SetFieldDisplayType(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -1268,10 +1362,90 @@ define([
 
         onFormatSelect: function(combo, record) {
             if (this.api && !this._noApply) {
-                this._state.FormatType = undefined;
-                this.defFormat.FormatType = record.value;
-                this.applyFormatSettings(this.defFormat);
+                const prevFormatType = this._state.FormatType;
+                if(record.value == AscPDF.FormatType.CUSTOM) {
+                    this.openAdvancedSettings(AscPDF.FormatType.CUSTOM);
+                    if(prevFormatType != null) this.cmbFormat.setValue(prevFormatType);
+                } else {
+                    this._state.FormatType = undefined;
+                    this.defFormat.FormatType = record.value;
+                    this.applyFormatSettings(this.defFormat);
+                }
                 this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onRefreshRolesList: function(roles) {
+            if (this._initSettings) {
+                this.roles = roles;
+                return;
+            }
+
+            if (!roles) {
+                const oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
+
+                // change to event asc_onRefreshRolesList
+                // roles = [
+                //     {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                //     {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                //     {name: 'manager', color: null, fields: 10}
+                // ];
+            }
+
+            var lastrole = this.cmbRoles.getSelectedRecord();
+            lastrole = lastrole ? lastrole.value : '';
+
+            var arr = [];
+            var me = this;
+            roles && roles.forEach(function(item) {
+                let role = item.asc_getSettings(),
+                    color = role.asc_getColor();
+                arr.push({
+                    displayValue: role.asc_getName() || me.textAnyone,
+                    value: role.asc_getName(),
+                    color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
+                });
+            });
+
+            arr.push({ displayValue: this.textAddRole, value: 0 });
+
+            this.cmbRoles.setData(arr);
+            this.cmbRoles.setValue(lastrole);
+        },
+
+        onRolesChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Role = undefined;
+
+                var me = this;
+                if (record.value === 0) {
+                    const currentRole = me._originalProps.asc_getRole();
+                    combo.setValue(currentRole);
+
+                    const formManager = this.api.asc_GetOForm();
+
+                    new Common.Views.RoleEditDlg({
+                        oformManager: formManager,
+                        colors: [],
+                        isEdit: false,
+                        handler: function (result, settings) {
+                            if (result === 'ok' && settings) {
+                                this.oformManager.asc_addRole(settings.name, settings.color);
+                                me.api.asc_assignFieldToRole(settings.name);
+                                Common.Utils.InternalSettings.set('pdfe-last-form-role', settings.name);
+                                me.fireEvent('forms:currentrole');
+                            }
+                        }
+                    }).on('close', () => {
+                        me.fireEvent('editcomplete', this);
+                    }).show();
+                } else {
+                    this.api.asc_assignFieldToRole(record.value);
+                    Common.Utils.InternalSettings.set('pdfe-last-form-role', record.value)
+                    this.fireEvent('editcomplete', this);
+                    this.fireEvent('forms:currentrole');
+                }
             }
         },
 
@@ -1295,9 +1469,6 @@ define([
                 case AscPDF.FormatType.SPECIAL:
                     (_p.special===-1) ? this.api.SetFieldMask(_p.mask) : this.api.SetFieldSpecialFormat(_p.special);
                     break;
-                case AscPDF.FormatType.REGULAR:
-                    this.api.SetFieldRegularExp(_p.regexp);
-                    break;
             }
         },
 
@@ -1315,9 +1486,7 @@ define([
         onMaskChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
                 this._state.MaskStr = undefined;
-                if (this._state.FormatType===AscPDF.FormatType.REGULAR)
-                    this.api.SetFieldRegularExp(newValue)
-                else if (this._state.FormatType===AscPDF.FormatType.SPECIAL)
+                if (this._state.FormatType===AscPDF.FormatType.SPECIAL)
                     this.api.SetFieldMask(newValue);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
@@ -1358,10 +1527,18 @@ define([
 
                 var forceShowHide = false,
                     type = props.asc_getType(),
-                    specProps = props.asc_getFieldProps();
+                    specProps = props.asc_getFieldProps(),
+                    actionsProps = props.asc_getActionsProps();
                 this._originalSpecProps = specProps;
+                this._originalActionsProps = actionsProps;
 
                 // common props
+                val = props.asc_getRole();
+                if (this._state.Role!==val) {
+                    this.cmbRoles.setValue(val ? val : '');
+                    this._state.Role=val;
+                }
+
                 var data = this.api.GetAvailableFieldsNames(type);
                 if (!this._state.arrName || this._state.arrName.length!==data.length || _.difference(this._state.arrName, data).length>0) {
                     var arr = [];
@@ -1463,6 +1640,12 @@ define([
                 }
                 this.cmbLineStyle.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
 
+                val = props.asc_getDisplay();
+                if (this._state.Display!==val) {
+                    this.cmbVisibility.setValue(val, '');
+                    this._state.Display=val;
+                }
+
                 if (type===AscPDF.FIELD_TYPES.text && specProps) {
                     this.labelFormName.text(this.textField);
 
@@ -1470,7 +1653,7 @@ define([
                         isMulti = specProps.asc_getMultiline(),
                         isPwd = specProps.asc_getPassword(),
                         isScroll = specProps.asc_getScrollLongText(),
-                        isFormatSelected = specProps.asc_getFormat() && specProps.asc_getFormat().asc_getType() !== AscPDF.FormatType.NONE;
+                        isFormatSelected = actionsProps.asc_getFormat() && actionsProps.asc_getFormat().asc_getType() !== AscPDF.FormatType.NONE;
 
                     var combChanged = false;
                     if ( this._state.Comb!==isComb ) {
@@ -1525,8 +1708,10 @@ define([
                             this._state.AutoFit=val;
                         }
                         this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
-
-                        let format = specProps.asc_getFormat();
+                    }
+                    if(actionsProps) {
+                        let format = actionsProps.asc_getFormat();
+                        !format && (format = actionsProps.asc_getKeystroke());
                         val = format===undefined ? AscPDF.FormatType.NONE : format===null ? null : format.asc_getType(); // undefined - none, null - different types
                         if ( this._state.FormatType!==val ) {
                             this.cmbFormat.setValue((val !== null && val !== undefined) ? val : '', '');
@@ -1534,9 +1719,6 @@ define([
                             forceShowHide = true;
                         }
                         switch (this._state.FormatType) {
-                            case AscPDF.FormatType.REGULAR:
-                                val = format.asc_getRegExp();
-                                break;
                             case AscPDF.FormatType.SPECIAL:
                                 val = format.asc_getFormat();
                                 (val===undefined) && (val = -1);
@@ -1563,7 +1745,7 @@ define([
                                 break;
                         }
 
-                        if ((this._state.FormatType===AscPDF.FormatType.REGULAR || this._state.FormatType===AscPDF.FormatType.SPECIAL) && this._state.MaskStr !== val) {
+                        if (this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.MaskStr !== val) {
                             this.txtMask.setValue(val ? val : '');
                             this._state.MaskStr = val;
                         }
@@ -1771,6 +1953,7 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
+                    ariaLabel: this.textColor,
                     additionalItemsBefore: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
                             style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
@@ -1799,6 +1982,7 @@ define([
             if (!this.btnBGColor) {
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#form-background-color-btn'),
+                    ariaLabel: this.textBackgroundColor,
                     transparent: true,
                     color: 'transparent',
                     // eyeDropper: true,
@@ -1828,18 +2012,27 @@ define([
             }
         },
 
-        openAdvancedSettings: function(e) {
+        openAdvancedSettings: function(typeAfterOpen) {
             if (this.linkAdvanced.hasClass('disabled')) return;
 
             var me = this;
-            (new PDFE.Views.FormatSettingsDialog({
+            const win = new PDFE.Views.FormSettingsAdvanced({
                 api: me.api,
                 handler: function(result, settings) {
-                    settings && me.applyFormatSettings(settings);
+                    if(settings) {
+                        this.api.SetFieldActions(settings.actionsProps);
+                        if(settings.FormatType == AscPDF.FormatType.NONE) {
+                            this.api.ClearFieldFormat();
+                        }
+                    }
                     this.fireEvent('editcomplete', this);
                 },
-                props: this._originalSpecProps
-            })).show();
+                fieldType: this._originalProps.asc_getType(),
+                props: this._originalSpecProps,
+                actionsProps: this._originalActionsProps,
+            });
+            win.show();
+            typeAfterOpen && win.setFormatType(typeAfterOpen);
         },
 
         onHideMenus: function(menu, e, isFromInputControl){
@@ -1903,12 +2096,14 @@ define([
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);
-            this.MaskSettings.toggleClass('hidden', !(isCombobox || isText) || !(this._state.FormatType===AscPDF.FormatType.REGULAR ||
-                                                                                 this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
+            this.MaskSettings.toggleClass('hidden', !(isCombobox || isText) || 
+                !(this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
             this.DateSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.DATE);
             this.TimeSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.TIME);
             this.NotCheckSettings.toggleClass('hidden', isCheck || isRadio);
-        }
+        },
+
+        textCustom: 'Custom'
 
     }, PDFE.Views.FormSettings || {}));
 });

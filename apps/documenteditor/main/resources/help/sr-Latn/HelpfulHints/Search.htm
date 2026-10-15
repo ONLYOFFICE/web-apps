@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funkcija pretrage i zamene</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Opis funkcije pretrage i zamene u Document Editoru" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Funkcija pretrage i zamene</h1>
+			<p>Da biste pronašli potrebne znakove, reči ili fraze u trenutno uređivanom dokumentu, kliknite na ikonu <span class="icon icon-searchicon"></span> koja se nalazi na levoj bočnoj traci <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editora</b></a>, na ikonu <span class="icon icon-search_icon_header"></span> u gornjem desnom uglu, ili koristite kombinaciju tastera <em>Ctrl+F</em> (<em>Command+F</em> za macOS) da otvorite mali panel za pretragu ili <em>Ctrl+H</em> da otvorite prošireni panel.</p>
+			<p>Mali panel <b>Pretraga</b> otvoriće se u gornjem desnom uglu radnog prostora. Panel sadrži polje za unos pojma za pretragu, broj pronađenih rezultata i kontrole za prelazak na prethodni ili sledeći rezultat, kao i dugme za zatvaranje.</p>
+			<p><img alt="Mali panel za pretragu" src="../../../../../../common/main/resources/help/en/images/find_small.png" /></p>
+			<p>Za pristup naprednim podešavanjima kliknite na ikonu <span class="icon icon-search_advanced"></span> ili koristite kombinaciju tastera Ctrl+H.</p>
+			<p>Otvara se panel <b>Pretraga i zamena</b>:</p>
+			<p><img alt="Prozor za pretragu i zamenu" src="../images/search_window.png" /></p>
+			<ol>
+				<li>Unesite pojam za pretragu u odgovarajuće polje <b>Pretraga</b>.</li>
+				<li>Ako želite da zamenite jedan ili više pronađenih pojmova, unesite tekst zamene u polje <b>Zameni sa</b>. Možete izabrati da zamenite samo trenutno označeni pojam ili sve pojave klikom na odgovarajuća dugmad <b>Zameni</b> i <b>Zameni sve</b>. Dugme <div class="icon icon-replace"></div> <b>Zameni</b> takođe se nalazi na kartici <b>Početak</b>.</li>
+				<li>Za kretanje između pronađenih pojmova koristite strelice. Dugme <div class="icon icon-searchdownbutton"></div> prikazuje sledeći pojam, dok <div class="icon icon-searchupbutton"></div> vodi na prethodni.</li>
+				<li>
+					Odredite parametre pretrage označavanjem potrebnih opcija ispod polja za unos:
+					<ul>
+						<li><b>Razlikuj velika i mala slova</b> – koristi se da bi se pronašli samo pojmovi upisani istim slovima kao vaš unos (npr. ako unesete 'Editor' i uključite ovu opciju, reči poput 'editor' ili 'EDITOR' neće biti pronađene).</li>
+						<li><b>Samo cele reči</b> – koristi se da označi samo cele reči.</li>
+					</ul>
+				</li>
+			</ol>
+			<p>Sve pojave biće istaknute u dokumentu i prikazane kao lista u panelu <b>Pretraga</b> sa leve strane. Možete koristiti listu da pređete na određeni pojam ili navigacione tastere <span class="icon icon-searchupbutton"></span> i <span class="icon icon-searchdownbutton"></span>.</p>
+			<p><b>Document Editor</b> podržava pretragu specijalnih znakova. Da biste pronašli specijalan znak, unesite ga u polje za pretragu.</p>
+			<details class="details-example">
+				<summary>Lista specijalnih znakova koji se mogu koristiti u pretrazi</summary>
+				<table>
+					<tr>
+						<td><b>Specijalni znak</b></td>
+						<td><b>Opis</b></td>
+					</tr>
+					<tr>
+						<td>^l</td>
+						<td>Prelom reda</td>
+					</tr>
+					<tr>
+						<td>^t</td>
+						<td>Tabelatorski znak</td>
+					</tr>
+					<tr>
+						<td>^?</td>
+						<td>Bilo koji simbol</td>
+					</tr>
+					<tr>
+						<td>^#</td>
+						<td>Bilo koja cifra</td>
+					</tr>
+					<tr>
+						<td>^$</td>
+						<td>Bilo koje slovo</td>
+					</tr>
+					<tr>
+						<td>^n</td>
+						<td>Prelom kolone</td>
+					</tr>
+					<tr>
+						<td>^e</td>
+						<td>Završna napomena</td>
+					</tr>
+					<tr>
+						<td>^f</td>
+						<td>Fusnota</td>
+					</tr>
+					<tr>
+						<td>^g</td>
+						<td>Grafički element</td>
+					</tr>
+					<tr>
+						<td>^m</td>
+						<td>Prelom stranice</td>
+					</tr>
+					<tr>
+						<td>^~</td>
+						<td>Nedeljivi spojnik</td>
+					</tr>
+					<tr>
+						<td>^s</td>
+						<td>Nedeljivi razmak</td>
+					</tr>
+					<tr>
+						<td>^^</td>
+						<td>Ispis samog znaka kape (caret)</td>
+					</tr>
+					<tr>
+						<td>^w</td>
+						<td>Bilo koji razmak</td>
+					</tr>
+					<tr>
+						<td>^+</td>
+						<td>Duga crta (em dash)</td>
+					</tr>
+					<tr>
+						<td>^=</td>
+						<td>Kraća crta (en dash)</td>
+					</tr>
+					<tr>
+						<td>^y</td>
+						<td>Bilo koja crta</td>
+					</tr>
+				</table>
+			</details>
+			<details class="details-example">
+				<summary>Specijalni znakovi koji se mogu koristiti i za zamenu:</summary>
+				<table>
+					<tr>
+						<td><b>Specijalni znak</b></td>
+						<td><b>Opis</b></td>
+					</tr>
+					<tr>
+						<td>^l</td>
+						<td>Prelom reda</td>
+					</tr>
+					<tr>
+						<td>^t</td>
+						<td>Tabelatorski znak</td>
+					</tr>
+					<tr>
+						<td>^n</td>
+						<td>Prelom kolone</td>
+					</tr>
+					<tr>
+						<td>^m</td>
+						<td>Prelom stranice</td>
+					</tr>
+					<tr>
+						<td>^~</td>
+						<td>Nedeljivi spojnik</td>
+					</tr>
+					<tr>
+						<td>^s</td>
+						<td>Nedeljivi razmak</td>
+					</tr>
+					<tr>
+						<td>^+</td>
+						<td>Duga crta (em dash)</td>
+					</tr>
+					<tr>
+						<td>^=</td>
+						<td>Kraća crta (en dash)</td>
+					</tr>
+				</table>
+			</details>
+
+		</div>
+	</body>
+</html>

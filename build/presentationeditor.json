@@ -9,13 +9,23 @@
             "prebuild": [
                 "../deploy/web-apps/apps/presentationeditor/main"
             ],
-            "postbuild": []
+            "postbuild": [
+                "../deploy/web-apps/apps/presentationeditor/main/app_dev.js",
+                "../deploy/web-apps/apps/presentationeditor/main/app_dev.reporter.js",
+                "../deploy/web-apps/apps/presentationeditor/main/app_pack.js",
+                "../deploy/web-apps/apps/presentationeditor/main/index.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/main/index.reporter.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/main/index_loader.html",
+                "../deploy/web-apps/apps/presentationeditor/main/index_loader.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/main/resources/less",
+                "../deploy/web-apps/apps/presentationeditor/main/resources/img/toolbar/**/*"
+            ]
         },
         "js": {
             "requirejs": {
                 "options": {
-                    "name": "../apps/presentationeditor/main/app.js",
-                    "out": "../deploy/web-apps/apps/presentationeditor/main/app.js",
+                    "appDir": "../apps/presentationeditor/main",
+                    "dir": "../deploy/web-apps/apps/presentationeditor/main",
                     "baseUrl": "../apps/",
                     "inlineText": true,
                     "findNestedDependencies": true,

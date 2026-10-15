@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>FORECAST.ETS.STAT Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type= "text/css" rel = "stylesheet" href = "../../images/sprite.css" /> 
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>FORECAST.ETS.STAT Funkcija</h1>
+			<p><b>FORECAST.ETS.STAT</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za vraćanje statističke vrednosti kao rezultata predviđanja vremenskih serija. Tip statistike određuje koja se statistika zahteva ovom funkcijom.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>FORECAST.ETS.STAT(values, timeline, statistic_type, [seasonality], [data_completion], [aggregation])</em></b></p> 
+			<p><b>FORECAST.ETS.STAT</b> funkcija ima sledeće argumente:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>values</em></b></td>
+                    <td>Opseg istorijskih vrednosti za koje želite da predvidite novu tačku.</td>
+                </tr>
+				<tr>
+                    <td><b><em>timeline</em></b></td>
+                    <td>Opseg datuma/vremenskih vrednosti koji odgovaraju istorijskim vrednostima. Opseg <b><em>timeline</em></b> mora biti iste veličine kao opseg <b><em>values</em></b>. Datumske/vremenske vrednosti moraju imati konstantan korak između njih (iako do 30% nedostajućih vrednosti može biti obrađeno kako je određeno argumentom <b><em>data_completion</em></b> i duplikati mogu biti agregirani kako je određeno argumentom <b><em>aggregation</em></b>).</td>
+                </tr>
+                <tr>
+                    <td><b><em>statistic_type</em></b></td>
+                    <td>Numerička vrednost između 1 i 8 koja određuje koja će statistika biti vraćena. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+                <tr>
+                    <td><b><em>seasonality</em></b></td>
+                    <td>Numerička vrednost koja određuje koji metod treba koristiti za detekciju sezonalnosti. Ovo je opcioni argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+				<tr>
+                    <td><b><em>data_completion</em></b></td>
+                    <td>Numerička vrednost koja određuje kako se obrađuju nedostajući podaci u opsegu <b><em>timeline</em></b>. Ovo je opcioni argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+				<tr>
+                    <td><b><em>aggregation</em></b></td>
+                    <td>Numerička vrednost koja određuje koja funkcija će se koristiti za agregiranje identičnih vremenskih vrednosti u opsegu <b><em>timeline</em></b>. Ovo je opcioni argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>statistic_type</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Statistika</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Alfa parametar ETS algoritma – parametar osnovne vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Beta parametar ETS algoritma – parametar vrednosti trenda.</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Gama parametar ETS algoritma – parametar vrednosti sezonalnosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>MASE (srednja apsolutna skalirana greška) metrika – mera tačnosti prognoza.</td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td>SMAPE (simetrična srednja apsolutna procentualna greška) metrika – mera tačnosti zasnovana na procentualnim greškama.</td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td>MAE (srednja apsolutna greška) metrika – mera tačnosti prognoza.</td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td>RMSE (koren srednje kvadratne greške) metrika – mera razlika između predviđenih i posmatranih vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>8</em></b></td>
+                    <td>Veličina koraka detektovana u vremenskoj osi.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>seasonality</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Ponašanje</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1 ili izostavljeno</em></b></td>
+                    <td>Sezonalnost se automatski detektuje. Pozitivni celi brojevi se koriste za dužinu sezonskog obrasca.</td>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>Nema sezonalnosti, predviđanje će biti linearno.</td>
+                </tr>
+                <tr>
+                    <td><b><em>ceo broj veći ili jednak 2</em></b></td>
+                    <td>Navedeni broj se koristi kao dužina sezonskog obrasca.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>data_completion</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Ponašanje</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1 ili izostavljeno</em></b></td>
+                    <td>Nedostajuće tačke se izračunavaju kao prosek susednih tačaka.</td>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>Nedostajuće tačke se tretiraju kao nulte vrednosti.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>aggregation</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Funkcija</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1 ili izostavljeno</em></b></td>
+                    <td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">AVERAGE</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">COUNT</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">COUNTA</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td><a href="../Functions/max.htm" onclick="onhyperlinkclick(this)">MAX</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td><a href="../Functions/median.htm" onclick="onhyperlinkclick(this)">MEDIAN</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td><a href="../Functions/min.htm" onclick="onhyperlinkclick(this)">MIN</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SUM</a></td>
+                </tr>
+            </table> 
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>FORECAST.ETS.STAT</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>FORECAST.ETS.STAT</b>.</p>
+			<p><img alt="FORECAST.ETS.STAT Function" src="../images/forecast-ets-stat.png" /></p>
+		</div>
+	</body>
+</html>

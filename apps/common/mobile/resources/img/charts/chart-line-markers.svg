@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-line-markers">
+    <path fill="#555" d="M38 14h6v4.586L55.414 30H60v6h-6v-4.586L42.586 20h-3.172L10 49.414V54H4v-6h4.586L38 18.586V14Z" class="icon-fill-type-preview" opacity=".6"/>
+    <path fill="#555" d="M8 6H6v32H4v6h2v4h2v-4h2v-4.586L23.414 26h3.814L40 35.934V40h6v-4.91L55.704 24H60v-6h-6v4.91L44.296 34h-3.524L28 24.067V20h-6v4.586L8.586 38H8V6ZM6 60v-6h2v4h52v2H6Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

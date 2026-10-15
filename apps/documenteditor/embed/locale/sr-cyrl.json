@@ -54,6 +54,7 @@
   "DE.ApplicationController.txtEmpty": "(Празно)",
   "DE.ApplicationController.txtNo": "Не",
   "DE.ApplicationController.txtPressLink": "Притисни %1 и кликни линк",
+  "DE.ApplicationController.txtSecurityWarningOpenFile": "Овај документ покушава да отвори дијалог фајла, притисните \"ОК\" да отворите.",
   "DE.ApplicationController.txtYes": "Да",
   "DE.ApplicationController.unknownErrorText": "Непозната грешка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш прегледач није подржан.",

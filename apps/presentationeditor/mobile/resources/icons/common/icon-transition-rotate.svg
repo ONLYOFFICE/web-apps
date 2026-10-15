@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-rotate">
+    <path fill="#BE6650" d="M20 9.5v5l-5 2v-9l5 2Z" class="icon-fill-red-brend-transition-primary" opacity=".8"/>
+    <path fill="#FBE4DE" d="m9 16.5-5-2v-5l5-2v9Z" class="icon-fill-red-brend-transition-secondary"/>
+    <path fill="#444" fill-rule="evenodd" d="M10.165 3.83a.75.75 0 0 1 1.085.67v15a.75.75 0 0 1-1.085.67l-8-4a.75.75 0 0 1-.415-.67v-7a.75.75 0 0 1 .415-.67l8-4Zm2.94.032a.75.75 0 0 1 .73-.033l8 4a.75.75 0 0 1 .415.671v7a.75.75 0 0 1-.415.67l-8 4a.75.75 0 0 1-1.085-.67v-15a.75.75 0 0 1 .355-.638Zm-9.855 5.1v6.074l6.5 3.25V5.713l-6.5 3.25Zm11 9.324 6.5-3.25V8.963l-6.5-3.25v12.573Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
+</svg>

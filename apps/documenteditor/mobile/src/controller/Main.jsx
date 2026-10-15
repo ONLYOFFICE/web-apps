@@ -1,3 +1,37 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 import React, {Component, Fragment} from 'react';
 import {inject} from "mobx-react";
@@ -171,6 +205,7 @@ class MainController extends Component {
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
 
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig, _t);
+                Common.MentionUsers.init(this.editorConfig.canRequestUsers);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
 
@@ -230,7 +265,7 @@ class MainController extends Component {
                     docInfo.put_Wopi(this.editorConfig.wopi);
                     this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
-                    let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                    let type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                                     !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -249,7 +284,8 @@ class MainController extends Component {
 
                 if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
-                        this.permissions.fillForms = this.permissions.edit !== false;
+                        // take the integrator's edit right, the viewer-only format branch above has already reset this.permissions.edit
+                        this.permissions.fillForms = !(data.doc.permissions && data.doc.permissions.edit === false);
                     }
 
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
@@ -261,7 +297,7 @@ class MainController extends Component {
                 this.api.asc_registerCallback('asc_onMacrosPermissionRequest', this.onMacrosPermissionRequest.bind(this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', this.onRunAutostartMacroses.bind(this));
                 this.api.asc_setDocInfo(docInfo);
-                this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+                this.api.asc_getEditorPermissions();
 
                 // Document Info
 
@@ -278,6 +314,10 @@ class MainController extends Component {
                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
                    }
                 }
+            };
+
+            const loadBinary = data => {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             };
 
             const onEditorPermissions = params => {
@@ -370,6 +410,9 @@ class MainController extends Component {
 
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
+                this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+                this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+
                 this.checkProtectDocumentOnAppReady();
 
                 let value = LocalStorage.getItem("de-settings-zoom");
@@ -381,6 +424,8 @@ class MainController extends Component {
                 this.api.asc_setSpellCheck(value);
 
                 this.updateWindowTitle(true);
+
+                appOptions.changeAutosave(LocalStorage.itemExists('de-mobile-autosave') ? LocalStorage.getBool("de-mobile-autosave") : true);
 
                 value = LocalStorage.getBool("de-mobile-no-characters");
                 appSettings.changeNoCharacters(value);
@@ -467,7 +512,7 @@ class MainController extends Component {
                         _translate = this.fallbackSdkTranslations
                     }
 
-                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
                     const config = {
@@ -503,6 +548,7 @@ class MainController extends Component {
                     Common.Gateway.on('init',           loadConfig);
                     Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
                     Common.Gateway.on('opendocument',   loadDocument);
+                    Common.Gateway.on('opendocumentfrombinary',  loadBinary);
                     Common.Gateway.appReady();
 
                     Common.Gateway.on('internalcommand', function(data) {
@@ -638,6 +684,7 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onDocumentModifiedChanged', this.onDocumentModifiedChanged.bind(this));
         this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  this.onDocumentCanSaveChanged.bind(this));
+        this.api.asc_registerCallback('asc_onCollaborativeChanges',  this.onCollaborativeChanges.bind(this));
 
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.ApplyEditRights);
@@ -661,7 +708,14 @@ class MainController extends Component {
     }
 
     onDocumentCanSaveChanged (isCanSave) {
-        //
+        const storeAppOptions = this.props.storeAppOptions;
+        storeAppOptions.changeIsSaveBadgeShown(isCanSave ? !storeAppOptions.isAutosave : false);
+    }
+
+    onCollaborativeChanges () {
+        const storeAppOptions = this.props.storeAppOptions;
+        if (!storeAppOptions.isSaveBadgeShown) storeAppOptions.changeIsSaveBadgeShown(true);
+        storeAppOptions.changeSavingDocStatusText('');
     }
 
     onBeforeUnload () {
@@ -689,7 +743,7 @@ class MainController extends Component {
         const licType = params.asc_getLicenseType();
     
         if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
-            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
+            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS || licType === Asc.c_oLicenseResult.NotEnoughResources
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
 
@@ -705,9 +759,11 @@ class MainController extends Component {
         const { t } = this.props;
         const _t = t('Main', {returnObjects:true});
 
-        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoLicense = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const warnNoResources  = _t.warnNoResources.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
+        const textNoResourcesTitle = _t.textNoResourcesTitle.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
         const isForm = appOptions.isForm;
@@ -759,7 +815,10 @@ class MainController extends Component {
                 title = _t.titleReadOnly;
                 license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
-                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
+                if (license === Asc.c_oLicenseResult.NotEnoughResources)
+                    title = textNoResourcesTitle;
+                license = (license === Asc.c_oLicenseResult.NotEnoughResources) ? warnNoResources :
+                          (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
                     text: _t.textBuyNow,
                     bold: true,
@@ -1037,6 +1096,7 @@ class MainController extends Component {
         });
 
         Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
+        Common.Notifications.on('update:windowtitle', force => this.updateWindowTitle(force));
     }
 
     insertImageFromStorage(data) {
@@ -1333,7 +1393,7 @@ class MainController extends Component {
                 Asc.c_oAscFileType.JPG,
                 Asc.c_oAscFileType.PNG
             ];
-        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+        const type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(this.document.fileType);
 
         if (type && typeof type[1] === 'string' && !appOptions.isForm) {
             if (!(format && (typeof format == 'string')) || type[1] === format.toLowerCase()) {
@@ -1449,6 +1509,9 @@ class MainController extends Component {
                 window.document.title = title;
             }
 
+            if (isModified)
+                this.props.storeAppOptions.changeSavingDocStatusText('');
+
             this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
             this._state.isDocModified = isModified;
         }
@@ -1459,7 +1522,6 @@ class MainController extends Component {
 
         if (this.api)
             this.api.asc_Print();
-        Common.component.Analytics.trackEvent('Print');
     }
 
     onPrintUrl (url) {
@@ -1498,8 +1560,6 @@ class MainController extends Component {
                 text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
                 closeButton: true
             }).open();
-
-            Common.component.Analytics.trackEvent('External Error');
         }
     }
 
@@ -1662,7 +1722,7 @@ class MainController extends Component {
             enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+            let type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(this.document.fileType);
             let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                 !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer

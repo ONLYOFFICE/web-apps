@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Traženje ciljne vrednosti</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Podesite parametre validacije podataka da biste kontrolisali dalje uređivanje tabele" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Traženje ciljne vrednosti</h1>
+        <p>ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač tabela</b></a> nudi funkciju <b>Traženje ciljne vrednosti</b> koja vam omogućava da odredite koje brojeve treba zameniti u formuli kako biste dobili željeni i unapred poznat rezultat.</p>
+        <ol>
+            <li>Otvorite karticu <b>Podaci</b> i kliknite na ikonu <b>Traženje ciljne vrednosti</b> na gornjoj traci sa alatkama.</li>
+            <li>U otvorenom prozoru <b>Traženje ciljne vrednosti</b> izaberite potrebne opcije:
+                <p><img alt="Traženje ciljne vrednosti" src="../images/goal_seek.png" /></p>
+            <ul>
+                <li><b>Postavi ćeliju</b> - unesite referencu na ćeliju koja sadrži formulu. Možete koristiti ikonu <div class="icon icon-changerange"></div> da biste izabrali ćeliju.</li>
+                <li><b>Na vrednost</b> - unesite rezultat koji želite da dobijete u ćeliji koja sadrži formulu.</li>
+                <li><b>Promenom ćelije</b> - unesite referencu na ćeliju koja sadrži vrednost koju želite da promenite. Možete koristiti ikonu <div class="icon icon-changerange"></div> da biste izabrali ćeliju. Na ovu ćeliju mora da se odnosi formula koja se nalazi u ćeliji koju ste naveli u polju <b>Postavi ćeliju</b>.</li>
+            </ul>
+            </li>
+            <li>Kliknite na <b>OK</b>.</li>
+            <li>Prozor <b>Status traženja ciljne vrednosti</b> će prikazati rezultat.
+                <p><img alt="Status traženja ciljne vrednosti" src="../images/goal_seek_status.png" /></p>
+            </li>
+            <li>Kliknite na <b>OK</b> da biste zamenili vrednosti u ćelijama navedenim u poljima <b>Postavi ćeliju</b> i <b>Promenom ćelije</b>.</li>
+        </ol>
+        
+    </div>
+</body>
+</html>

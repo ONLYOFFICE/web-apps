@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Izdvajanje teksta sa slike</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis OCR plugin-a za ONLYOFFICE editore, koji omogućava izdvajanje teksta sa slike i njegovo umetanje u dokumente" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Izdvajanje teksta sa slike</h1>
+        <p>Pomoću ONLYOFFICE <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-a</b></a> možete izdvojiti tekst sa slike (.png, .jpg) i ubaciti ga u dokument.</p>
+        <p class="note">Počevši od ONLYOFFICE Docs 8.2, nijedan dodatak ne dolazi sa editorima podrazumevano. Dodaci se instaliraju putem <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Plugin Manager-a</a>.</p>
+        <ol>
+            <li>Otvorite dokument i postavite kursor na mesto gde želite da ubacite tekst.</li>
+            <li>Prebacite se na karticu <b>Plugins</b> i izaberite <div class="icon icon-ocr"></div> <b>OCR</b> iz menija.</li>
+            <li>Kliknite na <b>Load File</b> i izaberite sliku.</li>
+            <li>Izaberite jezik prepoznavanja iz padajuće liste <b>Choose Language</b>.</li>
+            <li>Kliknite na <b>Recognize</b>.</li>
+            <li>Kliknite na <b>Insert text</b>.</li>
+        </ol>
+        <p>Preporučuje se da proverite ubačeni tekst zbog mogućih grešaka i rasporeda.</p>
+    </div>
+</body>
+</html>

@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  RightMenu.js
@@ -39,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!presentationeditor/main/app/template/RightMenu.template',
@@ -51,7 +55,7 @@ define([
     'common/main/lib/component/CheckBox',
     'presentationeditor/main/app/view/ParagraphSettings',
     'presentationeditor/main/app/view/ImageSettings',
-    'presentationeditor/main/app/view/ChartSettings',
+    // 'presentationeditor/main/app/view/ChartSettings',
     'presentationeditor/main/app/view/TableSettings',
     'presentationeditor/main/app/view/ShapeSettings',
     'presentationeditor/main/app/view/SlideSettings',
@@ -82,7 +86,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
@@ -91,7 +96,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
@@ -100,7 +106,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
             this.btnSlide = new Common.UI.Button({
                 hint: this.txtSlideSettings,
@@ -109,17 +116,18 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-slide',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
-            this.btnChart = new Common.UI.Button({
-                hint: this.txtChartSettings,
-                asctype: Common.Utils.documentSettingsType.Chart,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-chart',
-                toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
-            });
+            // this.btnChart = new Common.UI.Button({
+            //     hint: this.txtChartSettings,
+            //     asctype: Common.Utils.documentSettingsType.Chart,
+            //     enableToggle: true,
+            //     disabled: true,
+            //     iconCls: 'btn-menu-chart',
+            //     toggleGroup: 'tabpanelbtnsGroup',
+            //     allowMouseEventsOnDisabled: true
+            // });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
@@ -127,7 +135,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -137,7 +146,8 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
+                allowMouseEventsOnDisabled: true,
+                ariaExpanded: true
             });
 
             this._settings = [];
@@ -146,7 +156,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
             this._settings[Common.Utils.documentSettingsType.Slide]       = {panel: "id-slide-settings",      btn: this.btnSlide};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
-            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
+            // this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
 
             return this;
@@ -183,7 +193,7 @@ define([
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
             this.btnSlide.setElement($('#id-right-menu-slide'), false);         this.btnSlide.render();
-            this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
+            // this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
 
@@ -191,17 +201,26 @@ define([
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnSlide.on('click',           _.bind(this.onBtnMenuClick, this));
-            this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
+            // this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new PE.Views.ParagraphSettings();
             this.slideSettings = new PE.Views.SlideSettings();
             this.imageSettings = new PE.Views.ImageSettings();
-            this.chartSettings = new PE.Views.ChartSettings();
+            // this.chartSettings = new PE.Views.ChartSettings();
             this.tableSettings = new PE.Views.TableSettings();
             this.shapeSettings = new PE.Views.ShapeSettings();
             this.textartSettings = new PE.Views.TextArtSettings();
+
+            // Hide for viewer
+            if(!mode.isEdit) {
+                [this.btnText, this.btnTable, this.btnImage, this.btnSlide, this.btnChart, 
+                    this.btnShape, this.btnTextArt,
+                ].forEach(function(btn) {
+                    btn && btn.setVisible(false);
+                });
+            }
 
             if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
@@ -211,7 +230,8 @@ define([
                     disabled: true,
                     iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
-                    allowMouseEventsOnDisabled: true
+                    allowMouseEventsOnDisabled: true,
+                    ariaExpanded: true
                 });
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
 
@@ -247,7 +267,7 @@ define([
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.slideSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
+            // this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
@@ -259,7 +279,7 @@ define([
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.slideSettings && this.slideSettings.setMode(mode);
-            this.chartSettings && this.chartSettings.setMode(mode);
+            // this.chartSettings && this.chartSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -281,24 +301,15 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const viewport = PE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.hideItemResizer('right', !isPlugin);
-
-                const widthFromStorage = Common.localStorage.getItem('pe-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("pe-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("pe-hide-right-settings", true);
             }
@@ -324,6 +335,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -337,16 +350,24 @@ define([
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
+        getVisibleButtons: function() {
+            return this.$el.find('.tool-menu-btns > button:not(.hidden)');
+        },
+
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -358,7 +379,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt, this.btnSignature];
+            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnSignature];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -370,14 +391,37 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
             var pane = $(this.el).find('.right-panel'),
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            if ( !this.isPluginButtonPressed() ) {
+                this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
+            }
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const viewport = PE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.hideItemResizer('right', this.minimizedMode || !isPlugin);
+
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
+            } else {
+                const widthFromStorage = Common.localStorage.getItem('pe-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
+            }
         },
 
         txtParagraphSettings:       'Text Settings',

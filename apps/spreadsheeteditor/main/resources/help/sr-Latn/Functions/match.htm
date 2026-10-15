@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>MATCH funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="MATCH funkcija je jedna od funkcija za pretragu i reference. Koristi se za vraćanje relativne pozicije određenog elementa u opsegu ćelija." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>MATCH funkcija</h1>
+			<p><b>MATCH</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i reference</a>. Koristi se za vraćanje relativne pozicije određenog elementa u opsegu ćelija.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>MATCH(lookup_value, lookup_array, [match_type])</em></b></p> 
+			<p><b>MATCH</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>lookup_value</em></b></td>
+                    <td>Vrednost u <em><b>lookup_array</b></em> koju želite da pronađete. Može biti numerička, logička, tekstualna vrednost ili referenca na ćeliju.</td>
+                </tr>
+				<tr>
+                    <td><b><em>lookup_array</em></b></td>
+                    <td>Jedan red ili kolona koje želite da analizirate.</td>
+                </tr>
+				<tr>
+                    <td><b><em>match_type</em></b></td>
+                    <td>Tip pretrage. Opcioni argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table>
+			
+			<p><b><em>match_type</em></b> argument može biti jedna od sledećih vrednosti:</p>
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+					<th style="background-color: #f4f4f4"><b>Značenje</b></th>
+				</tr>
+				<tr>
+					<td><b><em>1 ili izostavljeno</em></b></td>
+					<td>Vrednosti moraju biti sortirane u rastućem redosledu. Ako se tačna vrednost ne pronađe, funkcija vraća najveću vrednost koja je manja ili jednaka <em><b>lookup_value</b></em>.</td>
+				</tr>
+				<tr>
+					<td><b><em>0</em></b></td>
+					<td>Vrednosti mogu biti u bilo kom redosledu. Ako se tačna vrednost ne pronađe, funkcija vraća grešku <b>#N/A</b>.</td>
+				</tr>
+				<tr>
+                    <td><b><em>-1</em></b></td>
+					<td>Vrednosti moraju biti sortirane u opadajućem redosledu. Ako se tačna vrednost ne pronađe, funkcija vraća najmanju vrednost koja je veća od <em><b>lookup_value</b></em>.</td>
+				</tr>
+			</table>
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>MATCH</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>MATCH</b> funkcija.</p>
+			<p><img alt="MATCH funkcija" src="../images/match.png" /></p>
+		</div>
+	</body>
+</html>

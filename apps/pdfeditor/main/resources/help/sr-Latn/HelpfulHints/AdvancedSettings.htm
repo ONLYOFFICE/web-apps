@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Napredna podešavanja PDF Editor-a</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Napredna podešavanja PDF Editor-a" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Napredna podešavanja PDF Editor-a</h1>
+        <p> <a href="https://www.onlyoffice.com/en/pdf-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>PDF Editor</b></a> PDF Editor vam omogućava da izmenite napredna podešavanja. Da biste im pristupili, otvorite <b>File</b> karticu na gornjoj traci sa alatkama i izaberite <b>Advanced Settings</b> opciju.</p>
+        <p>Napredna podešavanja su grupisana na sledeći način:</p>
+
+        <h3>Saradnja</h3>
+        <ol>
+            <li><b>Prikažite komentare u tekstu</b>. Ako onemogućite ovu opciju, komentarisani delovi biće označeni samo kada kliknete na ikonu <b>Comments</b> <div class="icon icon-commentsicon"></div> na levoj bočnoj traci. Opcija je dostupna samo kada se otvara standardni PDF fajl, a ne obrazac.</li>
+            <!--<li><b>Prikaži rešene komentare</b>. Ova funkcija je podrazumevano onemogućena tako da su rešeni komentari skriveni u PDF tekstu. Takve komentare možete videti samo ako kliknete na ikonu <b>Komentari</b> <div class="icon icon-commentsicon"></div> na levoj bočnoj traci. Omogućite ovu opciju ako želite da prikažete rešene komentare u PDF tekstu.</li>-->
+        </ol>
+
+        <h3>Radni prostor</h3>
+        <ol>
+            <li> <b>Uključite podršku za čitač ekrana</b> omogućava podršku softveru za čitače ekrana.</li>
+            <li> <b>Koristite taster Alt za navigaciju kroz korisnički interfejs pomoću tastature</b> opcija omogućava korišćenje tastera <em>Alt</em> / <em>Option</em> u prečicama na tastaturi.</li>
+            <li><span class="desktopDocumentFeatures"><b>Prikaži dugme Brzo štampanje u zaglavlju uređivača</b> se koristi u <em>desktop verziji</em> da bi se omogućilo brzo štampanje preko odgovarajućeg dugmeta na gornjoj traci sa alatkama. Datoteka će biti odštampana na poslednjem izabranom ili podrazumevanom štampaču.</span></li>
+            <li> <b>Koristite mini traku sa alatkama prilikom odabira teksta</b> opcija se koristi da bi se omogućilo prikazivanje mini trake sa alatkama sa brzim pristupom najčešćim alatima za formatiranje prilikom odabira teksta.</li>
+            <li> <b>Prilagodite brzi pristup</b> dugme je korišćeno za biranje koja će dugmad biti dostupna u gornjoj traci, npr., <em>Save</em>, <em>Print</em>, <em>Undo</em>, i <em>Redo</em>.</li>
+            <li>
+                 <b>Interface tema</b> opcija se koristi za menjanje kolor šema interfejs editor-a.
+                <ul>
+                    <li> <b>Isto kao sistem</b> opcija omogućava da editor prati temu interfejsa vašeg sistema.</li>
+            <li> <b>Svetlo</b> šema boja obuhvata standardnu boju crvene cigle, belu i svetlosivu, sa manjim kontrastom UI elemenata, pogodna za rad tokom dana.</li>
+            <li> <b>Klasično svetlo</b> šema boja obuhvata standardnu boju crvene cigle, belu i svetlosivu.</li>
+            <li> <b>Tamno</b> šema boja obuhvata crnu, tamnosivu i svetlosivu, pogodna za rad noću.</li>
+            <li> <b>Kontrastno tamno</b> šema boja obuhvata crnu, tamnosivu i belu boju, sa većim kontrastom UI elemenata, ističući radnu površinu dokumenta.</li>
+            <li>
+                         <b>Uključite tamni režim dokumenta</b> opcija se koristi da bi radna površina bila tamnija kada je editor podešen na <b>Dark</b> ili <b>Contrast Dark</b> temu interfejsa. Obeležite polje <b>Turn on document dark mode</b> da biste je uključili.
+                        <p class="note"><b>Napomena</b>: Pored dostupnih tema <b>Light</b>, <b>Classic Light</b>, <b>Dark</b> i <b>Contrast Dark</b>, ONLYOFFICE editori sada mogu biti prilagođeni vašom sopstvenom temom boja. Molimo pratite <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-developer-change-theme.aspx" onclick="onhyperlinkclick(this)">ova uputstva</a> da biste saznali kako to možete uraditi.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                 <b>Podrazumevana vrednost Zooma</b> opcija se koristi za podešavanje podrazumevanog zumiranja, biranjem vrednosti na listi dostupnih opcija od 50% do 500%. Takođe možete izabrati <em>Fit to Page</em>, <em>Fit to Width</em> ili <em>Last Used</em> opciju.
+                <p class="note">Opcija <em>Last Used</em> odnosi se na poslednje podešeno uvećanje tokom tekuće sesije.</p>
+            </li>
+            <li>
+                 <b>Font Hinting</b> opcija koristi se za izbor načina prikaza fontova u PDF Editoru.
+                <ul>
+                    <li>Izaberite <b>As Windows</b> ako vam se dopada kako se fontovi obično prikazuju u Windows okruženju, tj. koristeći Windows font hinting.</li>
+                    <li>Izaberite <b>As OS X</b> ako vam se dopada prikaz fontova na Mac računarima, tj. bez ikakvog font hintinga.</li>
+                    <li>Izaberite <b>Native</b> ako želite da se tekst prikazuje koristeći hinting ugrađen u font datoteke.</li>
+                    <li>
+                        <b>Default cache mode</b> - koristi se za izbor režima keširanja font karaktera. Ne preporučuje se menjanje ove opcije bez potrebe. Može biti korisna samo u određenim slučajevima, na primer, kada se pojavi problem u Google Chrome pregledaču sa uključenim hardverskim ubrzanjem.
+                        <p>Dokument Editor ima dva režima keširanja:</p>
+                        <ol>
+                            <li>U <b>prvom režimu keširanja</b>, svako slovo se kešira kao posebna slika.</li>
+                            <li>U <b>drugom režimu keširanja</b>, bira se slika određene veličine u kojoj se slova dinamički postavljaju, uz mehanizam za alokaciju/uklanjanje memorije. Ako nema dovoljno memorije, kreira se druga slika, itd.</li>
+                        </ol>
+                        <p> <b>Podrazumevani model keširanja</b> primenjuje navedene režime različito u različitim pregledačima:</p>
+                        <ul>
+                            <li>Kada je <b>Podrazumevani model keširanja</b> podešavanje uključeno, Internet Explorer (v. 9, 10, 11) koristi <b>drugi režim keširanja</b>, dok ostali pregledači koriste <b>prvi režim keširanja</b>.</li>
+                            <li>Kada je <b>Podrazumevani model keširanja</b> podešavanje isključeno, Internet Explorer (v. 9, 10, 11) koristi <b>prvi režim keširanja</b>, dok ostali pregledači koriste <b>drugi režim keširanja</b>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+<p>Da sačuvate napravljene izmene, kliknite dugme <b>Apply</b> dugme.</p>
+    </div>
+</body>
+</html>

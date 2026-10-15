@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>REPLACE/REPLACEB funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>REPLACE/REPLACEB funkcija</h1>
+			<p><b>REPLACE/REPLACEB</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">funkcija za tekst i podatke</a>. Koristi se za zamenu skupa karaktera na osnovu broja karaktera i početne pozicije koje odredite, novim skupom karaktera. <b>REPLACE</b> funkcija je namenjena jezicima koji koriste jednobajtni karakter set (SBCS), dok je <b>REPLACEB</b> za jezike koji koriste dvobajtni karakter set (DBCS) kao što su japanski, kineski, korejski itd.</p>			
+			<h3>Sintaksa</h3> 
+			<p><b><em>REPLACE(old_text, start_num, num_chars, new_text)</em></b></p> 
+			<p><b>REPLACE</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>old_text</em></b></td>
+                    <td>Originalni tekst koji se menja.</td>
+                </tr>
+				<tr>
+                    <td><b><em>start_num</em></b></td>
+                    <td>Početak skupa koji će biti zamenjen.</td>
+                </tr>
+				<tr>
+                    <td><b><em>num_chars</em></b></td>
+                    <td>Broj karaktera koji će biti zamenjen.</td>
+                </tr>
+				<tr>
+                    <td><b><em>new_text</em></b></td>
+                    <td>Novi tekst.</td>
+                </tr>
+            </table>
+
+            <p><b><em>REPLACEB(old_text, start_num, num_bytes, new_text)</em></b></p>
+            <p><b>REPLACEB</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>old_text</em></b></td>
+                    <td>Originalni tekst koji se menja.</td>
+                </tr>
+                <tr>
+                    <td><b><em>start_num</em></b></td>
+                    <td>Početak skupa koji će biti zamenjen.</td>
+                </tr>
+                <tr>
+                    <td><b><em>num_bytes</em></b></td>
+                    <td>Broj karaktera koji će biti zamenjen, baziran na bajtovima.</td>
+                </tr>
+                <tr>
+                    <td><b><em>new_text</em></b></td>
+                    <td>Novi tekst.</td>
+                </tr>
+            </table>			
+			<h3>Napomene</h3>
+			<p>REPLACE funkcija je <b>osetljiva na velika i mala slova</b>.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>REPLACE/REPLACEB</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>REPLACE</b> funkcija.</p>
+			<p><img alt="REPLACE funkcija" src="../images/replace.png" /></p>
+		</div>
+	</body>
+</html>

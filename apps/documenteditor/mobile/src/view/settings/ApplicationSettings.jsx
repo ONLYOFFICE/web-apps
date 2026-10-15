@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
@@ -7,12 +42,9 @@ const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const storeThemes = props.storeThemes;
-    const displayMode = props.storeReview.displayMode;
     const storeApplicationSettings = props.storeApplicationSettings;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const isSpellChecking = storeApplicationSettings.isSpellChecking;
-    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
-    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
     const directionMode = storeApplicationSettings.directionMode;
@@ -35,7 +67,22 @@ const PageApplicationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPreferences} backLink={_t.textBack} />
+            {_isEdit &&
+                <>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
+                    <List>
+                        <ListItem title={_t.textSpellcheck}>
+                            <Toggle checked={isSpellChecking}
+                                    onToggleChange={() => {
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
+                                        props.switchSpellCheck(!isSpellChecking);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                </>
+            }
             {_isEdit && !isViewer &&
                 <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
@@ -47,37 +94,7 @@ const PageApplicationSettings = props => {
                         <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
-                    <List>
-                        <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <Toggle checked={isNonprintingCharacters}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
-                                        props.switchNoCharacters(!isNonprintingCharacters);
-                                    }}
-                            />
-                        </ListItem>
-                        <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <Toggle checked={isHiddenTableBorders}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
-                                        props.switchShowTableEmptyLine(!isHiddenTableBorders);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
                 </>
-            }
-            {_isEdit &&
-                <List>
-                    <ListItem title={_t.textSpellcheck}>
-                        <Toggle checked={isSpellChecking}
-                                onToggleChange={() => {
-                                    storeApplicationSettings.changeSpellCheck(!isSpellChecking);
-                                    props.switchSpellCheck(!isSpellChecking);
-                                }}
-                        />
-                    </ListItem>
-                </List>
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
@@ -99,14 +116,14 @@ const PageApplicationSettings = props => {
                 </ListItem>
             </List>
             {!!isConfigSelectTheme &&
-                <List mediaList>
+                <List>
                     <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
                     }}></ListItem>
                 </List>
             }
             {_isShowMacros &&
-                <List mediaList>
+                <List>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                         setMacrosSettings: props.setMacrosSettings
                     }}></ListItem>
@@ -164,7 +181,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview", "storeThemes")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 

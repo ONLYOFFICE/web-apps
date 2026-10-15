@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>AMORLINC funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>AMORLINC funkcija</h1>
+			<p>Funkcija <b>AMORLINC</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje amortizacije sredstva za svaki obračunski period korišćenjem linearne metode amortizacije.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>AMORLINC(cost, date_purchased, first_period, salvage, period, rate, [basis])</em></b></p> 
+            <p>Funkcija <b>AMORLINC</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>cost</em></b></td>
+                    <td>Trošak sredstva.</td>
+                </tr>
+                <tr>
+                    <td><b><em>date_purchased</em></b></td>
+                    <td>Datum kada je sredstvo kupljeno.</td>
+                </tr>
+                <tr>
+                    <td><b><em>first_period</em></b></td>
+                    <td>Datum kada se završava prvi period.</td>
+                </tr>
+                <tr>
+                    <td><b><em>salvage</em></b></td>
+                    <td>Ostatna vrednost sredstva na kraju njegovog veka trajanja.</td>
+                </tr>
+                <tr>
+                    <td><b><em>period</em></b></td>
+                    <td>Period za koji želite da izračunate amortizaciju.</td>
+                </tr>
+                <tr>
+                    <td><b><em>rate</em></b></td>
+                    <td>Stopa amortizacije.</td>
+                </tr>
+                <tr>
+                    <td><b><em>basis</em></b></td>
+                    <td>Osnova za obračun broja dana koja će se koristiti, numerička vrednost veća ili jednaka 0, ali manja ili jednaka 4. To je opciono argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table> 
+            <p>Argument <b><em>basis</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Osnova obračuna</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>US (NASD) 30/360</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Stvarno/stvarno</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Stvarno/360</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Stvarno/365</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>Evropski 30/360</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p> Datumi moraju biti uneti korišćenjem funkcije <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a>.</p>            
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>AMORLINC</b>.</p>			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>AMORLINC</b>.</p>
+			<p><img alt="AMORLINC Function" src="../images/amorlinc.png" /></p>
+		</div>
+	</body>
+</html>

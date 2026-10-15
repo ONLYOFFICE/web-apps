@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Podešavanje vrste, veličine i boje fonta</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Promenite sledeće parametre formatiranja teksta: vrstu fonta, veličinu i boju" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Podešavanje vrste, veličine i boje fonta</h1>
+            <p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editoru</b></a> možete izabrati vrstu fonta, njegovu veličinu i boju pomoću odgovarajućih ikona na kartici <b>Početna</b> u gornjoj traci sa alatkama.</p>
+			<p class="note">Ako želite da primenite formatiranje na već postojeći tekst u dokumentu, označite ga mišem ili <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">koristite tastaturu</a> i primenite formatiranje. Takođe možete postaviti kursor unutar željene reči da biste formatiranje primenili samo na tu reč.</p>
+			<table>
+				<tr>
+					<td width="10%">Font</td>
+					<td width="15%"><div class="big big-fontfamily"></div></td>
+					<td>Koristi se za izbor fonta sa liste dostupnih fontova. <span class="desktopDocumentFeatures">Ako traženi font nije dostupan na listi, možete ga preuzeti i instalirati na svoj operativni sistem, i tada će font biti dostupan u <em>desktop verziji</em>.</span></td>
+				</tr>
+				<tr>
+					<td>Veličina fonta</td>
+					<td><div class="icon icon-fontsize"></div></td>
+					<td>Koristi se za izbor među unapred podešenim veličinama fonta u padajućem meniju (podrazumevane vrednosti su: 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 i 96). Takođe je moguće ručno uneti vrednost do 300 pt u polju za veličinu fonta. Pritisnite <em>Enter</em> da potvrdite.</td>
+				</tr>
+				<tr>
+					<td>Povećaj veličinu fonta</td>
+					<td><div class="icon icon-larger"></div></td>
+					<td>Koristi se za povećanje veličine fonta za po jedan poen svaki put kada kliknete na dugme.</td>
+				</tr>
+				<tr>
+					<td>Smanji veličinu fonta</td>
+					<td><div class="icon icon-smaller"></div></td>
+					<td>Koristi se za smanjenje veličine fonta za po jedan poen svaki put kada kliknete na dugme.</td>
+				</tr>
+				<tr>
+					<td>Promena velikih i malih slova</td>
+					<td><div class="icon icon-change_case"></div></td>
+					<td>Koristi se za promenu veličine slova. <em>Sentence case.</em> - tekst se prikazuje kao u običnoj rečenici. <em>mala slova</em> - sva slova su mala. <em>VELIKA SLOVA</em> - sva slova su velika. <em>Prvo Slovo Svake Reči Veliko</em> - svaka reč počinje velikim slovom. <em>oBRNI vELIČINU</em> - obrće veličinu slova u označenom tekstu ili reči na kojoj se nalazi kursor.</td>
+				</tr>
+				<tr>
+					<td>Boja markera</td>
+					<td><div class="icon icon-highlightcolor"></div></td>
+					<td>Koristi se za označavanje rečenica, fraza, reči ili čak pojedinačnih karaktera dodavanjem obojene pozadine koja imitira efekat markera. Možete označiti željeni deo teksta i kliknuti strelicu pored ikone da biste izabrali boju iz palete (ova paleta ne zavisi od izabrane <b>Šeme boja</b> i sadrži 16 boja) – boja će biti primenjena na označeni tekst. Alternativno, možete prvo izabrati boju, a zatim mišem označavati različite delove teksta – pokazivač miša će izgledati ovako <div class="icon icon-highlight_color_mouse_pointer"></div> i moći ćete sekvencijalno da označavate više delova. Da zaustavite označavanje, kliknite ponovo na ikonu. Da uklonite boju markera, izaberite opciju <b>No Fill</b>. <b>Boja markera</b> se razlikuje od <a href="../UsageInstructions/BackgroundColor.htm" onclick="onhyperlinkclick(this)"><b>Pozadinske boje</b></a> <div class="icon icon-backgroundcolor"></div>, jer se pozadinska boja primenjuje na ceo pasus i ispunjava prostor od leve do desne margine strane.</td>
+				</tr>
+				<tr>
+					<td>Boja fonta</td>
+					<td><div class="icon icon-fontcolor"></div></td>
+					<td>Koristi se za promenu boje slova/karaktera u tekstu. Podrazumevano, automatska boja fonta je postavljena na crnu u novom praznom dokumentu. Ako promenite boju pozadine u crnu, boja fonta će se automatski promeniti u belu kako bi tekst bio jasno vidljiv. Da izaberete drugu boju, kliknite na strelicu pored ikone i odaberite boju iz dostupnih paleta (boje u paleti <b>Boje teme</b> zavise od izabrane <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">šeme boja</a>). Kada promenite podrazumevanu boju fonta, možete koristiti opciju <b>Automatski</b> u prozoru palete boja da brzo vratite automatsku boju za označeni deo teksta.</td>
+				</tr>
+				<tr>
+					<td id="colorscheme">Šema boja</td>
+					<td><div class="icon icon-changecolorscheme"></div></td>
+					<td>Ovo dugme se nalazi na kartici <b>Raspored</b>. Koristi se za promenu podrazumevane palete boja za elemente dokumenta (font, pozadina, grafikoni i elementi grafikona) izborom jedne od dostupnih opcija: <b>Aspect</b>, <b>Blue Green</b>, <b>Blue II</b>, <b>Blue Warm</b>, <b>Blue</b>, <b>Grayscale</b>, <b>Green Yellow</b>, <b>Green</b>, <b>Marquee</b>, <b>Median</b>, <b>Office 2007-2010</b>, <b>Office 2013-2022</b>, <b>Office</b>, <b>Orange Red</b>, <b>Orange</b>, <b>Paper</b>, <b>Red Orange</b>, <b>Red Violet</b>, <b>Red</b>, <b>Slipstream</b>, <b>Violet II</b>, <b>Violet</b>, <b>Yellow Orange</b>, <b>Yellow</b>, i <b>New Office</b>.</td>
+				</tr>
+			</table>
+			<p class="note">Da biste saznali više o paletama boja, pogledajte <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+		</div>
+	</body>
+</html>

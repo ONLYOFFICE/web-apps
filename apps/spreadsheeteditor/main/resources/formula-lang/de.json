@@ -508,6 +508,17 @@
 			"uf": "#UNSUPPORTED_FUNCTION!",
 			"calc": "#CALC!"
 		},
+		"ERROR_DESCRIPTIONS": {
+			"nil": "Fehler: Null",
+			"div": "Division durch Null",
+			"value": "Fehler in Wert",
+			"ref": "Fehler: Ungültiger Zellbezug",
+			"name": "Fehler: Ungültiger Name",
+			"num": "Zahlenfehler",
+			"na": "Fehler: Der Wert ist nicht verfügbar",
+			"calc": "Leere Matrix",
+			"spill": "Der Überlaufbereich ist nicht leer."
+		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "Adresse",
 			"col": "Spalte",

@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *    LeftMenu.js
@@ -89,6 +92,8 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'saveas:animated': this.clickExportAnimated.bind(this),
+                    'savecopy:animated': this.clickExportAnimated.bind(this),
                     'savecopy:format': _.bind(function(menu, format, ext) {
                         if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
                             this.saveAsInWopi(menu, format, ext);
@@ -151,6 +156,9 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onAnimatedExportProgress', this.onAnimatedExportProgress.bind(this));
+            this.api.asc_registerCallback('asc_onAnimatedExportEnd',      this.onAnimatedExportEnd.bind(this));
+            this.api.asc_registerCallback('asc_onAnimatedExportError',    this.onAnimatedExportEnd.bind(this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -172,16 +180,22 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',            _.bind(this.onApiCountPages, this));
             this.onApiCountPages(this.api.getCountPages());
             this.leftMenu.getMenu('file').setApi(api);
+            this.leftMenu.getMenu('file').setSaveFormats(this.getSaveFormats());
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
 
             var value = Common.UI.LayoutManager.getInitValue('leftMenu');
             value = (value!==undefined) ? !value : false;
-            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value);
+            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value) && !Common.Utils.checkCompactMode();
             this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
+        },
+
+        getSaveFormats: function() {
+            var formats = this.api ? this.api.getSaveFormats() : undefined;
+            return formats != undefined && !_.isArray(formats) ? [formats] : formats;
         },
 
         setMode: function(mode) {
@@ -226,6 +240,11 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
+            case 'export':
+                var exportFormat = Common.Utils.InternalSettings.get('pe-export-animated-format'),
+                    exportMode = (exportFormat === Asc.c_oAscAnimatedExportFormat.Mp4 || exportFormat === Asc.c_oAscAnimatedExportFormat.WebM) ? 'video' : 'animation';
+                this.clickExportAnimated(menu, exportMode, true, exportFormat);
+                break;
             case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -301,6 +320,78 @@ define([
             this.api.asc_DownloadAs(options);
 
             menu.hide();
+        },
+
+        clickExportAnimated: function(menu, mode, remember, format) {
+            menu && menu.hide();
+
+            var me = this;
+            this.api.asc_getSupportedAnimatedExportFormats(function(formats) {
+                formats = formats || [];
+
+                var isSupported = mode === 'video'
+                    ? formats.includes(Asc.c_oAscAnimatedExportFormat.Mp4) || formats.includes(Asc.c_oAscAnimatedExportFormat.WebM)
+                    : formats.includes(Asc.c_oAscAnimatedExportFormat.Gif) || formats.includes(Asc.c_oAscAnimatedExportFormat.WebP);
+
+                if (!isSupported) {
+                    Common.UI.warning({
+                        msg: me.textExportNotSupported
+                    });
+                    return;
+                }
+
+                var dlg = new PE.Views.ExportAnimatedDialog({
+                    api: me.api,
+                    mode: mode,
+                    format: format,
+                    supportedFormats: formats,
+                    handler: function(result, settings) {
+                        if (result === 'ok') {
+                            me.startExportAnimated(settings, remember);
+                        }
+                    }
+                });
+                dlg.show();
+            });
+        },
+
+        startExportAnimated: function(settings, remember) {
+            remember && Common.Utils.InternalSettings.set('pe-export-animated-format', settings.format);
+
+            var rangeOptions = new Asc.CAscPageRange();
+            rangeOptions.asc_setRangeType(settings.rangeType);
+            rangeOptions.asc_setCustomRange(settings.customRange || '');
+
+            var exportSettings = new Asc.CAscAnimatedExportSettings(settings.format);
+            exportSettings.asc_setPreset(settings.preset);
+            exportSettings.asc_setSlideDuration(settings.timing);
+            exportSettings.asc_setRangeOptions(rangeOptions);
+            exportSettings.asc_setAutoDownload(true);
+            if (settings.fps !== undefined) exportSettings.asc_setFps(settings.fps);
+            exportSettings.asc_setTransparentBackground(settings.transparent);
+
+            this._exportInProgress = true;
+            if (!this.api.asc_ExportToAnimation(exportSettings)) {
+                this._exportInProgress = false;
+                Common.UI.warning({
+                    msg: this.textExportNotSupported
+                });
+            }
+        },
+
+        getMainLoadMask: function() {
+            var main = this.getApplication().getController('Main');
+            return main ? main.loadMask : undefined;
+        },
+
+        onAnimatedExportProgress: function(percent) {
+            if (!this._exportInProgress) return;
+            var loadMask = this.getMainLoadMask();
+            loadMask && loadMask.setTitle(this.textExporting + ' ' + (percent || 0) + '%');
+        },
+
+        onAnimatedExportEnd: function() {
+            this._exportInProgress = false;
         },
 
         saveAsInWopi: function(menu, format, ext) {
@@ -467,8 +558,6 @@ define([
             var recentDocPage = window.open(url);
             if (recentDocPage)
                 recentDocPage.focus();
-
-            Common.component.Analytics.trackEvent('Open Recent');
         },
 
         clickToolbarSettings: function(obj) {
@@ -529,16 +618,19 @@ define([
 
         onShowTumbnails: function(obj, show) {
             this.api.ShowThumbnails(show);
-            show && Common.UI.TooltipManager.closeTip('commentFilter');
         },
 
         onThumbnailsShow: function(isShow) {
             if (isShow && !this.isThumbsShown) {
+                var isPanelOpened = this.leftMenu.isOpened();
                 this.leftMenu.btnThumbs.toggle(true, false);
+                if (isPanelOpened) {
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbs);
+                    this.leftMenu.onCoauthOptions();
+                }
             } else if (!isShow && this.isThumbsShown)
                 this.leftMenu.btnThumbs.toggle(false, false);
             this.isThumbsShown = isShow;
-            isShow && Common.UI.TooltipManager.closeTip('commentFilter');
         },
 
         setPreviewMode: function(mode) {
@@ -612,12 +704,7 @@ define([
 
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('commentFilter');
-                }, 10);
             }
-            else
-                Common.UI.TooltipManager.closeTip('commentFilter');
             $(this.leftMenu.btnComments.el).blur();
         },
         /** coauthoring end **/
@@ -634,9 +721,6 @@ define([
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
-            if (!value) {
-                Common.UI.TooltipManager.closeTip('chartElements');
-            }
         },
 
         onShortcut: function(s, e) {
@@ -647,6 +731,9 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        return false;
+                    }
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
                         var full_menu_pressed = this.leftMenu.btnAbout.pressed;
@@ -886,12 +973,18 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            if (mode === 'master') {
+            if (mode === 'master' || mode === 'handout' || mode === 'notes') {
                 if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
                     this.leftMenu.close();
                 }
             }
-            this.leftMenu.btnComments.setDisabled(mode === 'master');
+            if (mode === 'notes' || mode === 'notespage' || mode === 'handout') {
+                if (this.leftMenu.btnThumbs && this.leftMenu.btnThumbs.pressed) {
+                    this.leftMenu.close();
+                }
+            }
+            this.leftMenu.btnComments.setDisabled(mode === 'master' || mode === 'handout' || mode === 'notes');
+            this.leftMenu.btnThumbs.setDisabled(mode === 'notes' || mode === 'notespage' || mode === 'handout');
         },
 
         textNoTextFound         : 'Text not found',

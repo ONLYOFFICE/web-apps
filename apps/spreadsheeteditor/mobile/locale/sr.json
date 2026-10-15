@@ -33,7 +33,9 @@
       "textResolve": "Reši",
       "textSharingSettings": "Deljenje Podešavanja",
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
-      "textUsers": "Korisnici"
+      "textUsers": "Korisnici",
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Prilagođene Boje",
@@ -44,7 +46,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje ",
@@ -88,7 +90,12 @@
     "textDoNotShowAgain": "Ne pokazuj ponovo",
     "textOk": "Ok",
     "txtWarnUrl": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?",
-    "warnMergeLostData": "Samo podatak iz gornje-leve ćelije će da ostane u spojenoj ćeliji.<br>Da li ste sigurni da želite da nastavite?"
+    "warnMergeLostData": "Samo podatak iz gornje-leve ćelije će da ostane u spojenoj ćeliji.<br>Da li ste sigurni da želite da nastavite?",
+    "menuAddColumn": "Dodaj kolonu",
+    "menuAddRow": "Dodaj red",
+    "menuDeleteColumn": "Izbriši kolonu",
+    "menuDeleteRow": "Izbriši red",
+    "menuSelectAll": "Odaberi sve"
   },
   "Controller": {
     "Main": {
@@ -221,6 +228,7 @@
       "textNo": "Ne",
       "textNoChoices": "Nema opcija za ispunjavanje ćelije.<br>Samo tekst vrednosti iz kolone mogu biti odabrane za zamenu.",
       "textNoLicenseTitle": "Limit licence dostignut",
+      "textNoResourcesTitle": "Nedovoljno resursa",
       "textNoMatches": "Nema Poklapanja",
       "textOk": "Ok",
       "textPaidFeature": "Plaćena funkcija ",
@@ -244,6 +252,7 @@
       "warnLicenseLimitedNoAccess": "Licenca istekla. Nemate pristup fukcionalnosti uređivanja dokumenta. Molimo, kontaktirajte vašeg admina.",
       "warnLicenseLimitedRenewed": "Licenca treba da bude obnovljena. Imate ograničen pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora da dobijete pun pristup",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
+      "warnNoResources": "Server %1 nema dovoljno resursa da otvori ovaj dokument za uređivanje. Ovaj dokument biće otvoren samo za pregledanje.",
       "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
@@ -293,11 +302,13 @@
     "errorEditingDownloadas": "Greška je nastala u toku rada sa dokumentom.<br>Koristite \"Preuzmi\" opciju da sačuvate rezervnu kopiju fajla lokalno. ",
     "errorEditView": "Postojeći prikaz lista ne može biti uređen i novi ne mogu biti kreirani u ovom trenutku zato što se neki od njih uređuju.",
     "errorEmailClient": "Nijedan email klijent nije mogao biti pronađen",
+    "errorFileNotAssembled": "Ovaj fajl je otvoren sa rezervne kopije sa servera i nije sačuvan na skladište.<br>Koristite opciju 'Sačuvaj kao...' da biste ga sačuvali na disk.",
     "errorFilePassProtect": "Fajl je zaštićen lozinkom i nije se mogao otvoriti.",
     "errorFileRequest": "Eksterna greška.<br>Fajl Zahtev. Molim, kontaktirajte podršku.",
     "errorFileSizeExceed": "Veličina fajla prevazilazi limitacije vašeg servera.<br>Molim vas kontaktirajte vašeg admina za detalje.",
     "errorFileVKey": "Eksterna greška.<br>Netačan bezbednosni ključ. Molim, kontaktirajte podršku.",
     "errorFillRange": "Nije mogao da se ispuni odabran opseg ćelija.<br>Sve spojene ćelije moraju biti iste veličine.",
+    "errorForcedViewMode": "Ovaj fajl je otvoren u režimu prikaza.<br>Fajl je zaključan za uređivanje ili vaša prava pristupa ne dozvoljavaju izmenu.",
     "errorForceSave": "Greška se pojavila u toku čuvanja fajla. Molimo koristite \"Preuzmi kao\" opciju da sačuvate fajl na hard drajv vašeg kompjutera ili pokušajte ponovo kasnije.",
     "errorFormulaInPivotFieldName": "Nije moguće uneti formulu za stavku ili naziv polja u izveštaju okretne tabele (pivot table).",
     "errorFormulaName": "Greška u formuli.<br>Netačno ime formule.",
@@ -380,12 +391,14 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
+    "errorCopyRangeTooLarge": "Izabrani opseg je prevelik da bi se u potpunosti kopirao. Samo deo opsega je postavljen u privremenu memoriju. Izaberite manji opseg i pokušajte ponovo."
   },
   "LongActions": {
     "advDRMPassword": "Lozinka",
     "applyChangesTextText": "Učitavanje podataka...",
     "applyChangesTitleText": "Učitavanje Podataka ",
+    "changesSaved": "Sve promene su sačuvane",
     "confirmMaxChangesSize": "Veličina akcija prevazilazi ograničenja postavljena za vaš server.<br>Pritisnite \"Undo\" da otkažete vašu poslednju akciju ili pritisnite \"Continue\" da zadržite akciju lokalno (morate da preuzmete fajl ili kopirate njegov sadržaj da se uverite da ništa nije izgubljeno).",
     "confirmMoveCellRange": "Opseg ćelija odredišta može sadržavati podatke. Nastaviti operaciju?",
     "confirmPutMergeRange": "Izvorni podaci sadrže spojene ćelije.<br>Oni će biti odvojeni pre nego što budu nalepljeni u tabelu.",
@@ -450,6 +463,7 @@
     "textSheetName": "List ime",
     "textTabColor": "Kartica boja",
     "textUnhide": "Otkrij",
+    "textUnhideSheets": "Otkrij listove",
     "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?",
     "warnAddSheetCsv": "CSV format ne podržava čuvanje datoteka sa više listova. Biće sačuvan samo aktivni list. Da biste sačuvali sve listove,molimo  sačuvajte datoteku u drugom formatu."
   },
@@ -463,7 +477,12 @@
     "textEnterNewFileName": "Unesi novo ime fajla",
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
-    "textSwitchToDesktop": "Prebaci na Desktop verziju"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   },
   "View": {
     "Add": {
@@ -529,7 +548,12 @@
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSorting": "Sortiranje",
       "txtSortSelected": "Sortiraj odabrano",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "textSheets": "Listovi",
+      "textLinkTo": "Link do",
+      "textDefinedName": "Definisano ime",
+      "textStyle": "Stil",
+      "textTable": "Tabela"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozorenje ",
@@ -737,7 +761,24 @@
       "textYen": "Jen",
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortiraj najviše ka najnižem ",
-      "txtSortLow2High": "Sortiraj najniže ka najvišem"
+      "txtSortLow2High": "Sortiraj najniže ka najvišem",
+      "txtCustom": "Prilagođeno",
+      "textCurrentFont": "Glavni tekst",
+      "textSheets": "Listovi",
+      "textLinkTo": "Link do",
+      "textDefinedName": "Definisano ime",
+      "textTotalRow": "Ceo Red",
+      "textTable": "Tabela",
+      "textStyleOptions": "Opcije stila",
+      "textRow": "Red",
+      "textLastColumn": "Poslednja Kolona",
+      "textHeaderRow": "Red zaglavlja",
+      "textFilterButton": "Dugme za filter",
+      "textDeleteTable": "Izbriši tabelu",
+      "textColumn": "Kolona",
+      "textBandedColumns": "Naizmenično obojene kolone",
+      "textBandedRows": "Naizmenično obojeni redovi",
+      "textFirstColumn": "Prva Kolona"
     },
     "Settings": {
       "advCSVOptions": "Odaberi CSV opcije",
@@ -753,6 +794,7 @@
       "textApplication": "Aplikacija",
       "textApplicationSettings": "Podešavanja Aplikacije",
       "textAuthor": "Autor",
+      "textAutoSaveDocument": "Auto-čuvanje",
       "textBack": "Nazad",
       "textBottom": "Dno",
       "textByColumns": "Po kolonama",
@@ -771,6 +813,7 @@
       "textCreated": "Kreirano",
       "textCustomSize": "Prilagođena Veličina",
       "textDark": "Tamno",
+      "textDarkDocument": "Tamni Dokument",
       "textDarkTheme": "Tamna Tema",
       "textDelimeter": "Delimiter",
       "textDirection": "Direkcija",
@@ -785,7 +828,7 @@
       "textEnableAllMacrosWithoutNotification": "Omogući sve makroe bez notifikacije",
       "textEncoding": "Enkodiranje",
       "textExample": "Primer",
-      "textFeedback": "Povratne Informacije i Podrška",
+      "textFeedback": "Kontaktirajte podršku",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
       "textFindAndReplaceAll": "Pronađi i Zameni Sve",
@@ -812,7 +855,8 @@
       "textNoMatches": "Nema Poklapanja",
       "textOk": "Ok",
       "textOpenFile": "Unesi lozinku da otvoriš fajl",
-      "textOrientation": "Orijentacija ",
+      "textOpenLocation": "Otvorena lokacija",
+      "textOrientation": "Orijentacija stranice",
       "textOwner": "Vlasnik",
       "textPoint": "Tačka ",
       "textPortrait": "Portret",
@@ -827,6 +871,7 @@
       "textRight": "Desno",
       "textRightToLeft": "Desno Ka Levom",
       "textSameAsSystem": "Isto kao sistem",
+      "textSaveDocument": "Sačuvaj",
       "textSearch": "Pretraga",
       "textSearchBy": "Pretraga",
       "textSearchIn": "Pretraži u",
@@ -840,7 +885,7 @@
       "textSpreadsheetTitle": "Naslov proračunske tabele",
       "textSubject": "Subjekat",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema interfejsa",
       "textTitle": "Naslov",
       "textTop": "Vrh",
       "textUnitOfMeasurement": "Jedinica Mere",
@@ -897,7 +942,24 @@
       "txtZhtw": "Kineski (tradicionalni)",
       "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
       "warnDownloadCsv": "CSV format ne podržava čuvanje datoteka sa više listova niti sve elemente osim teksta.<br>Da biste sačuvali samo izabrani list u CSV formatu, kliknite na U redu.<br>Da biste sačuvali celu tabelu sa svim funkcijama, kliknite na Otkaži i izaberite neki drugi format",
-      "warnDownloadOds": "Čuvanje ove datoteke može dovesti do gubitka nekih formula, formatiranja ćelija ili ugrađenih objekata zbog ograničene podrške za format.<br>Da li ste sigurni da želite da nastavite?"
+      "warnDownloadOds": "Čuvanje ove datoteke može dovesti do gubitka nekih formula, formatiranja ćelija ili ugrađenih objekata zbog ograničene podrške za format.<br>Da li ste sigurni da želite da nastavite?",
+      "textGridlines": "Mrežne linije",
+      "textHeadings": "Naslovi",
+      "textSaveACopy": "Sačuvaj kopiju",
+      "textSaveACopyAs": "Sačuvaj kopiju kao",
+      "textSettingsGroup": "Podešavanja",
+      "textSpreadsheetSetup": "Podešavanje tabele",
+      "textShare": "Podelite",
+      "textTools": "Alati",
+      "textViewGroup": "Prikaz",
+      "textStyleGroup": "Stil",
+      "textSaveACopyHeader": "Sačuvaj kopiju",
+      "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju",
+      "textAboutGroup": "O",
+      "textHelpAndFeedback": "Pomoć i povratne informacije",
+      "textPreferences": "Podešavanja",
+      "textHelpCenter": "Centar za pomoć",
+      "textLanguageAndRegion": "Jezik i region"
     }
   }
 }

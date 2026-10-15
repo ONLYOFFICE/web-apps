@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 DE.ApplicationController = new(function(){
     var me,
@@ -42,19 +45,15 @@ DE.ApplicationController = new(function(){
         labelDocName,
         appOptions = {},
         btnSubmit,
-        _submitFail, $submitedTooltip, $requiredTooltip,
+        _submitFail, $submitedTooltip,
         $listControlMenu, listControlItems = [], listObj,
         bodyWidth = 0,
-        requireUserAction = true;
+        requireUserAction = true,
+        isPDF = false,
+        helpTips = {};
 
     var LoadingDocument = -256,
         WarningShown = false;
-
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Document Editor');
-
 
     // Check browser
     // -------------------------
@@ -91,7 +90,7 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
-        config.mode = 'view'; // always view for embedded
+        config.mode = config.mode || 'view';
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -126,6 +125,7 @@ DE.ApplicationController = new(function(){
                 user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
                                                  common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
             user.anonymous && common.localStorage.setItem("guest-id", user.id);
+            config.user = user; 
 
             _user.put_Id(user.id);
             _user.put_FullName(user.fullname);
@@ -152,7 +152,7 @@ DE.ApplicationController = new(function(){
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
-            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(docConfig.fileType);
+            var type = /^(?:(pdf|djvu|xps|oxps|ofd))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
                 permissions.edit = permissions.review = false;
             }
@@ -161,16 +161,18 @@ DE.ApplicationController = new(function(){
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
-                api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
+                api.asc_getEditorPermissions();
                 api.asc_enableKeyEvents(true);
-
-                Common.Analytics.trackEvent('Load', 'Start');
             }
 
             embedConfig.docTitle = docConfig.title;
             labelDocName = $('#title-doc-name');
             labelDocName.text(embedConfig.docTitle || '')
         }
+    }
+
+    function loadBinary(data) {
+        data && api.asc_openDocumentFromBytes(new Uint8Array(data));
     }
 
     function onCountPages(count) {
@@ -180,6 +182,18 @@ DE.ApplicationController = new(function(){
 
     function onCurrentPage(number) {
         $('#page-number').val(number + 1);
+    }
+
+    function onAskEditPassword(pwd) {
+        var submitPassword = function(val) {
+            if(!api.asc_CheckEditPassword(val)) {
+                common.controller.modals.createDlgPassword(submitPassword, { label: me.textUnprotectDocument, allowClose: true, showError: true });
+            }
+        };
+
+        if(api && api.asc_CheckEditPassword && api.asc_CheckEditPassword(pwd!==undefined ? pwd : null) === false) {
+            common.controller.modals.createDlgPassword(submitPassword,  { label: me.textUnprotectDocument, allowClose: true });
+        } 
     }
 
     function onLongActionBegin(type, id) {
@@ -194,6 +208,7 @@ DE.ApplicationController = new(function(){
                     $submitedTooltip && $submitedTooltip.hide();
                     btnSubmit.attr({disabled: true});
                     btnSubmit.css("pointer-events", "none");
+                    disableFillingForms(true);
                 break;
             case LoadingDocument:
                 text = me.textLoadingDocument + '           ';
@@ -216,15 +231,40 @@ DE.ApplicationController = new(function(){
             btnSubmit.removeAttr('disabled');
             btnSubmit.css("pointer-events", "auto");
             if (!_submitFail) {
+                Common.Gateway.submitForm();
+                btnSubmit.attr({disabled: true});
+                btnSubmit.find('.caption').text(me.textFilled);
                 if (!$submitedTooltip) {
                     $submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + me.textSubmited + '</div>');
                     $(document.body).append($submitedTooltip);
                     $submitedTooltip.on('click', function() {$submitedTooltip.hide();});
                 }
                 $submitedTooltip.show();
-            }
+            } else 
+                disableFillingForms(false);
         }
         me.loadMask && me.loadMask.hide();
+    }
+
+    function disableFillingForms(state) {
+        $('#id-btn-prev-field').attr({disabled: state});
+        $('#id-btn-next-field').attr({disabled: state});
+        $('#id-btn-clear-fields').attr({disabled: state});
+        
+        var role = new AscCommon.CRestrictionSettings();
+        if(state) {
+            role.put_OFormNoRole(true);
+        } else {
+            var oform = api.asc_GetOForm();
+            if (oform && config.user.roles) {
+                if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                    role.put_OFormRole(config.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
+            }
+        }
+        api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
     }
 
     function onDocMouseMoveStart() {
@@ -312,14 +352,123 @@ DE.ApplicationController = new(function(){
     }
 
     function onFillRequiredFields(isFilled) {
-        if (isFilled) {
-            btnSubmit.removeAttr('disabled');
-            btnSubmit.css("pointer-events", "auto");
-            // $requiredTooltip && $requiredTooltip.hide();
-        } else {
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
+        btnSubmit.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+        if(isFilled) {
+            closeHelpTip('submit-required')
         }
+    }
+
+    function onApiUpdateSignatures(valid){
+        showSignatureTooltip(valid);
+    }
+
+    function showSignatureTooltip(valid) {
+        var hasForm = false;
+        valid && valid.forEach(function(item, index){
+            item.asc_getIsForm() && (hasForm = true);
+        });
+
+        if (!hasForm)
+            closeHelpTip('formSigned');
+        else {
+            showHelpTip('formSigned');
+            btnSubmit && btnSubmit.attr({disabled: true});
+            $('#id-btn-prev-field').attr({disabled: true});
+            $('#id-btn-next-field').attr({disabled: true});
+            $('#id-btn-clear-fields').attr({disabled: true});
+        }
+    }
+
+    function closeHelpTip(step) {
+        if(!helpTips[step]) return;
+        helpTips[step].remove();
+        helpTips[step].hide();
+        helpTips[step] = undefined;
+    }
+
+    function showHelpTip(step) {
+        if(helpTips[step]) closeHelpTip(step);
+
+        var $tip;
+        if(step == 'submit-required') {
+            var offset = common.utils.getOffset(btnSubmit);
+            $tip = $('<div class="help-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close"></div></div>');
+            $tip.find('.close').on('click', function() {
+                closeHelpTip(step);
+            });
+            $(document.body).append($tip);
+            $tip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $tip.outerWidth() + 'px'});
+            $tip.show();
+        } else if(step == 'formSigned') {
+            var $target = $('#title-doc-name');
+            var offset = common.utils.getOffset($target);
+            $tip = $('<div class="help-tooltip" style="display:none;"><div>' + me.textSubmitOk + '</div><div class="close"></div></div>');
+            $tip.find('.close').on('click', function() {
+                closeHelpTip(step);
+            });
+            $(document.body).append($tip);
+            $tip.css({top : offset.top + $target.height() + 20 + 'px', left: offset.left + $target.outerWidth()/2 - $tip.outerWidth()/2 + 'px'});
+            $tip.show();
+        }
+        $tip && (helpTips[step] = $tip);
+    }
+
+    function onShowFormsPDFActions(obj) {
+        switch (obj.type) {
+            case AscPDF.FIELD_TYPES.combobox:
+                setTimeout(function() {
+                    onShowListActionsPDF(obj);
+                }, 1);
+                break;
+        }
+    }
+
+    function onHidePdfFormsActions() {
+        var menuContainer = DE.ApplicationView.getMenuForm();
+        var $listControlMenu = menuContainer.find('ul');
+        $listControlMenu && $listControlMenu.hide();
+    }
+
+    function onShowListActionsPDF(obj) {
+        var menuContainer = DE.ApplicationView.getMenuForm();
+        var $listControlMenu = menuContainer.find('ul');
+
+        me._listObjPdf = obj;
+
+        $listControlMenu.off('click').on('click', 'li a', function(e) {
+            var value = $(e.target).attr('value');
+            if (value !== undefined) {
+                value = parseInt(value);
+                setTimeout(function(){
+                    (value!==-1) && api.asc_SelectPDFFormListItem(value);
+                    onHidePdfFormsActions();
+                }, 1);
+            }
+        });
+
+        $listControlMenu.find('li').remove();
+
+        var options = obj.getOptions();
+        var count = options.length;
+
+        for (var i = 0; i < count; i++) {
+            $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + i + '">' +
+                common.utils.htmlEncode(Array.isArray(options[i]) ? options[i][0] : options[i]) +
+                '</a></li>');
+        }
+
+        if (count < 1) {
+            $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="-1">' +
+                me.txtEmpty +
+                '</a></li>');
+        }
+
+        var pagepos = obj.getPagePos();
+        var oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+        menuContainer.css({left: oGlobalCoords.X, top: oGlobalCoords.Y});
+        me._preventClick = true;
+        $listControlMenu.show();
     }
 
     function onShowContentControlsActions(obj, x, y) {
@@ -421,16 +570,29 @@ DE.ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
+        if (appOptions.canFillForms) {
+            var oform = api.asc_GetOForm(),
+                role = new AscCommon.CRestrictionSettings();
+            if (oform && config.user.roles) {
+                if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                    role.put_OFormRole(config.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
+            }
+            api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+        }
+
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
+        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : 100);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
         api.asc_setViewerTargetType(config.customization && config.customization.pointerMode==='hand' ? 'hand' : 'select');
 
-        var dividers = $('#box-tools .divider');
-        var itemsCount = $('#box-tools a').length;
+        var dividers = $('#box-tools > .dropdown-menu > .divider');
+        var itemsCount = $('#box-tools > .dropdown-menu > li > a').not('#idt-zoom > a').length;
 
         if ( permissions.print === false) {
             $('#idt-print').hide();
@@ -506,7 +668,10 @@ DE.ApplicationController = new(function(){
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
         api.asc_registerCallback('sync_onAllRequiredFormsFilled', onFillRequiredFields);
+        api.asc_registerCallback('asc_onUpdateSignatures',    onApiUpdateSignatures);
         if (appOptions.canFillForms) {
+            isPDF && api.asc_registerCallback('asc_onShowPDFFormsActions', onShowFormsPDFActions);
+            isPDF && api.asc_registerCallback('asc_onHidePdfFormsActions', onHidePdfFormsActions);
             api.asc_registerCallback('asc_onShowContentControlsActions', onShowContentControlsActions);
             api.asc_registerCallback('asc_onHideContentControlsActions', onHideContentControlsActions);
             api.asc_SetHighlightRequiredFields(true);
@@ -526,22 +691,19 @@ DE.ApplicationController = new(function(){
                     if ( !!embedConfig.saveUrl && permissions.download !== false){
                         common.utils.openLink(embedConfig.saveUrl);
                     }
-
-                    Common.Analytics.trackEvent('Save');
             });
 
         DE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
                 var printCallback = function() {
                     api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                    Common.Analytics.trackEvent('Print');
                 };
 
                 var submitPassword = function(val) {
                     if(api.asc_CheckPrintPassword(val)) {
                         printCallback();
                     } else {
-                        common.controller.modals.createDlgPrintPassword(submitPassword, true);
+                        common.controller.modals.createDlgPrintPassword(submitPassword, { showError: true });
                     }
                 };
 
@@ -573,7 +735,6 @@ DE.ApplicationController = new(function(){
 
         var downloadAs =  function(format){
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-            Common.Analytics.trackEvent('Save');
         };
 
         DE.ApplicationView.tools.get('#idt-download-docx')
@@ -592,6 +753,8 @@ DE.ApplicationController = new(function(){
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
         $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
+
+        $('#idt-zoom-menu > li > a').on('click', onMenuZoomClick);
 
         var $pagenum = $('#page-number');
         $pagenum.on({
@@ -620,33 +783,9 @@ DE.ApplicationController = new(function(){
 
         // TODO: add asc_hasRequiredFields to sdk
 
-        if (appOptions.canSubmitForms && appOptions.canFillForms && !api.asc_IsAllRequiredFormsFilled()) {
-            var sgroup = $('#id-submit-group');
-            btnSubmit.attr({disabled: true});
-            btnSubmit.css("pointer-events", "none");
-            if (!common.localStorage.getItem("de-embed-hide-submittip")) {
-                var offset = common.utils.getOffset(btnSubmit);
-                $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
-                $(document.body).append($requiredTooltip);
-                $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
-                $requiredTooltip.find('.close-div').on('click', function() {
-                    $requiredTooltip.hide();
-                    api.asc_MoveToFillingForm(true, true, true);
-                    common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                });
-                $requiredTooltip.show();
-            } else {
-                sgroup.attr('data-toggle', 'tooltip');
-                sgroup.tooltip({
-                    title       : me.textRequired,
-                    placement   : 'bottom'
-                });
-            }
+        if (appOptions.canSubmitForms && appOptions.canFillForms && btnSubmit) {
+            var isFilled = api.asc_IsAllRequiredFormsFilled();
+            btnSubmit.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
         }
 
         var documentMoveTimer;
@@ -684,7 +823,6 @@ DE.ApplicationController = new(function(){
         }
 
         Common.Gateway.documentReady();
-        Common.Analytics.trackEvent('Load', 'Complete');
         requireUserAction = false;
     }
 
@@ -704,10 +842,12 @@ DE.ApplicationController = new(function(){
         }
 
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = false; // use forms editor for filling forms
+        // appOptions.canFillForms   = false; // use forms editor for filling forms
+        appOptions.canFillForms   = false;
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
-        appOptions.canBranding && setBranding(config.customization);
+        // appOptions.canBranding && setBranding(config.customization);
+        setBranding(config.customization);
 
         var type = /^(?:(docxf|oform))$/.exec(docConfig.fileType);
         appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
@@ -716,6 +856,8 @@ DE.ApplicationController = new(function(){
         api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
+
+        $('.embed-body').toggleClass('fill-form', appOptions.canFillForms);
 
         if (!appOptions.canFillForms) {
             $('#id-btn-prev-field').hide();
@@ -739,11 +881,18 @@ DE.ApplicationController = new(function(){
             if (appOptions.canSubmitForms) {
                 btnSubmit.find('.caption').text(me.textSubmit);
                 btnSubmit.on('click', function(){
+                    if (!api.asc_IsAllRequiredFormsFilled()) {
+                        showHelpTip('submit-required');
+                        api.asc_MoveToFillingForm(true, true, true);
+                        return;
+                    }
                     api.asc_SendForm();
                 });
             } else
                 btnSubmit.hide();
 
+            appOptions.isPDFFill && api && showSignatureTooltip(api.asc_getSignatures());
+            
             api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             api.asc_SetFastCollaborative(true);
             api.asc_setAutoSaveGap(1);
@@ -780,7 +929,7 @@ DE.ApplicationController = new(function(){
                     $('#loading-mask').removeClass("none-animation");
                 }
             };
-            common.controller.modals.createDlgPassword(submitPassword);
+            common.controller.modals.createDlgPassword(submitPassword, { showError: true });
             if(isCustomLoader) {
                 hidePreloader();
             } else {
@@ -795,6 +944,46 @@ DE.ApplicationController = new(function(){
         if (requireUserAction) {
             Common.Gateway.userActionRequired();
             requireUserAction = false;
+        }
+    }
+
+    function onApiZoomChange(percent, type) {
+        var $items = $('#idt-zoom-menu > li');
+
+        $items.filter('[data-value="zoom:page"]').toggleClass('checked', type == 2);
+        $items.filter('[data-value="zoom:width"]').toggleClass('checked', type == 1);
+        $items.filter('[data-group="zoom-list"]').each(function(){
+            $(this).toggleClass('checked', parseInt($(this).attr('data-value')) === percent);
+        });
+    }
+
+    function onMenuZoomClick() {
+        var $item = $(this).parent(),
+            value = $item.attr('data-value'),
+            checked = !$item.hasClass('checked');
+
+        switch (value) {
+            case 'zoom:page':
+            case 'zoom:width':
+                if (checked) {
+                    api.GetMultipageViewMode() && api.SetMultipageViewMode(false);
+                    (value === 'zoom:page') ? api.zoomFitToPage() : api.zoomFitToWidth();
+                    $('#idt-zoom-menu > li[data-value="zoom:multi"]').removeClass('checked');
+                } else {
+                    api.zoomCustomMode();
+                }
+                break;
+            case 'zoom:multi':
+                if (checked) {
+                    api.zoomCustomMode();
+                    api.SetMultipageViewMode(true);
+                } else {
+                    api.SetMultipageViewMode(false);
+                }
+                $item.toggleClass('checked', checked);
+                break;
+            default:
+                api.zoom(parseInt(value));
         }
     }
 
@@ -967,8 +1156,6 @@ DE.ApplicationController = new(function(){
         } else {
             Common.Gateway.reportWarning(id, message);
         }
-
-        Common.Analytics.trackEvent('Internal Error', id.toString());
     }
 
     function onExternalMessage(error) {
@@ -977,8 +1164,6 @@ DE.ApplicationController = new(function(){
             $('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
-
-            Common.Analytics.trackEvent('External Error');
         }
     }
 
@@ -1029,7 +1214,8 @@ DE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
+                const logourl = common.utils.htmlEncode(value.logo.image || value.logo.imageEmbedded);
+                logo.html('<img src="'+logourl+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -1133,8 +1319,8 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
-            isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
+        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps|ofd)\b&?/i.exec(window.location.search);
+        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',
@@ -1151,10 +1337,12 @@ DE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
             api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
+            api.asc_registerCallback('asc_onZoomChange',            onApiZoomChange);
 
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
+            api.asc_registerCallback('asc_onAskEditPassword',       onAskEditPassword);
 
             if (isPDF) {
                 api.asc_registerCallback('asc_onOpenLinkPdfForm',          onOpenLinkPdfForm);
@@ -1164,6 +1352,7 @@ DE.ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.on('opendocumentfrombinary', loadBinary);
             Common.Gateway.appReady();
 
             common.controller.SearchBar.setApi(api);
@@ -1196,6 +1385,7 @@ DE.ApplicationController = new(function(){
         textNext: 'Next Field',
         textClear: 'Clear All Fields',
         textSubmit: 'Submit',
+        textFilled: 'Filled',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         errorSubmit: 'Submit failed.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
@@ -1230,6 +1420,7 @@ DE.ApplicationController = new(function(){
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
         txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
-        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.',
+        textUnprotectDocument: 'Enter a password to unprotect document'
     }
 })();

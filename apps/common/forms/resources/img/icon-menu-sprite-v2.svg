@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="48" fill="none" viewBox="0 0 720 48" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="48" fill="none" viewBox="0 0 768 48" stroke-linecap="round" stroke-linejoin="round">
     <g id="menu-dark">
         <path stroke="#383838" d="M5.5 7.5h13m-13 5h13m-13 5h13"/>
     </g>
@@ -178,5 +178,17 @@
     </g>
     <g id="filing-status-light">
         <path stroke="#EAEAEA" d="M704.5 29.5h9a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-9m0-13h-2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h2m0-13v13m3-11h4m-4 3h3m-3 3h4m-4 3h3"/>
+    </g>
+    <g id="bold-dark">
+        <path stroke="#383838" stroke-width="1.5" d="M728.746 11.75H732.498C734.016 11.75 735.248 12.9812 735.248 14.5C735.248 16.0183 734.017 17.2491 732.499 17.2491H728.746V11.75ZM728.746 11.75V6.74883L731.76 6.75899C733.135 6.76362 734.247 7.87944 734.247 9.25428C734.247 10.6323 733.13 11.7494 731.752 11.7496L728.746 11.75Z"/>
+    </g>
+    <g id="bold-light">
+        <path stroke="#EFEFEF" stroke-width="1.5" d="M728.746 35.75H732.498C734.016 35.75 735.248 36.9812 735.248 38.5C735.248 40.0183 734.017 41.2491 732.499 41.2491H728.746V35.75ZM728.746 35.75V30.7488L731.76 30.759C733.135 30.7636 734.247 31.8794 734.247 33.2543C734.247 34.6323 733.13 35.7494 731.752 35.7496L728.746 35.75Z"/>
+    </g>
+    <g id="italic-dark">
+        <path stroke="#383838" d="M758 6.5L754 17.5M758 6.5H755.5M758 6.5H760.5M754 17.5H756.5M754 17.5H751.5"/>
+    </g>
+    <g id="italic-light">
+        <path stroke="#EFEFEF" d="M758 30.5L754 41.5M758 30.5H755.5M758 30.5H760.5M754 41.5H756.5M754 41.5H751.5"/>
     </g>
 </svg>

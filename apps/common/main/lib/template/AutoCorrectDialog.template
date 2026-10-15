@@ -15,7 +15,7 @@
         <tr>
             <td class="padding-very-small">
                 <div id="auto-correct-replace" class="margin-right-2" style="width: 115px;display: inline-block;"></div>
-                <div id="auto-correct-by" style="width: 234px;display: inline-block;"></div>
+                <div id="auto-correct-by" class="float-right" style="width: 234px;"></div>
                 </td>
             </tr>
         <tr>

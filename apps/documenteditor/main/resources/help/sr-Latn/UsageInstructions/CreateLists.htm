@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kreiranje lista</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Kreiranje nabrojanih i numerisanih lista u dokumentu uz promenu njihovog izgleda" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Kreiranje lista</h1>
+            <p>Da biste napravili listu u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editoru</b></a>,</p>
+            <ol>
+                <li>postavite kursor na mesto gde želite da počne lista (to može biti novi red ili već uneti tekst),</li>
+                <li>prebacite se na karticu <b>Početak</b> na gornjoj traci sa alatkama,</li>
+                <li>
+                    izaberite tip liste koji želite da kreirate:
+                    <ul>
+                        <li><b>Nenumerisana lista</b> sa oznakama se pravi pomoću ikone <b>Oznake</b> <div class="icon icon-bullets"></div> na gornjoj traci sa alatkama</li>
+                        <li>
+                            <b>Numerisana lista</b> sa ciframa ili slovima se pravi pomoću ikone <b>Numerisanje</b> <div class="icon icon-numbering"></div> na gornjoj traci sa alatkama
+                            <p class="note">Kliknite na strelicu nadole pored ikone <b>Oznake</b> ili <b>Numerisanje</b> da izaberete izgled liste.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>svaki put kada pritisnete taster <b>Enter</b> na kraju reda, pojaviće se nova stavka u numerisanoj ili nenumerisanoj listi. Da biste prekinuli, pritisnite taster <b>Backspace</b> i nastavite da kucate obične pasuse teksta.</li>
+            </ol>
+            <p>Program takođe automatski kreira numerisane liste kada unesete cifru 1 sa tačkom ili zagradom i razmakom posle nje: <b>1.</b>, <b>1)</b>. Liste sa oznakama se mogu automatski kreirati kada unesete znakove <b>-</b>, <b>*</b> i razmak posle njih.</p>
+            <p>Takođe možete promeniti uvlačenje teksta u listama i njihovo ugnježđivanje pomoću ikona <b>Višenivojska lista</b> <span class="icon icon-outline"></span>, <b>Smanji uvlačenje</b> <span class="icon icon-decreaseindent"></span> i <b>Povećaj uvlačenje</b> <span class="icon icon-increaseindent"></span> na kartici <b>Početak</b>.</p>
+            <p>Da biste promenili nivo liste, kliknite na ikonu <b>Numerisanje</b> <span class="icon icon-numbering"></span>, <b>Oznake</b> <span class="icon icon-bullets"></span> ili <b>Višenivojska lista</b> <span class="icon icon-outline"></span> i izaberite opciju <b>Promeni nivo liste</b>, ili postavite kursor na početak reda i pritisnite taster <b>Tab</b> na tastaturi da pređete na sledeći nivo liste. Nastavite sa željenim nivoom liste.</p>
+            <p><img alt="promeni nivo liste" src="../images/listlevel.png" /></p>
+            <p class="note">Dodatne parametre uvlačenja i razmaka možete promeniti na desnoj bočnoj traci i u prozoru naprednih podešavanja. Da biste saznali više o tome, pročitajte odeljke <a href="ParagraphIndents.htm" onclick="onhyperlinkclick(this)">Promena uvlačenja pasusa</a> i <a href="LineSpacing.htm" onclick="onhyperlinkclick(this)">Podešavanje proreda pasusa</a>.</p>
+
+            <h3>Kombinovanje i razdvajanje lista</h3>
+            <p>Da biste spojili listu sa prethodnom:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na prvu stavku druge liste,</li>
+                <li>izaberite opciju <b>Spoji sa prethodnom listom</b> iz kontekstualnog menija.</li>
+            </ol>
+            <p>Liste će biti spojene, a numeracija će se nastaviti u skladu sa numeracijom prve liste.</p>
+
+            <p>Da biste razdvojili listu:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na stavku liste gde želite da počne nova lista,</li>
+                <li>izaberite opciju <b>Razdvoji listu</b> iz kontekstualnog menija.</li>
+            </ol>
+            <p>Liste će biti razdvojene, a numeracija će se nastaviti u skladu sa numeracijom prve liste.</p>
+
+            <h3>Promena numeracije</h3>
+            <p>Da biste nastavili sekvencijalnu numeraciju u drugoj listi prema numeraciji prve liste:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na prvu stavku druge liste,</li>
+                <li>izaberite opciju <b>Nastavi numeraciju</b> iz kontekstualnog menija.</li>
+            </ol>
+            <p>Numeracija će se nastaviti u skladu sa numeracijom prve liste.</p>
+
+            <p>Da biste postavili određenu početnu vrednost numeracije:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na stavku liste gde želite da primenite novu vrednost numeracije,</li>
+                <li>izaberite opciju <b>Podesi vrednost numeracije</b> iz kontekstualnog menija,</li>
+                <li>u novootvorenom prozoru unesite željenu numeričku vrednost i kliknite na dugme <b>OK</b>.</li>
+            </ol>
+
+            <h3>Promena podešavanja lista</h3>
+            <p>Da biste promenili podešavanja nenumerisanih ili numerisanih lista, kao što su tip oznake/broja, poravnanje, veličina i boja:</p>
+            <ol>
+                <li>kliknite na postojeću stavku liste ili izaberite tekst koji želite da formatirate kao listu,</li>
+                <li>kliknite na ikonu <b>Oznake</b> <div class="icon icon-bullets"></div> ili <b>Numerisanje</b> <div class="icon icon-numbering"></div> na kartici <b>Početak</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite opciju <b>Podešavanja liste</b>,</li>
+                <li>
+                    otvoriće se prozor <b>Podešavanja liste</b>. Prozor za podešavanje nenumerisane liste izgleda ovako:
+                    <p><img alt="Prozor za podešavanje nenumerisane liste" src="../images/bulletedlistsettings.png" /></p>
+                    <p>Prozor za podešavanje numerisane liste izgleda ovako:</p>
+                    <p><img alt="Prozor za podešavanje numerisane liste" src="../images/orderedlistsettings.png" /></p>
+                    <p>Za nenumerisanu listu možete izabrati znak koji će se koristiti kao <b>oznaka</b>, dok za numerisanu listu možete odabrati <b>tip</b> brojeva i <b>font</b>. Opcije <b>Poravnanje</b>, <b>Veličina</b> i naglašavanje teksta poput <b>Podebljano/Kurziv/Boja</b> iste su za obe vrste lista.</p>
+                    <ul>
+                        <li><b>Oznaka</b> omogućava izbor željenog znaka koji se koristi za nenumerisanu listu. Kada kliknete na polje <b>Font i simbol</b>, pojaviće se prozor <b>Simbol</b> gde možete izabrati jedan od dostupnih znakova. Da saznate više o radu sa simbolima, pogledajte <a href="../UsageInstructions/InsertSymbols.htm" onclick="onhyperlinkclick(this)">ovaj članak</a>.</li>
+                        <li><b>Tip</b> omogućava izbor željenog tipa numeracije za numerisanu listu. Dostupne su sledeće opcije: <em>Nema</em>, <em>1, 2, 3,...</em>, <em>a, b, c,...</em>, <em>A, B, C,...</em>, <em>i, ii, iii,...</em>, <em>I, II, III,...</em>.</li>
+                        <li><b>Poravnanje</b> omogućava izbor tipa horizontalnog poravnanja oznaka/brojeva. Dostupne opcije su: <em>Levo</em>, <em>Sredina</em>, <em>Desno</em>.</li>
+                        <li><b>Veličina</b> omogućava izbor veličine oznake/broja. Opcija <b>Kao tekst</b> je podrazumevano izabrana. Kada je aktivna, veličina oznake ili broja odgovara veličini teksta. Možete izabrati neku od unapred definisanih veličina u rasponu od <em>8</em> do <em>96</em>.</li>
+                        <li><b>Podebljano/Kurziv/Boja</b> omogućava naglašavanje i isticanje oznake/broja. Za <b>Boju</b>, opcija <b>Kao tekst</b> je podrazumevano izabrana. Kada je aktivna, boja oznake ili broja odgovara boji teksta. Možete izabrati opciju <b>Automatski</b> da primenite automatsku boju, ili neku od <em>Boja teme</em>, <em>Standardnih boja</em> ili <em>Skorašnjih boja</em> iz palete, ili kliknuti <em>Više boja</em> za izbor prilagođene boje.</li>
+                    </ul>
+                    <p>Sve promene će biti prikazane u polju <b>Pregled</b>.</p>
+                </li>
+                <li>
+                    kliknite <b>OK</b> da primenite promene i zatvorite prozor sa podešavanjima.
+                    <p>Desnim klikom na nenumerisanu listu i izborom opcije <b>Podesi uvlačenje liste</b> možete pristupiti istim podešavanjima kao i za višenivojsku listu.</p>
+                </li>
+            </ol>
+            <p>Da biste promenili podešavanja višenivojske liste,</p>
+            <ol>
+                <li>kliknite na stavku liste,</li>
+                <li>kliknite na ikonu <b>Višenivojska lista</b> <div class="icon icon-outline"></div> na kartici <b>Početak</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite opciju <b>Podešavanja liste</b>,</li>
+                <li>
+                    otvoriće se prozor <b>Podešavanja liste</b>. Prozor za podešavanje višenivojske liste izgleda ovako:
+                    <p><img alt="Prozor za podešavanje višenivojske liste" src="../images/multilevellistsettings.png" /></p>
+                    <p>Izaberite željeni nivo liste u polju <b>Nivo</b> sa leve strane, zatim koristite dugmad na vrhu da prilagodite izgled oznake ili broja za izabrani nivo:</p>
+                    <ul>
+                        <li><b>Tip</b> omogućava izbor željenog tipa numeracije ili znaka oznake. Dostupne opcije za numerisanu listu su: <em>Nema</em>, <em>1, 2, 3,...</em>, <em>a, b, c,...</em>, <em>A, B, C,...</em>, <em>i, ii, iii,...</em>, <em>I, II, III,...</em>. Za nenumerisanu listu možete izabrati neki od podrazumevanih simbola ili opciju <b>Nova oznaka</b>. Kada kliknete ovu opciju, otvoriće se prozor <b>Simbol</b> gde možete izabrati jedan od dostupnih znakova. Više o radu sa simbolima pročitajte u <a href="../UsageInstructions/InsertSymbols.htm" onclick="onhyperlinkclick(this)">ovom članku</a>.</li>
+                        <li><b>Poravnanje</b> omogućava izbor tipa horizontalnog poravnanja oznaka/brojeva na početku pasusa. Opcije su: <em>Levo</em>, <em>Sredina</em>, <em>Desno</em>.</li>
+                        <li><b>Veličina</b> omogućava izbor veličine oznake/broja. Opcija <b>Kao tekst</b> je podrazumevano izabrana. Možete izabrati neku od veličina od <em>8</em> do <em>96</em>.</li>
+                        <li><b>Podebljano/Kurziv/Boja</b> omogućava naglašavanje i isticanje oznake/broja. Za <b>Boju</b>, opcija <b>Kao tekst</b> je podrazumevano aktivna. Kada je aktivna, boja oznake ili broja odgovara boji teksta. Možete izabrati opciju <b>Automatski</b>, neku od <em>Boja teme</em>, <em>Standardnih boja</em> ili <em>Skorašnjih boja</em>, ili kliknuti <em>Više boja</em> da odaberete prilagođenu boju.</li>
+                        <li><b>Format broja</b> prikazuje stil znaka koji se koristi za kreiranje liste.</li>
+                        <li>
+                            Kliknite na <b>dvosmernu strelicu</b> pored polja <b>Format broja</b> da pristupite naprednim podešavanjima liste. Možete prilagođavati svaki nivo višenivojske liste izborom nivoa u odeljku <b>Izaberite nivo</b>.
+                            <p><img alt="Prozor za napredna podešavanja višenivojske liste" src="../images/multilevellistsettings_advanced.png" /></p>
+                            <ul>
+                                <li><b>Font</b> omogućava izbor formatiranja fonta,</li>
+                                <li><b>Uključi broj nivoa</b> omogućava da označite broj nadređenog nivoa za podređeni nivo,</li>
+                                <li><b>Počni od</b> omogućava izbor broja od kog će numerisana lista početi. Označite polje <b>Restartuj listu</b> da resetujete numeraciju,</li>
+                                <li><b>Poravnanje</b> omogućava podešavanje tipa poravnanja za svaki nivo liste. Izaberite <b>Levo</b>, <b>Sredina</b> ili <b>Desno</b> iz padajuće liste i podesite razmak pre znaka liste,</li>
+                                <li><b>Uvlačenje teksta</b> omogućava podešavanje razmaka između znaka liste i teksta,</li>
+                                <li><b>Nakon broja sledi</b> omogućava izbor šta će se pojaviti posle znaka formata broja. Opcije su: <b>TAB znak</b>, <b>Razmak</b> ili <b>Nijedno</b>. Kada izaberete <b>TAB znak</b>, opcija <b>Dodaj tabulator na</b> postaje dostupna. Označite polje i unesite dužinu uvlačenja.</li>
+                            </ul>
+                    </ul>
+                    <p>Sve promene će biti prikazane u polju <b>Pregled</b>.</p>
+                </li>
+                <li>kliknite <b>OK</b> da primenite promene i zatvorite prozor sa podešavanjima.</li>
+            </ol>
+        </div>
+	</body>
+</html>

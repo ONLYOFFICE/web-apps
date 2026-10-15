@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>OR funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>OR funkcija</h1>
+			<p><b>OR</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#logical" onclick="onhyperlinkclick(this)">logičkih funkcija</a>. Koristi se da proveri da li je logička vrednost koju unesete <b>TRUE</b> ili <b>FALSE</b>. Funkcija vraća <b>FALSE</b> ako su svi argumenti <b>FALSE</b>.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>OR(logical1, [logical2], ...)</em></b></p> 
+			<p><b>OR</b> funkcija ima sledeće argumente:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>logical1/2/n</em></b></td>
+                    <td>Uslov koji želite da proverite da li je <b>TRUE</b> ili <b>FALSE</b>.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+			<p>Možete uneti do <b>255</b> logičkih vrednosti.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>OR</b> funkciju.</p>			
+			<p>Funkcija vraća <b>TRUE</b> ako je bar jedan od argumenata <b>TRUE</b>.</p>
+			<h3>Primeri</h3>
+			<p>Postoje tri argumenta: <em>logical1</em> = <b>A1&lt;10</b>, <em>logical2</em> = <b>34&lt;10</b>, <em>logical3</em> = <b>50&lt;10</b>, gde je <b>A1</b> jednako <b>12</b>. Sve ove logičke izraze su <b>FALSE</b>. Funkcija vraća <b>FALSE</b>.</p>
+			<p><img alt="OR funkcija: FALSE" src="../images/orfalse.png" /></p>
+			<p>Ako promenimo vrednost <b>A1</b> sa <b>12</b> na <b>2</b>, funkcija vraća <b>TRUE</b>:</p>
+			<p><img alt="OR funkcija: TRUE" src="../images/ortrue.png" /></p>
+		</div>
+	</body>
+</html>

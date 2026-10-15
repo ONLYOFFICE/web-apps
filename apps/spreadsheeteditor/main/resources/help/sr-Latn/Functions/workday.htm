@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>WORKDAY funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>WORKDAY funkcija</h1>
+			<p>Funkcija <b>WORKDAY</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#datetime" onclick="onhyperlinkclick(this)">funkcija za datum i vreme</a>. Koristi se za vraćanje datuma koji dolazi nakon ili pre određenog broja dana (offset dana) u odnosu na dati početni datum, isključujući vikende i datume koji se smatraju praznicima.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>WORKDAY(start_date, days, [holidays])</em></b></p> 
+			<p>WORKDAY funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>start_date</em></b></td>
+                    <td>Prvi datum perioda unet pomoću <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a> funkcije ili druge funkcije za datum i vreme.</td>
+                </tr>
+				<tr>
+                    <td><b><em>days</em></b></td>
+                    <td>Broj radnih dana pre ili posle <b><em>start_date</em></b>. Ako <b><em>days</em></b> ima negativan predznak, funkcija vraća datum koji prethodi određenom <b><em>start_date</em></b>. Ako <b><em>days</em></b> ima pozitivan predznak, funkcija vraća datum koji sledi nakon određenog <b><em>start_date</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>holidays</em></b></td>
+                    <td>Opcioni argument koji određuje koji datumi pored vikenda nisu radni. Možete ih uneti pomoću <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a> funkcije ili druge funkcije za datum i vreme, ili kao referencu na opseg ćelija koje sadrže datume.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> WORKDAY funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Na slici ispod prikazan je rezultat koji vraća WORKDAY funkcija.</p>
+			<p><img alt="WORKDAY funkcija" src="../images/workday.png" /></p>
+		</div>
+	</body>
+</html>

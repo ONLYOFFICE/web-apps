@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis ChatGPT dodatka za ONLYOFFICE editore, koji omogućava korišćenje OpenAI chatbota za zadatke koji uključuju razumevanje ili generisanje prirodnog jezika ili koda" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>ChatGPT</h1>
+        <p><b>ChatGPT</b> dodatak omogućava analizu, sumiranje i prevođenje izabranog teksta, generisanje slika, pronalaženje sinonima i korišćenje OpenAI chatbota za zadatke koji uključuju razumevanje ili generisanje prirodnog jezika ili koda.</p>
+        <p class="note">Od ONLYOFFICE Docs 8.2 verzije, editori više ne dolaze sa preinstaliranim dodacima. Dodaci se instaliraju putem <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager-a</a>.</p>
+        <h3>Instalacija</h3>
+        <p>Da biste instalirali <b>ChatGPT</b> dodatak,</p>
+        <ol>
+            <li>Idite na karticu <b>Dodaci</b>.</li>
+            <li>Otvorite <b>Plugin Manager</b>.</li>
+            <li>
+                Pronađite <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> na marketplace-u i kliknite na dugme <b>Instaliraj</b>.
+                <p><img alt="ChatGPT Instalacija" src="../images/chatgpt_installation.png" /></p>
+            </li>
+            <li>Desnim tasterom kliknite bilo gde u dokumentu i pronađite <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> u kontekstualnom meniju.</li>
+            <li>
+                Kliknite <b>Podešavanja</b> da nastavite sa konfiguracijom dodatka.
+                <p><img alt="ChatGPT Kontekstualni meni" src="../images/chatgpt_contextmenu.png" /></p>
+            </li>
+        </ol>
+
+        <h3>Konfiguracija</h3>
+        <ol>
+            <li>Napravi svoj <b>API ključ</b> na stranici <a href="https://platform.openai.com/account/api-keys" target="_blank" onclick="onhyperlinkclick(this)">OpenAI API ključeva</a>.</li>
+            <li>Kopirajte generisani <b>API ključ</b> u odgovarajuće polje u prozoru <b>Podešavanja</b>.</li>
+        </ol>
+        <p><img alt="ChatGPT API ključ" src="../../../../../../common/main/resources/help/en/images/chatgpt_apikey.png" /></p>
+
+        <h3>Korišćenje</h3>
+        <p class="note"><b>ONLYOFFICE ne preuzima odgovornost</b> za sadržaj koji ChatGPT generiše, uključujući moguće greške, propuste ili uvredljiv sadržaj. Informacije koje plugin generiše pružaju se "takve kakve jesu" bez dodatne filtracije od strane ONLYOFFICE-a.</p>
+        <p>Nakon instalacije, <b>ChatGPT</b> će biti dodat u kontekstualni meni. Sve funkcije <b>ChatGPT-a</b> dostupne su desnim klikom. Selektujte deo teksta ili reč da pristupite kontekstualnom meniju i izaberete jednu od opcija: <b>Analiza teksta</b>, <b>Analiza reči</b>, <b>Prevod</b>, <b>Generisanje slika</b>, <b>Sinonimi</b>, <b>Chat</b> i <b>Prilagođeni zahtev</b>.</p>
+
+        <h4>Analiza teksta</h4>
+        <p>Funkcija <b>Analiza teksta</b> uključuje dve opcije: <b>Sumiranje</b> i <b>Ključne reči</b>.</p>
+        <p><img alt="ChatGPT Analiza teksta" src="../images/chatgpt_text.png" /></p>
+        <ul>
+            <li><b>Sumiranje</b> generiše i umeće sažetu verziju izabranog teksta.</li>
+            <li><b>Ključne reči</b> prepoznaje ključne tačke i izvlači ključne reči iz izabranog teksta.</li>
+        </ul>
+        <p>Rezultat se pojavljuje ispod teksta.</p>
+
+        <h4>Analiza reči</h4>
+        <p>Funkcija <b>Analiza reči</b> nudi dve opcije: <b>Objasni tekst u komentaru</b> i <b>Objasni tekst u linku</b>.</p>
+        <p><img alt="ChatGPT Analiza reči" src="../images/chatgpt_word.png" /></p>
+        <ul>
+            <li><b>Objasni tekst u komentaru</b> daje definiciju izabrane reči u sekciji komentara.</li>
+            <li><b>Objasni tekst u linku</b> omogućava umetanje linka u izabranu reč. Taj link vodi ka stranici koja detaljno objašnjava izabranu reč ili frazu.</li>
+        </ul>
+
+        <h4>Prevod na francuski ili nemački</h4>
+        <p>Opcija <b>Prevod</b> omogućava prevođenje izabranog teksta na francuski ili nemački jezik. Prevod zamenjuje originalni tekst.</p>
+        <p><img alt="ChatGPT Prevod" src="../images/chatgpt_translation.png" /></p>
+
+        <h4>Generisanje slike</h4>
+        <p>Opcija <b>Generiši sliku iz teksta</b> omogućava kreiranje slike na osnovu izabranog teksta. Možete odabrati odgovarajuću veličinu slike iz ChatGPT kontekstualnog menija.</p>
+        <p><img alt="ChatGPT Generisanje slike" src="../images/chatgpt_image.png" /></p>
+
+        <h4>Sinonimi</h4>
+        <p>Opcija <b>Sinonimi</b> omogućava generisanje sinonima za izabranu reč.</p>
+        <p>Desnim klikom na reč i izborom opcije <b>Sinonimi</b> u ChatGPT meniju otvara se lista sinonima.</p>
+        <p>Opcija <b>Objasni tekst u komentaru</b> takođe postaje dostupna desnim klikom na reč. Objašnjenje se pojavljuje u desnom panelu <b>Komentara</b>.</p>
+        <p><img alt="ChatGPT Sinonimi" src="../images/chatgpt_thesaurus.png" /></p>
+
+        <h4>Chat</h4>
+        <p>Integracija <b>ChatGPT-a</b> u kontekstualni meni omogućava pokretanje <b>Chata</b> bilo gde u dokumentu. Koristite chatbota za interakciju, postavljanje pitanja i dobijanje odgovora.</p>
+        <p>Izaberite opciju <b>Chat</b> u ChatGPT meniju i započnite konverzaciju u tekstualnom okviru na dnu ChatGPT prozora.</p>
+        <p><img alt="ChatGPT Chat" src="../../../../../../common/main/resources/help/en/images/chatgpt_chat.png" /></p>
+        
+        <h4>Prilagođeni zahtev</h4>
+        <p>Opcija <b>Prilagođeni zahtev</b> omogućava tokenizaciju prirodnog jezika ili koda. Alat pretvara unos u listu tokena, obrađuje zahtev, vraća generisane tokene u tekstualni oblik i ubacuje rezultat u dokument.</p>
+        <ol>
+            <li>Da biste napravili prilagođeni zahtev, idite u ChatGPT meni i kliknite <b>Prilagođeni zahtev</b>.</li>
+            <li>
+                U polju <b>OpenAI</b> unesite tekst koji želite da tokenizujete. Alat prikazuje ukupan broj tokena u tekstu.
+                <p><img alt="ChatGPT Prilagođeni zahtev" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom.png" /></p>
+            </li>
+            <li>
+                Kliknite <b>Prikaži napredna podešavanja</b> da konfigurišete parametre zahteva:
+                <p><img alt="ChatGPT Napredna podešavanja" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom_advanced.png" /></p>
+                <ul>
+                    <li><b>Model</b> - model koji će generisati odgovor. Neki modeli su prikladni za prirodni jezik, drugi za kod. Više informacija potražite na <a href="https://platform.openai.com/docs/models/overview" target="_blank" onclick="onhyperlinkclick(this)">službenom sajtu ChatGPT-a</a>.</li>
+                    <li><b>Maksimalna dužina</b> - maksimalan broj tokena u generisanom odgovoru.</li>
+                    <li><b>Temperatura</b> - parametar koji kontroliše nasumičnost, niža vrednost rezultuje manje slučajnim odgovorima. Kako temperatura teži nuli, odgovor postaje deterministički i ponavljajući.</li>
+                    <li><b>Top P</b> - alternativa temperaturi, tzv. nucleus sampling, gde model uzima u obzir rezultate tokena sa top_p verovatnoćom.</li>
+                    <li><b>Stop sekvence</b> - do četiri sekvence gde API prestaje sa generisanjem. Povratni tekst neće sadržati stop sekvencu.</li>
+                </ul>
+            </li>
+            <li>Kliknite <b>Pošalji</b> da obradite tekst, ili <b>Obriši</b> da unesete novi zahtev.</li>
+        </ol>
+    </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Dodavanje animacija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Opisuje kako da dodate i upravljate efektima animacije na slajdu." />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<script type="text/javascript" src="../callback.js"></script>
+		<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Dodavanje animacija</h1>
+            <p><b>Animacija</b> je vizuelni efekat koji vam omogućava da animirate tekst, objekte i grafiku kako biste svoju prezentaciju učinili dinamičnijom i naglasili važne informacije. Možete kontrolisati kretanje, boju i veličinu teksta, objekata i grafike.</p>
+            <h3 id="applyanimation">Primena efekta animacije</h3>
+            <ol>
+                <li>prebacite se na karticu <b>Animacija</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite tekst, objekat ili grafički element na koji želite da primenite efekat animacije,</li>
+                <li>izaberite efekat <b>Animacija</b> iz galerije animacija,</li>
+                <li>izaberite smer kretanja efekta animacije klikom na <b>Parametri</b> pored galerije animacija. Parametri na listi zavise od efekta koji primenjujete.</li>
+            </ol>
+            <p>Možete pregledati efekte animacije na trenutnom slajdu. Podrazumevano, efekti animacije će se automatski reprodukovati kada ih dodate na slajd, ali to možete isključiti. Kliknite na padajući meni <b>Pregled</b> na kartici <b>Animacija</b> i izaberite režim pregleda:</p>
+            <ul>
+                <li><b>Pregled</b> da biste prikazali pregled kada kliknete na dugme <b>Pregled</b>,</li>
+                <li><b>Automatski pregled</b> da biste automatski prikazali pregled kada dodate animaciju na slajd ili zamenite postojeću.</li>
+            </ul>
+
+            <h3>Tipovi animacija</h3>
+            <p>Svi <b>efekti animacije</b> navedeni su u <b>galeriji animacija</b>. Kliknite na padajuću strelicu da biste je otvorili. Svaki <b>efekat animacije</b> predstavljen je ikonom u obliku zvezde. Animacije su grupisane prema trenutku u kom se pojavljuju:</p>
+            <p><img alt="Galerija animacija" src="../images/animationgallery.png" /></p>
+            <p>Efekti <b>Ulazak</b> određuju kako se objekti pojavljuju na slajdu i u galeriji su obojeni zeleno.</p>
+            <p>Efekti <b>Naglašavanje</b> menjaju veličinu ili boju objekta kako bi se objekat naglasio i privukla pažnja publike, i u galeriji su obojeni žuto ili dvobojno.</p>
+            <p>Efekti <b>Izlazak</b> određuju kako objekti nestaju sa slajda i u galeriji su obojeni crveno.</p>
+            <p><b>Putanje kretanja</b> određuju kretanje objekta i putanju koju prati. Ikone u galeriji predstavljaju predloženu putanju. Dostupna je i opcija <b>Prilagođena putanja</b>. Da biste saznali više, pročitajte <a href="../UsageInstructions/MotionPath.htm" onclick="onhyperlinkclick(this)">sledeći članak</a>.</p> 
+            <p>Pomerite se nadole kroz galeriju animacija da biste videli sve efekte uključene u galeriju. Ako ne vidite potrebnu animaciju u galeriji, kliknite na opciju <b>Prikaži više efekata</b> na dnu galerije.</p>
+            <p><img alt="Više efekata" src="../images/moreeffects.png" /></p>
+            <p>Ovde ćete pronaći kompletnu listu efekata animacije. Efekti su dodatno grupisani prema vizuelnom uticaju koji imaju na publiku.</p>
+            <ul>
+                <li>Efekti <b>Ulazak</b>, <b>Naglašavanje</b> i <b>Izlazak</b> grupisani su po kategorijama <b>Osnovno</b>, <b>Suptilno</b>, <b>Umereno</b> i <b>Uzbudljivo</b>.</li>
+                <li>Efekti <b>Putanja kretanja</b> grupisani su po kategorijama <b>Osnovno</b>, <b>Suptilno</b> i <b>Umereno</b>.</li>
+            </ul>
+            <p><!-- Opcija <b>Pregled efekta</b> je podrazumevano aktivna, poništite je ako ne želite pregled.--></p>
+
+            <h3 id="multipleanimations">Primena više animacija</h3>
+            <p>Možete dodati više od jednog efekta animacije na isti objekat. Da biste dodali još jednu animaciju,</p>
+            <ol>
+                <li>kliknite na dugme <b>Dodaj animaciju</b> na kartici <b>Animacija</b>.</li>
+                <li>Otvoriće se lista efekata animacije. Ponovite korake 3 i 4 iznad za primenu animacije.</li>
+            </ol>
+            <p>Ako koristite <b>galeriju animacija</b>, a ne dugme <b>Dodaj animaciju</b>, prvi efekat animacije biće zamenjen novim. Mali kvadrat pored objekta prikazuje redne brojeve primenjenih efekata.</p>
+            <p>Čim dodate više efekata na objekat, ikona <b>Višestruko</b> pojavljuje se u galeriji animacija.</p>
+            <p><img alt="Više efekata" src="../images/multipleeffect_icon.png" /></p>
+            <h3 id="animationsorder">Promena redosleda efekata animacije na slajdu</h3>
+            <ol>
+                <li>Kliknite na kvadratnu oznaku animacije.</li>
+                <li>Kliknite na strelice <img alt="Pomeri ranije" src="../images/moveearlier.png" /> ili <img alt="Pomeri kasnije" src="../images/movelater.png" /> na kartici <b>Animacija</b> da biste promenili redosled pojavljivanja na slajdu.</li>
+            </ol>
+            <p><img alt="Redosled animacija" src="../images/multipleanimations_order.png" /></p>
+            <h3 id="timing">Podešavanje vremena animacije</h3>
+            <p>Koristite opcije vremena na kartici <b>Animacija</b> da biste podesili <b>početak</b>, <b>trajanje</b>, <b>kašnjenje</b>, <b>ponavljanje</b> i <b>premotavanje</b> animacija na slajdu.</p>
+            <h4>Opcije pokretanja animacije</h4>
+            <ul>
+                <li><b>Na klik</b> – animacija se pokreće kada kliknete na slajd. Ovo je podrazumevana opcija.</li>
+                <li><b>Sa prethodnim</b> – animacija se pokreće kada se pokrene prethodni efekat animacije i efekti se pojavljuju istovremeno.</li>
+                <li><b>Nakon prethodnog</b> – animacija se pokreće odmah nakon prethodnog efekta animacije.</li>
+            </ul>
+            <p class="note"><b>Napomena:</b> efekti animacije se automatski numerišu na slajdu. Sve animacije podešene na <b>Sa prethodnim</b> i <b>Nakon prethodnog</b> dobijaju broj animacije sa kojom su povezane, jer će se pojaviti automatski.</p>
+            <p><img alt="Numerisanje animacija" src="../images/animationnumbering.png" /></p>
+            <h4>Opcije okidača animacije</h4>
+            <p>Kliknite na dugme <b>Okidač</b> i izaberite jednu od odgovarajućih opcija:</p>
+            <ul>
+                <li><b>Na klik u nizu</b> – za pokretanje sledeće animacije u nizu svaki put kada kliknete bilo gde na slajdu. Ovo je podrazumevana opcija.</li>
+                <li><b>Na klik na</b> - za pokretanje animacije kada kliknete na objekat koji izaberete iz padajuće liste.</li>
+            </ul>
+            <p><img alt="Opcije okidača" src="../images/triggeroptions.png" /></p>
+            <h4>Ostale opcije vremena</h4>
+            <p><img alt="Opcije vremena" src="../images/timingoptions.png" /></p>
+            <p><b>Trajanje</b> – koristite ovu opciju da biste odredili koliko dugo želite da se animacija prikazuje. Izaberite jednu od dostupnih opcija iz menija ili unesite potrebnu vremensku vrednost.</p>
+            <p><img alt="Trajanje animacije" src="../images/animationduration.png" /></p>
+            <p><b>Kašnjenje</b> – koristite ovu opciju ako želite da se izabrana animacija prikazuje u određenom vremenskom periodu ili ako vam je potrebna pauza između efekata. Koristite strelice da izaberete potrebnu vremensku vrednost ili unesite potrebnu vrednost u sekundama.</p>
+            <p><b>Ponovi</b> – koristite ovu opciju ako želite da se animacija prikaže više puta. Kliknite u polje <b>Ponovi</b> i izaberite jednu od dostupnih opcija ili unesite svoju vrednost.</p>
+            <p><img alt="Ponavljanje animacije" src="../images/animationrepeat.png" /></p>
+            <p><b>Premotaj</b> – označite ovo polje ako želite da vratite objekat u prvobitno stanje kada se animacija završi.</p>
+            <h4>Opcije boja animacije</h4>
+            <p>Možete podesiti završnu boju za efekte animacije koji menjaju boju.</p>
+            <p>Kliknite na dugme <b>Parametri</b> na gornjoj traci sa alatkama i izaberite potrebnu boju na paleti <b>Boje teme</b> ili <b>Standardne boje</b>.</p>
+            <p><img alt="Boje" src="../images/animation_colors.png" /></p>
+            <h3 id="animationpane">Okno animacije</h3>
+            <p><img alt="okno animacije" src="../images/animation_pane.png" /></p>
+            <p><b>Okno animacije</b> prikazuje podešene animacije i omogućava lakše upravljanje animacijama.</p>
+            <ol>
+                <li>
+                    <ul>
+                        <li><b>Pusti sve</b> - kliknite na ovo dugme da biste pustili sve trenutno kreirane animacije.</li>
+                        <li><b>Pusti izabrano</b> - kliknite na ovo dugme da biste pustili sve trenutno izabrane animacije. Tokom reprodukcije, u listi se prikazuju samo izabrane animacije.</li>
+                        <li><b>Pusti od</b> - kliknite na ovo dugme da biste pustili animacije počev od izabrane i dalje niz listu. Tokom reprodukcije, u listi se prikazuju samo izabrane animacije.</li>
+                        <li><b>Zaustavi</b> - kliknite na ovo dugme da biste zaustavili reprodukciju animacije.</li>
+                    </ul>
+                </li>
+                <li>Koristite dugmad <div class="icon icon-searchupbutton"></div> i <div class="icon icon-searchdownbutton"></div> da biste promenili redosled animacija objekata na slajdu.</li>
+                <li>Da biste podesili tačku <b>Početak</b>, kliknite desnim tasterom miša na animaciju ili kliknite na dugme <b>Više</b> desno od animacije.</li>
+                <li>Vremenska linija slajda prikazana je ispod okna animacije.</li>
+                <li>Da biste promenili <b>trajanje</b> animacije, kliknite i prevucite njenu završnu tačku na oknu do željene vremenske tačke.</li>
+                <li>Da biste pomerili animaciju duž vremenske linije, kliknite direktno na njeno dijagramsko predstavljanje na oknu i prevucite je do željene vremenske tačke.</li>
+                <li>Koristite dugmad interfejsa <b>Zum</b> da biste uvećali ili umanjili vremensku liniju.</li>
+            </ol>
+        </div>
+		</body>
+	</html>

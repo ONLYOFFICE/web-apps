@@ -33,7 +33,9 @@
       "textResolve": "Resolver",
       "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textEnterComment": "Insira o comentário",
+      "textMention": "Comente ou mencione usando + ou @"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -44,7 +46,7 @@
       "dark": "Escuro",
       "light": "Claro",
       "system": "O mesmo que sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema da interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -88,7 +90,12 @@
     "textDoNotShowAgain": "Não volte a aparecer",
     "textOk": "OK",
     "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e aos seus dados. Este local pode não ser seguro:<br>{0}<br>Tem certeza de que deseja continuar?",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
+    "menuAddColumn": "Adicionar coluna",
+    "menuAddRow": "Adicionar linha",
+    "menuDeleteColumn": "Excluir coluna",
+    "menuDeleteRow": "Excluir linha",
+    "menuSelectAll": "Selecionar tudo"
   },
   "Controller": {
     "Main": {
@@ -221,6 +228,7 @@
       "textNo": "Não",
       "textNoChoices": "Não há escolhas para preenchimento de célula.<br>Apenas valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Limite de licença atingido",
+      "textNoResourcesTitle": "Recursos insuficientes",
       "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textPaidFeature": "Recurso pago",
@@ -244,6 +252,7 @@
       "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
       "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos.<br>Por favor, contate seu administrador para obter acesso total",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
+      "warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
       "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
@@ -293,11 +302,13 @@
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Use a opção 'Download' para salvar a cópia de backup do arquivo localmente.",
     "errorEditView": "A vista de folha existente não pode ser editada e as novas não podem ser criadas no momento, pois algumas delas estão sendo editadas.",
     "errorEmailClient": "Nenhum cliente de e-mail foi encontrado",
+    "errorFileNotAssembled": "Este arquivo foi aberto a partir de uma cópia de segurança do servidor e não foi salvo no armazenamento.<br>Use a opção 'Salvar como...' para salvá-lo em uma unidade.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileRequest": "Erro externo. <br> Solicitação de arquivo. Por favor, contate o suporte.",
     "errorFileSizeExceed": "O tamanho do arquivo excede a limitação de seu servidor.<br>Por favor, contate seu administrador para obter detalhes.",
     "errorFileVKey": "Erro externo. <br> Chave de segurança incorreta. Por favor, contate o suporte.",
     "errorFillRange": "Não foi possível preencher o intervalo selecionado de células.<br>Todas as células mescladas precisam ser do mesmo tamanho.",
+    "errorForcedViewMode": "Este arquivo está aberto no modo de visualização.<br>O arquivo está bloqueado para edição ou seus direitos de acesso não permitem a edição.",
     "errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Transferir como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",
     "errorFormulaInPivotFieldName": "Não é possível inserir uma fórmula para um item ou nome de campo em um relatório de tabela dinâmica.",
     "errorFormulaName": "Um erro na fórmula. <br> Nome da fórmula incorreto.",
@@ -380,7 +391,8 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorCopyRangeTooLarge": "O trecho selecionado é muito grande para ser copiado na íntegra. Apenas uma parte dele foi colocada na área de transferência. Selecione um trecho menor e tente novamente."
   },
   "LongActions": {
     "advDRMPassword": "Senha",
@@ -424,7 +436,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "changesSaved": "Todas as alterações foram salvas"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",
@@ -450,6 +463,7 @@
     "textSheetName": "Nome da folha",
     "textTabColor": "Cor da aba",
     "textUnhide": "Reexibir",
+    "textUnhideSheets": "Exibir planilhas",
     "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
     "warnAddSheetCsv": "O formato CSV não permite salvar um arquivo com várias planilhas. Somente a planilha ativa será salva. Para manter todas as planilhas, salve o arquivo em um formato diferente."
   },
@@ -463,7 +477,12 @@
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
-    "textSwitchToDesktop": "Mudar para o desktop"
+    "textSwitchToDesktop": "Mudar para o desktop",
+    "textSave": "Salvar",
+    "textDontSave": "Não salvar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Salve suas alterações antes de sair",
+    "textUnsavedData": "Dados não salvos"
   },
   "View": {
     "Add": {
@@ -529,7 +548,12 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textSheets": "Folhas",
+      "textLinkTo": "Link para",
+      "textDefinedName": "Nome definido",
+      "textStyle": "Estilo",
+      "textTable": "Tabela"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -708,7 +732,7 @@
       "textSheet": "Folha",
       "textSize": "Tamanho",
       "textSmallCaps": "Versalete",
-      "textStrikethrough": "Riscado",
+      "textStrikethrough": "Tachado",
       "textStyle": "Estilo",
       "textSubscript": "Subscrito",
       "textSuperscript": "Sobrescrito",
@@ -737,7 +761,24 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "txtCustom": "Personalizado",
+      "textCurrentFont": "Texto principal",
+      "textSheets": "Folhas",
+      "textLinkTo": "Link para",
+      "textDefinedName": "Nome definido",
+      "textTotalRow": "Total de linhas",
+      "textTable": "Tabela",
+      "textStyleOptions": "Opções de estilo",
+      "textRow": "Linha",
+      "textLastColumn": "Última coluna",
+      "textHeaderRow": "Linha de cabeçalho",
+      "textFilterButton": "Botão de filtro",
+      "textDeleteTable": "Excluir tabela",
+      "textColumn": "Coluna",
+      "textBandedColumns": "Colunas com faixas",
+      "textBandedRows": "Linhas agrupadas",
+      "textFirstColumn": "Primeira coluna"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -785,7 +826,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem uma notificação",
       "textEncoding": "Codificação",
       "textExample": "Exemplo",
-      "textFeedback": "Feedback e Suporte",
+      "textFeedback": "Entre em contato com o suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Localizar e Substituir Tudo",
@@ -812,7 +853,8 @@
       "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
-      "textOrientation": "Orientação",
+      "textOpenLocation": "Localização disponível",
+      "textOrientation": "Orientação da página",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPortrait": "Retrato ",
@@ -840,7 +882,7 @@
       "textSpreadsheetTitle": "Título da planilha",
       "textSubject": "Assunto",
       "textTel": "Tel",
-      "textTheme": "Tema",
+      "textTheme": "Tema da interface",
       "textTitle": "Título",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unidade de medida",
@@ -897,7 +939,27 @@
       "txtZhtw": "Chinês (tradicional)",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
       "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo com várias planilhas e todos os elementos, exceto o texto.<br>Para salvar apenas a planilha ativa em CSV, clique em OK.<br>Para salvar a planilha inteira com todos os seus elementos, clique em Cancelar e selecione outro formato.",
-      "warnDownloadOds": "Salvar este arquivo pode resultar na perda de algumas fórmulas, formatação de células ou objetos incorporados devido ao suporte limitado a formatos.<br>Tem certeza de que deseja continuar?"
+      "warnDownloadOds": "Salvar este arquivo pode resultar na perda de algumas fórmulas, formatação de células ou objetos incorporados devido ao suporte limitado a formatos.<br>Tem certeza de que deseja continuar?",
+      "textAutoSaveDocument": "Salvamento automático",
+      "textSaveDocument": "Salvar",
+      "textDarkDocument": "Documento Escuro",
+      "textPreferences": "Preferências",
+      "textHelpCenter": "Central de Ajuda",
+      "textSaveACopy": "Salvar uma cópia",
+      "textSaveACopyAs": "Salvar uma cópia como",
+      "textTools": "Ferramentas",
+      "textSettingsGroup": "Configurações",
+      "textAboutGroup": "Sobre",
+      "textHelpAndFeedback": "Ajuda e comentários",
+      "textShare": "Compartilhar",
+      "textStyleGroup": "Estilo",
+      "textSaveACopyHeader": "Salvar uma cópia",
+      "textSaveConnectedStorage": "O arquivo será salvo no dispositivo de armazenamento conectado",
+      "textGridlines": "Linhas de grade",
+      "textHeadings": "Cabeçalhos",
+      "textSpreadsheetSetup": "Configuração da planilha",
+      "textViewGroup": "Visualizar",
+      "textLanguageAndRegion": "Idioma e região"
     }
   }
 }

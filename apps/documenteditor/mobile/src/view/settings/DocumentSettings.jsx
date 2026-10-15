@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button, Icon, Toggle} from 'framework7-react';
@@ -18,7 +53,7 @@ const PageDocumentFormats = props => {
     
     return (
         <Page>
-            <Navbar title={_t.textDocumentSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textDocumentSetup} backLink={_t.textBack} />
             <List mediaList>
                 {pageSizes.map((item, index) => <ListItem key={index}
                                                           radio
@@ -217,6 +252,10 @@ const PageDocumentSettings = props => {
     const _t = t('Settings', {returnObjects: true});
 
     const storeSettings = props.storeDocumentSettings;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const displayMode = props.storeReview.displayMode;
+    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
+    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
 
     //Init Format
     const curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
@@ -242,15 +281,15 @@ const PageDocumentSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textDocumentSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textDocumentSetup} backLink={_t.textBack} />
             <BlockTitle>{_t.textOrientation}</BlockTitle>
             <List>
                 <ListItem radio title={_t.textPortrait} name="orientation-checkbox" checked={storeSettings.isPortrait} onClick={e => props.onPageOrientation('portrait')}></ListItem>
                 <ListItem radio title={_t.textLandscape} name="orientation-checkbox" checked={!storeSettings.isPortrait} onClick={e => props.onPageOrientation('landscape')}></ListItem>
             </List>
             <BlockTitle>{_t.textFormat}</BlockTitle>
-            <List mediaList>
-                <ListItem title={textFormat} subtitle={pageSizeTxt} link="/document-formats/" routeProps={{
+            <List>
+                <ListItem mediaItem title={textFormat} subtitle={pageSizeTxt} link="/document-formats/" routeProps={{
                     onFormatChange: props.onFormatChange,
                     getMargins: props.getMargins
                 }}></ListItem>
@@ -259,11 +298,31 @@ const PageDocumentSettings = props => {
                     applyMargins: props.applyMargins
                 }}></ListItem>
             </List>
-            <List>
+            <List className='no-margin-bottom'>
                 <ListItem title={_t.textHyphenation}>
                     <Toggle checked={isHyphenation} onToggleChange={() => {props.onToggleHyphenation(!isHyphenation)}}/>
                 </ListItem>
             </List>
+            <BlockTitle>{_t.textDisplayGroup}</BlockTitle>
+            <List className='no-margin-bottom'>
+                <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                    <Toggle checked={isNonprintingCharacters}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
+                                props.switchNoCharacters(!isNonprintingCharacters);
+                            }}
+                    />
+                </ListItem>
+                <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                    <Toggle checked={isHiddenTableBorders}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
+                                props.switchShowTableEmptyLine(!isHiddenTableBorders);
+                            }}
+                    />
+                </ListItem>
+            </List>
+            <BlockTitle>{_t.textStyleGroup}</BlockTitle>
             <List>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
@@ -276,7 +335,7 @@ const PageDocumentSettings = props => {
 
 const DocumentFormats = inject("storeDocumentSettings")(observer(PageDocumentFormats));
 const DocumentMargins = inject("storeDocumentSettings")(observer(PageDocumentMargins));
-const DocumentSettings = inject("storeDocumentSettings")(observer(PageDocumentSettings));
+const DocumentSettings = inject("storeDocumentSettings", "storeApplicationSettings", "storeReview")(observer(PageDocumentSettings));
 const DocumentColorSchemes = inject("storeDocumentSettings")(observer(PageDocumentColorSchemes));
 
 export {

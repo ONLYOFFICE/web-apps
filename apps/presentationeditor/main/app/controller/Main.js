@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *    Main.js
@@ -365,8 +368,10 @@ define([
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoResources  = (me.warnNoResources || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.textNoResourcesTitle = (me.textNoResourcesTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -422,7 +427,6 @@ define([
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
-                this.appOptions.canAnalytics    = false;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
@@ -543,7 +547,7 @@ define([
                 this.api.asc_registerCallback('asc_onMacrosPermissionRequest', _.bind(this.onMacrosPermissionRequest, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
-                this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+                this.api.asc_getEditorPermissions();
 
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
@@ -742,6 +746,7 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                    Common.Gateway.sendInfo({connection:'connected'});
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -827,6 +832,11 @@ define([
                         text    = this.waitText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['ExportVideo']:
+                        title   = this.animatedExportTitleText;
+                        text    = this.animatedExportTextText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         text    = this.txtEditingMode;
@@ -841,9 +851,11 @@ define([
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
+                        Common.Gateway.sendInfo({connection:'disconnected'});
                         var me = this;
                         me._state.timerDisconnect = setTimeout(function(){
                             Common.UI.TooltipManager.showTip('disconnect');
+                            Common.Gateway.sendInfo({connection:'reconnecting'});
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
@@ -1103,9 +1115,6 @@ define([
                 $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
                 setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
-                if (this.appOptions.canAnalytics && false)
-                    Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
-
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
@@ -1113,7 +1122,7 @@ define([
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
-                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
+                Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view', connection:'connected'});
                 this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
                     if (data.command == 'wopi:saveAsComplete') {
                         me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
@@ -1132,7 +1141,7 @@ define([
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && (this.appOptions.canEdit || this.appOptions.isRestrictedEdit) && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
@@ -1174,7 +1183,10 @@ define([
                         title = this.titleReadOnly;
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
-                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        if (license===Asc.c_oLicenseResult.NotEnoughResources)
+                            title = this.textNoResourcesTitle;
+                        license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                                  (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
                         modal = true;
@@ -1289,7 +1301,7 @@ define([
                 }
                 if (options.header) {
                     if (options.header.search)
-                        appHeader && appHeader.lockHeaderBtns('search', disable);
+                        appHeader && appHeader.lockHeaderBtns('search', disable, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
@@ -1353,7 +1365,6 @@ define([
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = this.permissions.download !== false;
-                this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
@@ -1363,18 +1374,13 @@ define([
                     console.log("Obsolete: The 'chat' parameter of the 'customization' section is deprecated. Please use 'chat' parameter in the permissions instead.");
                 }
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint;
                 this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
-                if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
-                    console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
-                    if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
-                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
-                }
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
@@ -1588,6 +1594,8 @@ define([
                         rightmenuView.setMode(me.appOptions);
                     }
 
+                    application.getController('Common.Controllers.ChartTab').setMode(me.appOptions);
+
                     var toolbarView = (toolbarController) ? toolbarController.getView('Toolbar') : null;
                     if (toolbarView) {
                         toolbarView.setApi(me.api);
@@ -1595,7 +1603,7 @@ define([
                         toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
-                        toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
+                        // toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
                         toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
                     }
 
@@ -1642,8 +1650,6 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
-
-                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1855,6 +1861,14 @@ define([
                         config.msg = this.errorForcedViewMode;
                         break;
 
+                    case Asc.c_oAscError.ID.AnimatedExport:
+                        config.msg = this.errorAnimatedExport;
+                        break;
+
+                    case Asc.c_oAscError.ID.AnimatedExportMemory:
+                        config.msg = this.errorAnimatedExportMemory;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
@@ -1931,8 +1945,6 @@ define([
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
-
-                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {
@@ -1942,6 +1954,8 @@ define([
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
+
+                Common.Gateway.sendInfo({connection:'disconnected'});
             },
 
             showTips: function(strings) {
@@ -2210,9 +2224,9 @@ define([
                 this.getApplication().getController('RightMenu').onInsertImage();
             },
 
-            onInsertChart:  function() {
-                this.getApplication().getController('RightMenu').onInsertChart();
-            },
+            // onInsertChart:  function() {
+            //     this.getApplication().getController('RightMenu').onInsertChart();
+            // },
 
             onInsertShape:  function() {
                 this.getApplication().getController('RightMenu').onInsertShape();
@@ -2528,7 +2542,6 @@ define([
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('file:print');
-                Common.component.Analytics.trackEvent('Print');
             },
 
             onPrintUrl: function(url) {
@@ -2567,12 +2580,13 @@ define([
                 var value = Common.localStorage.getBool("pe-hide-quick-print-warning"),
                     me = this,
                     handler = function () {
-                        var printopt = new Asc.asc_CAdjustPrint();
+                        const printController = me.getApplication().getController('Print');
+                        var printopt = new Asc.CAscPresentationPrintOptions();
+                        printController && printController.updatePrintOptions(printopt);
                         printopt.asc_setNativeOptions({quickPrint: true});
                         var opts = new Asc.asc_CDownloadOptions();
                         opts.asc_setAdvancedOptions(printopt);
                         me.api.asc_Print(opts);
-                        Common.component.Analytics.trackEvent('Print');
                     };
 
                 if (value) {
@@ -3046,6 +3060,7 @@ define([
                             if (apiCallback)  {
                                 apiCallback(btn === 'ok');
                             }
+                            Common.Gateway.reportWarning(id, btn === 'ok' ? 'undo' : 'continue');
                             me.onEditComplete();
                         }, this)
                     });

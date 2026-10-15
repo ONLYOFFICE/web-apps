@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *    FileMenu.js
@@ -80,6 +83,7 @@ define([
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {
+                            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                             this.$el.find('.content-box:visible').hide();
                             this.active = item.options.action;
                             panel.show();
@@ -160,6 +164,16 @@ define([
                 el      : $markup.elementById('#fm-btn-save-desktop'),
                 action  : 'save-desktop',
                 caption : this.btnSaveAsCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
+            this.miExport = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-export'),
+                action  : 'export',
+                caption : this.btnExportCaption,
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
@@ -330,6 +344,7 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
+                this.miExport,
                 this.miPrint,
                 this.miPrintWithPreview,
                 this.miRename,
@@ -396,6 +411,7 @@ define([
 
         hide: function() {
             this.$el.hide();
+            Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
             this.fireEvent('menu:hide', [this]);
             // this.api && this.api.asc_enableKeyEvents(true);
         },
@@ -420,6 +436,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
+            this.miExport[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
@@ -478,11 +495,11 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new PE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new PE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render()));
             }
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, saveFormats: this.saveFormats})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -629,6 +646,15 @@ define([
             return this;
         },
 
+        setSaveFormats: function(formats) {
+            this.saveFormats = formats;
+            if ( this.rendered ) {
+                if (this.panels['saveas']) this.panels['saveas'].setSaveFormats(formats);
+                if (this.panels['save-copy']) this.panels['save-copy'].setSaveFormats(formats);
+            }
+            return this;
+        },
+
         loadDocument: function(data) {
             this.document = data.doc;
         },
@@ -645,6 +671,7 @@ define([
                     $('.fm-btn',this.el).removeClass('active');
                     item.$el.addClass('active');
 
+                    Common.UI.TooltipManager.closeTip(['videoFormatsSaveAs', 'videoFormatsSaveCopy', 'printSlidesOnPage']);
                     this.$el.find('.content-box:visible').hide();
                     panel.show(opts);
 

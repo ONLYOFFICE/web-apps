@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kreiranje sadržaja</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Sadržaj sadrži listu svih poglavlja (odeljaka itd.) u dokumentu i prikazuje brojeve stranica na kojima svako poglavlje počinje." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Kreiranje sadržaja</h1>
+            <p>Sadržaj sadrži listu svih poglavlja (odeljaka itd.) u dokumentu i prikazuje brojeve stranica na kojima svako poglavlje počinje. U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editoru</b></a> omogućava lako kretanje kroz višestrani dokument i brzo prelaženje na potreban deo teksta. Sadržaj se generiše automatski na osnovu naslova u dokumentu koji su formatirani pomoću ugrađenih stilova. Na taj način je lako ažurirati kreirani sadržaj bez ručnog menjanja naslova i brojeva stranica ako se tekst dokumenta promeni.</p>
+            <h2>Struktura naslova u sadržaju</h2>
+            <p><b>Formatiranje naslova</b></p>
+            <p>Prvo formatirajte naslove u dokumentu koristeći neki od unapred definisanih stilova. Da biste to uradili,</p>
+            <ol>
+                <li>Izaberite tekst koji želite da uključite u sadržaj.</li>
+                <li>Otvorite meni sa stilovima na desnoj strani kartice <b>Početak</b> na gornjoj traci sa alatkama.</li>
+                <li>Kliknite na željeni stil koji želite da primenite. Podrazumevano možete koristiti stilove <em>Naslov 1 – Naslov 9</em>.
+                    <p class="note">Ako želite da koristite druge stilove (npr. <em>Naslov</em>, <em>Podnaslov</em> itd.) za formatiranje naslova, potrebno je da prethodno prilagodite podešavanja sadržaja (vidi odgovarajući odeljak ispod). Da biste saznali više o dostupnim stilovima formatiranja, pogledajte <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+                </li>
+            </ol>
+            <p>Da biste brzo dodali tekst kao naslov,</p>
+            <ol>
+                <li>Izaberite tekst koji želite da uključite u sadržaj.</li>
+                <li>Idite na karticu <b>Reference</b> na gornjoj traci sa alatkama.</li>
+                <li>Kliknite na dugme <b>Dodaj tekst</b> na gornjoj traci sa alatkama.</li>
+                <li>Izaberite željeni nivo naslova.</li>
+            </ol>
+            <p id="navigation"><b>Upravljanje naslovima</b></p>
+            <p>Kada su naslovi formatirani, možete kliknuti na ikonu <span class = "icon icon-navigationicon"></span> <b>Naslovi</b> na levoj bočnoj traci da otvorite panel koji prikazuje listu svih naslova sa odgovarajućim nivoima ugnježđivanja. Ovaj panel omogućava lako kretanje između naslova u tekstu dokumenta, kao i upravljanje strukturom naslova.</p>
+            <p>Kliknite desnim tasterom na naslov na listi i koristite jednu od dostupnih opcija iz menija:</p>
+            <p><img alt="Panel naslova" src="../images/navigationpanel.png" /></p>
+            <ul>
+                <li><b>Unapredi</b> – da pomerite trenutno izabrani naslov na viši nivo u hijerarhijskoj strukturi, npr. iz <em>Naslov 2</em> u <em>Naslov 1</em>.</li>
+                <li><b>Unazadi</b> – da pomerite trenutno izabrani naslov na niži nivo u hijerarhijskoj strukturi, npr. iz <em>Naslov 1</em> u <em>Naslov 2</em>.</li>
+                <li><b>Novi naslov pre</b> – da dodate novi prazan naslov istog nivoa pre trenutno izabranog.</li>
+                <li><b>Novi naslov posle</b> – da dodate novi prazan naslov istog nivoa posle trenutno izabranog.</li>
+                <li><b>Novi podnaslov</b> – da dodate novi prazan podnaslov (tj. naslov nižeg nivoa) posle trenutno izabranog naslova.
+                <p>Kada se doda naslov ili podnaslov, kliknite na dodati prazan naslov na listi i upišite svoj tekst. To možete uraditi i u tekstu dokumenta i direktno na panelu <b>Naslovi</b>.</p>
+                </li>
+                <li><b>Izaberi sadržaj</b> – da izaberete tekst ispod trenutnog naslova u dokumentu (uključujući i tekst koji pripada svim njegovim podnaslovima).</li>
+                <li><b>Proširi sve</b> – da proširite sve nivoe naslova na panelu <b>Naslovi</b>.</li>
+                <li><b>Skupi sve</b> – da skupite sve nivoe naslova osim <em>nivoa 1</em> na panelu <b>Naslovi</b>.</li>
+                <li><b>Proširi do nivoa</b> – da proširite strukturu naslova do izabranog nivoa. Npr. ako izaberete <em>nivo 3</em>, biće prošireni nivoi 1, 2 i 3, dok će nivo 4 i niži biti skupljeni.</li>
+            </ul>
+            <p>Da biste ručno proširili ili skupili pojedine nivoe naslova, koristite strelice levo od naslova.</p>
+            <p>Da biste zatvorili panel <b>Naslovi</b>, ponovo kliknite na ikonu <span class = "icon icon-navigationicon"></span> <b>Naslovi</b> na levoj bočnoj traci.</p>
+            <h2>Umetanje sadržaja u dokument</h2>
+            <p>Da biste umetnuli sadržaj u dokument:</p>
+            <ol>
+                <li>Pozicionirajte kursor na mesto gde želite da dodate sadržaj.</li>
+                <li>Prebacite se na karticu <b>Reference</b> na gornjoj traci sa alatkama.</li>
+                <li>Kliknite na ikonu <div class = "icon icon-tocicon"></div> <b>Sadržaj</b> na gornjoj traci sa alatkama ili<br />
+                kliknite na strelicu pored ove ikone i izaberite željenu opciju rasporeda iz menija. Možete odabrati sadržaj koji prikazuje naslove, brojeve stranica i tačkice (vodilice), ili samo naslove.
+                <p><img alt="Opcije sadržaja" src="../images/tociconmenu.png" /></p>
+                    <p class="note">Izgled sadržaja može se kasnije prilagoditi u podešavanjima.</p>
+                </li>
+            </ol>
+            <p>Sadržaj će biti dodat na trenutnu poziciju kursora. Da biste promenili njegovu poziciju, možete izabrati polje sadržaja (kontrolu sadržaja) i prevući ga na željeno mesto. Da biste to uradili, kliknite na dugme <span class = "icon icon-toccontentcontrol"></span> u gornjem levom uglu polja sadržaja i prevucite ga, bez puštanja dugmeta miša, na drugu poziciju u tekstu dokumenta.</p>
+            <p><img alt="Pomeraње sadržaja" src="../images/tocmove.png" /></p>
+            <p>Da biste se kretali između naslova, pritisnite taster <b>Ctrl</b> i kliknite na željeni naslov unutar polja sadržaja. Bićete prebačeni na odgovarajuću stranicu.</p>
+            <h2>Prilagođavanje kreiranog sadržaja</h2>
+            <p><b>Ažuriranje sadržaja</b></p>
+            <p>Nakon što kreirate sadržaj, možete nastaviti da uređujete tekst dodavanjem novih poglavlja, menjanjem njihovog redosleda, uklanjanjem pasusa ili proširivanjem teksta vezanog za naslov, tako da se brojevi stranica koji odgovaraju prethodnom ili sledećem odeljku mogu promeniti. U tom slučaju koristite opciju <b>Ažuriraj</b> da automatski primenite sve izmene.</p>
+            <p>Kliknite na strelicu pored ikone <span class = "icon icon-tocrefreshicon"></span> <b>Ažuriraj</b> na kartici <b>Reference</b> na gornjoj traci sa alatkama i izaberite željenu opciju iz menija:</p>
+            <ul>
+                <li><b>Ažuriraj ceo sadržaj</b> – da dodate naslove koje ste dodali u dokument, uklonite one koje ste obrisali, ažurirate izmenjene (preimenovane) naslove, kao i da osvežite brojeve stranica.</li>
+                <li><b>Ažuriraj samo brojeve stranica</b> – da osvežite samo brojeve stranica bez primene promena na naslovima.</li>
+            </ul>
+            <p>Alternativno, možete izabrati sadržaj u tekstu dokumenta i kliknuti na ikonu <span class = "icon icon-tocrefreshiconcc"></span> <b>Ažuriraj</b> na vrhu polja sadržaja da biste prikazali gore navedene opcije.</p>
+            <p><img alt="Ažuriranje sadržaja" src="../images/tocrefreshcc.png" /></p>
+            <p>Takođe možete kliknuti desnim tasterom bilo gde unutar sadržaja i koristiti odgovarajuće opcije iz kontekstualnog menija.</p>
+            <p><img alt="Kontekstualni meni" src="../images/tocrefreshcontextual.png" /></p>
+            <p><b>Podešavanje sadržaja</b></p>
+            <p>Da biste otvorili podešavanja sadržaja, možete postupiti na sledeće načine:</p>
+            <ul>
+                <li>Kliknite na strelicu pored ikone <div class = "icon icon-tocicon"></div> <b>Sadržaj</b> na gornjoj traci sa alatkama i izaberite opciju <b>Podešavanja</b> iz menija.</li>
+                <li>Izaberite sadržaj u tekstu dokumenta, kliknite na strelicu pored njegovog naslova i izaberite opciju <b>Podešavanja</b> iz menija.
+                <p><img alt="Opcije sadržaja" src="../images/tocsettingscc.png" /></p>    
+                </li>
+                <li>Kliknite desnim tasterom bilo gde unutar sadržaja i koristite opciju <b>Podešavanja sadržaja</b> iz kontekstualnog menija.</li>
+            </ul>
+            <p>Otvara se novi prozor u kome možete podesiti sledeće opcije:</p>
+            <p><img alt="Prozor podešavanja sadržaja" src="../images/tocsettingswindow.png" /></p> 
+            <ul>
+                <li><b>Prikaži brojeve stranica</b> – omogućava prikazivanje brojeva stranica.</li>
+                <li><b>Poravnaj brojeve stranica desno</b> – omogućava poravnavanje brojeva stranica sa desne strane stranice.</li>
+                <li><b>Voditelj</b> – omogućava izbor tipa voditelja. Voditelj je niz znakova (tačkica ili crtica) koji popunjava prostor između naslova i odgovarajućeg broja stranice. Takođe možete izabrati opciju <b>Nijedno</b> ako ne želite da koristite voditelje.</li>
+                <li><b>Formatiraj sadržaj kao linkove</b> – ova opcija je podrazumevano uključena. Ako je isključite, nećete moći da prelazite na poglavlja pomoću <b>Ctrl</b> + klik na odgovarajući naslov.</li>
+                <li><b>Kreiraj sadržaj od</b> – ovaj deo omogućava određivanje broja nivoa hijerarhije, kao i podrazumevanih stilova koji će se koristiti za kreiranje sadržaja. Označite odgovarajuće dugme:
+                    <ul>
+                        <li>
+                            <b>Nivoi hijerarhije</b> – kada je ova opcija izabrana, možete podesiti broj korišćenih nivoa. Kliknite na strelice u polju <b>Nivoi</b> da smanjite ili povećate broj nivoa (dostupne vrednosti su od 1 do 9). Npr. ako izaberete vrednost 3, naslovi od nivoa 4 do 9 neće biti uključeni u sadržaj.
+                        </li>
+                        <li>
+                            <b>Izabrani stilovi</b> – kada je ova opcija izabrana, možete odrediti dodatne stilove koji se mogu koristiti za kreiranje sadržaja i dodeliti im odgovarajući nivo. Unesite željeni broj nivoa u polje desno od stila. Nakon što sačuvate podešavanja, moći ćete da koristite taj stil prilikom kreiranja sadržaja.
+                            <p><img alt="Prozor podešavanja sadržaja" src="../images/tocsettingswindow2.png" /></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Stilovi</b> – omogućava izbor željenog izgleda sadržaja. Izaberite stil iz padajuće liste. Polje za pregled iznad prikazuje kako će sadržaj izgledati.
+                    <p>Dostupna su četiri podrazumevana stila: <em>Jednostavan</em>, <em>Standardni</em>, <em>Moderni</em>, <em>Klasični</em>. Opcija <em>Trenutni</em> se koristi ako prilagodite stil sadržaja.</p>
+                </li>
+            </ul>
+            <p>Kliknite na dugme <b>OK</b> u prozoru podešavanja da primenite izmene.</p>
+            <p><b>Prilagođavanje stila sadržaja</b></p>
+            <p>Nakon što primenite jedan od podrazumevanih stilova sadržaja u prozoru <b>Podešavanja sadržaja</b>, možete dodatno menjati taj stil tako da tekst u polju sadržaja izgleda onako kako želite.</p>
+            <ol>
+                <li>Izaberite tekst unutar polja sadržaja, npr. pritiskom na dugme <div class = "icon icon-toccontentcontrol"></div> u gornjem levom uglu kontrole sadržaja.</li>
+                <li>Formatirajte stavke sadržaja menjajući font, veličinu, boju ili primenjujući efekte (podebljano, kurziv itd.).</li>
+                <li>Zatim ažurirajte stilove za stavke svakog nivoa. Da biste ažurirali stil, kliknite desnim tasterom na formatiranu stavku, izaberite opciju <b>Formatiranje kao stil</b> iz kontekstualnog menija i kliknite na opciju <b>Ažuriraj toc N stil</b> (<em>toc 2</em> odgovara stavkama nivoa 2, <em>toc 3</em> stavkama nivoa 3 itd.).
+                    <p><img alt="Ažuriranje stila sadržaja" src="../images/toccustomize.png" /></p>
+                </li>
+                <li>Ažurirajte sadržaj.</li>
+            </ol>
+            <p><b>Uklanjanje sadržaja</b></p>
+            <p>Da biste uklonili sadržaj iz dokumenta:</p>
+            <ul>
+                <li>kliknite na strelicu pored ikone <div class = "icon icon-tocicon"></div> <b>Sadržaj</b> na gornjoj traci sa alatkama i koristite opciju <b>Ukloni sadržaj</b>,</li>
+                <li>ili kliknite na strelicu pored naslova polja sadržaja i koristite opciju <b>Ukloni sadržaj</b>.</li>
+            </ul>
+		</div>
+	</body>
+</html>

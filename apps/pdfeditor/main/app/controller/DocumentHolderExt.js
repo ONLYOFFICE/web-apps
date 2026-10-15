@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  DocumentHolderExt.js
@@ -65,6 +68,16 @@ define([], function () {
                 },
                 'FileMenu': {
                     'settings:apply': _.bind(this.applySettings, this)
+                },
+                 'Common.Views.ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        if (this.chartProps) {
+                            this.updateChartElementMenu(menu, this.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        this.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -78,6 +91,9 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
+                    this.api.asc_registerCallback('asc_onShowFieldSignature',           this.onShowSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onHideFieldSignature',           this.onHideSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onUpdateFieldSignature',         this.onUpdateSignatureActions.bind(this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -97,6 +113,7 @@ define([], function () {
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onChartAdvanced, this));
 
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -343,6 +360,8 @@ define([], function () {
             if (menu_to_show === null) {
                 if (!_.isUndefined(menu_props.paraProps))
                     menu_to_show = documentHolder.textMenu;
+                else 
+                    menu_to_show = documentHolder.editPDFModeMenu;
             }
 
             return {menu_to_show: menu_to_show, menu_props: menu_props};
@@ -1408,7 +1427,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -1475,6 +1493,68 @@ define([], function () {
                     }, 1);
                     break;
             }
+        };
+
+        dh.onShowSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
+                rootEl: this.documentHolder.cmpEl,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
+        };
+
+        dh.onHideSignatureActions = function() {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+        };
+
+        dh.onUpdateSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.documentHolder.cmpEl, rect);
+        };
+
+        dh.openSignatureDialog = function(fieldId) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+                var cmbFonts = this.documentHolder.cmbFontName;
+                if (cmbFonts && cmbFonts.store) {
+                    this.fontStore.add(cmbFonts.store.toJSON().filter(function(font) { return !font.cloneid; }));
+                } else {
+                    var fontsController = this.getApplication().getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var me = this,
+                signProps = this.api.GetSignatureImageProps();
+            (new Common.Views.PdfSignDialog({
+                api: me.api,
+                props: signProps,
+                hasField: false,
+                signatureId: fieldId,
+                disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                fontStore: me.fontStore,
+                handler: function(result) {
+                    if (result == 'ok') {
+                        me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).on('close', function(obj){
+                setTimeout(function(){
+                    me.api.asc_UncheckContentControlButtons();
+                }, 100);
+            }).show();
+        };
+
+        dh.applyStoredSignature = function(fieldId, data) {
+            var imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && fieldId) {
+                Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
+                this.api.SetSignatureToField({imageData: imageData}, fieldId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         };
 
         dh.onShowListActionsPDF = function(obj) {
@@ -1956,8 +2036,6 @@ define([], function () {
 
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -1988,8 +2066,6 @@ define([], function () {
                 });
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Edit Hyperlink');
             }
         };
 
@@ -1999,7 +2075,6 @@ define([], function () {
             }
 
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
         };
 
         dh.onInsertImageUrl = function(placeholder, obj, x, y) {
@@ -2048,7 +2123,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
                         }
                         me.editComplete();
                     }
@@ -2071,7 +2145,6 @@ define([], function () {
             }
 
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Cell Align');
         };
 
         dh.onTableDistRows = function () {
@@ -2107,7 +2180,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Table Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2149,7 +2221,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2174,7 +2245,6 @@ define([], function () {
                 }
 
                 me.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
             }
         };
 
@@ -2240,7 +2310,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Advanced');
                                     }
                                 })).show();
                             break;
@@ -2275,7 +2344,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2308,7 +2376,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
                                     }
                                 })).show();
                             break;
@@ -2321,37 +2388,31 @@ define([], function () {
         dh.onGroupImg = function(item) {
             this.api && this.api.groupShapes();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Group Image');
         };
 
         dh.onUnGroupImg = function(item) {
             this.api && this.api.unGroupShapes();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'UnGroup Image');
         };
 
         dh.onArrangeFront = function(item) {
             this.api && this.api.shapes_bringToFront();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
         };
 
         dh.onArrangeBack = function(item) {
             this.api && this.api.shapes_bringToBack();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
         };
 
         dh.onArrangeForward = function(item) {
             this.api && this.api.shapes_bringForward();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
         };
 
         dh.onArrangeBackward = function(item) {
             this.api && this.api.shapes_bringBackward();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
         };
 
         dh.onImgShapeAlign = function (menu, item) {
@@ -2361,13 +2422,10 @@ define([], function () {
                 value = value ? Asc.c_oAscObjectsAlignType.Page : Asc.c_oAscObjectsAlignType.Selected;
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
                 me.editComplete();
             }
@@ -2377,7 +2435,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2399,7 +2456,6 @@ define([], function () {
             }
 
             me.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Vertical Align');
         };
 
         dh.onParagraphDirection = function(menu, item) {
@@ -2410,7 +2466,6 @@ define([], function () {
                 me.api.ShapeApply(properties);
             }
             me.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
         };
 
         dh.tableSelectText = function(menu, item) {
@@ -2556,7 +2611,6 @@ define([], function () {
                     }
                 }
             }
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
         };
 
         dh.onShowForeignCursorLabel = function(UserId, X, Y, color) {
@@ -2752,8 +2806,8 @@ define([], function () {
                 [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
@@ -2765,7 +2819,14 @@ define([], function () {
                 [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
-                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+                [_set.funnel]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'legend'],
+                [_set.histogram]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.waterfall]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.boxWhisker]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
+                [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
         dh.onChartElement = function(menu, item) {
@@ -2905,6 +2966,15 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
+                case 'bShowDataNone':
+                    chartProps.setDisplayDataTable(false, false);
+                    break;
+                case 'bShowDataTable':
+                    chartProps.setDisplayDataTable(true, false);
+                    break;
+                case 'bShowLegendKeys':
+                    chartProps.setDisplayDataTable(true, true);
+                    break;
                 case 'noneError':
                     chartProps.setDisplayErrorBars(false);
                     break;
@@ -2997,8 +3067,12 @@ define([], function () {
                 vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
                 depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
                 dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                errorBarType = chartProps.getErrorBarsValueType && chartProps.getErrorBarsValueType(),
                 title = chartProps.getTitle && chartProps.getTitle(),
                 legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
+                trendlineType = chartProps.getTrendlineType && chartProps.getTrendlineType(),
+                forecastForward = chartProps.getForecastForward && chartProps.getForecastForward(),
+                forecastBackward = chartProps.getForecastBackward && chartProps.getForecastBackward(),
                 GridMajor = Asc.c_oAscGridLinesSettings.major,
                 GridMinor = Asc.c_oAscGridLinesSettings.minor,
                 GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
@@ -3014,7 +3088,15 @@ define([], function () {
                 LabelGroup2 = LabelGroup2Types.includes(comboType),
                 LabelGroup3 = LabelGroup3Types.includes(comboType),
                 LabelGroup4 = LabelGroup4Types.includes(comboType),
-                LabelGroup5 = LabelGroup5Types.includes(comboType);
+                LabelGroup5 = LabelGroup5Types.includes(comboType),
+                isMixedState = trendlineType === 1 && (forecastForward === undefined || forecastBackward === undefined),
+                trendlineState = {
+                    type: isMixedState ? undefined : trendlineType,
+                    isForecast: !!(trendlineType === 1 && (
+                        (forecastForward && forecastForward > 0) ||
+                        (forecastBackward && forecastBackward > 0)
+                    ))
+                };
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
@@ -3074,7 +3156,30 @@ define([], function () {
                 labelsMenu.items[9].setVisible(LabelGroup5);
             }
 
-            const gridMenu = menu.items[5].menu;
+            const tableMenu = menu.items[4].menu;
+            const dataTableState = chartProps.getDataTable && chartProps.getDataTable();
+            tableMenu.clearAll(true);
+            if (dataTableState === true) {
+                tableMenu.items[2].setChecked(true);
+            } else if (dataTableState === false) {
+                tableMenu.items[1].setChecked(true);
+            } else {
+                tableMenu.items[0].setChecked(true);
+            }
+
+            const errorBarsMenu = menu.items[5].menu;
+            errorBarsMenu.clearAll(true);
+            if (errorBarType === null) {
+                errorBarsMenu.items[0].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDERR) {
+                errorBarsMenu.items[1].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypePERCENTAGE) {
+                errorBarsMenu.items[2].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDDEV) {
+                errorBarsMenu.items[3].setChecked(true);
+            }
+
+            const gridMenu = menu.items[6].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
             if (RadarChart) {
@@ -3091,7 +3196,7 @@ define([], function () {
                 gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
-            const legendMenu = menu.items[6].menu;
+            const legendMenu = menu.items[7].menu;
             legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
             legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
             legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
@@ -3099,6 +3204,20 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
+            const trendlinesMenu = menu.items[8].menu;
+            trendlinesMenu.clearAll(true);
+            if (trendlineState.type === null) {
+                trendlinesMenu.items[0].setChecked(true);
+            } else if (trendlineState.isForecast) {
+                trendlinesMenu.items[3].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_LINEAR) {
+                trendlinesMenu.items[1].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_EXP) {
+                trendlinesMenu.items[2].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_MOVING_AVG) {
+                trendlinesMenu.items[4].setChecked(true);
+            }
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {

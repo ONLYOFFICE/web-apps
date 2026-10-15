@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>PRICE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>PRICE funkcija</h1>
+			<p><b>PRICE</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje cene po nominalnoj vrednosti od $100 za hartiju od vrednosti koja isplaćuje periodičnu kamatu.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>PRICE(settlement, maturity, rate, yld, redemption, frequency, [basis])</em></b></p> 
+            <p><b>PRICE</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>settlement</em></b></td>
+                    <td>Datum kupovine hartije od vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>maturity</em></b></td>
+                    <td>Datum dospeća hartije od vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>rate</em></b></td>
+                    <td>Godišnja kuponska stopa hartije od vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>yld</em></b></td>
+                    <td>Godišnji prinos hartije od vrednosti.</td>
+                </tr>
+                <tr>
+                    <td><b><em>redemption</em></b></td>
+                    <td>Otkupna vrednost hartije od vrednosti, po nominalnoj vrednosti od $100.</td>
+                </tr>
+                <tr>
+                    <td><b><em>frequency</em></b></td>
+                    <td>Broj isplata kamate godišnje. Moguće vrednosti su: 1 za godišnje isplate, 2 za polugodišnje isplate, 4 za tromesečne isplate.</td>
+                </tr>
+                <tr>
+                    <td><b><em>basis</em></b></td>
+                    <td>Osnova za obračun dana koja se koristi, numerička vrednost veća ili jednaka 0, ali manja ili jednaka 4. Ovo je opcioni argument. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>basis</em></b> može imati jednu od sledećih vrednosti:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Osnova obračuna</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>US (NASD) 30/360</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Stvarno/stvarno</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Stvarno/360</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Stvarno/365</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>Evropski 30/360</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p>Datumi moraju biti uneti korišćenjem <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a> funkcije.</p>
+            
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>PRICE</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>PRICE</b> funkcija.</p>
+			<p><img alt="PRICE funkcija" src="../images/price.png" /></p>
+		</div>
+	</body>
+</html>

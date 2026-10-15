@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>LOOKUP funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="LOOKUP funkcija je jedna od funkcija za pretragu i referencu. Naučite kako koristiti LOOKUP funkciju u Excel tabelama i kompatibilnim datotekama u ONLYOFFICE." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>LOOKUP funkcija</h1>
+			<p><b>LOOKUP</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i referencu</a>. Koristi se za vraćanje vrednosti iz odabranog opsega (reda ili kolone sa podacima sortiranih uzlazno).</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>LOOKUP(lookup_value, lookup_vector, [result_vector])</em></b></p> 
+			<p><b>LOOKUP</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>lookup_value</em></b></td>
+                    <td>Vrednost koju tražite.</td>
+                </tr>
+				<tr>
+                    <td><b><em>lookup_vector</em></b></td>
+                    <td>Jedan red ili kolona koji sadrži podatke sortirane uzlazno.</td>
+                </tr>
+				<tr>
+                    <td><b><em>result_vector</em></b></td>
+                    <td>Jedan red ili kolona podataka iste veličine kao <b><em>lookup_vector</em></b>.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3> 
+			<p>Funkcija traži <b><em>lookup_value</em></b> u <b><em>lookup_vector</em></b> i vraća vrednost sa iste pozicije u <b><em>result_vector</em></b>.</p>
+			<p>Ako je <b><em>lookup_value</em></b> manja od svih vrednosti u <b><em>lookup_vector</em></b>, funkcija će vratiti grešku <b>#N/A</b>. Ako ne postoji vrednost koja tačno odgovara <b><em>lookup_value</em></b>, funkcija bira najveću vrednost u <b><em>lookup_vector</em></b> koja je manja ili jednaka traženoj vrednosti.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>LOOKUP</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>LOOKUP</b> funkcija.</p>
+			<p><img class="gif" alt="LOOKUP funkcija gif" src="../images/lookup_function.webp" /></p>
+		</div>
+	</body>
+</html>

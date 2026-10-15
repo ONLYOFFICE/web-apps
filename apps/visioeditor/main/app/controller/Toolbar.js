@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Toolbar.js
@@ -131,6 +134,11 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'aiTools' : {name: 've-help-tip-ai-tools', placement: 'top-left', text: this.helpAITools, header: this.helpAIToolsHeader, target: '#plugin-fab-container', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true}
+            });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -206,7 +214,6 @@ define([
                 this.api.OpenNewDocument();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'New Document');
         },
 
         onOpenDocument: function(btn, e) {
@@ -214,7 +221,6 @@ define([
                 this.api.LoadDocumentFromDisk();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -287,16 +293,23 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
-        onAppShowed: function (config) {
-            var me = this;
-
-            var editmode = config.isEdit,
-                compactview = !editmode;
+        checkCompactView: function() {
+            const config = this.mode;
+            const editmode = config.isEdit;
+            let compactview = !editmode;
             if ( Common.localStorage.itemExists(editmode ? "ve-compact-toolbar" : "ve-view-compact-toolbar") ) {
                 compactview = Common.localStorage.getBool(editmode ? "ve-compact-toolbar" : "ve-view-compact-toolbar");
             } else if (config.customization) {
                 compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            return compactview;
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            var editmode = config.isEdit,
+                compactview = this.checkCompactView();
             Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
             me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));
@@ -347,10 +360,26 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+            this._applyPluginToolbarControls(data, false);
+        },
+
+        _applyPluginToolbarControls: function(data, update) {
+            const api = this.api;
+            const controls = Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
                 api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }));
+            }, update);
+
+            // In view mode, lock plugin controls that have viewMode in their lock list.
+            if (!this.mode.isEdit) {
+                const controlsLockView = [];
+                controls.forEach(function(control) {
+                    if (control && control.options && (control.options.lock || []).includes(Common.enumLock.viewMode)) {
+                        controlsLockView.push(control);
+                    }
+                });
+                controlsLockView.length && Common.Utils.lockControls(Common.enumLock.viewMode, true, {array: controlsLockView});
+            }
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, controls);
         },
 
         onPluginToolbarCustomMenuItems: function(action, data) {
@@ -365,10 +394,7 @@ define([
         },
 
         onPluginUpdateToolbarMenu: function(data) {
-            var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
-                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
-            }, true));
+            this._applyPluginToolbarControls(data, true);
         },
 
         onDocumentReady: function() {

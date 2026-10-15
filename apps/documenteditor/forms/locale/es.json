@@ -123,7 +123,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo.<br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
   "DE.Controllers.ApplicationController.errorUserDrop": "No se puede acceder al archivo en este momento.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Se ha perdido la conexión. Usted todavía puede visualizar el documento,<br>pero no puede descargar o imprimirlo hasta que la conexión sea restaurada y la página esté recargada.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Este formulario está listo para su rellenado basado en roles. Haga clic en el botón de estado para comprobar la fase de rellenado.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imagen desde archivo",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Imagen desde almacenamiento",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Imagen de URL",
@@ -143,6 +142,7 @@
   "DE.Controllers.ApplicationController.textGuest": "Invitado",
   "DE.Controllers.ApplicationController.textLoadingDocument": "Cargando documento",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+  "DE.Controllers.ApplicationController.textNoResourcesTitle": "Recursos insuficientes",
   "DE.Controllers.ApplicationController.textOf": "de",
   "DE.Controllers.ApplicationController.textRequired": "Rellene todos los campos obligatorios para enviar el formulario.",
   "DE.Controllers.ApplicationController.textSaveAs": "Guardar como PDF",
@@ -177,6 +177,7 @@
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licencia expirada.<br>No tiene acceso a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "La licencia requiere ser renovada.<br>Tiene un acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener un acceso completo",
   "DE.Controllers.ApplicationController.warnNoLicense": "Usted ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
+  "DE.Controllers.ApplicationController.warnNoResources": "El servidor %1 no tiene suficientes recursos para abrir este documento para su edición. El documento se abrirá solo en modo de visualización.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
   "DE.Controllers.ApplicationController.warnStartFilling": "El rellenado de formularios está en curso.<br>La edición de archivos no está disponible actualmente.",
   "DE.Views.ApplicationView.textClear": "Borrar todos los campos",
@@ -208,5 +209,12 @@
   "DE.Views.ApplicationView.txtPrint": "Imprimir",
   "DE.Views.ApplicationView.txtSearch": "Buscar",
   "DE.Views.ApplicationView.txtShare": "Compartir",
-  "DE.Views.ApplicationView.txtTheme": "Tema de interfaz"
+  "DE.Views.ApplicationView.txtTheme": "Tema de interfaz",
+  "DE.Controllers.ApplicationController.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "DE.Controllers.ApplicationController.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo.",
+  "DE.Views.FillingStatusSettings.txtComplete": "Completado",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "El documento está firmado",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Estado de rellenado",
+  "DE.Views.RightMenu.ariaRightMenu": "Menú de la derecha",
+  "DE.Views.RightMenu.txtFillingStatus": "Estado de rellenado"
 }

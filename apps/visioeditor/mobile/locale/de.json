@@ -52,6 +52,7 @@
       "textGuest": "Gast",
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoResourcesTitle": "Nicht genügend Ressourcen",
       "textOk": "OK",
       "textOpenFile": "Geben Sie ein Passwort ein, um die Datei zu öffnen",
       "textPaidFeature": "Kostenpflichtige Funktion",
@@ -70,6 +71,7 @@
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an den Administrator.",
       "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administrator für den vollen Zugriff",
       "warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen zu %1 Editoren erreicht. Dieses Dokument wird nur zur Ansicht geöffnet. Kontaktieren Sie das %1-Verkaufsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
+      "warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1 Redakteure erreicht. Kontaktieren Sie das %1 Vertriebsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
@@ -91,8 +93,10 @@
     "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
     "errorEmailClient": "Kein E-Mail Program verfügbar",
+    "errorFileNotAssembled": "Diese Datei wurde aus einer Server-Sicherungskopie geöffnet und nicht lokal gespeichert.<br>Verwenden Sie die 'Option Speichern als…', um sie auf einem Laufwerk zu speichern.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße überschreitet Ihre Serverbeschränkung.<br>Bitte wenden Sie sich an Ihren Administrator.",
+    "errorForcedViewMode": "Diese Datei ist im Ansichtsmodus geöffnet.<br>Die Datei ist für die Bearbeitung gesperrt oder Ihre Zugriffsrechte erlauben keine Bearbeitung.",
     "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Verwenden Sie die Option \"Herunterladen als\", um die Datei auf Ihrer Computerfestplatte zu speichern oder versuchen Sie es später erneut.",
     "errorInconsistentExt": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei stimmt nicht mit der Dateierweiterung überein.",
     "errorInconsistentExtDocx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Textdokumenten (z.B. docx), aber die Datei hat die inkonsistente Erweiterung: %1.",
@@ -212,7 +216,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Info zum Diagramm-Viewer",
       "textVisioSettings": "Einstellungen des Diagramm-Viewers",
-      "textVisioTitle": "Titel des Diagramm-Viewers"
+      "textVisioTitle": "Titel des Diagramm-Viewers",
+      "textOpenLocation": "Speicherort öffnen"
     }
   }
 }

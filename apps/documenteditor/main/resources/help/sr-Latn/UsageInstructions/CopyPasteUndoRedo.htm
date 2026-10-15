@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kopiraj/lepi delove teksta, opozovi/ponovi akcije</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Izvršite osnovne operacije sa tekstom u dokumentu: kopiraj, lepi, opozovi, ponovi" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Kopiraj/lepi delove teksta, opozovi/ponovi akcije</h1>
+        <h3>Osnovne operacije sa međuspremnikom</h3>
+        <p>Da biste sekli, kopirali i lepili delove teksta i umetnute objekte (autoshape-ove, slike, grafikone) u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-u</b></a>, izaberite odgovarajuće opcije iz kontekstualnog menija ili kliknite na ikone na bilo kojoj kartici gornje alatne trake:</p>
+        <ul>
+            <li><b>Iseci</b> – selektujte tekst ili objekat i izaberite opciju <b>Iseci</b> iz kontekstualnog menija ili kliknite na <b>Iseci</b> <div class="icon icon-cut"></div> ikonu na alatnoj traci da obrišete selektovani tekst i pošaljete ga u međuspremnik. <span class="onlineDocumentFeatures">Selektovani tekst kasnije može biti ubačen na drugo mesto u istom dokumentu.</span></li>
+            <li><b>Kopiraj</b> – selektujte tekst ili objekat i izaberite opciju <b>Kopiraj</b> iz kontekstualnog menija ili kliknite na <b>Kopiraj</b> <div class="icon icon-copy"></div> ikonu da kopirate selektovani tekst u međuspremnik. <span class="onlineDocumentFeatures">Selektovani tekst kasnije može biti ubačen na drugo mesto u istom dokumentu.</span></li>
+            <li><b>Lepi</b> – pozicionirajte kursor na mesto gde želite da ubacite prethodno kopirani tekst/objekat i izaberite opciju <b>Lepi</b> iz kontekstualnog menija ili kliknite na <b>Lepi</b> <div class="icon icon-paste"></div> ikonu na alatnoj traci.
+                Selektovani tekst/objekat biće ubačen na trenutnu poziciju kursora. <span class="onlineDocumentFeatures">Podaci mogu biti prethodno kopirani iz istog dokumenta.</span>
+            </li>			
+        </ul>
+        <p><span class="onlineDocumentFeatures">U <em>online verziji</em>, kombinacije tastera se koriste samo za kopiranje ili lepljenje iz/uve dokumenta ili programa.</span> <span class="desktopDocumentFeatures">U <em>desktop verziji</em>, i dugmad/meni opcije i kombinacije tastera mogu se koristiti za sve operacije kopiranja/lepljenja:</span></p>
+        <ul>
+            <li><b>Ctrl+X</b> – sečenje (<b>Cmd+X</b> za macOS);</li>
+            <li><b>Ctrl+C</b> – kopiranje (<b>Cmd+C</b> za macOS);</li>
+            <li><b>Ctrl+V</b> – lepljenje (<b>Cmd+V</b> za macOS).</li>
+        </ul>
+        <p class="note"><b>Napomena</b>: Umesto sečenja i lepljenja u istom dokumentu, možete jednostavno selektovati tekst i prevući ga na željenu poziciju.</p>
+        <h3>Koristite opciju Lepi specijalno</h3>
+        <p class="note"><b>Napomena</b>: Za kolaborativno uređivanje, opcija <b>Lepi specijalno</b> dostupna je samo u <b>Strict</b> režimu zajedničkog uređivanja.</p>
+        <p>Nakon lepljenja kopiranog teksta, dugme <b>Lepi specijalno</b> <span class="icon icon-pastespecialbutton"></span> pojavljuje se pored ubačenog teksta. Kliknite na dugme da izaberete željenu opciju ili držite <em>Ctrl</em> da otvorite meni <b>Lepi specijalno</b> i pritisnite taster u zagradi pored opcije.</p>
+        <p>Kada lepite paragraf ili tekst unutar autoshape-a, dostupne su sledeće opcije:</p>
+        <ul>
+            <li><em>Očuvaj izvorno formatiranje (Ctrl pa K)</em> - omogućava lepljenje teksta sa njegovim originalnim formatiranjem.</li>
+            <li><em>Očuvaj samo tekst (Ctrl pa T)</em> - omogućava lepljenje teksta bez originalnog formatiranja.</li>
+        </ul>
+        <p>Ako kopirate tabelu i zalepite je u već postojeću tabelu, dostupne su sledeće opcije:</p>
+        <ul>
+            <li><em>Zameni ćelije (Ctrl pa O)</em> - omogućava zamenjivanje sadržaja postojeće tabele kopiranim podacima (ovo je podrazumevana opcija).</li>
+            <li><em>Ugradi tabelu (Ctrl pa N)</em> - omogućava lepljenje kopirane tabele kao ugrađene u selektovanu ćeliju postojeće tabele.</li>
+            <li><em>Očuvaj samo tekst (Ctrl pa T)</em> - omogućava lepljenje sadržaja tabele kao tekst vrednosti odvojene tab karakterom.</li>
+        </ul>
+        <p>Da omogućite ili onemogućite automatsko pojavljivanje dugmeta <b>Lepi specijalno</b> nakon lepljenja, idite na karticu <b>Fajl</b> > <b>Napredna podešavanja</b> i štiklirajte/uklonite štikl za <b>Prikaži dugme opcija lepljenja kada se sadržaj zalepi</b>.</p>
+        <h3>Opozovi/ponovi akcije</h3>
+        <p>Da izvršite opoziv ili ponavljanje akcija, kliknite na odgovarajuće ikone u zaglavlju editor-a ili koristite sledeće prečice na tastaturi:</p>
+        <ul>
+            <li><b>Opozovi</b> – koristite <b>Opozovi</b> <div class="icon icon-undo"></div> ikonu levo u zaglavlju editor-a ili kombinaciju tastera <b>Ctrl+Z</b> da opozovete poslednju akciju.</li>
+            <li><b>Ponovi</b> – koristite <b>Ponovi</b> <div class="icon icon-redo"></div> ikonu levo u zaglavlju editor-a ili kombinaciju tastera <b>Ctrl+Y</b> da ponovite poslednju opozvanu akciju.</li>
+        </ul>
+        <p class="note">
+            Kada uređujete dokument u <b>Fast</b> režimu zajedničkog rada, opcija <b>Ponovi</b> poslednje opozvane akcije nije dostupna.
+        </p>
+    </div>
+</body>
+</html>

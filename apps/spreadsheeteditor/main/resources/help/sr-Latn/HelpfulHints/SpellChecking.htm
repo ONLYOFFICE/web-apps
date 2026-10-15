@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Provera pravopisa</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Proverite pravopis teksta na svom jeziku tokom uređivanja tabele" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Provera pravopisa</h1>
+            <p><a href="https://www.onlyoffice.com/en/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> vam omogućava da proverite pravopis teksta na određenom jeziku i ispravite greške tokom uređivanja. U <em>desktop verziji</em> je takođe moguće dodavati reči u prilagođeni rečnik koji je zajednički za sva tri editora.</p>
+            <p class="note">Počevši od <b>verzije 6.3</b>, ONLYOFFICE editori podržavaju <b>SharedWorker</b> interfejs za lakši rad bez značajne potrošnje memorije. Ako vaš pregledač ne podržava SharedWorker, tada će biti aktivan samo <b>Worker</b>. Za više informacija o SharedWorker-u pogledajte <a href="https://javascript.plainenglish.io/introduction-to-shared-workers-533d9abe9de3">ovaj članak</a>.</p>
+            <p>Kliknite na ikonu <span class="icon icon-spellcheckdeactivated"></span> <b>Provera pravopisa</b> na levoj bočnoj traci da biste otvorili panel za proveru pravopisa.</p>
+            <p><img alt="Panel za proveru pravopisa" src="../images/spellchecking_panel.png" /></p>
+            <p>Gornja leva ćelija koja sadrži pogrešno napisanu vrednost teksta biće automatski izabrana u trenutnom radnom listu. Prva pogrešno napisana reč će biti prikazana u polju za proveru pravopisa, a predložene slične reči sa ispravnim pravopisom će se pojaviti u polju ispod.</p>
+            <p>Koristite dugme <span class="icon icon-go_to_the_next_word"></span> <b>Idi na sledeću reč</b> da biste se kretali kroz pogrešno napisane reči.</p>
+            <h3>Zamena pogrešno napisanih reči</h3>
+            <p>Da biste <b>zamenili</b> trenutno izabranu pogrešno napisanu reč predloženom, izaberite jednu od predloženih ispravno napisanih reči i koristite opciju <b>Promeni</b>:</p>
+            <ul>
+                <li>kliknite na dugme <b>Promeni</b>, ili</li>
+                <li>kliknite na strelicu nadole pored dugmeta <b>Promeni</b> i izaberite opciju <b>Promeni</b>.</li>
+            </ul>
+            <p>Trenutna reč će biti zamenjena i preći ćete na sledeću pogrešno napisanu reč.</p>
+            <p>Da biste brzo zamenili sve identične reči koje se ponavljaju u radnom listu, kliknite na strelicu nadole pored dugmeta <b>Promeni</b> i izaberite opciju <b>Promeni sve</b>.</p>
+            <h3>Ignorisanje reči</h3>
+            <p>Da biste preskočili trenutnu reč:</p>
+            <ul>
+                <li>kliknite na dugme <b>Ignoriši</b>, ili</li>
+                <li>kliknite na strelicu nadole pored dugmeta <b>Ignoriši</b> i izaberite opciju <b>Ignoriši</b>.</li>
+            </ul>
+            <p>Trenutna reč će biti preskočena i preći ćete na sledeću pogrešno napisanu reč.</p>
+            <p>Da biste preskočili sve identične reči koje se ponavljaju u radnom listu, kliknite na strelicu nadole pored dugmeta <b>Ignoriši</b> i izaberite opciju <b>Ignoriši sve</b>.</p>
+            <p>Ako trenutna reč nedostaje u rečniku, možete je dodati u prilagođeni rečnik koristeći dugme <b>Dodaj u rečnik</b> na panelu za proveru pravopisa. Ova reč se ubuduće neće smatrati greškom. Ova opcija je dostupna u <em>desktop verziji</em>.</p>
+            <p><b>Jezik rečnika</b> koji se koristi za proveru pravopisa prikazan je na listi ispod. Po potrebi ga možete promeniti. Izabrani jezik će biti primenjen na celu tabelu. Kasnije će biti prikazan kao nedavno korišćen jezik i biće dostupan za brzi pristup u istom meniju. U <em>desktop verziji</em>, jezici instalirani zajedno sa vašim operativnim sistemom pojavljuju se na vrhu liste jezika za proveru pravopisa.</p>
+            <p>Kada proverite sve reči u radnom listu, na panelu za proveru pravopisa će se pojaviti poruka <b>Provera pravopisa je završena</b>.</p>
+            <p>Da biste zatvorili panel za proveru pravopisa, kliknite na ikonu <span class="icon icon-spellcheckactivated"></span> <b>Provera pravopisa</b> na levoj bočnoj traci.</p>
+            <h3>Promena podešavanja provere pravopisa</h3>
+            <p>Da biste promenili podešavanja provere pravopisa, idite u napredna podešavanja Spreadsheet Editor-a (<b>File</b> kartica -> <b>Advanced Settings</b>) i skrolujte nadole do odeljka <b>Proofing</b>. Ovde možete podesiti sledeće parametre:</p>
+            <p><img alt="Podešavanja provere pravopisa" src="../images/spellchecking_settings.png" /></p>
+            <ul>
+                <li><b>Jezik rečnika</b> – izaberite jedan od dostupnih jezika sa liste. <b>Jezik rečnika</b> na panelu za proveru pravopisa će biti promenjen u skladu sa tim.</li>
+                <li><b>Ignoriši reči velikim slovima</b> – označite ovu opciju da biste ignorisali reči napisane velikim slovima, npr. akronime kao što je <em>SMB</em>.</li>
+                <li><b>Ignoriši reči sa brojevima</b> – označite ovu opciju da biste ignorisali reči koje sadrže brojeve, npr. akronime kao što je <em>B2B</em>.</li>
+                <li><b>Opcije automatske ispravke...</b> – da biste saznali više o dostupnim opcijama automatske ispravke, pogledajte <a href="../UsageInstructions/MathAutoCorrect.htm">sledeći članak</a>.</li>
+            </ul>
+            <p>Da biste sačuvali izvršene izmene, kliknite na dugme <b>Primeni</b>.</p>
+        </div>
+	</body>
+</html>

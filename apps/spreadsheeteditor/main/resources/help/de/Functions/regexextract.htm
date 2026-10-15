@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Funktion REGEXEXTRAHIEREN</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suchen" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Funktion REGEXEXTRAHIEREN</h1>
+            <p>Die Funktion <b>REGEXEXTRAHIEREN</b> ist eine der <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">Text- und Datenfunktionen</a>. Sie wird verwendet, um Text aus einer Zeichenfolge basierend auf einem angegebenen Muster eines regulären Ausdrucks zu extrahieren. Die Funktion kann die erste Übereinstimmung, alle Übereinstimmungen oder Erfassungsgruppen aus der ersten Übereinstimmung zurückgeben.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXEXTRAHIEREN(text; muster; [rückgabe_modus]; [beachten_groß_klein])</em></b></p>
+            <p>Die Funktion <b>REGEXEXTRAHIEREN</b> hat folgende Argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Beschreibung</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>Die Textzeichenfolge oder der Verweis auf eine Zelle, die den Text enthält, aus dem Sie übereinstimmende Teilzeichenfolgen extrahieren möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>muster</em></b></td>
+                    <td>Der reguläre Ausdruck („Regex"), der das Textmuster beschreibt, das Sie extrahieren möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>rückgabe_modus</em></b></td>
+                    <td>Eine Zahl, die angibt, welche Zeichenfolgen extrahiert werden sollen. Dies ist ein optionales Argument. Wenn es weggelassen wird, ist der Standardwert 0. Die möglichen Werte sind in der folgenden Tabelle aufgeführt.</td>
+                </tr>
+                <tr>
+                    <td><b><em>beachten_groß_klein</em></b></td>
+                    <td>Legt fest, ob beim Abgleich die Groß-/Kleinschreibung beachtet wird. Dies ist ein optionales Argument. Wenn es weggelassen wird, wird die Groß-/Kleinschreibung beachtet (0). Geben Sie <b>0</b> für einen Abgleich mit Berücksichtigung der Groß-/Kleinschreibung oder <b>1</b> für einen Abgleich ohne Berücksichtigung der Groß-/Kleinschreibung ein.</td>
+                </tr>
+            </table>
+
+            <p>Das Argument <b><em>rückgabe_modus</em></b> kann einen der folgenden Werte annehmen:</p>
+            <table>
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Wert</b></th>
+                    <th style="background-color: #f4f4f4"><b>Beschreibung</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>Standardmäßig festgelegt. Gibt die erste Zeichenfolge zurück, die dem Muster entspricht.</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Gibt alle Zeichenfolgen, die dem Muster entsprechen, als Array zurück.</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Gibt Erfassungsgruppen aus der ersten Übereinstimmung als Array zurück.</td>
+                </tr>
+            </table>
+
+            <h3>Hinweise</h3>
+            <p>Beim Schreiben von Regex-Mustern können Symbole, sogenannte „Tokens", verwendet werden, die mit einer Vielzahl von Zeichen übereinstimmen. Im Folgenden finden Sie einige einfache Tokens zur Referenz:</p>
+            <ul>
+                <li><b>[0-9]</b>: eine beliebige Ziffer</li>
+                <li><b>[a-z]</b>: ein Zeichen im Bereich von a bis z</li>
+                <li><b>[A-Z]</b>: ein Zeichen im Bereich von A bis Z</li>
+                <li><b>.</b>: ein beliebiges einzelnes Zeichen</li>
+                <li><b>*</b>: null oder mehr des vorangehenden Zeichens</li>
+                <li><b>+</b>: ein oder mehr des vorangehenden Zeichens</li>
+                <li><b>()</b>: Erfassungsgruppe – wird verwendet, um Teile der Übereinstimmung zu erfassen und zurückzugeben</li>
+            </ul>
+            <p><b>Erfassungsgruppen</b> sind Teile eines Regex-Musters, die von Klammern „(...)" umgeben sind. Sie ermöglichen es, einzelne Teile einer Übereinstimmung separat zurückzugeben.</p>
+            <p>Die Funktion <b>REGEXEXTRAHIEREN</b> gibt immer Textwerte zurück. Sie können numerische Ergebnisse mithilfe der Funktion <a href="../functions/value.htm" target="_blank">WERT</a> wieder in Zahlen umwandeln.</p>
+            <p>Wenn keine Übereinstimmung gefunden wird, gibt die Funktion einen <b>#NV</b>-Fehler zurück.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Anwendung</a> der Funktion <b>REGEXEXTRAHIEREN</b>.</p>
+
+            <h3>Beispiele</h3>
+            <p>Die folgende Abbildung zeigt das Ergebnis, das von der Funktion <b>REGEXEXTRAHIEREN</b> zurückgegeben wird.</p>
+            <p><img alt="Funktion REGEXEXTRAHIEREN" src="../images/regexextract.png" /></p>
+        </div>
+	</body>
+</html>

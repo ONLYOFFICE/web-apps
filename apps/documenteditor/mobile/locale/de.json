@@ -167,7 +167,9 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle"
+      "textWidow": "Absatzkontrolle",
+      "textEnterComment": "Kommentar eingeben",
+      "textMention": "Kommentieren oder erwähnen mit + oder @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -181,7 +183,7 @@
       "dark": "Dunkel",
       "light": "Hell",
       "system": "Wie im System",
-      "textTheme": "Thema"
+      "textTheme": "Thema der Benutzeroberfläche"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -426,7 +428,9 @@
     "textWrapText": "Textumbruch",
     "textYourOption": "Ihre Option",
     "txtHeight": "Höhe",
-    "txtWidth": "Breite"
+    "txtWidth": "Breite",
+    "txtCustom": "Benutzerdefiniert",
+    "textCurrentFont": "Haupttext"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -448,8 +452,10 @@
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
     "errorEditProtectedRange": "Sie dürfen diese Auswahl nicht bearbeiten, da sie geschützt ist.",
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
+    "errorFileNotAssembled": "Diese Datei wurde aus einer Server-Sicherungskopie geöffnet und nicht lokal gespeichert.<br>Verwenden Sie die 'Option Speichern als…', um sie auf einem Laufwerk zu speichern.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
+    "errorForcedViewMode": "Diese Datei ist im Ansichtsmodus geöffnet.<br>Die Datei ist für die Bearbeitung gesperrt oder Ihre Zugriffsrechte erlauben keine Bearbeitung.",
     "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Bitte verwenden Sie die Option „Herunterladen als“, um die Datei auf der Festplatte Ihres Computers zu speichern, oder versuchen Sie es später erneut.",
     "errorInconsistentExt": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei stimmt nicht mit der Dateierweiterung überein.",
     "errorInconsistentExtDocx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Textdokumenten (z.B. docx), aber die Datei hat die inkonsistente Erweiterung: %1.",
@@ -497,6 +503,7 @@
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
     "applyChangesTitleText": "Daten werden geladen",
+    "changesSaved": "Alle Änderungen gespeichert",
     "confirmMaxChangesSize": "Die Anzahl der Aktionen überschreitet die für Ihren Server festgelegte Grenze.<br>Drücken Sie \"Rückgängig\", um Ihre letzte Aktion abzubrechen, oder drücken Sie \"Weiter\", um die Aktion lokal fortzusetzen (Sie müssen die Datei herunterladen oder ihren Inhalt kopieren, um sicherzustellen, dass nichts verloren geht).",
     "downloadMergeText": "Ladevorgang...",
     "downloadMergeTitle": "Ladevorgang",
@@ -655,6 +662,7 @@
     "textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
     "textNo": "Nein",
     "textNoLicenseTitle": "Lizenzlimit erreicht",
+    "textNoResourcesTitle": "Nicht genügend Ressourcen",
     "textNoMatches": "Keine Treffer",
     "textOk": "OK",
     "textPaidFeature": "Kostenpflichtige Funktion",
@@ -680,6 +688,7 @@
     "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an Administratoren.",
     "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administratoren für den vollen Zugriff",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
+    "warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
   },
@@ -694,6 +703,7 @@
     "textApplication": "App",
     "textApplicationSettings": "Anwendungseinstellungen",
     "textAuthor": "Verfasser",
+    "textAutoSaveDocument": "Automatisches Speichern",
     "textBack": "Zurück",
     "textBeginningDocument": "Anfang des Dokuments",
     "textBottom": "Unten",
@@ -713,6 +723,7 @@
     "textCreated": "Erstellt",
     "textCustomSize": "Benutzerdefinierte Größe",
     "textDark": "Dunkel",
+    "textDarkDocument": "Dunkles Dokument",
     "textDarkTheme": "Dunkelmodus",
     "textDialogUnprotect": "Geben Sie ein Passwort ein, um den Schutz des Dokuments aufzuheben",
     "textDirection": "Richtung",
@@ -737,7 +748,7 @@
     "textExport": "Export",
     "textExportAs": "Exportieren als",
     "textFastWV": "Schnelle Web-Anzeige",
-    "textFeedback": "Feedback und Support",
+    "textFeedback": "Support kontaktieren",
     "textFillingForms": "Ausfüllen von Formularen",
     "textFind": "Suche",
     "textFindAndReplace": "Suchen und ersetzen",
@@ -768,7 +779,8 @@
     "textNoMatches": "Keine Treffer",
     "textOk": "OK",
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
-    "textOrientation": "Orientierung",
+    "textOpenLocation": "Ordner öffnen",
+    "textOrientation": "Seitenausrichtung",
     "textOwner": "Besitzer",
     "textPages": "Seiten",
     "textPageSize": "Seitengröße",
@@ -797,6 +809,7 @@
     "textRightToLeft": "Von rechts nach links",
     "textSameAsSystem": "Wie im System",
     "textSave": "Speichern",
+    "textSaveDocument": "Speichern",
     "textSearch": "Suche",
     "textSetPassword": "Kennwort festlegen",
     "textSettings": "Einstellungen",
@@ -823,7 +836,26 @@
     "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
     "txtOk": "OK",
-    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
+    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
+    "textAboutGroup": "Info",
+    "textDocumentSetup": "Dokumenteinrichtung",
+    "textHelpCenter": "Hilfe-Center",
+    "textHeadings": "Überschriften",
+    "textSaveCopy": "Kopie speichern",
+    "textSaveACopy": "Kopie speichern",
+    "textSaveACopyAs": "Kopie speichern als",
+    "textTools": "Tools",
+    "textView": "Anzeigen",
+    "textSettingsGroup": "Einstellungen",
+    "textPreferences": "Einstellungen",
+    "textHelpAndFeedback": "Hilfe & Feedback",
+    "textShare": "Freigeben",
+    "textMobileViewWarning": "Ein Teil des Inhalts dieses Dokuments wird in der mobilen Ansicht ausgeblendet.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Rechtschreibung",
+    "textDisplayGroup": "Anzeigen",
+    "textSaveACopyHeader": "Kopie speichern",
+    "textSaveConnectedStorage": "Die Datei wird auf dem verbundenen Speicher gespeichert"
   },
   "Toolbar": {
     "btnRestartNow": "Jetzt neu starten",
@@ -839,6 +871,11 @@
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
     "textSwitchToDesktop": "In den Desktopmodus wechseln",
-    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
+    "textSave": "Speichern",
+    "textDontSave": "Nicht speichern",
+    "textCancel": "Abbrechen",
+    "textSaveData": "Speichern Sie Ihre Änderungen, bevor Sie gehen",
+    "textUnsavedData": "Ungespeicherte Daten"
   }
 }

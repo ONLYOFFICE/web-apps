@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje jednačina</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Umetnite jednačine i matematičke simbole." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Umetanje jednačina</h1>
+            <p><a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> omogućava pravljenje jednačina koristeći ugrađene šablone, njihovo uređivanje i umetanje specijalnih karaktera (uključujući matematičke operatore, grčka slova, akcentovane znakove itd.).</p>
+            <h3>Dodavanje nove jednačine</h3>
+            <p>Da biste umetnuli jednačinu iz galerije,</p>
+			<ol>
+				<li>postavite kursor unutar željenog reda,</li>
+                <li>prebacite se na karticu <b>Insert</b> na gornjoj alatnoj traci,</li>
+				<li>kliknite strelicu pored ikone <div class = "icon icon-insertequationicon"></div> <b>Equation</b> na gornjoj alatnoj traci,</li>
+                <li>
+                    izaberite željenu kategoriju jednačine u alatnoj traci iznad umetnute jednačine,
+                    <p>ili</p>
+                    <p>u otvorenom padajućem meniju izaberite kategoriju jednačine koja vam je potrebna.</p>
+                    <p>Trenutno dostupne kategorije su: <em>Simboli</em>, <em>Frakcije</em>, <em>Scriptovi</em>, <em>Radikali</em>, <em>Integrali</em>, <em>Veliki operatori</em>, <em>Zagrade</em>, <em>Funkcije</em>, <em>Akcenti</em>, <em>Granice i logaritmi</em>, <em>Operatori</em>, <em>Matrice</em>,</p>
+                </li>
+                <li>kliknite simbol <b>Equation Settings</b> u alatnoj traci iznad umetnute jednačine za dodatna podešavanja, npr. <em>Unicode</em> ili <em>LaTeX</em>, <em>Professional</em> ili <em>Linear</em>, i <em>Change to Inline</em>,</li>
+                <li>kliknite određeni simbol/jednačinu u odgovarajućem setu šablona,</li>
+                <li>da biste sakrili alatnu traku, kliknite opciju <b>Hide Equation Toolbar</b> u <b>Equation Settings</b>.</li>
+			</ol>
+            <p><img alt="alantna traka jednačina" src="../images/equationtoolbar.png" /></p>
+            <p>Izabrani simbol/jednačina biće umetnuta na poziciju kursora. Ako je izabrani red prazan, jednačina će biti centrirana. Da biste je poravnali levo ili desno, kliknite na kutiju sa jednačinom i koristite ikone <span class = "icon icon-alignleft"></span> ili <span class = "icon icon-alignright"></span> na kartici <b>Home</b> gornje alatne trake.</p>
+            <div class = "icon icon-insertedequation"></div>
+            <p>Svaki šablon jednačine predstavlja set slotova. Slot je mesto za svaki element koji čini jednačinu. Prazan slot (takođe nazvan placeholder) ima isprekidanu ivicu <span class = "icon icon-equationplaceholder"></span>. Potrebno je popuniti sve placeholders odgovarajućim vrednostima.</p>
+            <p class="note"><b>Napomena</b>: da biste počeli sa kreiranjem jednačine, možete koristiti i prečicu <b>Alt + =</b> na tastaturi.</p>
+            <p>Moguće je dodati i natpis jednačine. Za više informacija o radu sa natpisima, pogledajte <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">ovaj članak</a>.</p>
+            <h3>Unos vrednosti</h3>
+            <p><b>Tačka umetanja</b> pokazuje gde će se pojaviti sledeći karakter. Da biste precizno postavili tačku umetanja, kliknite unutar placeholdera i koristite strelice na tastaturi za pomeranje po karakteru levo/desno ili po liniji gore/dole.</p>
+            <p>Ako želite da kreirate novi placeholder ispod slot-a sa tačkom umetanja u izabranom šablonu, pritisnite <b>Enter</b>.</p>
+            <div class = "big big-newslot"></div>
+            <p>Kada je tačka umetanja postavljena, možete popuniti placeholder:
+            <ul>
+                <li>upišite željenu numeričku ili literalnu vrednost sa tastature,</li>
+                <li>ubacite specijalni karakter koristeći paletu <b>Symbols</b> iz menija <div class = "icon icon-insertequationicon"></div> <b>Equation</b> na kartici <b>Insert</b> ili kucanjem sa tastature (pogledajte opis opcije <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)"><b>Math AutoCorrect</b></a>),</li>
+                <li>dodajte još jedan šablon jednačine iz palete da kreirate kompleksnu ugnježdenu jednačinu. Veličina primarne jednačine će se automatski prilagoditi sadržaju. Veličina elemenata ugnježdene jednačine zavisi od veličine primarnog placeholder-a, ali ne može biti manja od veličine sub-subscript-a.</li>                
+            </ul>
+            </p>
+            <p><div class = "big big-nestedfraction"></div></p>
+            <p>Za dodavanje novih elemenata jednačine možete koristiti i <b>desni klik meni</b>:</p>
+            <ul>
+                <li>Da dodate novi argument pre ili posle postojećeg u okviru <em>Zagrada</em>, desni klik na postojeći argument i izaberite <b>Insert argument before/after</b>.</li>
+                <li>Da dodate novu jednačinu unutar <em>Cases</em> sa više uslova iz <em>Zagrada</em> grupe, desni klik na prazni placeholder ili već unetu jednačinu i izaberite <b>Insert equation before/after</b>.</li>
+                <li>Da dodate red ili kolonu u <em>Matrix</em>, desni klik na placeholder unutar matrice, izaberite <b>Insert</b>, zatim <b>Row Above/Below</b> ili <b>Column Left/Right</b>.</li>
+            </ul>
+            <p class="note"><b>Napomena</b>: trenutno, jednačine se ne mogu unositi linearno, npr. <b>\sqrt(4&x^3)</b>.</p>
+            <p>Kada unosite vrednosti matematičkih izraza, <b>Spacebar</b> nije potreban jer se razmaci između karaktera i znakova operacija postavljaju automatski.</p>
+            <p>Ako je jednačina predugačka za jedan red, automatski se vrši prelom reda. Možete umetnuti i manuelni prelom desnim klikom na operator i izborom <b>Insert manual break</b>. Operator će započeti novi red. Za poravnanje novog reda sa operatorom prethodnog, koristite <b>Tab</b>. Za brisanje manualnog preloma, desni klik na operator i izaberite <b>Delete manual break</b>.</p>
+            <h3>Formatiranje jednačina</h3>
+            <p>Da povećate ili smanjite <b>veličinu fonta</b> jednačine, kliknite unutar kutije jednačine i koristite dugmad <span class = "icon icon-larger"></span> i <span class = "icon icon-smaller"></span> na kartici <b>Home</b> ili izaberite veličinu fonta iz liste. Svi elementi jednačine će se proporcionalno promeniti.</p>
+            <p>Slova unutar jednačine su podrazumevano kurziv. Po potrebi možete promeniti <b>stil fonta</b> (<em>bold, italic, strikeout</em>) ili <b>boju</b> za celu jednačinu ili njen deo. <em>Underline</em> stil se može primeniti samo na celu jednačinu. Izaberite deo klikom i prevlačenjem. Izabrani deo će biti plav. Zatim koristite dugmad na kartici <b>Home</b> za formatiranje. Na primer, možete ukloniti kurziv za obične reči koje nisu promenljive ili konstante.</p>
+            <div class = "big big-formatastext"></div>
+            <p>Za modifikaciju određenih elemenata jednačine možete koristiti i <b>desni klik meni</b>:</p>
+            <ul><li>Za promenu formata <em>Frakcija</em>, desni klik na frakciju i izaberite <b>Change to skewed/linear/stacked fraction</b> (opcije zavise od tipa frakcije).</li>
+                <li>Za promenu pozicije <em>Scriptova</em> u odnosu na tekst, desni klik na jednačinu i izaberite <b>Scripts before/after text</b>.</li>
+                <li>Za promenu veličine argumenta za <em>Scripts, Radicals, Integrals, Large Operators, Limits and Logarithms, Operators</em> i šablone sa grupisanim karakterima iz <em>Accents</em> grupe, desni klik na argument i izaberite <b>Increase/Decrease argument size</b>.</li>
+                <li>Da prikažete ili sakrijete prazan stepen za <em>Radical</em>, desni klik na radikal i izaberite <b>Hide/Show degree</b>.</li>
+                <li>Da prikažete ili sakrijete prazan limit za <em>Integral</em> ili <em>Large Operator</em>, desni klik na jednačinu i izaberite <b>Hide/Show top/bottom limit</b>.</li>
+                <li>Za promenu pozicije limita u odnosu na operator za <em>Integrals</em> ili <em>Large Operators</em>, desni klik i izaberite <b>Change limits location</b>.</li>
+                <li>Za promenu pozicije limita u odnosu na tekst za <em>Limits and Logarithms</em> i šablone iz <em>Accents</em> grupe, desni klik i izaberite <b>Limit over/under text</b>.</li>
+                <li>Da izaberete koje <em>Zagrade</em> da se prikazuju, desni klik i izaberite <b>Hide/Show opening/closing bracket</b>.</li>
+                <li>Za kontrolu veličine <em>Zagrada</em>, desni klik i opcija <b>Stretch brackets</b> je podrazumevana; možete je isključiti da zagrade ne rastu automatski. Kada je aktivna, možete koristiti i <b>Match brackets to argument height</b>.</li>
+                <li>Za promenu pozicije karaktera u odnosu na tekst za over/under bars iz <em>Accents</em>, desni klik i izaberite <b>Char/Bar over/under text</b>.</li>
+                <li>Za izbor ivica <em>Boxed formula</em> iz <em>Accents</em>, desni klik i <b>Border properties</b>, zatim <b>Hide/Show top/bottom/left/right border</b> ili <b>Add/Hide horizontal/vertical/diagonal line</b>.</li>
+                <li>Da prikažete ili sakrijete prazne placeholders u <em>Matrix</em>, desni klik i <b>Hide/Show placeholder</b>.</li>
+            </ul>
+            <p>Za poravnavanje elemenata jednačine koristite <b>desni klik meni</b>:</p>
+            <ul>
+                <li>Za poravnanje jednačina unutar <em>Cases</em> sa više uslova, desni klik na jednačinu, <b>Alignment</b>, zatim izaberite <b>Top</b>, <b>Center</b>, <b>Bottom</b>.</li>
+                <li>Za vertikalno poravnanje <em>Matrix</em>, desni klik, <b>Matrix Alignment</b>, izaberite <b>Top</b>, <b>Center</b>, <b>Bottom</b>.</li>
+                <li>Za horizontalno poravnanje elemenata unutar kolone <em>Matrix</em>, desni klik na placeholder, <b>Column Alignment</b>, izaberite <b>Left</b>, <b>Center</b>, <b>Right</b>.</li>
+            </ul>
+            <h3>Brisanje elemenata jednačine</h3>
+            <p>Da obrišete deo jednačine, izaberite ga prevlačenjem miša ili držanjem <b>Shift</b> i strelicama, zatim pritisnite <b>Delete</b>.</p>
+            <p>Slot se može obrisati samo zajedno sa šablonom kojem pripada.</p>
+            <p>Za brisanje cele jednačine, izaberite je celokupno prevlačenjem ili dvostrukim klikom na kutiju i pritisnite <b>Delete</b>.</p>
+            <div class = "icon icon-deleteequation"></div>
+            <p>Za brisanje elemenata jednačine možete koristiti i <b>desni klik meni</b>:</p>
+            <ul>
+                <li>Za brisanje <em>Radical</em>, desni klik i <b>Delete radical</b>.</li>
+                <li>Za brisanje <em>Subscript</em> ili <em>Superscript</em>, desni klik i <b>Remove subscript/superscript</b>. Ako script ide pre teksta, dostupno <b>Remove scripts</b>.</li>
+                <li>Za brisanje <em>Zagrada</em>, desni klik i <b>Delete enclosing characters</b> ili <b>Delete enclosing characters and separators</b>.</li>
+                <li>Za brisanje argumenta u <em>Zagrada</em> sa više argumenata, desni klik na argument i <b>Delete argument</b>.</li>
+                <li>Za brisanje jednačine u <em>Cases</em> sa više uslova, desni klik i <b>Delete equation</b>. Takođe važi za druge tipove jednačina ako su dodati placeholderi.</li>
+                <li>Za brisanje <em>Limit</em>, desni klik i <b>Remove limit</b>.</li>
+                <li>Za brisanje <em>Accent</em>, desni klik i <b>Remove accent character</b>, <b>Delete char</b> ili <b>Remove bar</b> (opcije zavise od akcenta).</li>
+                <li>Za brisanje reda ili kolone u <em>Matrix</em>, desni klik na placeholder, <b>Delete</b>, zatim <b>Delete Row/Column</b>.</li>
+            </ul>
+            <h3 id="convertequation">Konvertovanje jednačina</h3>
+            <p>Ako otvorite dokument sa jednačinama kreiranim starijom verzijom editor-a (npr. MS Office pre 2007), potrebno je konvertovati ih u Office Math ML format da bi mogli da ih uređujete.</p>
+            <p>Da konvertujete jednačinu, dvokliknite je. Pojaviće se upozoravajući prozor:</p>
+            <p><img alt="Konvertovanje jednačine" src="../images/convertequation.png" /></p>
+            <p>Za konverziju samo izabrane jednačine, kliknite <b>Yes</b>. Za sve jednačine u dokumentu, čekirajte <b>Apply to all equations</b> i kliknite <b>Yes</b>.</p>
+            <p>Nakon konverzije, jednačina je spremna za uređivanje.</p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Solver</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Using Solver to find solutions to problems by adjusting values in specific cells." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Solver</h1>
+            <p>The <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx"><b>Spreadsheet Editor</b></a> offers a <b>Solver</b> feature that allows you to find an optimal solution for a problem by adjusting values in specified cells. Solver works by changing the values in decision variable cells to maximize, minimize, or set a specific value in an objective cell, while respecting any constraints you define.</p>
+            <p><b>Solver</b> is particularly useful for linear programming problems where you need to optimize resource allocation, production planning, scheduling, or other business decisions subject to various limitations.</p>
+            <p class="note">The <b>Solver</b> feature uses the <b>Simplex LP</b> method, which is designed specifically for linear programming problems. This means your objective function and all constraints <b>must be linear functions</b> of the decision variables.</p>
+
+            <h3>How to use Solver</h3>
+            <p>To use the <b>Solver</b> feature, follow these steps:</p>
+            <ol>
+                <li>
+                    <p>Prepare your spreadsheet with the following elements:</p>
+                    <ul>
+                        <li><b>Variable cells</b> - the cells containing values that <b>Solver</b> will change to reach the optimal solution. These cells should contain initial values (zeros are supported).</li>
+                        <li><b>Objective cell</b> - a cell containing a formula that depends on the variable cells. This is the value you want to maximize, minimize, or set to a specific target.</li>
+                        <li><b>Constraint cells</b> - cells containing formulas that calculate values which must meet certain conditions (optional but typically required).</li>
+                    </ul>
+                </li>
+                <li>Go to the <b>Data</b> tab and click the <b>Solver</b> icon on the top toolbar.</li>
+                <li>
+                    In the opened <b>Solver parameters</b> window, configure the following options:
+                    <p><img alt="Solver parameters window" src="../images/solver_parameters.png" /></p>
+                    <ul>
+                        <li>
+                            <b>Set objective</b>: enter the reference to the cell containing the <b>formula</b> you want to optimize. You can click the cell directly in the spreadsheet by using the <div class="icon icon-changerange"></div> <b>Select data</b> button or type the cell reference manually. Select one of the following options to specify the optimization goal:
+                            <ul>
+                                <li><em>Max</em> - to find the maximum possible value for the objective cell.</li>
+                                <li><em>Min</em> - to find the minimum possible value for the objective cell.</li>
+                                <li><em>Value of</em> - to make the objective cell equal to a specific value. Enter the target value in the field manually.</li>
+                            </ul>
+                        </li>
+                        <li><b>By changing variable cell</b>: enter the references to the cells that <b>Solver</b> will modify to achieve the optimal result. These are your decision variables. You can select multiple cells or cell ranges using the <div class="icon icon-changerange"></div> <b>Select data</b> button. To select non-adjacent cells, separate the references with commas (e.g., <code>B2,B3,B4</code> or <code>B2:B4,C2:C4</code>).</li>
+                        <li>
+                            <b>Subject to the constraints</b>: this section allows you to define the limitations that the solution must satisfy. Manage the constraints using the following buttons:
+                            <ul>
+                                <li>
+                                    <b>Add</b> - click to create a new constraint. The following settings are available in the constraint dialog window:
+                                    <p><img alt="Add constraint window" src="../images/solver_addconstraint.png" /></p>
+                                    <ul>
+                                        <li><em>Cell reference</em> - enter or <div class="icon icon-changerange"></div> select the cell or range containing the value to be constrained.</li>
+                                        <li>Select the required operator: &lt;= (less than or equal to), &gt;= (greater than or equal to), or = (equal to).</li>
+                                        <li><em>Constraint</em> - enter the limiting value or <div class="icon icon-changerange"></div> reference to a cell containing the limiting value.</li>
+                                    </ul>
+                                    <p>Click <b>OK</b> to add the constraint and close the dialog, or click <b>Add</b> to save the current constraint and add another one.</p>
+                                </li>
+                                <li><b>Change</b> - select an existing constraint from the list and click this button to modify its parameters. The constraint dialog will open with the current values, allowing you to edit the cell reference, operator, or constraint value.</li>
+                                <li><b>Delete</b> - select an existing constraint from the list and click this button to remove it. The constraint will be immediately deleted from the list.</li>
+                            </ul>
+                        </li>
+                        <li><b>Make unconstrained variables non-negative</b>: check this box to add an implicit constraint that prevents variable cells from taking negative values. When enabled, <b>Solver</b> will only consider solutions where all variable cells are greater than or equal to zero.</li>
+                        <li>
+                            <b>Solving method</b>: select the algorithm that <b>Solver</b> will use to find the optimal solution. The available method is:
+                            <ul>
+                                <li><em>Simplex LP</em> - the Simplex method for linear programming problems. This method is designed for problems where the objective function and all constraints are linear functions of the variables.</li>
+                            </ul>
+                        </li>
+                        <li>Click <b>Solve</b> to start the optimization process.</li>
+                    </ul>
+                </li>
+                <li>
+                    The <b>Solver results</b> window will display the outcome:
+                    <p><img alt="Solver results window" src="../images/solver_results.png" /></p>
+                    <ul>
+                        <li>If a solution is found, you will see a message indicating that <em>Solver found a solution</em> that satisfies all constraints.</li>
+                        <li>Choose whether you want to <b>keep solver solution</b> (you can see it in the spreadsheet in the background) or to <b>restore original values</b>.</li>
+                        <li>You can <b>return to solver parameters dialog</b> to adjust them more by clicking the corresponding checkbox.</li>
+                        <li>Click <b>OK</b> to keep the solution values in your spreadsheet.</li>
+                        <li>Click <b>Cancel</b> to restore the original values before the optimization.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Solver vs Goal Seek</h3>
+            <p>While both <b>Solver</b> and <a href="../UsageInstructions/GoalSeek.htm" target="_blank">Goal Seek</a> are optimization tools, they serve different purposes:</p>
+            <ul>
+                <li><b>Goal Seek</b> finds a single input value needed to achieve a specific result in a formula. It changes only one cell to reach a target value.</li>
+                <li><b>Solver</b> can change multiple cells simultaneously using the <b>By changing variable cell</b> option and allows you to add constraints via <b>Subject to the constraints</b>. It finds optimal solutions (maximum, minimum, or specific value) for more complex problems.</li>
+            </ul>
+            <p>Use <b>Goal Seek</b> for simple single-variable problems and <b>Solver</b> for multi-variable optimization problems with constraints.</p>
+
+            <h3>Limitations</h3>
+            <p>The current implementation of <b>Solver</b> has the following limitations:</p>
+            <ul>
+                <li>Only the <b>Simplex LP</b> solving method is available, which requires all relationships to be linear.</li>
+                <li>Integer, binary, and differential constraints are <b>not supported</b>. All variables are treated as continuous values.</li>
+            </ul>
+        </div>
+	</body>
+</html>

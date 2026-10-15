@@ -221,6 +221,7 @@
       "textNo": "否",
       "textNoChoices": "在填充單元格的選擇中沒有項目。<br>只能從列中選擇文字進行替換。",
       "textNoLicenseTitle": "達到許可限制",
+      "textNoResourcesTitle": "資源不足",
       "textNoMatches": "無匹配",
       "textOk": "好",
       "textPaidFeature": "付費功能",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "憑證已過期。您無法使用文件編輯功能。請聯絡您的帳號管理員",
       "warnLicenseLimitedRenewed": "憑證需要續約。您目前只有文件編輯的部份功能。<br>欲使用完整功能，請聯絡您的帳號管理員。",
       "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
+      "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到編輯器的使用者限制。",
       "warnProcessRightsChange": "您無權編輯此檔案。"
     }
@@ -276,6 +278,7 @@
     "errorCircularReference": "有一個或多個循環參照，其中公式直接或間接參照其自身的儲存格。請嘗試移除或變更這些參照，或將公式移動到不同的儲存格。",
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorConnectToServer": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。請聯繫您的管理員以了解更多資訊。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorCopyMultiselectArea": "此命令無法與多個選擇一起使用。請選擇單一範圍並重試。",
     "errorCountArg": "公式中有錯誤。<br>無效的引數數字。",
     "errorCountArgExceed": "公式中有錯誤。<br>超過最大的引數數字。",

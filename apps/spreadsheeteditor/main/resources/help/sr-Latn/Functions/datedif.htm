@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DATEDIF funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DATEDIF funkcija</h1>
+			<p>Funkcija <b>DATEDIF</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#datetime" onclick="onhyperlinkclick(this)">funkcija za datum i vreme</a>. Koristi se za vraćanje razlike između dve vrednosti datuma (početni datum i krajnji datum), na osnovu zadatog intervala (jedinice).</p>
+            <h3>Sintaksa</h3> 
+			<p><b><em>DATEDIF(start_date, end_date, unit)</em></b></p> 
+            <p>Funkcija <b>DATEDIF</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>start_date</em></b></td>
+                    <td>Početni datum perioda.</td>
+                </tr>
+                <tr>
+                    <td><b><em>end_date</em></b></td>
+                    <td>Krajnji datum perioda.</td>
+                </tr>
+                <tr>
+                    <td><b><em>unit</em></b></td>
+                    <td>Zadata jedinica intervala. Moguće vrednosti su prikazane u tabeli ispod.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>unit</em></b> može biti jedna od sledećih vrednosti:</p>
+            <table style="width: 40%">
+				<tr>
+                    <th style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th style="background-color: #f4f4f4"><b>Objašnjenje intervala</b></th>
+				</tr>
+				<tr>
+                    <td><b><em>Y</em></b></td>
+					<td>Broj kompletnih godina.</td>
+				</tr>
+				<tr>
+                    <td><b><em>M</em></b></td>
+					<td>Broj kompletnih meseci.</td>
+				</tr>
+				<tr>
+                    <td><b><em>D</em></b></td>
+					<td>Broj dana.</td>
+				</tr>
+				<tr>
+                    <td><b><em>MD</em></b></td>
+					<td>Razlika između dana (meseci i godine se ignorišu).</td>
+				</tr>
+				<tr>
+                    <td><b><em>YM</em></b></td>
+					<td>Razlika između meseci (dani i godine se ignorišu).</td>
+				</tr>
+				<tr>
+                    <td><b><em>YD</em></b></td>
+					<td>Razlika između dana (godine se ignorišu).</td>
+				</tr>
+			</table>
+            <h3>Napomene</h3>
+            <p>Ako je <b><em>start_date</em></b> veći od <b><em>end_date</em></b>, rezultat će biti #NUM!.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>DATEDIF</b>.</p>
+            <h3>Primeri</h3>
+            <p>Postoje tri argumenta: <em>start-date</em> = <b>A1</b> = <b>16.03.2018</b>; <em>end-date</em> = <b>A2</b> = <b>16.09.2018</b>; <em>unit</em> = <b>"D"</b>. Funkcija vraća razliku između dva datuma u danima.</p>
+			<p><img alt="DATEDIF Function" src="../images/datedif.png" /></p>
+		</div>
+	</body>
+</html>

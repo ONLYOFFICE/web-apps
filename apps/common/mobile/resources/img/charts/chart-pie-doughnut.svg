@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-pie-doughnut">
+    <path fill="#555" d="M2 32A30 30 0 1 0 32 2v12a18 18 0 1 1-18 18H2Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M32 2A30 30 0 0 0 2 32h12a18 18 0 0 1 18-18V2Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

@@ -128,7 +128,7 @@
   "Common.Views.Plugins.textBackgroundPlugins": "Plugins de fondo",
   "Common.Views.Plugins.textClosePanel": "Cerrar plugin",
   "Common.Views.Plugins.textLoading": "Cargando",
-  "Common.Views.Plugins.textSettings": "Configuración",
+  "Common.Views.Plugins.textSettings": "Ajustes",
   "Common.Views.Plugins.textStart": "Iniciar",
   "Common.Views.Plugins.textStop": "Detener",
   "Common.Views.Plugins.textTheListOfBackgroundPlugins": "La lista de plugins de fondo",
@@ -281,6 +281,7 @@
   "VE.Controllers.Main.textLoadingDocument": "Cargando documento",
   "VE.Controllers.Main.textLongName": "Escriba un nombre que tenga menos de 128 caracteres.",
   "VE.Controllers.Main.textNoLicenseTitle": "Se ha alcanzado el límite de la licencia",
+  "VE.Controllers.Main.textNoResourcesTitle": "Recursos insuficientes",
   "VE.Controllers.Main.textPaidFeature": "Característica de pago",
   "VE.Controllers.Main.textReconnect": "Se ha restablecido la conexión",
   "VE.Controllers.Main.textRemember": "Recordar mi elección para todos los archivos",
@@ -321,6 +322,7 @@
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencia expirada.<br>No tiene acceso a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "Se requiere que renueve su licencia.<br>Tiene un acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener un acceso completo",
   "VE.Controllers.Main.warnNoLicense": "Usted ha alcanzado el límite de conexiones simultáneas con los editores %1. Este documento se abrirá solo para su visualización.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
+  "VE.Controllers.Main.warnNoResources": "El servidor %1 no tiene suficientes recursos para abrir este documento para su edición. El documento se abrirá solo en modo de visualización.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
   "VE.Controllers.Main.warnProcessRightsChange": "Se le ha denegado el permiso para editar este archivo.",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Intervalo de impresión no válido",
@@ -332,6 +334,8 @@
   "VE.Controllers.Statusbar.textDisconnect": "<b>Se ha perdido la conexión</b><br>Intentando conectar. Por favor, compruebe la configuración de la conexión.",
   "VE.Controllers.Statusbar.zoomText": "Ampliación {0}%",
   "VE.Controllers.Toolbar.errorAccessDeny": "Está tratando de realizar una acción para la cual no tiene permiso.<br>Por favor, contacte con su administrador del servidor de documentos.",
+  "VE.Controllers.Toolbar.helpAITools": "La IA le ayuda a crear y editar sus documentos.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Herramientas de IA",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Advertencia",
   "VE.Controllers.Toolbar.txtUntitled": "Sin título",
   "VE.Views.DocumentHolder.guestText": "Invitado",
@@ -477,5 +481,7 @@
   "VE.Views.ViewTab.textZoom": "Ampliación",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a la página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar al ancho",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "VE.Controllers.Main.errorFileNotAssembled": "Este archivo se ha abierto a partir de una copia de seguridad del servidor y no está guardado en el almacenamiento. <br>Utilice la opción «Guardar como...» para guardarlo en un disco.",
+  "VE.Controllers.Main.errorForcedViewMode": "Este archivo está abierto en modo de visualización.<br>El archivo está bloqueado para su edición o sus derechos de acceso no le permiten editarlo."
 }

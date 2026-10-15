@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Poravnanje podataka u ćelijama</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Sve što se odnosi na poravnanje podataka u ćelijama" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Poravnanje podataka u ćelijama</h1>
+			<p>U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a> možete poravnati podatke horizontalno i vertikalno ili čak rotirati podatke unutar ćelije. Da biste to uradili, izaberite ćeliju ili opseg ćelija pomoću miša ili ceo radni list pritiskom na kombinaciju tastera <b>Ctrl+A</b>. Takođe možete izabrati više nepovezanih ćelija ili opsega ćelija držeći pritisnut taster <b>Ctrl</b> dok birate ćelije/opsege pomoću miša. Zatim izvršite jednu od sledećih operacija koristeći ikonice koje se nalaze na kartici <b>Home</b> na gornjoj traci sa alatkama.</p>
+            <ul>
+                <li>
+                    Primena jednog od stilova horizontalnog poravnanja podataka unutar ćelije,
+                    <ul>
+                        <li>kliknite na ikonu <b>Align left</b> <div class="icon icon-alignleft"></div> da biste poravnali podatke uz levu stranu ćelije (desna strana ostaje neporavnata);</li>
+                        <li>kliknite na ikonu <b>Align center</b> <div class="icon icon-aligncenter"></div> da biste poravnali podatke u centru ćelije (leva i desna strana ostaju neporavnate);</li>
+                        <li>kliknite na ikonu <b>Align right</b> <div class="icon icon-alignright"></div> da biste poravnali podatke uz desnu stranu ćelije (leva strana ostaje neporavnata);</li>
+                        <li>kliknite na ikonu <b>Justified</b> <div class="icon icon-justify"></div> da biste poravnali podatke i uz levu i uz desnu stranu ćelije (dodatni razmaci se dodaju po potrebi kako bi se zadržalo poravnanje).</li>
+                    </ul>
+                </li>
+                <li>
+                    Promena vertikalnog poravnanja podataka unutar ćelije,
+                    <ul>
+                        <li>kliknite na ikonu <b>Align top</b> <div class="icon icon-aligntop"></div> da biste poravnali podatke uz gornju ivicu ćelije;</li>
+                        <li>kliknite na ikonu <b>Align middle</b> <div class="icon icon-alignmiddle"></div> da biste poravnali podatke u sredini ćelije;</li>
+                        <li>kliknite na ikonu <b>Align bottom</b> <div class="icon icon-alignbottom"></div> da biste poravnali podatke uz donju ivicu ćelije.</li>
+                    </ul>
+                </li>
+                <li>
+                    Promena ugla prikaza podataka unutar ćelije klikom na ikonu <b>Orientation</b> <div class="icon icon-orientation"></div> i izborom jedne od sledećih opcija:
+                    <ul>
+                        <li>koristite opciju <b>Horizontal Text</b> <div class="icon icon-horizontaltext"></div> da biste postavili tekst horizontalno (podrazumevana opcija),</li>
+                        <li>koristite opciju <b>Angle Counterclockwise</b> <div class="icon icon-anglecounterclockwise"></div> da biste postavili tekst od donjeg levog ugla ka gornjem desnom uglu ćelije,</li>
+                        <li>koristite opciju <b>Angle Clockwise</b> <div class="icon icon-angleclockwise"></div> da biste postavili tekst od gornjeg levog ugla ka donjem desnom uglu ćelije,</li>
+                        <li>koristite opciju <b>Vertical text</b> <div class="icon icon-verticaltext"></div> da biste postavili tekst vertikalno,</li>
+                        <li>koristite opciju <b>Rotate Text Up</b> <div class="icon icon-rotateup"></div> da biste postavili tekst od dna ka vrhu ćelije,</li>
+                        <li>
+                            koristite opciju <b>Rotate Text Down</b> <div class="icon icon-rotatedown"></div> da biste postavili tekst od vrha ka dnu ćelije.
+                        </li>
+                    </ul>
+                </li>
+            </ul>            	
+                <p><img alt="Cell Settings" src="../images/cellsettings_rightsidebar.png" /></p>
+            <ul>
+                <li>
+                    Uvlačenje teksta unutar ćelije pomoću odeljka <b>Indent</b> na desnoj bočnoj traci <b>Cell Settings</b>. Navedite vrednost (odnosno broj karaktera) za koliko će se sadržaj pomeriti udesno.
+                    <p class="note">Ako promenite orijentaciju teksta, uvlačenja će biti resetovana. Ako promenite uvlačenja za rotirani tekst, orijentacija teksta će biti resetovana. Uvlačenja se mogu podesiti samo ako je izabrana horizontalna ili vertikalna orijentacija teksta.</p>
+                </li>
+                <li>
+                    Rotiranje teksta pod tačno određenim uglom: kliknite na ikonu <b>Cell settings</b> <div class="icon icon-cellsettings_rightpanel"></div> na desnoj bočnoj traci i koristite opciju <b>Orientation</b>. Unesite potrebnu vrednost u stepenima u polje <b>Angle</b> ili je prilagodite pomoću strelica sa desne strane.
+                </li>
+                <li>
+                    Prilagođavanje podataka širini kolone klikom na ikonu <b>Wrap text</b> <div class="icon icon-wraptext"></div> na kartici <b>Home</b> gornje trake sa alatkama ili označavanjem polja <b>Wrap text</b> na desnoj bočnoj traci.
+                    <p class="note">Ako promenite širinu kolone, prelamanje teksta se automatski prilagođava.</p>
+                </li>
+                <li>Prilagođavanje podataka širini ćelije označavanjem polja <b>Shrink to fit</b> na desnoj bočnoj traci. Sadržaj ćelije će biti smanjen do te mere da može da stane u ćeliju.</li>
+            </ul>
+		</div>
+	</body>
+</html>

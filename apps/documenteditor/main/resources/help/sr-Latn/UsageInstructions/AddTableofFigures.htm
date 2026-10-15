@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje i formatiranje Tabele slika</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodavanje, formatiranje i ažuriranje Tabele slika koristeći objekte sa natpisima i stilove" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+		    <h1>Dodavanje i formatiranje Tabele slika</h1>
+			<p><b>Tabela slika</b> pruža pregled jednačina, slika i tabela dodatih u dokument. Slično kao sadržaj, <b>Tabela slika</b> prikazuje, sortira i raspoređuje objekte sa natpisima ili naslove sa primenjenim stilom. To olakšava referenciranje u dokumentu i navigaciju između slika. Klikom na link u <b>Tabeli slika</b>, koji je formatiran kao veza, bićete direktno prebačeni na sliku ili naslov. U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>, svaka tabela, jednačina, dijagram, crtež, grafikon, mapa, fotografija ili drugi tip ilustracije prikazani su kao figura.</p>
+            <p><img alt="Kartica Reference" src="../images/referencestab.png" /></p>
+			<p>Da biste dodali <b>Tabelu slika</b>, idite na karticu <b>Reference</b> i koristite dugme <b>Tabela slika</b> <span class="icon icon-table_figures_button"></span> na traci sa alatkama za podešavanje i formatiranje tabele slika. Dugme Osveži koristite da ažurirate tabelu svaki put kada dodate novu figuru u dokument.</p>
+			<h2>Kreiranje Tabele slika</h2>
+			<p class="note"><b>Napomena:</b> Tabelu slika možete kreirati koristeći figure sa natpisima ili stilove. Pre nego što nastavite, potrebno je dodati <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">natpis</a> svakoj jednačini, tabeli ili slici, ili primeniti <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">stil</a> na tekst kako bi bio ispravno uključen u Tabelu slika.</p>
+			<ol>
+			    <li>Jednom kada dodate natpise ili stilove, postavite kursor gde želite umetnuti <b>Tabelu slika</b> i idite na karticu <b>Reference</b>, zatim kliknite na dugme <b>Tabela slika</b> da otvorite dijalog i generišete listu figura.
+                <p><img alt="Podešavanja Tabele slika" src="../images/table_figures_settings.png" /></p>
+			    </li>
+			    <li>Izaberite opciju da kreirate <b>Tabelu slika</b> iz <b>Natpisa</b> ili <b>Stil grupe</b>.
+			    <ul style="list-style-type:disc">
+				    <li>Možete kreirati Tabelu slika zasnovanu na objektima sa natpisima. Označite polje Natpis i izaberite objekat sa natpisom iz padajuće liste:
+				    <ul style="list-style-type:circle">
+					        <li>Nijedan;</li>
+                            <li>Jednačina;</li>
+                            <li>Slika;</li>
+                            <li>Tabela.
+				            <p><img alt="Tabela slika sa natpisima" src="../images/table_figures_captioned.png" /></p>
+					        </li>
+				    </ul>
+				    </li>
+                    <li>Možete kreirati <b>Tabelu slika</b> zasnovanu na stilovima korišćenim za formatiranje teksta. Označite polje <b>Stil</b> i izaberite stil iz padajuće liste. Lista opcija može varirati u zavisnosti od primenjenog stila:
+				    <ul style="list-style-type:circle">
+                           <li>Naslov 1;</li>
+                           <li>Naslov 2;</li>
+                           <li>Natpis;</li>
+                           <li>Tabela slika;</li>
+						   <li>Normalno.
+				            <p><img alt="Tabela slika sa stilom" src="../images/table_figures_style.png" /></p>
+							</li>
+						</ul>
+					</li>
+			    </ul>
+			    </li>
+			</ol>
+			<h2>Formatiranje Tabele slika</h2>
+            <p>Opcije sa poljima omogućavaju formatiranje <b>Tabele slika</b>. Sva polja su po default-u aktivirana, jer je u većini slučajeva bolje da budu uključena. Isključite polja koja nisu potrebna.</p>
+			<ul style="list-style-type:none">
+				<li><b>Prikaži brojeve stranica</b> - prikazuje broj stranice na kojoj se figura nalazi;</li>
+				<li><b>Poravnaj brojeve stranica desno</b> - prikazuje brojeve stranica desno kada je aktivirano <b>Prikaži brojeve stranica</b>; isključite da se brojevi prikazuju odmah posle naslova;</li>
+				<li><b>Formatiraj tabelu slika kao veze</b> - dodaje hiperveze u <b>Tabelu slika</b>;</li>
+				<li><b>Uključi natpis i broj</b> - dodaje natpis i broj u Tabelu slika.</li>
+			</ul>
+			<ul style="list-style-type:disc">
+				<li>Izaberite stil vodiča (Leader) iz padajuće liste da povežete naslove sa brojevima stranica radi bolje vizualizacije.</li>
+				<li>Prilagodite stil teksta Tabele slika izborom jednog od dostupnih stilova iz padajuće liste:
+					<ul style="list-style-type:circle">
+						<li><b>Trenutni</b> - prikazuje prethodno izabrani stil.</li>
+						<li><b>Jednostavan</b> - ističe tekst podebljanim slovima.</li>
+						<li><b>Online</b> - ističe i formatira tekst kao hipervezu.</li>
+						<li><b>Klasičan</b> - prikazuje tekst velikim slovima.</li>
+						<li><b>Distinktivan</b> - ističe tekst kurzivom.</li>
+						<li><b>Centriran</b> - centrira tekst i ne prikazuje vodič (Leader).</li>
+						<li><b>Formalni</b> - prikazuje tekst u Arial 11 pt radi formalnijeg izgleda.</li>
+					</ul>
+				</li>
+				<li>Prozor za pregled prikazuje kako Tabela slika izgleda u dokumentu ili kada se štampa.</li>
+			</ul>
+			<h2>Ažuriranje Tabele slika</h2>
+			<p>Ažurirajte <b>Tabelu slika</b> svaki put kada dodate novu jednačinu, sliku ili tabelu u dokument. Dugme <b>Osveži</b> postaje aktivno kada kliknete ili izaberete Tabelu slika. Kliknite na dugme Osveži <span class="icon icon-refresh_button"></span> na kartici <b>Reference</b> i izaberite odgovarajuću opciju iz menija:</p>
+			<img alt="Prozor osvežavanja" src="../images/refresh_table-figures_popup.png" />
+			<ul style="list-style-type:disc">
+				<li><b>Osveži samo brojeve stranica</b> - ažurira brojeve stranica bez primene promena na naslovima.</li>
+				<li><b>Osveži celu tabelu</b> - ažurira sve naslove koji su izmenjeni i brojeve stranica.</li>
+			</ul>
+			<p>Kliknite <b>OK</b> da potvrdite izbor ili</p>
+			<p>Desnim klikom na <b>Tabelu slika</b> u dokumentu otvorite kontekstualni meni, zatim izaberite <b>Osveži polje</b> da ažurirate <b>Tabelu slika</b>.</p>
+		</div>
+	</body>
+</html>

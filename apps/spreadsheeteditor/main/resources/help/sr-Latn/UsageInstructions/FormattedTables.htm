@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Korišćenje formatiranih tabela</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Primena šablona tabele na izabrani opseg ćelija i automatsko omogućavanje filtera." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Korišćenje formatiranih tabela</h1>
+            <h3>Kreiranje nove formatirane tabele</h3>
+            <p>Da biste lakše radili sa podacima, <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač tabela</b></a> omogućava da primenite šablon tabele na izabrani opseg ćelija i automatski omogućite filter. Da biste to uradili,</p>
+            <ol>
+                <li>izaberite opseg ćelija koji želite da formatirate,</li>
+                <li>kliknite na ikonu <b>Formatiraj kao šablon tabele</b> <div class = "icon icon-tabletemplate"></div> koja se nalazi na kartici <b>Početna</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite željeni šablon u galeriji,</li>
+                <li>u otvorenom iskačućem prozoru proverite opseg ćelija koji će se formatirati kao tabela,</li>
+                <li>označite opciju <b>Naslov</b> ako želite da zaglavlja tabele budu uključena u izabrani opseg ćelija; u suprotnom, red zaglavlja će biti dodat na vrh, dok će izabrani opseg ćelija biti pomeren za jedan red nadole,</li>
+                <li>kliknite na dugme <b>OK</b> da biste primenili izabrani šablon.</li>
+            </ol>
+            <p>Šablon će biti primenjen na izabrani opseg ćelija i moći ćete da uređujete zaglavlja tabele i <a href="SortData.htm" onclick="onhyperlinkclick(this)">primenite filter</a> za rad sa podacima.</p>
+            <p>Takođe je moguće ubaciti formatiranu tabelu pomoću dugmeta <b>Tabela</b> na kartici <b>Umetni</b>. U tom slučaju se primenjuje podrazumevani šablon tabele.</p>
+            <p class="note"><b>Napomena</b>: kada kreirate novu formatiranu tabelu, tabeli će automatski biti dodeljeno <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">podrazumevano ime</a> (<em>Table1</em>, <em>Table2</em> itd.). Ovo ime možete promeniti tako da bude smislenije i koristiti ga za dalji rad.</p>
+            <p>Ako unesete novu vrednost u ćeliju ispod poslednjeg reda tabele (ako tabela nema red Ukupno) ili u ćeliju desno od poslednje kolone tabele, formatirana tabela će se automatski proširiti tako da uključi novi red ili kolonu. Ako ne želite da proširite tabelu, kliknite na specijalno dugme <b>Nalepi</b> koje će se pojaviti i izaberite opciju <b>Opozovi automatsko proširenje tabele</b>. Kada opozovete ovu radnju, opcija <b>Ponovi automatsko proširenje tabele</b> biće dostupna u ovom meniju.</p>
+            <p><img alt="Opozovi automatsko proširenje tabele" src="../images/undoautoexpansion.png" /></p>
+            <p class="note"><b>Napomena</b>: Da biste omogućili/onemogućili automatsko proširenje tabele, izaberite opciju <b>Zaustavi automatsko proširivanje tabela</b> u meniju specijalnog dugmeta <b>Nalepi</b> ili idite na <b>Napredna podešavanja</b> -> <b>Provera pravopisa</b> -> <b>Provera</b> -> <b>Opcije automatskog ispravljanja</b> -> <b>Automatsko formatiranje tokom kucanja</b>.</p>
+            <h3>Izbor redova i kolona</h3>
+            <p>Da biste izabrali ceo red u formatiranoj tabeli, pomerite kursor miša preko leve ivice reda tabele dok se ne pretvori u crnu strelicu <span class="icon icon-selectrow_cursor"></span>, a zatim kliknite levim tasterom miša.</p>
+            <p><img alt="Izaberi red" src="../images/selectrow.png" /></p>
+            <p>Da biste izabrali celu kolonu u formatiranoj tabeli, pomerite kursor miša preko gornje ivice zaglavlja kolone dok se ne pretvori u crnu strelicu <span class="icon icon-selectcolumn_cursor"></span>, a zatim kliknite levim tasterom miša. Ako kliknete jednom, biće izabrani podaci u koloni (kao što je prikazano na slici ispod); ako kliknete dva puta, biće izabrana cela kolona uključujući zaglavlje.</p>
+            <p><img alt="Izaberi kolonu" src="../images/selectcolumn.png" /></p>
+            <p>Da biste izabrali celu formatiranu tabelu, pomerite kursor miša preko gornjeg levog ugla formatirane tabele dok se ne pretvori u dijagonalnu crnu strelicu <span class="icon icon-selecttable_cursor"></span>, a zatim kliknite levim tasterom miša.</p>
+            <p><img alt="Izaberi tabelu" src="../images/selecttable.png" /></p>
+            <h3>Uređivanje formatiranih tabela</h3>
+            <p>Neka podešavanja tabele mogu se promeniti pomoću kartice <b>Podešavanja tabele</b> na desnoj bočnoj traci, koja će se otvoriti ako mišem izaberete najmanje jednu ćeliju u tabeli i kliknete na ikonu <b>Podešavanja tabele</b> <span class="icon icon-table_settings_icon"></span> sa desne strane.</p>
+            <p><img alt="Kartica Podešavanja tabele" src="../images/tablesettingstab.png" /></p>
+            <p>Odeljci <b>Redovi</b> i <b>Kolone</b> na vrhu omogućavaju da naglasite određene redove/kolone primenom posebnog formatiranja ili da istaknete različite redove/kolone različitim bojama pozadine kako biste ih jasno razlikovali. Dostupne su sledeće opcije:</p>
+            <ul>
+                <li><b>Zaglavlje</b> - omogućava prikaz reda zaglavlja.</li>
+                <li>
+                    <b>Ukupno</b> - dodaje red <b>Sažetak</b> na dnu tabele.
+                    <p class="note"><b>Napomena</b>: ako je ova opcija izabrana, možete izabrati i funkciju za izračunavanje vrednosti sažetka. Kada izaberete ćeliju u redu <b>Sažetak</b>, dugme <span class="icon icon-dropdownarrow"></span> biće dostupno desno od ćelije. Kliknite na njega i izaberite potrebnu funkciju sa liste: <em>Average</em>, <em>Count</em>, <em>Max</em>, <em>Min</em>, <em>Sum</em>, <em>StdDev</em> ili <em>Var</em>. Opcija <em>More functions</em> omogućava da otvorite prozor <b>Umetni funkciju</b> i izaberete bilo koju drugu funkciju. Ako izaberete opciju <em>None</em>, trenutno izabrana ćelija u redu <b>Sažetak</b> neće prikazivati vrednost sažetka za ovu kolonu.</p>
+                    <p><img alt="Sažetak" src="../images/summary.png" /></p>
+                </li>
+                <li><b>Naizmenično</b> - omogućava naizmeničnu boju pozadine za neparne i parne redove.</li>
+                <li><b>Dugme filtera</b> - omogućava prikaz padajućih strelica <div class = "icon icon-dropdownarrow"></div> u svakoj ćeliji reda zaglavlja. Ova opcija je dostupna samo kada je izabrana opcija <b>Zaglavlje</b>.</li>
+                <li><b>Prva</b> - naglašava krajnju levu kolonu u tabeli posebnim formatiranjem.</li>
+                <li><b>Poslednja</b> - naglašava krajnju desnu kolonu u tabeli posebnim formatiranjem.</li>
+                <li><b>Naizmenično</b> - omogućava naizmeničnu boju pozadine za neparne i parne kolone.</li>
+            </ul>
+            <p>
+                Odeljak <b>Izaberi iz šablona</b> omogućava da izaberete jedan od unapred definisanih stilova tabela. Svaki šablon kombinuje određene parametre formatiranja, kao što su boja pozadine, stil ivica, naizmenično bojenje redova/kolona itd.
+                U zavisnosti od opcija označenih u odeljcima <b>Redovi</b> i/ili <b>Kolone</b> iznad, skup prikazanih šablona biće drugačiji. Na primer, ako ste označili opciju <b>Zaglavlje</b> u odeljku <b>Redovi</b> i opciju <b>Naizmenično</b> u odeljku <b>Kolone</b>, lista prikazanih šablona će uključivati samo šablone sa omogućenim redom zaglavlja i naizmeničnim kolonama:
+            </p>
+            <p><span class="big big-templateslist"></span></p>
+            <p>Ako želite da uklonite trenutni stil tabele (boju pozadine, ivice itd.) bez uklanjanja same tabele, primenite šablon <b>None</b> sa liste šablona:</p>
+            <p><span class="big big-nonetemplate"></span></p>
+            <p>Odeljak <b>Promeni veličinu tabele</b> omogućava da promenite opseg ćelija na koji se primenjuje formatiranje tabele. Kliknite na dugme <b>Izaberi podatke</b> - otvoriće se novi iskačući prozor. Promenite vezu ka opsegu ćelija u polju za unos ili izaberite potreban opseg ćelija na radnom listu mišem i kliknite na dugme <b>OK</b>.</p>
+            <p class="note"><b>Napomena</b>: Zaglavlja moraju ostati u istom redu, a rezultujući opseg tabele mora se preklapati sa originalnim opsegom tabele.</p>
+            <p><img alt="Promeni veličinu tabele" src="../images/resizetable.png" /></p>
+            <p>Odeljak <b>Redovi i kolone</b> <span class="icon icon-rowsandcolumns"></span> omogućava da izvršite sledeće operacije:</p>
+            <ul>
+                <li><b>Izaberite</b> red, kolonu, podatke svih kolona bez reda zaglavlja ili celu tabelu uključujući red zaglavlja.</li>
+                <li><b>Umetnite</b> novi red iznad ili ispod izabranog, kao i novu kolonu levo ili desno od izabrane.</li>
+                <li><b>Obrišite</b> red, kolonu (u zavisnosti od pozicije kursora ili izbora) ili celu tabelu.</li>
+            </ul>
+            <p class="note"><b>Napomena</b>: opcije odeljka <b>Redovi i kolone</b> dostupne su i iz <b>menija desnog klika</b>.</p>
+            <p>Opcija <span class="icon icon-removeduplicates"></span> <b>Ukloni duplikate</b> može se koristiti ako želite da uklonite duplirane vrednosti iz formatirane tabele. Više detalja o uklanjanju duplikata potražite na <a href="RemoveDuplicates.htm" onclick="onhyperlinkclick(this)">ovoj stranici</a>.</p>
+            <p>Opcija <span class="icon icon-converttorange"></span> <b>Pretvori u opseg</b> može se koristiti ako želite da pretvorite tabelu u regularan opseg podataka uklanjanjem filtera, ali uz zadržavanje stila tabele (tj. boja ćelija i fonta itd.). Kada primenite ovu opciju, kartica <b>Podešavanja tabele</b> na desnoj bočnoj traci neće biti dostupna.</p>
+            <p>Opcija <span class="icon icon-insertslicer"></span> <b>Umetni sekač</b> koristi se za kreiranje sekača za formatiranu tabelu. Više detalja o radu sa sekačima potražite na <a href="Slicers.htm" onclick="onhyperlinkclick(this)">ovoj stranici</a>.</p>
+            <p>Opcija <span class="icon icon-insertpivot"></span> <b>Umetni izvedenu tabelu</b> koristi se za kreiranje izvedene tabele na osnovu formatirane tabele. Više detalja o radu sa izvedenim tabelama potražite na <a href="PivotTables.htm" onclick="onhyperlinkclick(this)">ovoj stranici</a>.</p>
+            <h3>Podešavanje naprednih podešavanja formatirane tabele</h3>
+            <p>Da biste promenili napredna svojstva tabele, koristite link <b>Prikaži napredna podešavanja</b> na desnoj bočnoj traci. Otvoriće se prozor „Tabela - Napredna podešavanja“:</p>
+            <p><img alt="Tabela - Napredna podešavanja" src="../images/tableadvancedsettings.png" /></p>
+            <p>Kartica <b>Alternativni tekst</b> omogućava da navedete <b>Naslov</b> i <b>Opis</b> koji će biti pročitani osobama sa oštećenjem vida ili kognitivnim poteškoćama kako bi bolje razumele koje informacije tabela sadrži.</p>
+            <p class="note"><b>Napomena</b>: Da biste omogućili/onemogućili automatsko proširenje tabele, idite na <b>Napredna podešavanja</b> -> <b>Provera pravopisa</b> -> <b>Provera</b> -> <b>Opcije automatskog ispravljanja</b> -> <b>Automatsko formatiranje tokom kucanja</b>.</p>
+            <h3>Korišćenje automatskog dopunjavanja formula za dodavanje formula u formatirane tabele</h3>
+            <p>Lista <b>Automatsko dopunjavanje formula</b> prikazuje sve dostupne opcije kada primenjujete formule na formatirane tabele. Možete dodati referencu na tabelu u formuli unutar ili van tabele. Kao reference se koriste nazivi kolona i stavki umesto adresa ćelija.</p>
+            <p>Primer ispod prikazuje referencu na tabelu u funkciji SUM.</p>
+                <ol>
+                    <li>
+                        Izaberite ćeliju i počnite da kucate formulu koja počinje znakom jednakosti, izaberite potrebnu funkciju sa liste <b>Automatsko dopunjavanje formula</b>. Nakon otvarajuće zagrade počnite da kucate <em>naziv tabele</em> i izaberite odgovarajući naziv sa liste <b>Automatsko dopunjavanje formula</b>.
+                        <p><img alt="Formule tabele" src="../images/tableformulas.png" />
+                    </li>
+                    <li>
+                        Zatim unesite otvarajuću uglastu zagradu [ da biste otvorili padajuću listu koja sadrži kolone i stavke koje se mogu koristiti u formuli. Opis (tooltip) koji objašnjava referencu pojaviće se kada pređete pokazivačem miša preko nje na listi.
+                        <p><img alt="Formule tabele" src="../images/tableformulas1.png" />
+                    </li>
+                </ol>
+            <p class="note"><b>Napomena</b>: Svaka referenca mora sadržati otvarajuću i zatvarajuću uglastu zagradu. Ne zaboravite da proverite sintaksu formule.</p>
+        </div>
+	</body>
+</html>

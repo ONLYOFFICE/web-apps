@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-footnote-ru">
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="m18.75 4.65 1.9-1.9v5.067" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="M15 15v-3c0-2.812 1.5-2 3.5-3.5M3.777 18.222l1.167-3.11m0 0 3.5-9.334 3.5 9.333m-7 0h7m0 0 1.167 3.111M20 14.5v1a2.5 2.5 0 1 1-5 0v-1a2.5 2.5 0 1 1 5 0Z" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

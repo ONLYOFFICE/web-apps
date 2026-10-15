@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Komentarisanje PDF-ova</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Saveti za zajedničko uređivanje" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Komentarisanje PDF-ova</h1>
+        <p> <a href="https://www.onlyoffice.com/pdf-editor.aspx?docs=download" target="_blank" onclick="onhyperlinkclick(this)"><b>PDF Editor</b></a> vam omogućava dosledan rad u timu: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">deljenje</a> fajlova i foldera, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">komunikaciju</a> direkno u editoru.</p>
+        <p>U <b>PDF Editor</b> možete ostavljati komentare na sadržaj PDF-a bez njegovog uređivanja. Za razliku od <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">chat</a> poruka u četu, komentari ostaju dok se ne obrišu.</p>
+        <h3>Ostavljanje komentara i odgovaranje</h3>
+        <p>Da biste ostavili komentar,</p>
+        <ol>
+            <li>izaberite odlomak teksta gde mislite da postoji greška ili problem,</li>
+            <li>
+                pređite na <b>Comment</b> karticu na gornjoj traci i kliknite <div class = "icon icon-comment_toptoolbar"></div> <b>Comment</b> dugme, ili<br />
+                koristite <div class="icon icon-commentsicon"></div> ikonu na levoj traci i otvorite <b>Comments</b> panel i kliknite <b>Dodajte komentar</b> dugme u gornjoj traci sa alatkama panela, ili<br />
+                kliknite desnim tasterom miša na izabrani odlomak teksta i izaberite opciju <b>Dodaj komentar</b> iz kontekstnog menija,
+            </li>
+            <li>unesite potrebn tekst,</li>
+            <li>kliknite <b>Add</b> dugme.</li>
+        </ol>
+        <p>Komentar će biti prikazan u <b>Comments</b> panelu sa leve strane. Ostali korisnici mogu odgovarati, postavljati pitanja ili potvrditi da je zadatak izvršen. Za ovu svrhu, kliknite <b>Add Reply</b> link postavljen ispod komentara, unesite svoj odgovor u polje za unos i pritisnite <b>Reply</b> dugme.</p>
+        <h3>Onemogućavanje prikaza komentara</h3>
+        <p>Odlomak teksta na koji ste komentarisali biće istaknut u PDF-u. Da biste videli komentar, samo kliknite unutar odlomka. Da biste onemogućili ovu funkciju,</p>
+        <ol>
+            <li>kliknite <b>File</b> karticu na vrhu alatne trake,</li>
+            <li>izaberite <b>Advanced Settings</b> opciju,</li>
+            <li>
+                uklonite oznaku iz <b>Prikaži komentare u tekstu</b> polja.
+                <p class="note">Ista opcija se može naći i na kartici <b>Komentar</b>.</p>
+            </li>
+            <li>kliknite <b>Apply</b> dugme.</li>
+        </ol>
+        <p>Sada će komentarisani odlomci biti istaknuti samo ako kliknete na <span class = "icon icon-commentsicon"></span>ikonu.</p>
+        <h3>Upravljanje komentarima</h3>
+        <p>Dodatim komentarima možete upravljati pomoću ikona u balončiću za komentare ili na panelu <b>Komentari</b> sa leve strane:</p>
+        <ul>
+            <li>
+                sortirajte dodate komentare klikom na <div class = "icon icon-sortcommentsicon"></div> ikonu:
+                <ul>
+                    <li>po datumu: <b>Najnovije</b> ili <b>Najstarije</b>. Ovo je podrazumevani redosled sortiranja.</li>
+                    <li>
+                        po autoru: <b>Autor od A do Z</b> ili <b>Autor od Z do A</b>.
+                        <p><img alt="Sort comments" src="../images/sortcomments.png" /></p>
+                    </li>
+                </ul>
+            </li>
+            <li>uredite trenutno izabrani komentar klikom na <div class = "icon icon-editcommenticon"></div> ikonu,</li>
+            <li>obrišite trenutno izabrani komentar klikom na <div class = "icon icon-deletecommenticon"></div> ikonu,</li>
+            <li>zatvorite trenutno izabranu diskusiju klikom na <div class = "icon icon-resolveicon"></div> ikona ako je zadatak ili problem koji ste naveli u komentaru rešen, nakon toga, diskusija koju ste otvorili sa svojim komentarom dobija status rešeno. Da biste je ponovo otvorili, kliknite na ikonu <div class = "icon icon-resolvedicon"></div>. <!--Ako želite da sakrijete rešene komentare, kliknite na karticu <b>Datoteka</b> na gornjoj traci sa alatkama, izaberite opciju <b>Napredna podešavanja</b>, opozovite izbor u polju <b>Prikaži rešene komentare</b> i kliknite na <b>Primeni</b>. U ovom slučaju, rešeni komentari će biti istaknuti samo ako kliknete na ikonu <div class = "icon icon-commentsicon"></div>.--></li>
+        </ul>
+        <h3>Dodavanje oznaka</h3>
+        <p class="note">Možete dodati oznake u komentarima, ali samo u komentarima vezanim za delove teksta, ne za ceo PDF.</p>
+        <p>Kada unosite komentare, možete koristiti funkciju <b>pominjanja</b>, koja vam omogućava da privučete nečiju pažnju na komentar i pošaljete obaveštenje pomenutom korisniku putem imejla i <b>Talk-a</b>.</p>
+        <p>Da dodate oznaku,</p>
+        <ol>
+            <li>Unesite znak „+“ ili „@“ bilo gde u tekstu komentara i otvoriće se lista korisnika portala. Da biste pojednostavili proces pretrage, možete početi da kucate ime u polje za komentar - lista korisnika će se menjati dok kucate.</li>
+            <li>Izaberite potrebnu osobu sa liste i kliknite na dugme <b>Dodaj</b>. Ako datoteka još nije deljena sa pomenutim korisnikom, otvoriće se prozor <b>Podešavanja deljenja</b>. Tip pristupa <b>Samo za čitanje</b> je podrazumevano izabran. <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">Promenite ga ako je potrebno</a>.</li>
+            <li>Sačuvajte izmene ako ih ima klikom na dugme <b>Sačuvaj</b>. Ako nema izmena, zatvorite prozor <b>Podešavanja deljenja</b>.</li>
+        </ol>
+        <p>Pomenuti korisnik će dobiti obaveštenje putem e-pošte da je pomenut u komentaru. Ako je datoteka deljena, korisnik će takođe dobiti odgovarajuće obaveštenje.</p>
+        <h3>Uklanjanje komentara</h3>
+        <p>Da uklonite komentare,</p>
+        <ol>
+            <li>otvorite <b>Komentari</b> levi panel,</li>
+            <li>pronađite potreban komentar i kliknite na <div class="icon icon-deletecommenticon"></div> dugme.</li>
+        </ol>
+        <p>Da biste zatvorili panel sa komentarima, kliknite na <span class = "icon icon-commentsicon"></span> ikona na levoj bočnoj traci još jednom.</p>
+    </div>
+</body>
+</html>

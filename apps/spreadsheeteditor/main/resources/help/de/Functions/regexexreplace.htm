@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Funktion REGEXERSETZEN</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suchen" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Funktion REGEXERSETZEN</h1>
+            <p>Die Funktion <b>REGEXERSETZEN</b> ist eine der <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">Text- und Datenfunktionen</a>. Sie wird verwendet, um Text innerhalb einer Zeichenfolge, der einem Muster eines regulären Ausdrucks entspricht, durch einen bestimmten Ersetzungstext zu ersetzen.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXERSETZEN(text; muster; ersatz_text; [vorkommen]; [beachten_groß_klein])</em></b></p>
+            <p>Die Funktion <b>REGEXERSETZEN</b> hat folgende Argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Beschreibung</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>Die Textzeichenfolge oder der Verweis auf eine Zelle, die den Text enthält, in dem Sie Ersetzungen vornehmen möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>muster</em></b></td>
+                    <td>Der reguläre Ausdruck („Regex"), der das Textmuster beschreibt, das Sie ersetzen möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>ersatz_text</em></b></td>
+                    <td>Der Text, den Sie für das übereinstimmende Muster einsetzen möchten. Sie können <b>$1</b>, <b>$2</b> usw. verwenden, um auf Erfassungsgruppen aus dem Muster zu verweisen.</td>
+                </tr>
+                <tr>
+                    <td><b><em>vorkommen</em></b></td>
+                    <td>Gibt an, welche Instanz des Musters ersetzt werden soll. Dies ist ein optionales Argument. Wenn es weggelassen wird, ist der Standardwert 0, wodurch alle Instanzen ersetzt werden. Eine positive Zahl ersetzt das jeweilige Vorkommen. Eine negative Zahl ersetzt Vorkommen vom Ende her gezählt.</td>
+                </tr>
+                <tr>
+                    <td><b><em>beachten_groß_klein</em></b></td>
+                    <td>Legt fest, ob beim Abgleich die Groß-/Kleinschreibung beachtet wird. Dies ist ein optionales Argument. Wenn es weggelassen wird, wird die Groß-/Kleinschreibung beachtet (0). Geben Sie <b>0</b> für einen Abgleich mit Berücksichtigung der Groß-/Kleinschreibung oder <b>1</b> für einen Abgleich ohne Berücksichtigung der Groß-/Kleinschreibung ein.</td>
+                </tr>
+            </table>
+
+            <h3>Hinweise</h3>
+            <p>Beim Schreiben von Regex-Mustern können Symbole, sogenannte „Tokens", verwendet werden, die mit einer Vielzahl von Zeichen übereinstimmen. Im Folgenden finden Sie einige einfache Tokens zur Referenz:</p>
+            <ul>
+                <li><b>[0-9]</b>: eine beliebige Ziffer</li>
+                <li><b>[a-z]</b>: ein Zeichen im Bereich von a bis z</li>
+                <li><b>[A-Z]</b>: ein Zeichen im Bereich von A bis Z</li>
+                <li><b>.</b>: ein beliebiges einzelnes Zeichen</li>
+                <li><b>*</b>: null oder mehr des vorangehenden Zeichens</li>
+                <li><b>+</b>: ein oder mehr des vorangehenden Zeichens</li>
+                <li><b>()</b>: Erfassungsgruppe – erfasster Text kann in der Ersetzung als $1, $2 usw. referenziert werden</li>
+                <li><b>{n}</b>: genau n Vorkommen des vorangehenden Zeichens</li>
+                <li><b>\</b>: Escapezeichen für Sonderzeichen</li>
+            </ul>
+            <p><b>Erfassungsgruppen</b> sind Teile eines Regex-Musters, die von Klammern „(...)" umgeben sind. Im Argument <b><em>Ersetzung</em></b> können Sie auf erfasste Gruppen verweisen, indem Sie Folgendes verwenden:</p>
+            <ul>
+                <li><b>$1</b> – erste Erfassungsgruppe</li>
+                <li><b>$2</b> – zweite Erfassungsgruppe</li>
+                <li><b>$n</b> – die n-te Erfassungsgruppe</li>
+            </ul>
+            <p>Die Funktion gibt die geänderte Textzeichenfolge zurück. Der ursprüngliche Text in der Quellzelle wird nicht geändert.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Anwendung</a> der Funktion <b>REGEXERSETZEN</b>.</p>
+
+            <h3>Beispiele</h3>
+            <p>Die folgende Abbildung zeigt das Ergebnis, das von der Funktion <b>REGEXERSETZEN</b> zurückgegeben wird.</p>
+            <p><img alt="Funktion REGEXERSETZEN" src="../images/regexreplace.png" /></p>
+        </div>
+	</body>
+</html>

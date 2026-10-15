@@ -1,7 +1,12 @@
 name: "Build and upload helps"
 
-on: 
+on:
     workflow_dispatch:
+        inputs:
+            force_upload:
+                description: 'Force build and upload apps to S3 (ignore help-changed check)'
+                type: boolean
+                default: false
     create:
     push:
 
@@ -36,7 +41,7 @@ jobs:
 
           - name: Determine branch variable
             run: |
-              if ${{steps.changes.outputs.help_modified == 'true'}}; then
+              if ${{steps.changes.outputs.help_modified == 'true' || github.event.inputs.force_upload == 'true'}}; then
                 echo "REF=${{ github.ref }}" >> $GITHUB_ENV
               else
                 echo "REF=develop" >> $GITHUB_ENV
@@ -65,12 +70,12 @@ jobs:
 
           - name: Apps files
             id: apps-files
-            if: steps.changes.outputs.help_modified == 'true'
+            if: steps.changes.outputs.help_modified == 'true' || github.event.inputs.force_upload == 'true'
             run: tar -cvf apps.tar ./web-apps/deploy/web-apps/apps
 
           - name: Upload artifact
             if: steps.apps-files.outcome == 'success'
-            uses: actions/upload-artifact@v4
+            uses: actions/upload-artifact@v3
             with:
               name: apps-artifact
               path: apps.tar
@@ -83,7 +88,7 @@ jobs:
         steps:
 
           - name: Download artifact
-            uses: actions/download-artifact@v4
+            uses: actions/download-artifact@v3
             with:
               name: apps-artifact
 

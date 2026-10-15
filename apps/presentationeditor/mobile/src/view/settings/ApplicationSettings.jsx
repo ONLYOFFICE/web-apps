@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
@@ -29,18 +64,10 @@ const PageApplicationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPreferences} backLink={_t.textBack} />
             {_isEdit &&
                 <Fragment>
-                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
-                    <List>
-                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
-                                  onChange={() => changeMeasureSettings(0)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
-                                  onChange={() => changeMeasureSettings(1)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
-                                  onChange={() => changeMeasureSettings(2)}></ListItem>
-                    </List>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
                     <List>
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
@@ -51,16 +78,25 @@ const PageApplicationSettings = props => {
                             />
                         </ListItem>
                     </List>
+                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
+                    <List>
+                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
+                                  onChange={() => changeMeasureSettings(0)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
+                                  onChange={() => changeMeasureSettings(1)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
+                                  onChange={() => changeMeasureSettings(2)}></ListItem>
+                    </List>
                 </Fragment>
             }
             {!!isConfigSelectTheme &&
-                <List mediaList>
+                <List>
                     <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
                     }}></ListItem>
                 </List>
             }
-            <List mediaList>
+            <List>
                 <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>

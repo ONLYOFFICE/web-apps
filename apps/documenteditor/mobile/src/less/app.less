@@ -8,19 +8,9 @@
 
 .device-ios {
     --toolbar-background: var(--background-primary, #FFF);
-    --toolbar-segment: var(--brand-word, #446995);
-    --toolbar-icons: var(--brand-word, #446995);
     --f7-toolbar-border-color: var(--background-menu-divider);
     --f7-bars-border-color: var(--background-menu-divider);
     --f7-calendar-row-border-color: var(--background-menu-divider);
-}
-
-.device-android {
-    --toolbar-background: var(--brand-word, #446995);
-
-    .theme-type-dark {
-        --toolbar-icons: var(--brand-word, #446995);
-    }
 }
 
 @toolbar-background: var(--toolbar-background);
@@ -68,6 +58,16 @@
         -moz-animation: flickerAnimation 2s infinite ease-in-out;
         -o-animation: flickerAnimation 2s infinite ease-in-out;
         animation: flickerAnimation 2s infinite ease-in-out;
+    }
+}
+
+.theme-type-dark.content-theme-dark {
+    .doc-placeholder {
+        background: #3a3a3a;
+
+        > .line {
+            background: rgba(255, 255, 255, 0.05);
+        }
     }
 }
 
@@ -231,7 +231,6 @@
 }
 
 .sheet-modal.navigation-sheet {
-    box-shadow: 0px -2px 20px rgba(0, 0, 0, 0.2);
     .sheet-modal-inner {
         background: @background-tertiary;
         overflow-y: auto;
@@ -336,6 +335,7 @@
         background: @background-secondary;
     }
     .calendar-month-picker-item-current, .calendar-year-picker-item-current {
+        
         color: @brandColor;
     }
 }
@@ -385,7 +385,7 @@
 }
 //
 #btn-submit-form {
-    background-color: @toolbar-icons;
+    background-color: @brand-form;
     color: @toolbar-background;
     height: 2em;
     border-radius: 1em;

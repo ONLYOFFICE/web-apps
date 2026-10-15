@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  AutoFilterDialog.js
@@ -1623,7 +1626,7 @@ define([], function () {
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
                             '<div class="tree-item date <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;' + (!Common.UI.isRTL() ? 'padding-left' : 'padding-right') + ': <%= level*16 + 22 %>px;">',
                                 '<% if (hasSubItems) { %>',
-                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
+                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" aria-hidden="true" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
                                 '<% } %>',
                                 '<div class="name not-header has-checkbox">',
                                     Common.UI.CheckBoxTemplate,
@@ -1671,6 +1674,14 @@ define([], function () {
                 });
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
+
+            this.on('close:before', function() {
+                me.cellsList.$el.remove();
+            });
+
+            this.on('close', function() {
+                me.currentCellsListInsertId = 0;
+            });
 
             this.setupDataCells();
             this._setDefaults();
@@ -2095,12 +2106,18 @@ define([], function () {
                     me = this,
                     idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
                 if ('0' == record.get('groupid')) {
-                    this.cells.each(function(cell) {
+                    const setCheckCell = function(cell, value) {
                         if ('2' !== cell.get('groupid')) {
-                            cell.set('check', check);
+                            cell.set('check', value);
                             if (cell.get('throughIndex')>1)
-                                idxs[parseInt(cell.get('throughIndex'))] = check;
+                                idxs[parseInt(cell.get('throughIndex'))] = value;
                         }
+                    };
+                    this.cells.each(function(cell) {
+                        setCheckCell(cell, check);
+                    });
+                    (this.currentCellsListPendingItems || []).forEach(function(cell) {
+                        setCheckCell(cell, check);
                     });
                 } else {
                     record.set('check', check);
@@ -2531,7 +2548,47 @@ define([], function () {
                 }));
             }
 
-            this.cells.reset(arr);
+            this.currentCellsListInsertId = this.currentCellsListInsertId || 0;
+            function addItemsInChunks(store, items, firstChunkSize, chunkSize, onComplete) {
+                const insertId = ++me.currentCellsListInsertId;
+                const sorted = items.slice().sort(store.comparator);
+
+                store.reset([]);
+                me.currentCellsListPendingItems = sorted.slice(firstChunkSize);
+                store.add(sorted.slice(0, firstChunkSize), { sort: false });
+
+                let offset = firstChunkSize;
+
+                function addNextChunk() {
+                    // If there is another insertion, we stop the current insertion
+                    if (insertId !== me.currentCellsListInsertId) return;
+
+                    if (offset >= sorted.length) {
+                        me.currentCellsListPendingItems = [];
+                        onComplete && onComplete();
+                        return;
+                    }
+
+                    const chunk = sorted.slice(offset, offset + chunkSize);
+                    offset += chunkSize;
+
+                    me.currentCellsListPendingItems = sorted.slice(offset);
+                    store.add(chunk, { sort: false });
+
+                    setTimeout(addNextChunk, 5);
+                }
+
+                setTimeout(addNextChunk, 10);
+            }
+
+            addItemsInChunks(this.cellsList.store, arr, 25, 50, function() {
+                me.cellsList.scroller.update({
+                    minScrollbarLength: me.cellsList.minScrollbarLength,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true
+                });
+            });
+
             this.filterExcludeCells.reset(arrEx);
 
             if (this.cells.length) {

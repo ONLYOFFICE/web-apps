@@ -1,4 +1,1 @@
-<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7 7h9v1H7zm0 6h9v1H7zm6 6H7v1h6zm3-3H7v1h9zm-9-6h9v1H7z" fill="#000"/>
-    <path d="M5 4a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm13 1v18H5V5zm4 4h1V4h-2v1h1zm2 6v1h-3v-1l2-2v-1h-2v-1h2l1 1v1l-2 2zm-1 6h-1v-1h1v-1h-2v-1h2l1 1v1l-.5.5.5.5v1l-1 1h-2v-1h2z" fill="#000"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"><path fill="#000" d="M13 20H7v-1h6v1Zm3-3H7v-1h9v1Zm0-3H7v-1h9v1Zm0-3H7v-1h9v1Zm0-3H7V7h9v1Z"/><path fill="#000" d="M18 4a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h13ZM5 23h13V5H5v18Zm19-4v1l-.5.5.5.5v1l-1 1h-2v-1h2v-1h-1v-1h1v-1h-2v-1h2l1 1Zm0-7v1l-2 2h2v1h-3v-1l2-2v-1h-2v-1h2l1 1Zm-1-3h-1V5h-1V4h2v5Z"/></svg>

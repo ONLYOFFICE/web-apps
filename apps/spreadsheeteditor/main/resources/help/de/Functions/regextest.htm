@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Funktion REGEXTESTEN</title>
+        <meta charset="utf-8" />
+        <meta name="description" content="" />
+        <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+        <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+    </head>
+    <body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suchen" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Funktion REGEXTESTEN</h1>
+            <p>Die Funktion <b>REGEXTESTEN</b> ist eine der <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">Text- und Datenfunktionen</a>. Sie wird verwendet, um zu prüfen, ob ein Teil des angegebenen Textes einem Muster eines regulären Ausdrucks entspricht, und gibt WAHR oder FALSCH zurück.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXTESTEN(text; muster; [beachten_groß_klein])</em></b></p>
+            <p>Die Funktion <b>REGEXTESTEN</b> hat folgende Argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Beschreibung</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>Die Textzeichenfolge oder der Verweis auf eine Zelle, die den Text enthält, den Sie anhand des Musters testen möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>muster</em></b></td>
+                    <td>Der reguläre Ausdruck („Regex"), der das Textmuster beschreibt, das Sie abgleichen möchten.</td>
+                </tr>
+                <tr>
+                    <td><b><em>beachten_groß_klein</em></b></td>
+                    <td>Legt fest, ob beim Abgleich die Groß-/Kleinschreibung beachtet wird. Dies ist ein optionales Argument. Wenn es weggelassen wird, wird die Groß-/Kleinschreibung beachtet (0). Geben Sie <b>0</b> für einen Abgleich mit Berücksichtigung der Groß-/Kleinschreibung oder <b>1</b> für einen Abgleich ohne Berücksichtigung der Groß-/Kleinschreibung ein.</td>
+                </tr>
+            </table>
+            <h3>Hinweise</h3>
+            <p>Beim Schreiben von Regex-Mustern können Symbole, sogenannte „Tokens", verwendet werden, die mit einer Vielzahl von Zeichen übereinstimmen. Im Folgenden finden Sie einige einfache Tokens zur Referenz:</p>
+            <ul>
+                <li><b>[0-9]</b>: eine beliebige Ziffer</li>
+                <li><b>[a-z]</b>: ein Zeichen im Bereich von a bis z</li>
+                <li><b>[A-Z]</b>: ein Zeichen im Bereich von A bis Z</li>
+                <li><b>.</b>: ein beliebiges einzelnes Zeichen</li>
+                <li><b>*</b>: null oder mehr des vorangehenden Zeichens</li>
+                <li><b>+</b>: ein oder mehr des vorangehenden Zeichens</li>
+                <li><b>^</b>: Anfang der Zeichenfolge</li>
+                <li><b>$</b>: Ende der Zeichenfolge</li>
+                <li><b>\</b>: Escapezeichen (z. B. entspricht <b>\(</b> einer wörtlichen Klammer)</li>
+                <li><b>{n}</b>: genau n Vorkommen des vorangehenden Zeichens</li>
+            </ul>
+            <p>Die Funktion gibt <b>WAHR</b> zurück, wenn das Muster mit einem Teil des Textes übereinstimmt, und <b>FALSCH</b>, wenn keine Übereinstimmung gefunden wird.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Anwendung</a> der Funktion <b>REGEXTESTEN</b>.</p>
+            <h3>Beispiele</h3>
+            <p>Die folgende Abbildung zeigt das Ergebnis, das von der Funktion <b>REGEXTESTEN</b> zurückgegeben wird.</p>
+            <p><img alt="Funktion REGEXTESTEN" src="../images/regextest.png" /></p>
+        </div>
+    </body>
+</html>

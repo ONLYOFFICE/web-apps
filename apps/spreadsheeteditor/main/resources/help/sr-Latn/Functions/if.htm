@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>IF Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>IF Funkcija</h1>
+			<p>Funkcija <b>IF</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#logical" onclick="onhyperlinkclick(this)">logičkih funkcija</a>. Koristi se za proveru logičkog izraza i vraća jednu vrednost ako je TRUE, ili drugu ako je FALSE.</p>
+			<h3>Sinaksa</h3> 
+			<p><b><em>IF(logical_test, value_if_true, [value_if_false])</em></b></p> 
+			<p>Funkcija <b>IF</b> ima sledeće argumente:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>logical_test</em></b></td>
+                    <td>Uslov koji želite da proverite.</td>
+                </tr>
+				<tr>
+                    <td><b><em>value_if_true</em></b></td>
+                    <td>Vrednost koja se vraća ako je rezultat TRUE.</td>
+                </tr>
+				<tr>
+                    <td><b><em>value_if_false</em></b></td>
+                    <td>Vrednost koja se vraća ako je rezultat FALSE.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>IF</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Postoje tri argumenta: <em>logical_test</em> = <b>A1&lt;100</b>, <em>value_if_true</em> = <b>0</b>, <em>value_if_false</em> = <b>1</b>, gde je <b>A1</b> <b>12</b>. Ovaj logički izraz je <b>TRUE</b>. Dakle, funkcija vraća <b>0</b>.</p>
+			<p><img alt="IF Funkcija: TRUE" src="../images/iftrue.png" /></p>
+			<p>Ako promenimo vrednost <b>A1</b> sa <b>12</b> na <b>112</b>, funkcija vraća <b>1</b>:</p>
+			<p><img alt="IF Funkcija: FALSE" src="../images/iffalse.png" /></p>
+		</div>
+	</body>
+</html>

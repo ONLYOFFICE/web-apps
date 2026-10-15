@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Zaštita lista</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Zaštita listova radi sprečavanja neželjenih izmena i ograničavanja mogućnosti uređivanja za druge korisnike" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+
+			<h1>Zaštita lista</h1>
+			<p>Opcija <b>Protect Sheet</b> omogućava vam da zaštitite listove i kontrolišete izmene koje drugi korisnici prave na listu kako biste sprečili neželjene promene podataka i ograničili mogućnosti uređivanja drugih korisnika. List možete zaštititi sa ili bez lozinke. Ako ne koristite lozinku, svako može ukloniti zaštitu sa zaštićenog lista.</p>
+			<h3>Zaštita lista</h3>
+			<ol>
+				<li>
+					Idite na karticu <b>Protection</b> i kliknite na dugme <b>Protect Sheet</b> na gornjoj alatnoj traci.<br />
+					ili<br />
+					kliknite desnim tasterom miša na karticu lista koji želite da zaštitite i izaberite <b>Protect</b> sa liste opcija
+					<p><img alt="Protect Sheet Tab" src="../images/protect_sheettab.png" /></p>
+				</li>
+				<li>
+					U prozoru <b>Protect sheet</b> koji se otvori, unesite i potvrdite lozinku, ako želite da postavite lozinku za uklanjanje zaštite sa ovog lista.
+					<p><img alt="Protect Sheet" src="../images/protect_sheet.png" /></p>
+					<p class="note">Lozinka se ne može povratiti ako je izgubite ili zaboravite. Molimo vas da je sačuvate na bezbednom mestu.</p>
+				</li>
+				<li>
+					Označite polja u listi <b>Allow all users of this sheet to</b> da biste izabrali operacije koje će korisnici moći da obavljaju. Operacije <b>Select locked cells</b> i <b>Select unlocked cells</b> su podrazumevano dozvoljene.
+					<details class="details-example">
+						<summary>Operacije koje korisnik može imati dozvolu da izvršava.</summary>
+						<ul>
+							<li>Izbor zaključanih ćelija</li>
+							<li>Izbor otključanih ćelija</li>
+							<li>Formatiranje ćelija</li>
+							<li>Formatiranje kolona</li>
+							<li>Formatiranje redova</li>
+							<li>Umetanje kolona</li>
+							<li>Umetanje redova</li>
+							<li>Umetanje hiperveze</li>
+							<li>Brisanje kolona</li>
+							<li>Brisanje redova</li>
+							<li>Sortiranje</li>
+							<li>Korišćenje automatskog filtera</li>
+							<li>Korišćenje PivotTable i PivotChart</li>
+							<li>Uređivanje objekata</li>
+							<li>Uređivanje scenarija</li>
+						</ul>
+					</details>
+					<p class="notehelp">Imajte u vidu da kada je list zaštićen, nijedan korisnik ne može sortirati ili filtrirati podatke. Da bi filtriranje pravilno funkcionisalo, parametri filtriranja moraju biti primenjeni pre zaštite lista.</p>
+				</li>
+				<li>
+					kliknite na dugme <b>Protect</b> da biste omogućili zaštitu. Dugme <b>Protect Sheet</b> na gornjoj alatnoj traci ostaje istaknuto kada je list zaštićen.
+					<p><img alt="Protect Sheet Highlighted" src="../images/protectsheet_highlighted.png" /></p>
+				</li>
+			</ol>
+
+			<h3>Dozvoli uređivanje opsega</h3>
+			<ol>
+				<li>Kliknite na dugme <b>Protect Sheet</b> na gornjoj alatnoj traci kartice <b>Protection</b>. Otvoriće se prozor <b>Protect sheet</b>.</li>
+				<li>Kliknite na dugme <b>Allow edit ranges</b> da biste odredili opsege koji će biti otključani lozinkom kada je list zaštićen. Ova opcija funkcioniše samo za zaključane ćelije.</li>
+				<li>
+					Kliknite na dugme <b>New</b> da biste dodali novi opseg. Otvoriće se prozor <b>New range</b>. Navedite <b>Title</b> opsega, sam opseg i unesite i ponovite lozinku. Kliknite na <b>OK</b> kada završite.
+					<p class="note">Lozinka se ne može povratiti ako je izgubite ili zaboravite. Molimo vas da je sačuvate na bezbednom mestu.</p>
+				</li>
+				<li>
+					Kada list nije zaštićen, i dalje možete menjati dozvoljene opsege:
+					<ul>
+						<li>Ako želite da izmenite kreirani opseg, izaberite ga u prozoru <b>Allow users to edit ranges</b> i kliknite na dugme <b>Edit</b>.</li>
+						<li>Da biste obrisali kreirani opseg, izaberite ga u prozoru <b>Allow users to edit ranges</b> i kliknite na dugme <b>Delete</b>.</li>
+					</ul>
+				</li>
+				<li>Kliknite na dugme <b>Protect</b> kada ste spremni.</li>
+			</ol>
+			<p>Za opsege zaštićene lozinkom, kada neko pokuša da uredi izabrani opseg ćelija, pojaviće se prozor <b>Unlock Range</b>, u kojem se od korisnika traži da unese lozinku.</p>
+			<p><img alt="Unlock Range" src="../images/unlockrange.png" /></p>
+			<p>Da biste saznali više o zaštiti opsega, pogledajte <a href="../UsageInstructions/ProtectRanges.htm" onclick="onhyperlinkclick(this)">sledeći članak</a>.</p>
+
+			<h3>Uklanjanje zaštite sa lista</h3>
+			<ol>
+				<li>
+					Da biste uklonili zaštitu sa lista:
+					<ul>
+						<li>
+							kliknite na dugme <b>Protect Sheet</b>, <br />
+							ili<br />
+							kliknite desnim tasterom miša na karticu zaštićenog lista i izaberite <b>Unprotect</b> sa liste opcija
+							<p><img alt="Unprotect Sheet Tab" src="../images/unprotect_sheettab.png" /></p>
+						</li>
+						<li>
+							unesite lozinku i kliknite na <b>OK</b> u prozoru <b>Unprotect Sheet</b> ako se to zatraži.
+							<p><img alt="Unprotect Sheet" src="../images/unprotect_sheet.png" /></p>
+						</li>
+					</ul>
+					</ol>
+		</div>
+	</body>
+</html>

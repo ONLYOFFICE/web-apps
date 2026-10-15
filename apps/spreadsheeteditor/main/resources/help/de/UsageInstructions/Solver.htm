@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Solver</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Mit dem Solver lassen sich Lösungen für Probleme finden, indem Werte in bestimmten Zellen angepasst werden." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Solver</h1>
+            <p>Der <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx"><b>Tabellenkalkulationseditor</b></a> bietet eine <b>Solver</b>-Funktion, mit der Sie eine optimale Lösung für ein Problem finden können, indem Sie die Werte in bestimmten Zellen anpassen. Der Solver funktioniert, indem er die Werte in Entscheidungsvariablenzellen ändert, um den Wert in einer Zielzelle zu maximieren, zu minimieren oder auf einen bestimmten Wert zu setzen, wobei die von Ihnen definierten Einschränkungen eingehalten werden.</p>
+    <p>Der <b>Solver</b> ist besonders nützlich für lineare Programmierprobleme, bei denen Sie die Ressourcenzuweisung, Produktionsplanung, Zeitplanung oder andere Geschäftsentscheidungen unter verschiedenen Einschränkungen optimieren müssen.</p>
+    <p class="note">Die <b>Solver</b>-Funktion verwendet die <b>Simplex LP</b>-Methode, die speziell für lineare Programmierprobleme entwickelt wurde. Das bedeutet, dass Ihre Zielfunktion und alle Einschränkungen <b>lineare Funktionen</b> der Entscheidungsvariablen sein müssen.</p>
+
+            <h3>Wie man den Solver verwendet</h3>
+            <p>Um die <b>Solver</b>-Funktion zu verwenden, gehen Sie folgendermaßen vor:</p>
+        <ol>
+            <li>
+                <p>Bereiten Sie Ihre Tabelle mit den folgenden Elementen vor:</p>
+                <ul>
+                    <li><b>Variablenzellen</b> – die Zellen, die Werte enthalten, die der <b>Solver</b> ändern wird, um die optimale Lösung zu erreichen. Diese Zellen sollten Anfangswerte enthalten (Nullen werden unterstützt).</li>
+                    <li><b>Zielzelle</b> – eine Zelle, die eine Formel enthält, die von den Variablenzellen abhängt. Dies ist der Wert, den Sie maximieren, minimieren oder auf ein bestimmtes Ziel setzen möchten.</li>
+                    <li><b>Einschränkungszellen</b> – Zellen, die Formeln enthalten, welche Werte berechnen, die bestimmte Bedingungen erfüllen müssen (optional, aber in der Regel erforderlich).</li>
+                </ul>
+            </li>
+            <li>Wechseln Sie zur Registerkarte <b>Daten</b> und klicken Sie auf das Symbol <b>Solver</b> in der oberen Symbolleiste.</li>
+            <li>
+                Konfigurieren Sie im geöffneten Fenster <b>Solver-Parameter</b> die folgenden Optionen:
+                    <p><img alt="Solver-Parameter Fenster" src="../images/solver_parameters.png" /></p>
+                    <ul>
+                        <li>
+                            <b>Ziel setzen</b>: Geben Sie den Verweis auf die Zelle ein, die die zu optimierende <b>Formel</b> enthält. Sie können die Zelle direkt in der Tabelle anklicken, indem Sie die Schaltfläche <div class="icon icon-changerange"></div> <b>Daten auswählen</b> verwenden, oder den Zellverweis manuell eingeben. Wählen Sie eine der folgenden Optionen, um das Optimierungsziel festzulegen:
+                            <ul>
+                            <li><em>Max</em> – um den maximal möglichen Wert für die Zielzelle zu finden.</li>
+                            <li><em>Min</em> – um den minimal möglichen Wert für die Zielzelle zu finden.</li>
+                            <li><em>Wert von</em> – um die Zielzelle einem bestimmten Wert gleichzusetzen. Geben Sie den Zielwert manuell in das Feld ein.</li>
+                        </ul>
+                    </li>
+                    <li><b>Durch Ändern der Variablenzelle</b>: Geben Sie die Verweise auf die Zellen ein, die der <b>Solver</b> ändern wird, um das optimale Ergebnis zu erzielen. Dies sind Ihre Entscheidungsvariablen. Sie können mehrere Zellen oder Zellbereiche über die Schaltfläche <div class="icon icon-changerange"></div> <b>Daten auswählen</b> auswählen. Um nicht benachbarte Zellen auszuwählen, trennen Sie die Verweise durch Kommas (z. B. <code>B2,B3,B4</code> oder <code>B2:B4,C2:C4</code>).</li>
+                        <li>
+                            <b>Vorbehaltlich der Einschränkungen</b>: In diesem Abschnitt können Sie die Bedingungen definieren, die die Lösung erfüllen muss. Verwalten Sie die Einschränkungen mit den folgenden Schaltflächen:
+                        <ul>
+                            <li>
+                                <b>Hinzufügen</b> – klicken Sie, um eine neue Einschränkung zu erstellen. Im Dialogfenster für Einschränkungen sind folgende Einstellungen verfügbar:
+                                    <p><img alt="Fenster Einschränkung hinzufügen" src="../images/solver_addconstraint.png" /></p>
+                                    <ul>
+                                        <li><em>Zellreferenz</em> – geben Sie die Zelle oder den Bereich ein oder <div class="icon icon-changerange"></div> wählen Sie sie aus, die den einzuschränkenden Wert enthält.</li>
+                                        <li>Wählen Sie den erforderlichen Operator: &lt;= (kleiner oder gleich), &gt;= (größer oder gleich) oder = (gleich).</li>
+                                        <li><em>Einschränkung</em> – geben Sie den Grenzwert ein oder <div class="icon icon-changerange"></div> verweisen Sie auf eine Zelle, die den Grenzwert enthält.</li>
+                                    </ul>
+                                    <p>Klicken Sie auf <b>OK</b>, um die Einschränkung hinzuzufügen und das Dialogfenster zu schließen, oder klicken Sie auf <b>Hinzufügen</b>, um die aktuelle Einschränkung zu speichern und eine weitere hinzuzufügen.</p>
+                            </li>
+                            <li><b>Ändern</b> – wählen Sie eine vorhandene Einschränkung aus der Liste aus und klicken Sie auf diese Schaltfläche, um deren Parameter zu ändern. Das Dialogfenster für Einschränkungen wird mit den aktuellen Werten geöffnet, sodass Sie den Zellverweis, den Operator oder den Einschränkungswert bearbeiten können.</li>
+                            <li><b>Löschen</b> – wählen Sie eine vorhandene Einschränkung aus der Liste aus und klicken Sie auf diese Schaltfläche, um sie zu entfernen. Die Einschränkung wird sofort aus der Liste gelöscht.</li>
+                        </ul>
+                    </li>
+                    <li><b>Unbeschränkte Variablen nichtnegativ machen</b>: Aktivieren Sie dieses Kontrollkästchen, um eine implizite Einschränkung hinzuzufügen, die verhindert, dass Variablenzellen negative Werte annehmen. Wenn diese Option aktiviert ist, berücksichtigt der <b>Solver</b> nur Lösungen, bei denen alle Variablenzellen größer oder gleich null sind.</li>
+                    <li>
+                        <b>Lösungsmethode</b>: Wählen Sie den Algorithmus aus, den der <b>Solver</b> zur Findung der optimalen Lösung verwenden soll. Die verfügbare Methode ist:
+                        <ul>
+                            <li><em>Simplex LP</em> – die Simplex-Methode für lineare Programmierprobleme. Diese Methode ist für Probleme konzipiert, bei denen die Zielfunktion und alle Einschränkungen lineare Funktionen der Variablen sind.</li>
+                        </ul>
+                    </li>
+                    <li>Klicken Sie auf <b>Lösen</b>, um den Optimierungsprozess zu starten.</li>
+                </ul>
+            </li>
+            <li>
+                Im Fenster <b>Solver-Ergebnisse</b> wird das Ergebnis angezeigt:
+                    <p><img alt="Fenster Solver-Ergebnisse" src="../images/solver_results.png" /></p>
+                    <ul>
+                        <li>Wenn eine Lösung gefunden wurde, wird eine Meldung angezeigt, die besagt, dass der <em>Solver eine Lösung gefunden hat</em>, die alle Einschränkungen erfüllt.</li>
+                    <li>Wählen Sie, ob Sie die <b>Solver-Lösung beibehalten</b> möchten (Sie können sie im Hintergrund in der Tabelle sehen) oder die <b>ursprünglichen Werte wiederherstellen</b> möchten.</li>
+                    <li>Sie können <b>zum Dialogfenster „Solver-Parameter" zurückkehren</b>, um weitere Anpassungen vorzunehmen, indem Sie das entsprechende Kontrollkästchen aktivieren.</li>
+                    <li>Klicken Sie auf <b>OK</b>, um die Lösungswerte in Ihrer Tabelle zu behalten.</li>
+                    <li>Klicken Sie auf <b>Abbrechen</b>, um die ursprünglichen Werte vor der Optimierung wiederherzustellen.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Solver vs. Zielwertsuche</h3>
+            <p>Obwohl sowohl der <b>Solver</b> als auch die <a href="../UsageInstructions/GoalSeek.htm" target="_blank">Zielwertsuche</a> Optimierungswerkzeuge sind, dienen sie unterschiedlichen Zwecken:</p>
+            <ul>
+                <li>Die <b>Zielwertsuche</b> findet einen einzelnen Eingabewert, der benötigt wird, um ein bestimmtes Ergebnis in einer Formel zu erzielen. Sie ändert nur eine Zelle, um einen Zielwert zu erreichen.</li>
+            <li>Der <b>Solver</b> kann mehrere Zellen gleichzeitig über die Option <b>Durch Ändern der Variablenzelle</b> ändern und ermöglicht das Hinzufügen von Einschränkungen über <b>Vorbehaltlich der Einschränkungen</b>. Er findet optimale Lösungen (Maximum, Minimum oder bestimmter Wert) für komplexere Probleme.</li>
+        </ul>
+        <p>Verwenden Sie die <b>Zielwertsuche</b> für einfache Probleme mit einer Variablen und den <b>Solver</b> für Optimierungsprobleme mit mehreren Variablen und Einschränkungen.</p>
+
+            <h3>Einschränkungen</h3>
+            <p>Die aktuelle Implementierung des <b>Solvers</b> hat folgende Einschränkungen:</p>
+        <ul>
+            <li>Es ist nur die Lösungsmethode <b>Simplex LP</b> verfügbar, die erfordert, dass alle Beziehungen linear sind.</li>
+            <li>Ganzzahl-, binäre und differentielle Einschränkungen werden <b>nicht unterstützt</b>. Alle Variablen werden als kontinuierliche Werte behandelt.</li>
+        </ul>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sačuvajte, preuzmite, odštampajte svoj PDF</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Save, download and print your PDFs" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Sačuvajte, preuzmite, odštampajte svoj PDF</h1>
+			<h3>Čuvanje</h3>
+			<p class="onlineDocumentFeatures">Podrazumevano, <!--online <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)">--><b>PDF Editor</b><!--</a>--> automatski čuva vašu datoteku svakih 2 sekunde dok radite na njoj, kako bi sprečio gubitak podataka u slučaju neočekivanog zatvaranja programa. <!--If you co-edit the file in the <b>Fast</b> mode, the timer requests for updates 25 times a second and saves the changes if they have been made. When the file is being co-edited in the <b>Strict</b> mode, changes are automatically saved at 10-minute intervals. If necessary, you can easily select the preferred co-editing mode or disable the <b>Autosave</b> feature on the <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a> page.--></p>
+			<p>Da ručno sačuvate trenutni PDF u istom formatu i lokaciji,</p>
+			<ul>
+				<li>pritisnite <b>Save</b> <div class="icon icon-save"></div> ikonu u levom delu zaglavlja editora, ili</li>
+				<!--<li>koristite <b>Ctrl+S</b> kombinaciju ključa, ili</li>-->
+				<li>kliknite <b>File</b> karticu na gornjoj traci sa alatkama i izaberite <b>Save</b> opciju.</li>
+			</ul>
+			<!--<p class="note desktopDocumentFeatures">U <em>desktop verziji</em>, da biste sprečili gubitak podataka u slučaju da se program neočekivano zatvori, možete uključiti <b>Autorecover</b> opciju na <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a> stranici.</p>
+			<div class="desktopDocumentFeatures">
+				<p>U <em>desktop verziji</em>, možete sačuvati dokument pod drugim imenom, na novoj lokaciji ili u novom formatu,</p>
+				<ol>
+					<li>kliknite <b>File</b> karticu sa gornje trake sa alatkama,</li>
+					<li>Izaberite <b>Save as</b> opciju,</li>
+					<li>izaberite jedan od dostupnih formata u zavisnosti od vaših potreba: DOCX, DOCXF, OFORM, DOTX, ODT, OTT, RTF, TXT, HTML, FB2, EPUB, PDF, PDF/A. Takođe možete izabrati <b>Document template</b> (DOTX ili OTT) opciju.</li>
+				</ol>
+			</div>-->
+			<div class="onlineDocumentFeatures">
+				<h3>Preuzimanje</h3>
+				<p>U <em>online verziji</em>, možete preuzeti završni PDF na svoj hard disk,</p>
+				<ol>
+					<li>kliknite <b>File</b> karticu na gornjoj traci sa alatkama,</li>
+					<li>izaberite <b>Download as</b> opciju,</li>
+					<li>izaberite jedan od dostupnih formata u zavisnosti od potreba: DOCX, PDF, ODT, <!--DOCXF, OFORM,--> DOTX, <!--PDF/A,--> OTT, RTF, TXT, FB2, EPUB, HTML, JPG, PNG.</li>
+				</ol>
+				<h3>Čuvanje kopije</h3>
+				<p>U <em>online verziji</em>, možete sačuvati kopiju datoteke na svom portalu,</p>
+				<ol>
+					<li>kliknite <b>File</b> karticu na gornjoj traci sa alatkama,</li>
+					<li>izaberite <b>Save Copy as</b> opciju,</li>
+					<li>izaberite jedan od dostupnih formata u zavisnosti od potreba: DOCX, PDF, ODT, <!--DOCXF, OFORM,--> DOTX, <!--PDF/A,--> OTT, RTF, TXT, FB2, EPUB, HTML, JPG, PNG.</li>
+					<li>izaberite lokaciju datoteke na portalu i pritisnite <b>Save</b>.</li>
+				</ol>
+			</div>
+			<h3 id="print">Štampanje</h3>
+			<p>Da odštampate trenutni PDF,</p>
+			<ul>
+				<li>kliknite <b>Print</b> <div class="icon icon-print"></div> ikonu u levom delu zaglavlja editora, ili</li>
+				<li>koristite <b>Ctrl+P</b> kombinaciju tastera, ili</li>
+				<li>kliknite <b>File</b> karticu na gornjoj traci sa alatkama i izaberite <b>Print</b> opciju.</li>
+			</ul>
+			<div class="note">
+				Firefox pregledač omogućava štampanje bez prethodnog preuzimanja dokumenta kao .pdf datoteke.
+			</div>
+			<p><img alt="Prozor za podešavanje štampe" src="../images/printsettingswindow.png" /></p>
+			<p>Podesite sledeće parametre u <b>Print</b> prozoru koji se otvara:</p>
+			<ul id="printtitles">
+				<li><b>Destinacija</b> - izaberite odredište štampane datoteke, npr., <b>Sačuvajte u PDF</b>, <b>Microsoft XPS Document Writer</b>, <b>Microsoft Print to PDF</b>, <b>Fax</b>, itd.</li>
+				<li><b>Pages</b> - izaberite jednu od opcija za štampanje stranica: <b>Sve</b>, <b>Trenutna</b>, <b>Neparne</b>, <b>Parne</b>, ili <b>Prilagođeno</b>. U poslednjem slučaju potrebno je ručno uneti brojeve stranica.</li>
+				<li>
+					<b>Colour mode</b> - izaberite da li želite vaš fajl štampan u <b>Boji</b> ili <b>Crno-belo</b>. Imajte u vidu da je ova opcija dostupna kada je <em>Microsoft XPS Document Writer</em> <b>Destinacija</b> izabran parametar. Za <em>Fax</em> <b>Destinacioni</b> mod boje je <b>crno-beli</b> podrazumevano.
+					<p>Kliknite na <b>More settings</b> da otvorite napredna podešavanja.</p>
+				</li>
+				<li><b>Veličina papira</b> - izaberite jednu od dostupnih veličina papira ili definišite sopstvenu.</li>
+				<li><b>Skala</b> - podesite skaliranje dokumenta pri štampanju; možete <b>ga prilagoditi širini stranice</b> ili ručno uneti skalu putem <b>Skala</b> polje za potvrdu i odgovarajuće polje za unos.</li>
+				<li><b>Pages per sheet</b> - podesite broj stranica koje se štampaju na jednom listu, npr., <b>dva</b>, <b>šest</b>, <b>devet</b>, itd.</li>
+				<li><b>Margins</b> - definišite margine stranice. Možete koristiti ili <b>podrazumevane</b> margine ili uneti sopstvene u inčima. Za prilagođene margine unesite vrednosti za gornju, donju, levu i desnu marginu ručno. Možete izabrati i <b>None</b> opciju za štampanje bez margina.</li>
+				<li><b>Options</b> - označite <b>Print headers and footers</b> da biste štampali zaglavlja i podnožja ili poništite izbor da se ista ne štampaju.</li>
+				<li><b>Print using the system dialogue</b> - kliknite na ovu opciju da otvorite sistemski dijalog za podešavanje štampe.</li>
+			</ul>
+			<p><span class="desktopDocumentFeatures"> <em>Desktop verzija</em> opcije štampe u desktop verziji su sledeće: izaberite štampač sa <b>Printer</b> liste, izaberite <b>Opseg štampe</b>,  unesite <b>Stranice</b> i broj <b>Kopija</b> za štampanje, izaberite <b>Print sides</b>,  <b>Veličinu stranice</b>,  <b>orijentaciju stranice</b>, i <b>Margine</b>. Da biste podesili dodatna svojstva štampača, pristupite sistemskom dijaloškom prozoru za štampanje pomoću<b>Print using the system dialog</b> opcije. Za završetak procesa postavljanja koristite <b>Štampanje</b> ili <b>Štampaj u PDF</b> dugme. <b>Štampaj brzo</b> dugme na gornjoj alatnoj traci omogućava brzo štampanje koristeći poslednji izabrani ili podrazumevani štampač.</span></p>
+		</div>
+	</body>
+</html>

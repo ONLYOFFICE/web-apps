@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>COUNTIFS funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Funkcija COUNTIFS je jedna od statističkih funkcija. Naučite kako da koristite COUNTIFS formulu u Excel tabelama i kompatibilnim fajlovima u ONLYOFFICE-u." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>COUNTIFS funkcija</h1>
+			<p>Funkcija <b>COUNTIFS</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za brojanje izabranih ćelija na osnovu više kriterijuma.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2]...)</em></b></p> 
+			<p>Funkcija <b>COUNTIFS</b> ima sledeće argumente:</p> 
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>criteria_range1</em></b></td>
+                    <td>Prvi izabrani opseg ćelija na koji se primenjuje <em>criteria1</em>. Ovo je obavezan argument.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria1</em></b></td>
+                    <td>Prvi uslov koji mora biti ispunjen. Primenjuje se na <em>criteria_range1</em> i koristi se za određivanje ćelija u <em>criteria_range1</em> koje se broje. Može biti vrednost uneta ručno ili sadržana u ćeliji na koju se pozivate. Ovo je obavezan argument.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria_range2, criteria2</em></b></td>
+                    <td>Dodatni opsezi ćelija i njihovi odgovarajući kriterijumi. Ovi argumenti su opcioni. Možete dodati do 127 opsega i odgovarajućih kriterijuma.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+            <p>Prilikom navođenja kriterijuma možete koristiti džoker znakove. Znak pitanja "?" može zameniti bilo koji jedan znak, a zvezdica "*" se može koristiti umesto bilo kog broja znakova. Ako želite da pronađete znak pitanja ili zvezdicu, unesite tildu (~) ispred znaka.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>COUNTIFS</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>COUNTIFS</b>.</p>
+			<p><img alt="COUNTIFS Function" src="../images/countifs.png" /></p>
+		</div>
+	</body>
+</html>

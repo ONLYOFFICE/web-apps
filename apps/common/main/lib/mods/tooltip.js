@@ -180,11 +180,16 @@
   }
 
   Tooltip.prototype.init = function (type, element, options) {
+    const is_function = function ( obj ) {
+      return typeof obj === "function" && typeof obj.nodeType !== "number" &&
+          typeof obj.item !== "function";
+    };
+
     this.enabled   = true
     this.type      = type
     this.$element  = $(element)
     this.options   = this.getOptions(options)
-    this.$viewport = this.options.viewport && $(document).find($.isFunction(this.options.viewport) ? this.options.viewport.call(this, this.$element) : (this.options.viewport.selector || this.options.viewport))
+    this.$viewport = this.options.viewport && $(document).find(is_function(this.options.viewport) ? this.options.viewport.call(this, this.$element) : (this.options.viewport.selector || this.options.viewport))
     this.inState   = { click: false, hover: false, focus: false }
 
     if (this.$element[0] instanceof document.constructor && !this.options.selector) {
@@ -220,7 +225,7 @@
     var dataAttributes = this.$element.data()
 
     for (var dataAttr in dataAttributes) {
-      if (dataAttributes.hasOwnProperty(dataAttr) && $.inArray(dataAttr, DISALLOWED_ATTRIBUTES) !== -1) {
+      if (Object.hasOwn(dataAttr) && $.inArray(dataAttr, DISALLOWED_ATTRIBUTES) !== -1) {
         delete dataAttributes[dataAttr]
       }
     }

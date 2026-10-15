@@ -789,6 +789,7 @@
   "PE.Controllers.Main.textLoadingDocument": "Sunum yükleniyor",
   "PE.Controllers.Main.textLongName": "128 Karakterden kısa bir ad girin.",
   "PE.Controllers.Main.textNoLicenseTitle": "Lisans limitine ulaşıldı.",
+  "PE.Controllers.Main.textNoResourcesTitle": "Yetersiz kaynak",
   "PE.Controllers.Main.textObject": "Obje",
   "PE.Controllers.Main.textPaidFeature": "Ücretli Özellik",
   "PE.Controllers.Main.textReconnect": "Yeniden bağlanıldı",
@@ -1095,6 +1096,7 @@
   "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Lisansın süresi doldu.<br>Belge düzenleme işlevine erişiminiz yok.<br>Lütfen yöneticinizle iletişime geçin.",
   "PE.Controllers.Main.warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor.<br>Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
   "PE.Controllers.Main.warnNoLicense": "Düzenleyiciler %1 eşzamanlı bağlantı sınırına ulaştı. Bu belge yalnızca görüntüleme için açılacaktır.<br>Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
+  "PE.Controllers.Main.warnNoResources": "%1 sunucusu bu belgeyi düzenleme için açacak yeterli kaynağa sahip değil. Bu belge yalnızca görüntüleme için açılacaktır.",
   "PE.Controllers.Main.warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "PE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
   "PE.Controllers.Print.txtPrintRangeInvalid": "Geçersiz yazdırma aralığı",
@@ -1102,6 +1104,14 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Bağlantı kesildi</b><br>Bağlanmayı deneyin. Lütfen bağlantı ayarlarını kontrol edin.",
   "PE.Controllers.Statusbar.zoomText": "Büyütme {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Kaydedeceğiniz yazı tipi kullandığınız cihazda mevcut değil.<br>Yazı tipi, şimdilik cihazınızda bulunan yazı tiplerinden biri ile gösterilecektir, tercih ettiğiniz yazı tipi cihaza yüklendiğinde kullanılacaktır.<br>Devam etmek istiyor musunuz?",
+  "PE.Controllers.Toolbar.helpAITools": "Yapay zekâ, belgelerinizi oluşturmanıza ve düzenlemenize yardımcı olur.",
+  "PE.Controllers.Toolbar.helpAIToolsHeader": "Yapay Zekâ Araçları",
+  "PE.Controllers.Toolbar.helpMastersView": "Dinleyici notu ve not asıllarını düzenleyin. Slaytları yeni modlarda görüntüleyin.",
+  "PE.Controllers.Toolbar.helpMastersViewHeader": "Asıllar ve Görünüm",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPage": "Birden çok slaytı tek bir sayfaya yazdırın.",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPageHeader": "Sayfadaki slaytlar",
+  "PE.Controllers.Toolbar.helpVideoFormats": "GIF, mp4, ... çıktı biçimleri",
+  "PE.Controllers.Toolbar.helpVideoFormatsHeader": "Video Biçimleri",
   "PE.Controllers.Toolbar.textAccent": "Aksanlar",
   "PE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "PE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 300 arasında sayısal değer giriniz.",
@@ -2509,5 +2519,6 @@
   "PE.Views.ViewTab.tipFitToSlide": "Slayta sığdır",
   "PE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PE.Views.ViewTab.tipNormal": "Normal"
+  "PE.Views.ViewTab.tipNormal": "Normal",
+  "Common.Controllers.Desktop.hintBtnHome": "Ana pencereyi göster"
 }

@@ -40,6 +40,8 @@
   "VE.Controllers.Main.warnLicenseAnonymous": "Anonim kullanıcılar için erişim engellendi.<br>Bu doküman sadece görüntülemek için açılacaktır.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Dikkat",
   "VE.Controllers.Statusbar.zoomText": "Yakınlaştırma {0}%",
+  "VE.Controllers.Toolbar.helpAITools": "Yapay zekâ, belgelerinizi oluşturmanıza ve düzenlemenize yardımcı olur.",
+  "VE.Controllers.Toolbar.helpAIToolsHeader": "Yapay Zekâ Araçları",
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Dikkat",
   "VE.Controllers.Toolbar.txtUntitled": "Başlıksız",
   "VE.Views.DocumentHolder.textCopy": "Kopyala",
@@ -74,5 +76,6 @@
   "VE.Views.Statusbar.tipZoomOut": "Uzaklaştır",
   "VE.Views.Toolbar.textTabFile": "Dosya",
   "VE.Views.Toolbar.textTabView": "Görüntüle",
-  "VE.Views.ViewTab.textZoom": "Yakınlaştırma"
+  "VE.Views.ViewTab.textZoom": "Yakınlaştırma",
+  "Common.Controllers.Desktop.hintBtnHome": "Ana pencereyi göster"
 }

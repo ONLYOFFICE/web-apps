@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -92,6 +95,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onRedactState',          _.bind(this.onRedactionStateToggle, this));
+                this.api.asc_registerCallback('asc_onCanRedact',          _.bind(this.onCanRedactaction, this));
             }
             return this;
         },
@@ -106,6 +110,7 @@ define([
             });
             this.addListeners({
                 'RedactTab': {
+                    'hiddeninfo:remove' :this.onRemoveHiddenInfo.bind(this),
                     'redact:start'   : this.onStartRedact.bind(this),
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
@@ -117,8 +122,69 @@ define([
             });
         },
 
+        onRemoveMeta: function (props) {
+            var me = this;
+            if (me.api) {
+                me.api.RedactMeta({
+                    metadata: props[0],
+                    fileAttachments: props[1],
+                    bookmarks: props[2],
+                    embedSearchIdx: props[3],
+                    comments: props[4],
+                    fields: props[5],
+                    hiddenText: props[6],
+                    hiddenLayers: props[7],
+                    delCropContent: props[8],
+                    linksAndActions: props[9],
+                    overlapping: props[10]
+                });
+            }
+            if (!Common.localStorage.getBool("pdfe-hide-metadata-info")) {
+                Common.UI.info({
+                    msg: me.textHiddenInfoWarn,
+                    dontshow: true,
+                    callback: function (btn, dontshow) {
+                        if (dontshow) Common.localStorage.setItem("pdfe-hide-metadata-info", 1);
+                    }
+                })
+            }
+        },
+
+        onRemoveHiddenInfo: function(btn) {
+            var me = this;
+
+            var handlerDlg = function (dlg, result) {
+                if (result === 'ok') {
+                    var props = dlg.getSettings();
+                    if (props[4] || props[5] || props[9]) {
+                        var isLocked = me.api.IsAnyAnnotLocked() || me.api.IsAnyFieldLocked();
+                        if (isLocked) {
+                            Common.UI.warning({
+                                width: 500,
+                                msg: me.textCommentsFieldsEdited,
+                                buttons: ['yes', 'no'],
+                                primary: 'yes',
+                                callback: function(btn) {
+                                    if (btn == 'yes') {
+                                        me.onRemoveMeta(props);
+                                    }
+                                }
+                            });
+                        } else {
+                            me.onRemoveMeta(props);
+                        }
+                    } else {
+                        me.onRemoveMeta(props);
+                    }
+                }
+            }
+            var win = new PDFE.Views.RemoveMetaDlg({
+                handler: handlerDlg
+            });
+            win.show();
+        },
+
         onApplyRedact: function() {
-            Common.UI.TooltipManager.closeTip('apply-redaction');
             Common.UI.warning({
                 width: 500,
                 msg: this.textApplyRedact,
@@ -133,7 +199,6 @@ define([
         },
 
         onStartRedact: function(isMarkMode) {
-            Common.UI.TooltipManager.closeTip('mark-for-redaction');
             if (isMarkMode && this.toolbar) {
                 this.toolbar.turnOnSelectTool();
                 this.api.SetMarkerFormat(undefined, false);
@@ -216,12 +281,8 @@ define([
         onActiveTab: function(tab) {
             if (tab == 'red') {
                 if (!this.toolbar.toolbar.isCompact()) {
-                    Common.UI.TooltipManager.showTip('mark-for-redaction');
-                    Common.UI.TooltipManager.showTip('apply-redaction');
                 }
             } else {
-                Common.UI.TooltipManager.closeTip('mark-for-redaction');
-                Common.UI.TooltipManager.closeTip('apply-redaction');
                 const isMarked = this.api.HasRedact();
                 if (
                     isMarked &&
@@ -273,6 +334,10 @@ define([
                 isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
         },
 
+        onCanRedactaction: function(isActive) {
+            Common.Utils.lockControls(Common.enumLock.canRedact, !isActive, {array: [this.view.btnApplyRedactions]});
+        },
+
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
         },
@@ -306,12 +371,6 @@ define([
                     }
                 });
             }
-            Common.UI.TooltipManager.addTips({
-                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
-                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
-                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
-                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
-            });
         },
 
         onDocumentReady: function() {

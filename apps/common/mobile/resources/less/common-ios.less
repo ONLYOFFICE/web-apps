@@ -6,8 +6,8 @@
     @text-normal: var(--text-normal);
     @background-warning: #FF9F0A;
 
-    --f7-navbar-link-color: @brandColor;
-    --f7-subnavbar-link-color: @brandColor;
+    --f7-navbar-link-color: @toolbar-icons;
+    --f7-subnavbar-link-color: @toolbar-icons;
     --f7-navbar-text-color: @text-normal;
     --f7-navbar-title-line-height: 44px;
     --f7-navbar-link-line-height: 44px;
@@ -18,6 +18,7 @@
 
     --f7-tabbar-link-inactive-color: @toolbar-segment;
 
+    --f7-checkbox-active-color: @brandColor;
     --f7-radio-active-color: @brandColor;
     --f7-toggle-active-color: @brandColor;
     --f7-range-bar-active-bg-color: @brandColor;
@@ -58,6 +59,10 @@
     --f7-picker-item-selected-text-color: @text-normal;
 
     --f7-block-text-color: @text-secondary;
+    --f7-block-title-margin-bottom: 10px;
+    --f7-block-title-font-weight: 400;
+    --f7-block-title-font-size: 13px;
+    --f7-block-title-line-height: 18px;
 
     --f7-theme-color-shade: @background-primary;
     --f7-fab-pressed-bg-color: @background-primary;
@@ -89,6 +94,20 @@
             height: 44px;
             display: flex;
             justify-content: center;
+        }
+
+        .popup-close, .sheet-close {
+            --icon-stroke-grey-primary: @toolbar-icons;
+        }
+    }
+
+    .title {
+        .subtitle {
+            color: inherit;
+            margin-bottom: 16px;
+            margin-top: -10px;
+            font-size: 12px;
+            color: @text-secondary;
         }
     }
 
@@ -132,6 +151,10 @@
             &::after {
                 background: @background-menu-divider;
             }
+        }
+
+        .popover-arrow:after {
+            background: var(--f7-navbar-bg-color);
         }
 
         // .list:first-child {
@@ -279,7 +302,7 @@
             position: relative;
             overflow: hidden;
             -webkit-box-flex: 1;
-            border: 1px solid @toolbar-segment;
+            border: 1px solid @toolbar-icons;
             text-decoration: none;
             text-align: center;
             margin: 0;
@@ -292,7 +315,7 @@
             cursor: pointer;
             outline: 0;
             font-weight: 600;
-            color: @brandColor;
+            color: @toolbar-icons;
             &:first-child {
                 border-radius: 5px 0 0 5px;
                 border-left-width: 1px;
@@ -304,7 +327,7 @@
             &.tab-link-active {
                 // background: @brandColor;
                 // color: @fill-white;
-                background: @toolbar-segment;
+                background: @toolbar-icons;
                 color: @brand-text-on-brand;
                 i.icon {
                     background-color: @brand-text-on-brand;
@@ -377,7 +400,7 @@
         text-transform: uppercase;
         line-height: 1;
         color: @blockTitleColor;
-        margin: 35px 15px 10px;
+        margin: 20px 15px 10px;
     }
 
     .shapes {
@@ -686,15 +709,67 @@
         margin-left: 10px;
     }
 
-    .popover {
-        box-shadow: 0 10px 100px 0 rgba(0, 0, 0, 0.3);
+    .back span,
+    .icon-back {
+        color: @toolbar-icons;
     }
 
-    .sheet-modal, .dropdown-list-popup {
-        box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.16);
+    .done.link,
+    .navbar-link-settings .right .link,
+    .navbar-dropdown-list .right .link {
+        color: @brandColor;
+        &.disabled {
+            color: @toolbar-icons;
+        }
     }
-    
 
+    #edit-popover.edit-custom-font-size {
+        .navbar-inner { 
+            background-color: @background-tertiary; 
+        }
+
+        .view { 
+            height: 100px !important; 
+        }  
+
+        .item-input.item-content {
+            max-height: 20px;
+        }
+
+        li:last-child:after {
+            display: none !important;
+        }
+    }
+
+
+    .list .item-link.size-label {
+        padding: 5px 10px;
+        border-radius: 8px !important;
+        color: @text-normal;
+        background-color: @background-tertiary;
+    }
+
+    .theme-type-dark .list .item-link.size-label {
+        color: @brandColor;
+        background-color: @background-menu-divider;
+    }
+
+    .list.font .item-after {
+        align-items: center;
+    }
+
+    .page-custom-font-size .item-content.item-input {
+        .item-inner {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .item-title.item-label {
+            font-size: initial;
+        }
+
+        .item-input-wrap input {
+            text-align: right; 
+        }
+    }
 }
-
-

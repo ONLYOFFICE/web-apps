@@ -29,7 +29,7 @@
             --sk-canvas-line: rgba(0,0,0,.05);
         }
 
-        .theme-night .loadmask {
+        .theme-night .loadmask, .theme-type-dark .loadmask {
             --sk-height-toolbar-controls: 84px; 
             --sk-layout-padding-toolbar: 0 10px;
             --sk-border-radius-toolbar: 8px;

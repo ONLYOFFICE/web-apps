@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Podržani formati elektronskih dijagrama</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="The list of diagram formats supported by Diagram Viewer" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Podržani formati elektronskih dijagrama</h1>
+            <p>
+                Elektronski dijagrami su jedni od najčešće korišćenih računarskih fajlova. Zbog visoko razvijene savremene računarske mreže, praktičnije je distribuirati elektronske dijagrame nego odštampane. Danas se koristi mnogo različitih uređaja za prikazivanje dokumenata, pa postoji mnogo vlasničkih i otvorenih formata fajlova.
+                <a href="https://www.onlyoffice.com/en/diagram-viewer.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Diagram Viewer</b></a> obrađuje najpopularnije među njima.
+            </p>
+            <p class="note">Prilikom otpremanja ili otvaranja fajla za uređivanje, on će biti konvertovan u Office Open XML format. Ovo se radi radi ubrzanja obrade fajlova i povećanja interoperabilnosti.</p>
+            <p>Sledeća tabela sadrži formate koji se mogu otvoriti za pregledanje i/ili uređivanje.</p>
+            <table>
+                    <tr class="tableHeader">
+                        <td><b>Formati</b></td>
+                        <td><b>Opis</b></td>
+                        <td>Pregledati nativno</td>
+                        <td>Pregledati nakon konverzije u OOXML</td>
+                        <td>Uređivati nativno</td>
+                        <td>Uređivati nakon konverzije u OOXML</td>
+                    </tr>
+                    <tr>
+                        <td>JPG/JPEG</td>
+                        <td>Joint Photographic Experts Group<br />Format rasterskih slika koji koristi kompresiju za skladištenje podataka</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>PDF</td>
+                        <td>Portable Document Format<br>Format fajla koji se koristi za prikaz dokumenata bez obzira na softver, hardver ili operativni sistem</td>
+                        <td>-</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>PDF/A</td>
+                        <td>Portable Document Format / A<br>ISO standardizovana verzija PDF formata specijalizovana za arhiviranje i dugoročno čuvanje elektronskih dokumenata </td>
+                        <td>-</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>PNG</td>
+                        <td>Portable Network Graphics<br>Rasterski format grafike koji podržava kompresiju bez gubitka kvaliteta</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSDM</td>
+                        <td>Tip dijagrama koji podržava makroe i koristi se u Microsoft Visio</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSDX</td>
+                        <td>Format fajla dizajniran prvenstveno za skladištenje skeniranih dokumenata, naročito onih sa kombinacijom teksta, crteža i fotografija</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSSM</td>
+                        <td>Microsoft Visio stencil fajlovi koji podržavaju makroe</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSSX</td>
+                        <td>XML-bazirani stencil fajlovi za Microsoft Visio</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSTM</td>
+                        <td>Šablon dijagrama sa podrškom za makroe kreiran u Microsoft Visio</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VSTX</td>
+                        <td>Šablon dijagrama kreiran u Microsoft Visio</td>
+                        <td>+</td>
+                        <td>+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+            </table>
+            <p>Sledeća tabela sadrži formate u kojima možete preuzeti dokument iz <b>File</b> -&gt; <b>Download</b> menija.</p>
+            <table>
+                    <tr class="tableHeader">
+                        <td><b>Ulazni format</b></td>
+                        <td><b>Može se preuzeti kao</b></td>
+                    </tr>
+                    <tr>
+                        <td>JPG</td>
+                        <td>PDF, PDF/A, PNG, VSDX</td>
+                    </tr>
+                    <tr>
+                        <td>PDF</td>
+                        <td>JPG, PDF/A, PNG, VSDX</td>
+                    </tr>
+                    <tr>
+                        <td>PDF/A</td>
+                        <td>JPG, PDF, PNG, VSDX</td>
+                    </tr>
+                    <tr>
+                        <td>PNG</td>
+                        <td>JPG, PDF, PDF/A, VSDX</td>
+                    </tr>
+                    <tr>
+                        <td>VSDM</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+                    <tr>
+                        <td>VSDX</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+                    <tr>
+                        <td>VSSM</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+                    <tr>
+                        <td>VSSX</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+                    <tr>
+                        <td>VSTM</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+                    <tr>
+                        <td>VSTX</td>
+                        <td>BMP, GIF, JPG, PDF, PDF/A, PNG</td>
+                    </tr>
+            </table>
+            <p>Takođe možete pogledati matricu konverzije na <a href="https://api.onlyoffice.com/docs/docs-api/additional-api/conversion-api/conversion-tables/#diagram-document-file-formats" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> da vidite da li možete konvertovati svoje dijagrame u najpoznatije formate fajlova.</p>
+        </div>
+	</body>
+</html>

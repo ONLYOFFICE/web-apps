@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path opacity=".8" d="M15.5 14.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" class="icon-stroke-blue-primary"/>
+    <path opacity=".8" d="M17.5 14.5a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" class="icon-stroke-blue-primary"/>
+    <path opacity=".8" d="M19.5 14.5a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" class="icon-stroke-blue-primary"/>
+    <path d="M3.5 8.5v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-12a2 2 0 0 0-2-2h-16a2 2 0 0 0-2 2Z" class="icon-stroke-gray-primary"/>
+</svg>

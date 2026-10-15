@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ShapeSettings.js
@@ -103,21 +106,21 @@ define([
             this._locked = false;
 
             this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
-            this.ShapeColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.ShapeColor = {Value: 1, Color: 'transparent'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, render as transparent
             this.BlipFillType = Asc.c_oAscFillBlipType.STRETCH;
             this.GradFillType = Asc.c_oAscFillGradType.GRAD_LINEAR;
             this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
             this.GradRadialDirectionIdx = 0;
             this.GradLinearDirectionType = 0;
             this.PatternFillType = 0;
-            this.FGColor = {Value: 1, Color: '000000'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
-            this.BGColor = {Value: 1, Color: 'ffffff'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.FGColor = {Value: 1, Color: '000000'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, render as transparent
+            this.BGColor = {Value: 1, Color: 'ffffff'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, render as transparent
 
-            this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, render as transparent
             this.BorderSize = 0;
             this.BorderType = Asc.c_oDashType.solid;
 
-            this.ShadowColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.ShadowColor = {Value: 1, Color: 'transparent'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, render as transparent
 
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
@@ -839,6 +842,13 @@ define([
                 this.hideShapeOnlySettings(props.get_FromChart() || !!props.get_FromImage());
                 this.hideRotationSettings(props.get_FromChart() || !!props.get_FromImage() || props.get_FromSmartArt());
 
+                var rot = props.asc_getRot();
+                rot = (rot===undefined || rot===null) ? '' : Math.floor(rot*180/3.14159265358979 + 0.5);
+                if (this._state.Rot !== rot) {
+                    this.numRotate.setValue(rot, true);
+                    this._state.Rot = rot;
+                }
+
                 this.canEditPoint = this.api && this.api.asc_canEditGeometry();
                 this.toggleBtnEditShape();
                 var hidechangetype = props.get_FromChart() || props.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
@@ -866,9 +876,9 @@ define([
                     this._state.Transparency=transparency;
                 }
 
-                if (fill===null || fill_type===null) { // заливка не совпадает у неск. фигур
+                if (fill===null || fill_type===null) { // fill doesn't match across multiple shapes
                     this.OriginalFillType = null;
-                } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет
+                } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // no fill
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_SOLID) {
                     fill = fill.get_fill();
@@ -889,7 +899,7 @@ define([
                     this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 }  else if (fill_type==Asc.c_oAscFill.FILL_TYPE_BLIP) {
                     fill = fill.get_fill();
-                    this.BlipFillType = fill.get_type(); // null - не совпадают у нескольких фигур
+                    this.BlipFillType = fill.get_type(); // null - values don't match across multiple shapes
                     if (this._state.BlipFillType !== this.BlipFillType) {
                         if (this.BlipFillType == Asc.c_oAscFillBlipType.STRETCH || this.BlipFillType == Asc.c_oAscFillBlipType.TILE) {
                             this.cmbFillType.setValue(this.BlipFillType);
@@ -900,7 +910,7 @@ define([
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill = fill.get_fill();
-                    this.PatternFillType = fill.get_pattern_type(); // null - не совпадают у нескольких фигур
+                    this.PatternFillType = fill.get_pattern_type(); // null - values don't match across multiple shapes
                     if (this._state.PatternFillType !== this.PatternFillType) {
                         this.cmbPattern.suspendEvents();
                         var rec = this.cmbPattern.menuPicker.store.findWhere({
@@ -937,7 +947,7 @@ define([
                     this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     fill = fill.get_fill();
-                    var gradfilltype = fill.get_grad_type();  // null - не совпадают у нескольких фигур
+                    var gradfilltype = fill.get_grad_type();  // null - values don't match across multiple shapes
                     if (this._state.GradFillType !== gradfilltype || this.GradFillType !== gradfilltype) {
                         this.GradFillType = gradfilltype;
                         rec = undefined;
@@ -1624,6 +1634,22 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.numRotate = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-rotate'),
+                step: 1,
+                width: 50,
+                defaultUnit: '°',
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            this.numRotate.on('change', this.onRotateChange.bind(this));
+            this.numRotate.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.numRotate);
+
             this.btnEditShape = new Common.UI.Button({
                 parentEl: $('#shape-button-edit-shape'),
                 cls: 'btn-toolbar align-left',
@@ -1999,7 +2025,7 @@ define([
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
                 el: $('#' + menuitemId),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\" aria-hidden=\"true\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: me.shapeRestoreHeight,
@@ -2116,6 +2142,14 @@ define([
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ShapeApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        onRotateChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRot(field.getNumberValue() * 3.14159265358979 / 180);
+                this.api.ShapeApply(properties);
+            }
         },
 
         onBtnFlipClick: function(btn) {

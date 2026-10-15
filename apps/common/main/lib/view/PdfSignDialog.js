@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  PdfSignDialog.js
@@ -55,6 +58,7 @@ define([], function () { 'use strict';
             this.api = this.options.api;
             this.props = this.options.props;
             this.fontStore = this.options.fontStore;
+            this.hasField = this.options.hasField !== false;
             this.mode = 0; // 0 - upload, 1 - draw, 2 - type
             this.storage    = !!this.options.storage;
             this.isImageLoaded = false;
@@ -100,6 +104,7 @@ define([], function () { 'use strict';
                         '<div style="flex-grow: 1;display: flex; justify-content: center;"><div id="btn-sign-undo" class="img-draw margin-right-5 hidden"></div><div id="btn-sign-redo" class="img-draw hidden"></div></div>',
                         '<button type="button" class="btn btn-text-default auto" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
                     '</div>',
+                    '<div id="pdf-sign-ch-save" class="input-row" style="margin: 0 0 5px;"></div>',
                 '</div>',
             ].join('');
 
@@ -144,7 +149,7 @@ define([], function () { 'use strict';
                 parentEl: $window.find('#id-dlg-pdf-select-image'),
                 cls: 'btn-text-menu-default',
                 caption: this.textSelect,
-                style: 'width: 142px;',
+                style: 'min-width: 142px;',
                 menu: new Common.UI.Menu({
                     style: 'min-width: 142px;',
                     maxHeight: 200,
@@ -166,8 +171,15 @@ define([], function () { 'use strict';
                 el: $window.find('#pdf-sign-ch-back'),
                 labelText: this.txtRemBack
             });
+            this.chRemBack.setDisabled(true);
             this.chRemBack.on('change', function(field, newValue, oldValue, eOpts){
                 me.props && me.props.put_RemoveBackground(field.getValue()==='checked');
+            });
+
+            this.chSave = new Common.UI.CheckBox({
+                el: $window.find('#pdf-sign-ch-save'),
+                labelText: this.txtSaveSignature,
+                value: 'checked'
             });
 
             this.cmbFonts = new Common.UI.ComboBoxFonts({
@@ -215,13 +227,15 @@ define([], function () { 'use strict';
                 me.props && me.props.put_TypeFontSize(record.value);
             });
             this.cmbFontSize.setValue(this.font.size);
-            this.cmbFontSize.on('changed:before', _.bind(this.onFontSizeChanged, this, true));
-            this.cmbFontSize.on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
+            this.cmbFontSize.on({
+                'changed:before': this.onFontSizeChanged.bind(this, true),
+                'changed:after': this.onFontSizeChanged.bind(this, false),
+            });
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $window.find('#pdf-sign-bold'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-bold',
+                iconCls: is_svg_icon ? 'svg-icon bold scaling-off' : 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             });
@@ -233,7 +247,7 @@ define([], function () { 'use strict';
             this.btnItalic = new Common.UI.Button({
                 parentEl: $window.find('#pdf-sign-italic'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-italic',
+                iconCls: is_svg_icon ? 'svg-icon italic scaling-off' : 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             });
@@ -254,6 +268,7 @@ define([], function () { 'use strict';
                 color: 'auto',
                 auto: true,
                 menu: true,
+                ariaLabel: this.textColor,
                 takeFocusOnClose: true
             });
 
@@ -310,8 +325,11 @@ define([], function () { 'use strict';
                 takeFocusOnClose: true
             });
             this.cmbLineSize.setValue(2);
-            this.cmbLineSize.on('selected', function(combo, record) {
-                me.props && me.props.put_LineSize(record.value);
+            this.cmbLineSize.on({
+                'selected': function(combo, record) {
+                                me.props && me.props.put_LineSize(record.value);
+                            },
+                'changed:before': this.onLineSizeChanged.bind(this),
             });
 
             this.btnUndo = new Common.UI.Button({
@@ -349,7 +367,7 @@ define([], function () { 'use strict';
 
         getFocusedComponents: function() {
             return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor,
-                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.btnClear].concat(this.getFooterButtons());
+                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.chSave, this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -369,6 +387,7 @@ define([], function () { 'use strict';
                 me.uploadPreviewPnl.toggleClass('hidden', false);
                 me.props.updateView(0);
                 me.btnOk.setDisabled(false);
+                me.chRemBack.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
 
@@ -388,6 +407,21 @@ define([], function () { 'use strict';
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
 
+            me.uploadEmptyPnl.parent().on({
+                dragover: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'copy';
+                    return false;
+                },
+                drop: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    var files = event.dataTransfer.files;
+                    if (files && files.length > 0) me.props && me.props.putFile(files[0]);
+                    return false;
+                }
+            });
               
             me.keydownHandler = function(e) {
                 if (!(me.$window && me.$window.is(':visible'))) return;
@@ -421,14 +455,41 @@ define([], function () { 'use strict';
 
             const $window = this.getChild();
             $window.find('.dlg-btn').on('click', e => {
+                const result = e.currentTarget.getAttribute('result');
+                me.saveSignature(result);
                 if ( me.options.handler )
-                    me.options.handler.call(me, event.currentTarget.attributes['result'].value);
+                    me.options.handler.call(me, result);
                 me.close();
             });
         },
 
+        saveSignature: function(result) {
+            if (result === 'ok' && this.props) {
+                const serialized = this.props.serialize();
+                if (!serialized.signatureImage) return;
+                serialized.mode = this.mode;
+                var key = this.getKey();
+                if (this.chSave.getValue() === 'checked') {
+                    serialized['vectorImage'] = this.props.getVectorImage();
+                    if (key) Common.localStorage.setItem(key, JSON.stringify(serialized));
+                    Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
+                } else if (key) {
+                    Common.localStorage.removeItem(key);
+                }
+            }
+        },
+
         updateThemeColors: function() {
             // this.colorsLine.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+        },
+
+        getSignatureId: function() {
+            return (this.props && this.hasField) ? this.props.get_FormId() : '';
+        },
+
+        getKey: function() {
+            var id = this.options.signatureId || this.getSignatureId();
+            return id ? 'dialog-signature-' + id : null;
         },
 
         onImgModeClick: function(mode, btn) {
@@ -503,6 +564,7 @@ define([], function () { 'use strict';
                 if (state == 'ok' && this.btnOk.isDisabled()) {
                     return;
                 }
+                this.saveSignature(state);
                 this.options.handler.call(this, state, this.getSettings());
             }
 
@@ -517,12 +579,15 @@ define([], function () { 'use strict';
                     this.uploadEmptyPnl.toggleClass('hidden', false);
                     this.uploadPreviewPnl.toggleClass('hidden', true);
                     this.btnOk.setDisabled(true);
+                    this.chRemBack.setValue('unchecked');
+                    this.chRemBack.setDisabled(true);
                     break;
                 case 1:
                     this.props.clearDraw();
                     break;
                 case 2:
                     this.props.clearType();
+                    this.inputName.setValue('');
                     break;
             }
         },
@@ -565,6 +630,23 @@ define([], function () { 'use strict';
             }
         },
 
+        onLineSizeChanged: function(combo, record, e) {
+            const item = combo.store.findWhere({
+                displayValue: record.value
+            });
+
+            if (!item) {
+                const value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                if (!value) {
+                    let value = combo.getValue();
+                    combo.setRawValue(value + ' px');
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        },
+
         onChangeName: function (input, value) {
             this.props && this.props.setText(value);
         },
@@ -585,7 +667,8 @@ define([], function () { 'use strict';
         tipUndo: 'Undo',
         tipRedo: 'Redo',
         textBold: 'Bold',
-        textItalic: 'Italic'
+        textItalic: 'Italic',
+        txtSaveSignature: 'Save signature'
 
     }, Common.Views.PdfSignDialog || {}))
 });

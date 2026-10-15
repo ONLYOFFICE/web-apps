@@ -776,6 +776,7 @@
   "PE.Controllers.Main.textLoadingDocument": "Ładowanie prezentacji",
   "PE.Controllers.Main.textLongName": "Wpisz nazwę krótszą niż 128 znaków.",
   "PE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE wersja open source",
+  "PE.Controllers.Main.textNoResourcesTitle": "Niewystarczające zasoby",
   "PE.Controllers.Main.textPaidFeature": "Płatna funkcja",
   "PE.Controllers.Main.textReconnect": "Połączenie zostało przywrócone",
   "PE.Controllers.Main.textRemember": "Zapamiętaj mój wybór dla wszystkich plików",
@@ -1064,6 +1065,7 @@
   "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencja wygasła.<br>Nie masz dostępu do edycji dokumentu.<br>Proszę skontaktować się ze swoim administratorem.",
   "PE.Controllers.Main.warnLicenseLimitedRenewed": "Licencja musi zostać odnowiona.<br>Masz ograniczony dostęp do edycji dokumentu.<br>Skontaktuj się ze swoim administratorem, aby uzyskać pełny dostęp.",
   "PE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
+  "PE.Controllers.Main.warnNoResources": "Serwer %1 nie ma wystarczających zasobów, aby otworzyć ten dokument do edycji. Dokument zostanie otwarty tylko do podglądu.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Osiągnąłeś limit dla użytkownika. Skontaktuj się z zespołem sprzedaży %1 w celu uzyskania osobistych warunków aktualizacji.",
   "PE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",
   "PE.Controllers.Search.notcriticalErrorTitle": "Ostrzeżenie",
@@ -1074,6 +1076,14 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Połączenie zostało utracone</b><br>Trwa próba ponownego połączenia. Sprawdź ustawienia połączenia.",
   "PE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Czcionka, którą zamierzasz zapisać, nie jest dostępna na bieżącym urządzeniu.<br>Styl tekstu zostanie wyświetlony przy użyciu jednej z czcionek systemowych, a zapisana czcionka będzie używana, jeśli będzie dostępna.<br>Czy chcesz kontynuować?",
+  "PE.Controllers.Toolbar.helpAITools": "AI pomoże Ci tworzyć i edytować dokumenty.",
+  "PE.Controllers.Toolbar.helpAIToolsHeader": "Narzędzia AI",
+  "PE.Controllers.Toolbar.helpMastersView": "Edytuj wzorce materiałów informacyjnych i notatek. Wyświetlaj slajdy w nowych trybach.",
+  "PE.Controllers.Toolbar.helpMastersViewHeader": "Wzorce i widok",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPage": "Drukuj wiele slajdów na jednej stronie.",
+  "PE.Controllers.Toolbar.helpPrintSlidesOnPageHeader": "Slajdy na stronie",
+  "PE.Controllers.Toolbar.helpVideoFormats": "Formaty wyjściowe GIF, mp4, ...",
+  "PE.Controllers.Toolbar.helpVideoFormatsHeader": "Formaty wideo",
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Nawiasy",
   "PE.Controllers.Toolbar.textFontSizeErr": "Wprowadzona wartość jest nieprawidłowa.<br>Wprowadź wartość numeryczną w zakresie od 1 do 300",
@@ -2469,5 +2479,6 @@
   "PE.Views.ViewTab.textZoom": "Powiększenie",
   "PE.Views.ViewTab.tipFitToSlide": "Dopasuj do slajdu",
   "PE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
-  "PE.Views.ViewTab.tipHandTool": "Narzędzie ręczne"
+  "PE.Views.ViewTab.tipHandTool": "Narzędzie ręczne",
+  "Common.Controllers.Desktop.hintBtnHome": "Pokaż główne okno"
 }

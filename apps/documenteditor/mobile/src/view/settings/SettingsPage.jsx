@@ -1,9 +1,45 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { Fragment, useContext } from 'react';
-import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle } from 'framework7-react';
+import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, BlockTitle, Block } from 'framework7-react';
 import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
 import { SettingsContext } from '../../controller/settings/Settings';
+import { ThemesContext } from '../../../../../common/mobile/lib/controller/Themes';
 import { MainContext } from '../../page/main';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconAddFavorites from '@icons/icon-add-favorites.svg';
@@ -16,24 +52,32 @@ import IconNavigation from '@icons/icon-navigation.svg';
 import IconCollaboration from '@common-icons/icon-collaboration.svg';
 import IconMobileView from '@icons/icon-mobile-view.svg';
 import IconSpellcheck from '@common-icons/icon-spellcheck.svg';
-import IconDocSetup from '@icons/icon-doc-setup.svg';
+import IconDocSetup from '@icons/icon-settings-document.svg';
+import IconDocSetupRtl from '@icons/icon-settings-document-rtl.svg';
 import IconDownload from '@common-icons/icon-download.svg';
+import IconSaveACopy from '@common-icons/icon-save-copy-as.svg';
+import IconSaveACopyRtl from '@common-icons/icon-save-copy-as-rtl.svg';
 import IconAppSettings from '@common-icons/icon-app-settings.svg';
 import IconExport from '@common-icons/icon-export.svg';
 import IconPrint from '@common-icons/icon-print.svg';
 import IconInfo from '@common-icons/icon-info.svg';
 import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
-import IconFeedbackForIos from '@common-ios-icons/icon-feedback.svg?ios';
-import IconFeedbackForAndroid from '@common-android-icons/icon-feedback.svg';
+import IconSave from '@common-icons/icon-save.svg';
+import IconAutosave from '@common-icons/icon-autosave.svg';
+import IconAutosaveRtl from '@common-icons/icon-autosave-rtl.svg';
 import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
-import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
+import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg' 
+import IconDark from '@common-icons/icon-dark-bg.svg'
+import IconSharingSettings from '@common-icons/icon-share-link.svg';
+import IconSharingSettingsRtl from '@common-icons/icon-share-link-rtl.svg';
 
 const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo",  "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const settingsContext = useContext(SettingsContext);
+    const themesContext = useContext(ThemesContext);
     const {openOptions, isBranding} = useContext(MainContext);
     const appOptions = props.storeAppOptions;
     const canProtect = appOptions.canProtect;
@@ -46,7 +90,10 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const isHistoryDisabled = docExt && (docExt === 'xps' || docExt === 'djvu' || docExt === 'pdf');
     const navbar =
         <Navbar>
-            <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
+            <div className="title" onClick={settingsContext.changeTitleHandler}>
+                {docTitle}
+                <span className="subtitle">{appOptions.savingDocStatusText}</span>
+            </div>
             {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
         </Navbar>;
     const isSignatureForm = props.storeToolbarSettings.isSignatureForm; 
@@ -67,6 +114,9 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const canUseHistory = appOptions.canUseHistory;
     const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
     const isShowBack = props.storeToolbarSettings.isShowBack;
+    const isAutosave = appOptions.isAutosave;
+    const sharingSettingsUrl = appOptions.sharingSettingsUrl;
+    const isRtl = Common.Locale.isCurrentLangRtl;
 
     let _isEdit = false,
         _canDownload = false,
@@ -75,6 +125,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canHelp = true,
         _canPrint = false,
         _canFeedback = true,
+        _canRequestSaveAs = false,
         _canDisplayInfo = true;
 
     if (appOptions.isDisconnected) {
@@ -86,6 +137,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
+        _canRequestSaveAs = _canDownload && appOptions.canRequestSaveAs;
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;
@@ -104,17 +156,63 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     return (
         <Page>
             {navbar}
-            <List>
-                {isShowBack &&
-                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
-                        {Device.ios ? 
-                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
-                        }
-                    </ListItem>
-                }
-                {isEditableForms ? [
-                    (isFavorite !== undefined && isFavorite !== null ?
+            <>
+                <List>
+                    {isShowBack &&
+                        <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                            {Device.ios ? 
+                                <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </ListItem>
+                    }
+                    {!appOptions.canLiveView && !isForm &&
+                        <List>
+                            <ListItem title={_t.textAutoSaveDocument}>
+                                <SvgIcon slot="media" symbolId={isRtl ? IconAutosaveRtl.id : IconAutosave.id} className={'icon icon-svg'} />
+                                <Toggle checked={isAutosave}
+                                    onToggleChange={() => {
+                                        appOptions.changeAutosave(!isAutosave);
+                                        settingsContext.switchAutosave(!isAutosave);
+                                    }}
+                                />
+                            </ListItem>
+                            <ListItem title={_t.textSaveDocument}  className={`no-indicator${appOptions.isSaveBadgeShown ? ' notify' : ''}`} onClick={settingsContext.tryToSave}>
+                                <SvgIcon slot="media" symbolId={IconSave.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        </List>
+                    }
+                </List>
+                <List className='no-margin-bottom'>
+                    {(sharingSettingsUrl && !isForm) &&
+                        <ListItem title={_t.textShare} link="/sharing-settings/">
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSharingSettingsRtl.id : IconSharingSettings.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    }
+                    {_canDownload &&
+                        <ListItem title={isEditableForms ? t('Settings.textExport') : _t.textDownload} link="/download/">
+                            {isEditableForms ?
+                                <SvgIcon slot="media" symbolId={IconExport.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                            }
+                        </ListItem>
+                    }
+                    {_canDownloadOrigin &&
+                        <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
+                            <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    }
+                    {_canRequestSaveAs &&
+                        <ListItem title={_t.textSaveCopy} link="/saveacopy/">
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSaveACopyRtl.id : IconSaveACopy.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    }
+                    {_canPrint &&
+                        <ListItem title={_t.textPrint} onClick={settingsContext.onPrint} link='#' className='no-indicator'>
+                            <SvgIcon slot="media" symbolId={IconPrint.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    }
+                    {isEditableForms && isFavorite !== undefined && isFavorite !== null ?
                         <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
                             {isFavorite ?
                                 <SvgIcon slot="media" symbolId={IconRemoveFavorites.id} className={'icon icon-svg'} />
@@ -122,113 +220,124 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                                 <SvgIcon slot="media" symbolId={IconAddFavorites.id} className={'icon icon-svg'} />
                             }
                         </ListItem>
-                    : ''),
-                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}  disabled={isSignatureForm}>
-                        <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg'} />
-                    </ListItem>
-                ] : null}
-                {(Device.phone || isEditableForms) &&
-                    <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
-                        <SvgIcon slot="media" symbolId={IconSearch.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {(_isEdit && canProtect) &&
-                    <ListItem title={t('Settings.textProtection')} link="/protection">
-                        <SvgIcon slot="media" symbolId={IconProtection.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {_isEdit && !isHistoryDisabled && canUseHistory &&
-                    <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
-                        if(Device.phone) {
-                            onOpenOptions('history');
+                    : null}
+                </List>
+                <>
+                    <BlockTitle>{_t.textTools}</BlockTitle>
+                    <List>
+                        {(Device.phone || isEditableForms) &&
+                            <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
+                                <SvgIcon slot="media" symbolId={IconSearch.id} className={'icon icon-svg'} />
+                            </ListItem>
                         }
-                    }}>
-                        <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {!isEditableForms ?
-                    <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
-                        if(Device.phone) {
-                            onOpenOptions('navigation');
-                        } 
-                    }}>
-                        <SvgIcon slot="media" symbolId={IconNavigation.id} className={'icon icon-svg'} />
-                    </ListItem>
-                : null}
-                {window.matchMedia("(max-width: 359px)").matches ?
-                    <ListItem title={_t.textCollaboration} link="#" onClick={() => {
-                        onOpenOptions('coauth');
-                    }} className='no-indicator'>
-                        <SvgIcon slot="media" symbolId={IconCollaboration.id} className={'icon icon-svg '} />
-                    </ListItem>
-                : null}
-                {Device.sailfish && _isEdit &&
-                    <ListItem title={_t.textSpellcheck} onClick={() => settingsContext.onOrthographyCheck()} className='no-indicator' link="#">
-                        <SvgIcon slot="media" symbolId={IconSpellcheck.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {(appOptions.isMobileViewAvailable  && ((Device.phone && !isViewer) || isEditableForms)) &&
-                    <ListItem title={t('Settings.textMobileView')}>
-                         <SvgIcon slot="media" symbolId={IconMobileView.id} className={'icon icon-svg'} />
-                        <Toggle checked={isMobileView} onToggleChange={() => {
-                            onOpenOptions('snackbar');
-                            settingsContext.onChangeMobileView();
-                        }} />
-                    </ListItem>
-                }
-                {(_isEdit && !isViewer) &&
-                    <ListItem title={_t.textDocumentSettings} disabled={displayMode !== 'markup'} link='/document-settings/'>
-                       <SvgIcon slot="media" symbolId={IconDocSetup.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                <ListItem title={_t.textApplicationSettings} link="/application-settings/">
-                    <SvgIcon slot="media" symbolId={IconAppSettings.id} className={'icon icon-svg'} />
-                </ListItem>
-                {_canDownload &&
-                    <ListItem title={isEditableForms ? t('Settings.textExport') : _t.textDownload} link="/download/">
+                        {Device.sailfish && _isEdit &&
+                            <ListItem title={_t.textSpellcheck} onClick={() => settingsContext.onOrthographyCheck()} className='no-indicator' link="#">
+                                <SvgIcon slot="media" symbolId={IconSpellcheck.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        {window.matchMedia("(max-width: 359px)").matches ?
+                            <ListItem title={_t.textCollaboration} link="#" onClick={() => {
+                                onOpenOptions('coauth');
+                            }} className='no-indicator'>
+                                <SvgIcon slot="media" symbolId={IconCollaboration.id} className={'icon icon-svg '} />
+                            </ListItem>
+                        : null}
+                        {_isEdit && !isHistoryDisabled && canUseHistory &&
+                            <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
+                                if(Device.phone) {
+                                    onOpenOptions('history');
+                                }
+                            }}>
+                                <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        {(_isEdit && canProtect) &&
+                            <ListItem title={t('Settings.textProtection')} link="/protection">
+                                <SvgIcon slot="media" symbolId={IconProtection.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
                         {isEditableForms ?
-                            <SvgIcon slot="media" symbolId={IconExport.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                            <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}  disabled={isSignatureForm}>
+                                <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        : null}
+                    </List>
+                </>
+                <>
+                    <BlockTitle>{_t.textView}</BlockTitle>
+                    <List>
+                        {themesContext.isDarkTheme &&
+                            <ListItem title={_t.textDarkDocument}>
+                                <SvgIcon slot="media" symbolId={IconDark.id} className={'icon icon-svg dark'} />
+                                <Toggle checked={themesContext.isContentThemeDark}
+                                    onToggleChange={() => themesContext.changeContentTheme(!themesContext.isContentThemeDark)}
+                                />
+                            </ListItem>
                         }
-                    </ListItem>
-                }
-                {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
-                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {_canPrint &&
-                    <ListItem title={_t.textPrint} onClick={settingsContext.onPrint} link='#' className='no-indicator'>
-                        <SvgIcon slot="media" symbolId={IconPrint.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {!(!_canDisplayInfo && isBranding) &&
-                    <ListItem title={_t.textDocumentInfo} link="/document-info/">
-                        <SvgIcon slot="media" symbolId={IconInfo.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {_canHelp &&
-                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
-                        <SvgIcon slot="media" symbolId={IconHelp.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {_canAbout &&
-                    <ListItem title={_t.textAbout} link="/about/">
-                         <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
-                    </ListItem>
-                }
-                {_canFeedback &&
-                    <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                        {Device.ios ? 
-                            <SvgIcon slot="media" symbolId={IconFeedbackForIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconFeedbackForAndroid.id} className={'icon icon-svg'} />
+                        {!isEditableForms ?
+                            <ListItem title={t('Settings.textHeadings')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
+                                if(Device.phone) {
+                                    onOpenOptions('navigation');
+                                }
+                            }}>
+                                <SvgIcon slot="media" symbolId={IconNavigation.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        : null}
+                        {(appOptions.isMobileViewAvailable  && ((Device.phone && !isViewer) || isEditableForms)) &&
+                            <ListItem title={t('Settings.textMobileView')}>
+                                <SvgIcon slot="media" symbolId={IconMobileView.id} className={'icon icon-svg'} />
+                                <Toggle checked={isMobileView} onToggleChange={() => {
+                                    onOpenOptions('snackbar');
+                                    settingsContext.onChangeMobileView();
+                                }} />
+                            </ListItem>
                         }
-                    </ListItem>
-                }
-                {canCloseEditor &&
-                    <ListItem title={closeButtonText ?? t('Settings.textClose')} link="#" className='close-editor-btn no-indicator' onClick={() => Common.Notifications.trigger('close')}></ListItem>
-                }
-            </List>
+                        {(appOptions.isMobileViewAvailable  && ((Device.phone && !isViewer) || isEditableForms)) &&
+                            <Block>
+                                <p>{t('Settings.textMobileViewWarning')}</p>
+                            </Block>
+                        }
+                    </List>
+                </>
+                <>
+                    <BlockTitle>{_t.textSettingsGroup}</BlockTitle>
+                    <List>
+                        {(_isEdit && !isViewer) &&
+                            <ListItem title={_t.textDocumentSetup} disabled={false} link='/document-settings/'>
+                                <SvgIcon slot="media" symbolId={isRtl ? IconDocSetupRtl.id : IconDocSetup.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        <ListItem title={_t.textPreferences} link="/application-settings/">
+                            <SvgIcon slot="media" symbolId={IconAppSettings.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    </List>
+                </>
+                <>
+                    <BlockTitle>{_t.textAboutGroup}</BlockTitle>
+                    <List>
+                        {!(!_canDisplayInfo && isBranding) &&
+                            <ListItem title={_t.textDocumentInfo} link="/document-info/">
+                                <SvgIcon slot="media" symbolId={IconInfo.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        {(_canHelp || _canFeedback) &&
+                            <ListItem title={_t.textHelpAndFeedback} link="/help-and-feedback/">
+                                <SvgIcon slot="media" symbolId={IconHelp.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                        {_canAbout &&
+                            <ListItem title={_t.textAbout} link="/about/">
+                                <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
+                            </ListItem>
+                        }
+                    </List>
+                </>
+                <List>
+                    {canCloseEditor &&
+                        <ListItem title={closeButtonText ?? t('Settings.textClose')} link="#" className='close-editor-btn no-indicator' onClick={() => Common.Notifications.trigger('close')}></ListItem>
+                    }
+                </List>
+            </>
         </Page>
     )
 }));

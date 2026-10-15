@@ -11,6 +11,14 @@
     .wrap-textarea {
       height: calc(100% - 52px);
     }
+    .wrap-comment {
+      .comment-header, .reply-header {
+        .initials {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
   }
   .comment-list {
     .reply-item {
@@ -34,4 +42,17 @@
       }
     }
   }
+
+    .add-comment-popup, .edit-comment-popup, .add-reply-popup, .edit-reply-popup,
+    #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
+      .navbar {
+        .right .done {
+          color: @brandColor;
+
+          &.disabled {
+            color: @toolbar-icons;
+          }
+        }
+      }
+    }
 }

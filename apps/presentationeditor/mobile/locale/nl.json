@@ -52,8 +52,10 @@
     "VersionHistory": {
       "notcriticalErrorTitle": "Waarschuwing",
       "textAnonymous": "Anoniem",
+      "textBack": "Terug",
       "textCancel": "Annuleren",
       "textCurrent": "Huidig",
+      "textOk": "OK",
       "textRestore": "Herstellen",
       "textVersion": "Versie",
       "textVersionHistory": "Versiegeschiedenis",
@@ -80,6 +82,7 @@
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
+    "textOk": "OK",
     "textRows": "Rijen",
     "txtWarnUrl": "Het klikken op deze link kan schadelijk zijn voor je apparaat en data. Deze locatie kan onveilig zijn:<br>{0}<br>Weet je zeker dat je door wilt gaan?"
   },
@@ -153,7 +156,9 @@
       "textHasMacros": "Het bestand bevat automatische macro's. <br> Wilt u macro's uitvoeren?",
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
+      "textNoResourcesTitle": "Onvoldoende bronnen",
       "textNoMatches": "Geen overeenkomsten",
+      "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
       "textPaidFeature": "Betaalde functie",
       "textRemember": "Bewaar mijn keuze",
@@ -176,6 +181,7 @@
       "warnLicenseLimitedNoAccess": "Licentie verlopen. U hebt geen toegang tot de documentbewerking functionaliteit. Neem contact op met uw beheerder.",
       "warnLicenseLimitedRenewed": "De licentie moet worden vernieuwd. U heeft beperkte toegang tot de documentbewerking functionaliteit.<br>Neem contact op met uw administrator om volledige toegang te krijgen",
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
+      "warnNoResources": "De %1-server heeft onvoldoende bronnen om dit document te openen voor bewerking. Dit document wordt alleen ter inzage geopend.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken."
     }
@@ -183,7 +189,8 @@
   "Draw": {
     "textColor": "Kleur",
     "textCustomColor": "Aangepaste kleur",
-    "textLineSize": "Lijngrootte"
+    "textLineSize": "Lijngrootte",
+    "textOpacity": "Ondoorzichtigheid"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -233,6 +240,7 @@
     "splitDividerErrorText": "Het aantal rijen moet een deler zijn van %1",
     "splitMaxColsErrorText": "Aantal kolommen moet kleiner zijn dan %1",
     "splitMaxRowsErrorText": "Het aantal rijen moet kleiner zijn dan %1",
+    "textOk": "OK",
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
@@ -266,6 +274,7 @@
     "saveTitleText": "Document wordt opgeslagen",
     "textContinue": "Doorgaan",
     "textLoadingDocument": "Document wordt geladen",
+    "textUndo": "Ongedaan maken",
     "txtEditingMode": "Bewerkmodus instellen...",
     "uploadImageTextText": "Afbeelding wordt geüpload...",
     "uploadImageTitleText": "Afbeelding wordt geüpload",
@@ -279,6 +288,7 @@
     "stayButtonText": "Op deze pagina blijven",
     "textCloseHistory": "Sluit geschiedenis",
     "textEnterNewFileName": "Vul een nieuwe bestandsnaam in",
+    "textOk": "OK",
     "textRenameFile": "Bestand hernoemen",
     "textSwitchToDesktop": "Omschakelen naar desktopweergave"
   },
@@ -294,6 +304,7 @@
       "textDefault": "Geselecteerde tekst",
       "textDisplay": "Weergeven",
       "textDone": "Gereed",
+      "textDrawing": "Tekenen",
       "textEmptyImgUrl": "U moet de URL van de afbeelding opgeven.",
       "textExternalLink": "Externe koppeling",
       "textFirstSlide": "Eerste dia",
@@ -346,6 +357,7 @@
       "textAuto": "Automatisch",
       "textAutomatic": "Automatisch",
       "textBack": "Terug",
+      "textBackground": "Achtergrond",
       "textBandedColumn": "Gestreepte kolom",
       "textBandedRow": "Gestreepte rij",
       "textBaseline": "Basislijn",
@@ -359,6 +371,7 @@
       "textBullets": "Opsommingstekens",
       "textBulletsAndNumbers": "Opsommingstekens en nummers",
       "textCancel": "Annuleren",
+      "textCapitalization": "Hoofdletters",
       "textCaseSensitive": "Hoofdlettergevoelig",
       "textCellMargins": "Celmarges",
       "textCellSize": "Celgrootte",
@@ -494,7 +507,8 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
-      "txtHeight": "Hoogte"
+      "txtHeight": "Hoogte",
+      "txtWidth": "Breedte"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",
@@ -539,6 +553,7 @@
       "textLoopSlideshow": "Presentatie herhalen",
       "textMacrosSettings": "Macro instellingen",
       "textNoMatches": "Geen overeenkomsten",
+      "textOk": "OK",
       "textOwner": "Eigenaar",
       "textPoint": "Punt",
       "textPoweredBy": "Aangedreven door",

@@ -145,6 +145,18 @@
         padding: 16px 16px 0 24px;
     }
 
+    .mention-popup .mention-item {
+        .mention-avatar {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        &:not(:last-child)::after {
+            left: 0;
+            right: 66px;
+        }
+    }
+
     .shapes {
         .thumb {
             transform: scaleX(-1);

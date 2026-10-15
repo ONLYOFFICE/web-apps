@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>WORKDAY.INTL funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>WORKDAY.INTL funkcija</h1>
+			<p>Funkcija <b>WORKDAY.INTL</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#datetime" onclick="onhyperlinkclick(this)">funkcija za datum i vreme</a>. Koristi se za vraćanje datuma pre ili posle određenog broja radnih dana uz prilagođene parametre za vikend; parametri vikenda određuju koji i koliko dana u nedelji se smatra vikendom.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>WORKDAY.INTL(start_date, days, [weekend], [holidays])</em></b></p> 
+			<p>WORKDAY.INTL funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>start_date</em></b></td>
+                    <td>Prvi datum perioda unet pomoću <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a> funkcije ili druge funkcije za datum i vreme.</td>
+                </tr>
+				<tr>
+                    <td><b><em>days</em></b></td>
+                    <td>Broj radnih dana pre ili posle <b><em>start_date</em></b>. Ako <b><em>days</em></b> ima negativan predznak, funkcija vraća datum koji prethodi određenom <b><em>start_date</em></b>. Ako <b><em>days</em></b> ima pozitivan predznak, funkcija vraća datum koji sledi nakon određenog <b><em>start_date</em></b>.</td>
+                </tr>
+                <tr>
+                    <td><b><em>weekend</em></b></td>
+                    <td>Opcioni argument, broj ili niz koji određuje koji dani se smatraju vikendom. Mogući brojevi su navedeni u tabeli ispod.</td>
+                </tr>
+				<tr>
+                    <td><b><em>holidays</em></b></td>
+                    <td>Opcioni argument koji određuje koji datumi pored vikenda nisu radni. Možete ih uneti pomoću <a href="Date.htm" onclick="onhyperlinkclick(this)">DATE</a> funkcije ili druge funkcije za datum i vreme, ili kao referencu na opseg ćelija koje sadrže datume.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>weekend</em></b> može biti jedan od sledećih:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Broj</b></th>
+                    <th style="background-color: #f4f4f4"><b>Vikend dani</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1 ili izostavljeno</em></b></td>
+                    <td>Subota, Nedelja</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Nedelja, Ponedeljak</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Ponedeljak, Utorak</td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>Utorak, Sreda</td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td>Sreda, Četvrtak</td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td>Četvrtak, Petak</td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td>Petak, Subota</td>
+                </tr>
+                <tr>
+                    <td><b><em>11</em></b></td>
+                    <td>Samo Nedelja</td>
+                </tr>
+                <tr>
+                    <td><b><em>12</em></b></td>
+                    <td>Samo Ponedeljak</td>
+                </tr>
+                <tr>
+                    <td><b><em>13</em></b></td>
+                    <td>Samo Utorak</td>
+                </tr>
+                <tr>
+                    <td><b><em>14</em></b></td>
+                    <td>Samo Sreda</td>
+                </tr>
+                <tr>
+                    <td><b><em>15</em></b></td>
+                    <td>Samo Četvrtak</td>
+                </tr>
+                <tr>
+                    <td><b><em>16</em></b></td>
+                    <td>Samo Petak</td>
+                </tr>
+                <tr>
+                    <td><b><em>17</em></b></td>
+                    <td>Samo Subota</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p>Niz koji određuje vikend dane mora sadržati 7 karaktera. Svaki karakter predstavlja dan u nedelji, počevši od ponedeljka. 0 predstavlja radni dan, 1 predstavlja vikend dan. Na primer, <em>"0000011"</em> označava da su vikend Subota i Nedelja. Niz <em>"1111111"</em> nije važeći.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this">Kako primeniti</a> WORKDAY.INTL funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Na slici ispod prikazan je rezultat koji vraća WORKDAY.INTL funkcija.</p>
+			<p><img alt="WORKDAY.INTL funkcija" src="../images/workday-intl.png" /></p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Using macros</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Record macros to perform repeatable actions quickly" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Using macros</h1>
+			<p>To make your work more efficient, use macros to perform the repeatable actions and quickly edit the file.</p>
+			<p>Learn more about <a href="https://api.onlyoffice.com/docs/plugin-and-macros/macros/getting-started/" target="_blank">macros</a> and how to <a href="https://api.onlyoffice.com/docs/plugin-and-macros/macros/writing-macros/" target="_blank">write them</a> in our API documentation.</p>
+			
+			<h3>Recording macros</h3>
+			<p>Apart from <a href="https://api.onlyoffice.com/docs/plugin-and-macros/macros/writing-macros/" target="_blank">writing your macros</a>, you can record them on the go.</p>
+			<ol>
+				<li>
+					Go to the <b>View</b> tab.
+					<p><img alt="View tab" src="../images/interface/viewtab.png" /></p>
+				</li>
+				<li>Click the <b>Record macro</b> button.</li>
+				<li>
+					Follow the steps of the process you want to turn into a macro. Only the actions directly corresponding with the ones in Docs API will be recorded, e.g.:
+					<ul>
+						<li>formatting the text;</li>
+						<li>inserting images, shapes, and equations;</li>
+						<li>editing shapes and <a href="../../../../../../documenteditor/main/resources/help/en/UsageInstructions/InsertAutoshapes.htm" target="_blank">adjusting their settings</a>.</li>
+					</ul>
+				</li>
+				<li>On the <b>View</b> tab, click <b>Pause recording</b> to temporarily halt the recording process, if necessary.</li>
+				<li>
+					Click the <b>Stop recording</b> button to finish the recording process. The resulting macro is saved automatically.
+					<p class="notehelp">Recorded macros are generated as JavaScript code that relies on Docs API.</p>
+				</li>
+				<li>
+					To access and edit the recorded macros, click the <b>Macros</b> button on the <b>View</b> tab. Edit the required macro as necessary.
+					<p class="notehelp">Please note that all saved macros are not standalone files and are accessible only through the document they are recorded in.</p>
+				</li>
+			</ol>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popunjavanje obrasca</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Popunjavanje obrasca u PDF fajlu" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Popunjavanje obrasca</h1>
+        <p>Možete popuniti polja u PDF obrascu i nakon popunjavanja poslati, štampati ili preuzeti obrazac. Ukoliko imate odgovarajuća prava pristupa, možete preći u režim uređivanja klikom na dugme <b>Uredi PDF</b> na gornjoj alatnoj traci.</p>
+        <h2>Kako popuniti obrazac:</h2>
+        <ol>
+            <li>
+                Otvorite PDF fajl.
+                <p><img alt="Popunjivi obrazac" src="../images/fillable_form.png" /></p>
+            </li>
+            <li>Popunite sva obavezna polja. Ako obrazac sadrži polje za datum, izaberite datum pomoću birača datuma. Obavezna polja su označena crvenom ivicom. Koristite dugmad <b>Prethodno polje</b> ili <b>Sledeće polje</b> na gornjoj alatnoj traci za navigaciju između polja ili kliknite na polje koje želite da popunite.</li>
+            <li>Koristite dugme <b>Obriši polja</b> da biste ispraznili sva polja za unos.</li>
+            <li>Koristite alate za <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">navigaciju</a> kroz PDF, podešavanje zuma, prilagođavanje prikaza stranici ili širini.</li>
+            <li>
+                Nakon što popunite sva polja, kliknite na dugme <div class="icon icon-submit_form_icon"></div> <b>Pošalji</b> na gornjoj alatnoj traci da biste poslali obrazac na dalju obradu. Imajte u vidu da ovu akciju nije moguće poništiti. Obrazac se ne može poslati dok nisu popunjena sva obavezna polja.
+                <p class="note">Ukoliko koristite server verziju ONLYOFFICE Docs, prisustvo dugmeta <b>Pošalji</b> zavisi od konfiguracije. Ukoliko konfiguracija za slanje obrasca nije podešena, dugme će biti prikazano kao <b>Sačuvaj kao</b>. Pročitajte <a href="https://api.onlyoffice.com/editors/config/editor/customization" target="_blank" onclick="onhyperlinkclick(this)">ovaj članak</a> za više informacija.</p>
+                <span class="desktopDocumentFeatures">U <em>desktop</em> verziji, prikazano je dugme <span class="icon icon-saveas_form_icon"></span> <b>Sačuvaj kao</b> umesto dugmeta <span class="icon icon-submit_form_icon"></span> <b>Pošalji</b>.</span>
+                <p>Takođe možete koristiti dugme <b>Štampa</b> da <a href="../UsageInstructions/SavePrintDownload.htm" onclick="onhyperlinkclick(this)">štampate</a> obrazac ili preći na karticu <b>Fajl</b> i preuzeti obrazac u jednom od podržanih formata.</p>
+            </li>                
+        </ol>
+    </div>
+</body>
+</html>

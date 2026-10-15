@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Uvod u korisnički interfejs PDF Uređivača</title>
+        <meta charset="utf-8" />
+        <meta name="description" content="Uvod u korisnički interfejs PDF Uređivača" />
+        <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+        <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+    </head>
+    <body>
+        <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Uvod u korisnički interfejs PDF Uređivača</h1>
+            <p><a href="https://www.onlyoffice.com/pdf-editor.aspx?docs=download" target="_blank" onclick="onhyperlinkclick(this)"><b>PDF Uređivač</b></a> koristi interfejs sa karticama, gde su komande za uređivanje grupisane prema funkcionalnosti.</p>
+            <div class="onlineDocumentFeatures">
+                <p>Glavni prozor Online PDF Uređivača:</p>
+                <p><img alt="Prozor PDF Uređivača" src="../images/interface/editorwindow.png" /></p>
+            </div>
+            <div class="desktopDocumentFeatures">
+                <p>Glavni prozor Desktop PDF Uređivača:</p>
+                <p><img alt="Prozor Desktop PDF Uređivača" src="../images/interface/desktop_editorwindow.png" /></p>
+            </div>
+            <p>Interfejs uređivača se sastoji od sledećih glavnih elemenata:</p>
+            <ol>
+                <li>
+                    <b>Zaglavlje uređivača</b> prikazuje ONLYOFFICE logo, <span class="desktopDocumentFeatures">kartice za sve otvorene dokumente</span> sa njihovim imenima i meni karticama.
+                    <p>Sa leve strane <b>zaglavlja uređivača</b> nalaze se dugmad <b>Sačuvaj</b>, <b>Štampaj fajl</b>, <b>Poništi</b> i <b>Ponovi</b>.</p>
+                    <p><img alt="Ikone u zaglavlju uređivača" src="../images/interface/leftpart.png" /></p>
+                    <p>Sa desne strane <b>zaglavlja uređivača</b>, pored korisničkog imena, prikazane su sledeće ikone:</p>
+                    <ul>
+                        <li><div class="icon icon-gotodocuments"></div> <b>Otvori lokaciju fajla</b> - <span class="desktopDocumentFeatures">u <em>desktop verziji</em> otvara folder gde je fajl sačuvan u prozoru <b>File explorer</b>.</span> <span class="onlineDocumentFeatures"> U <em>online verziji</em> otvara folder modula <b>Dokumenti</b>, gde je fajl sačuvan, u novom tabu pregledača.</span></li>
+                        <li><div class="icon icon-search_icon_header"></div> <b>Pretraga</b> - omogućava pretragu PDF-a prema reči, simbolu itd.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Gornja alatna traka</b> prikazuje komande za uređivanje u zavisnosti od izabrane kartice menija. Dostupne su sledeće kartice: <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fajl</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Početna</a>, <a href="../ProgramInterface/CommentTab.htm" onclick="onhyperlinkclick(this)">Komentari</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Umetanje</a>, <a href="../ProgramInterface/ViewTab.htm" onclick="onhyperlinkclick(this)">Prikaz</a>, <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Dodaci</a>.
+                    <p>Opcije <span class="icon icon-copy"></span> <b>Kopiraj</b>, <span class="icon icon-paste"></span> <b>Zalepi</b>, <span class="icon icon-cut"></span> <b>Iseci</b> i <span class="icon icon-selectall"></span> <b>Izaberi sve</b> su uvek dostupne sa leve strane <b>gornje alatne trake</b>, kao i alati <span class="icon icon-selectiontool"></span> <b>Izbor</b> i <span class="icon icon-handtool"></span> <b>Ruka</b>.</p>
+                </li>
+                <li>
+                    <b>Levi bočni panel</b> sadrži sledeće ikonice:
+                    <ul>
+                        <li><div class="icon icon-searchicon"></div> - omogućava korišćenje alata za <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Pretragu i zamenu</a>.</li>
+                        <li><div class="icon icon-commentsicon"></div> - otvara panel za <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">Komentare</a>.</li>
+                        <li><div class="icon icon-chaticon"></div> - (samo u <em>online verziji</em>) otvara panel za <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">Ćaskanje</a>.</li>
+                        <li><div class="icon icon-navigationicon"></div> - otvara <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">panel Naslovi</a> sa listom svih naslova i njihovim nivoima.</li>
+                        <li><div class="icon icon-pagethumbnails"></div> - prikazuje sličice stranica za brzu <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">navigaciju</a>.</li>
+                        <li><div class="icon icon-feedbackicon"></div> - (samo u <em>online verziji</em>) omogućava kontaktiranje tima za podršku.</li>
+                        <li><div class="icon icon-about"></div> - (samo u <em>online verziji</em>) prikazuje informacije o programu.</li>
+                    </ul>
+                </li>
+                <li><b>Statusna traka</b> na dnu prozora urednika prikazuje broj stranice i obaveštenja (npr. "Sve promene sačuvane", "Veza je izgubljena" pri padu veze itd.). Takođe omogućava <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">podešavanje zuma</a>.</li>
+                <li><b>Radni prostor</b> omogućava prikaz, unos i uređivanje sadržaja PDF-a.</li>
+                <li><b>Traka za skrolovanje</b> sa desne strane omogućava pomeranje kroz višestranične PDF-ove.</li>
+            </ol>
+            <p>Radi vaše udobnosti, možete sakriti ili prikazati pojedine komponente po potrebi. Više o podešavanju prikaza saznajte na <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">ovoj stranici</a>.</p>
+        
+        </div>
+    </body>
+</html>

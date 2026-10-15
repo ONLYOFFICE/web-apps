@@ -1,1 +1,7 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g><rect opacity="0.3" x="8" y="8" width="13" height="13"/><path d="M1,1V13H13V1H1ZM12,12H2V2H12V12Z"/><path d="M15,15V27H27V15H15ZM26,26H16V16H26V26Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-move-mask">
+    <path fill="#DCE7FA" d="M6.5 10.296h3a1 1 0 0 0 1-1v-3h6a1 1 0 0 1 1 1v6h-3a1 1 0 0 0-1 1v3h-6a1 1 0 0 1-1-1v-6Z" class="icon-fill-blue-secondary"/>
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.5 10.296h3a1 1 0 0 0 1-1v-3h6a1 1 0 0 1 1 1v6h-3a1 1 0 0 0-1 1v3h-6a1 1 0 0 1-1-1v-6Z" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 19.296v-5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1Zm-10-10v-5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1Z" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

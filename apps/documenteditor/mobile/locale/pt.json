@@ -167,7 +167,9 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas."
+      "textWidow": "Controle de linhas órfãs/viúvas.",
+      "textEnterComment": "Insira o comentário",
+      "textMention": "Comente ou mencione usando + ou @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -181,7 +183,7 @@
       "dark": "Escuro",
       "light": "Claro",
       "system": "O mesmo que sistema",
-      "textTheme": "Tema"
+      "textTheme": "Tema da interface"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -426,7 +428,9 @@
     "textWrapText": "Quebrar texto ",
     "textYourOption": "Sua opção",
     "txtHeight": "Altura",
-    "txtWidth": "Largura"
+    "txtWidth": "Largura",
+    "txtCustom": "Personalizado",
+    "textCurrentFont": "Texto Principal"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
@@ -448,8 +452,10 @@
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Baixe o documento para salvar a cópia de backup do arquivo localmente.",
     "errorEditProtectedRange": "Você não tem permissão para editar essa seleção porque ela está protegida.",
     "errorEmptyTOC": "Comece a criar um sumário aplicando um estilo de título da galeria Estilos ao texto selecionado.",
+    "errorFileNotAssembled": "Este arquivo foi aberto a partir de uma cópia de segurança do servidor e não foi salvo no armazenamento.<br>Use a opção 'Salvar como...' para salvá-lo em uma unidade.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor.<br>Por favor, contate seu administrador.",
+    "errorForcedViewMode": "Este arquivo está aberto no modo de visualização.<br>O arquivo está bloqueado para edição ou seus direitos de acesso não permitem a edição.",
     "errorForceSave": "Ocorreu um erro ao salvar o arquivo. Use a opção 'Baixar como' para salvar o arquivo no disco rígido do seu computador ou tente novamente mais tarde.",
     "errorInconsistentExt": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo não corresponde à extensão do arquivo.",
     "errorInconsistentExtDocx": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a documentos de texto (por exemplo, docx), mas o arquivo tem a extensão inconsistente: %1.",
@@ -531,7 +537,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "changesSaved": "Todas as alterações foram salvas"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -655,6 +662,7 @@
     "textHasMacros": "O arquivo contém macros automáticas.<br> Você quer executar macros?",
     "textNo": "Não",
     "textNoLicenseTitle": "Limite de licença atingido",
+    "textNoResourcesTitle": "Recursos insuficientes",
     "textNoMatches": "Nenhuma correspondência",
     "textOk": "OK",
     "textPaidFeature": "Recurso pago",
@@ -680,6 +688,7 @@
     "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
     "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
+    "warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
     "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
   },
@@ -737,7 +746,7 @@
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Visualização rápida da Web",
-    "textFeedback": "Comentários e suporte",
+    "textFeedback": "Entre em contato com o suporte",
     "textFillingForms": "Preenchimento de formulários",
     "textFind": "Localizar",
     "textFindAndReplace": "Localizar e substituir",
@@ -768,7 +777,8 @@
     "textNoMatches": "Nenhuma correspondência",
     "textOk": "OK",
     "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
-    "textOrientation": "Orientação",
+    "textOpenLocation": "Abrir a localização",
+    "textOrientation": "Orientação da página",
     "textOwner": "Proprietário",
     "textPages": "Páginas",
     "textPageSize": "Tamanho da página",
@@ -823,7 +833,29 @@
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
+    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
+    "textAutoSaveDocument": "Salvamento automático",
+    "textDarkDocument": "Documento Escuro",
+    "textSaveDocument": "Salvar",
+    "textAboutGroup": "Sobre",
+    "textDocumentSetup": "Configuração do documento",
+    "textHelpCenter": "Central de Ajuda",
+    "textSaveCopy": "Salvar uma cópia",
+    "textSaveACopy": "Salvar uma cópia",
+    "textSaveACopyAs": "Salvar uma cópia como",
+    "textTools": "Ferramentas",
+    "textView": "Visualizar",
+    "textSettingsGroup": "Configurações",
+    "textPreferences": "Preferências",
+    "textHelpAndFeedback": "Ajuda e comentários",
+    "textShare": "Compartilhar",
+    "textMobileViewWarning": "Parte do conteúdo deste documento ficará oculta na visualização para dispositivos móveis.",
+    "textStyleGroup": "Estilo",
+    "textSpellingGroup": "Ortografia",
+    "textDisplayGroup": "Exibição",
+    "textSaveACopyHeader": "Salvar uma cópia",
+    "textSaveConnectedStorage": "O arquivo será salvo no dispositivo de armazenamento conectado",
+    "textHeadings": "Cabeçalhos"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",
@@ -839,6 +871,11 @@
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
     "textSwitchToDesktop": "Mudar para o desktop",
-    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
+    "textSave": "Salvar",
+    "textDontSave": "Não salvar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Salve suas alterações antes de sair",
+    "textUnsavedData": "Dados não salvos"
   }
 }

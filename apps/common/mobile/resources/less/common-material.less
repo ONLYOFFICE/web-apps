@@ -13,16 +13,17 @@
     --f7-theme-color: @brandColor;
 
     --f7-navbar-bg-color: @toolbar-background;
-    --f7-navbar-link-color: @fill-white;
-    --f7-navbar-text-color: @fill-white;
+    --f7-navbar-link-color: @brandColor;
+    --f7-navbar-text-color: @text-normal;
     --f7-navbar-height: 56px;
 
     --f7-list-bg-color: @background-primary;
     --f7-subnavbar-bg-color: @toolbar-background;
     --f7-subnavbar-link-color: @toolbar-icons;
-    --f7-subnavbar-text-color: @fill-white;
+    --f7-subnavbar-text-color: @text-normal;
     --f7-subnavbar-height: 56px;
 
+    --f7-checkbox-active-color: @brandColor;
     --f7-radio-active-color: @brandColor;
     --f7-range-bar-active-bg-color: @brandColor;
     --f7-range-knob-color: @brandColor;
@@ -56,6 +57,12 @@
     --f7-actions-border-radius: 0;
     --f7-box-shadow: 0px 5px 5px -3px rgba(0,0,0,.2),0px 8px 10px 1px rgba(0,0,0,.14),0px 3px 14px 2px rgba(0,0,0,.12);
     --f7-popover-box-shadow: var(--f7-box-shadow);
+    --f7-block-margin-vertical: 20px;
+    --f7-block-title-margin-bottom: 10px;
+    --f7-block-title-font-weight: 400;
+    --f7-block-title-font-size: 13px;
+    --f7-block-title-line-height: 18px;
+
 
     --f7-toggle-active-bg-color: @brandColor;
     --f7-toggle-active-border-color: @brandColor;
@@ -248,21 +255,24 @@
             font-weight: 500;
             text-transform: uppercase;
             align-items: center;
-            color: @tabLinkColor;
+            color: @toolbar-icons;
             white-space: nowrap;
+            opacity: 0.5;
             .icon-svg {
                 opacity: 0.5;
             }
             &.tab-link-active {
-                color: @fill-white;
+                color:  @brandColor;
+                opacity: 1;
                 .icon-svg {
                     opacity: 1;
-                    fill:  @fill-white;
+                    --icon-fill-grey-primary: @brandColor;
+                    --icon-stroke-grey-primary: @brandColor;
                 }
             }
         }
         .tab-link-highlight {
-            --f7-tabbar-link-active-border-color: @toolbar-icons;
+            --f7-tabbar-link-active-border-color: @brandColor;
             position: absolute;
             left: 0;
             bottom: 0;
@@ -440,6 +450,14 @@
         }
     }
 
+    .title {
+        .subtitle {
+            color: inherit;
+            margin-bottom: 5px;
+            margin-top: 3px;
+        }
+    }
+
     .subnavbar .title {
         font-size: 14px;
         font-weight: normal;
@@ -454,7 +472,7 @@
             appearance: none;
             border-radius: 0;
             font-family: inherit;
-            color: @fill-white;
+            color: @text-normal;
             font-size: 16px;
             font-weight: 400;
             padding: 0;
@@ -468,7 +486,7 @@
             transition-duration: .3s;
             // .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             &::placeholder {
-                color: @fill-white;
+                color: @text-tertiary;
                  opacity: 0.5
             }
         }
@@ -480,7 +498,7 @@
             right: 0; 
             bottom: 0;
             height: 1px;
-            background: @fill-white;
+            background: @text-tertiary;
             opacity: 0.5;
         }
 
@@ -499,7 +517,7 @@
             margin: 0;
 
             &:after {
-                color: @fill-white;
+                color: @text-tertiary;
                 font-size: 19px;
                 line-height: 19px;
             }
@@ -659,6 +677,19 @@
         box-shadow: var(--f7-box-shadow);
 
         &.popover__titled {
+            .navbar {
+                .navbar-inner::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 1px;
+                    background: @background-menu-divider;
+                    pointer-events: none;
+                }
+            }
+            
             .popover-arrow:after {
                 background: @toolbar-background;
             }
@@ -769,7 +800,7 @@
         font-size: 16px;
         line-height: 24px;
         letter-spacing: 0.15px;
-        color: @toolbar-icons;
+        color: @brandColor;
         margin-left: 16px;
     }
 
@@ -791,5 +822,91 @@
     .sheet-modal.calendar, .dropdown-list-popup {
         box-shadow:0 3.75px 11px 0 rgba(0, 0, 0, 0.19),
                 0 0.5px  5px  0 rgba(0, 0, 0, 0.039);
+    }
+
+    #edit-popover.edit-custom-font-size {
+        .view {
+            height: 128px !important;
+        }
+    }
+
+    .list .item-link.size-label {
+        padding: 5px;
+        border-radius: 4px !important;
+        overflow: initial;
+        font-size: 16px;
+        color: @text-normal;
+        background-color: @background-tertiary;
+    }
+
+    .popup, .sheet-modal {
+        .navbar {
+            .navbar-inner::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 1px;
+                background: @background-menu-divider;
+                pointer-events: none;
+            }
+        }
+    }
+
+    .popup-close, .sheet-close {
+        --icon-stroke-grey-primary: @brandColor;
+    }
+
+    .block-title {
+        text-transform: uppercase;
+    }
+}
+
+.device-android .theme-type-dark {
+    .app-layout {
+        --f7-input-focused-border-color: @text-normal;
+        --f7-label-focused-text-color: @text-normal;
+
+        .searchbar {
+            input {
+                &::placeholder {
+                    color: @fill-white;
+                }
+            }
+
+            .searchbar-input-wrap::after {
+                background: @fill-white;
+            }
+
+            .input-clear-button {
+                &:after {
+                    color: @fill-white;
+                }
+            }
+        }
+
+        .popup-close, .sheet-close {
+            --icon-stroke-grey-primary: @toolbar-icons; 
+        }
+
+        .link.popup-close {
+            --f7-navbar-link-color: @toolbar-icons;
+        }
+
+        .tab-buttons {
+            .tab-link-active {
+                color: @toolbar-icons;
+
+                .icon-svg {
+                    --icon-fill-grey-primary: @toolbar-icons;
+                    --icon-stroke-grey-primary: @toolbar-icons;
+                }
+            }
+
+            .tab-link-highlight {
+                --f7-tabbar-link-active-border-color: @toolbar-icons;
+            }
+        }
     }
 }

@@ -20,14 +20,14 @@
         <h3 id="Mendeley_block">Mendeley</h3>
         <h4>Connect ONLYOFFICE to Mendeley</h4>
         <ol>
-            <li>Login to your <b>Mendeley</b> account.</li>
-            <li>In your document, switch to the <b>Plugins</b> tab and choose <div class="icon icon-mendeley"></div> <b>Mendeley</b>, a sidebar will open on the left side of your document.
+            <li>Log in to your <b>Mendeley</b> account.</li>
+            <li>In your document, switch to the <b>Plugins</b> tab and choose <div class="icon icon-mendeley"></div> <b>Mendeley</b>; a sidebar will open on the left side of your document.</li>
             <li>
-                Click the <b>Copy Link and Open Form</b> button.<br />
-                The browser opens a form on the Mendeley site. Complete this form and note the Application ID for ONLYOFFICE.
+                Click the <b>Copy Link and Open Form</b> button.<br>
+                The browser opens a form on the Mendeley site. Complete this form and note the <b>Application ID</b> for ONLYOFFICE.
             </li>
             <li>Switch back to your document.</li>
-            <li>Enter the Application ID and click <b>Save</b>.</li>
+            <li>Enter the <b>Application ID</b> and click <b>Save</b>.</li>
             <li>Click <b>Login</b>.</li>
             <li>Click <b>Proceed</b>.</li>
         </ol>
@@ -36,34 +36,87 @@
         <ol>
             <li>Open the document and place the cursor on the spot where you want to insert the reference(s).</li>
             <li>Switch to the <b>Plugins</b> tab and choose <div class="icon icon-mendeley"></div> <b>Mendeley</b>.</li>
-            <li>Enter a search text and hit <b>Enter</b> on your keyboard.</li>
-            <li>Click one or more check-boxes.</li>
-            <li>[Optional] Enter a new search text and click on one or more check-boxes.</li>
+            <li>Enter a search text and hit <kbd>Enter</kbd> on your keyboard.</li>
+            <li>Click one or more checkboxes.</li>
+            <li><em>(Optional)</em> Enter a new search text and click on one or more checkboxes.</li>
             <li>Choose the reference style from the <b>Style</b> pull-down menu.</li>
             <li>Click the <b>Insert Bibliography</b> button.</li>
         </ol>
 
         <h3 id="Zotero_block">Zotero</h3>
         <h4>Connect ONLYOFFICE to Zotero</h4>
+        <p>The <span class="icon icon-zotero"></span> <b>Zotero</b> plugin allows inserting citations and bibliographies in ONLYOFFICE Docs. You can work with your online Zotero library or use your local Zotero data offline.</p>
+
+        <h4>What’s new in version 1.0.6</h4>
+        <ul>
+            <li>Refreshed interface for better usability</li>
+            <li>The ability to choose which library to search in</li>
+            <li>Ability to add prefix and suffix</li>
+            <li><b>Omit author</b> feature</li>
+            <li>Citation locators support: Added ability to include page numbers, chapters, sections, and other location references in citations</li>
+        </ul>
+        <p>You can view the full changelog <a href="https://github.com/ONLYOFFICE/onlyoffice.github.io/blob/master/sdkjs-plugins/content/zotero/CHANGELOG.md" target="_blank" onclick="onhyperlinkclick(this)">here</a>.</p>
+        
+        <h4>How to connect the plugin</h4>
+        <p>You can connect the plugin in two ways:</p>
+        <ul>
+            <li>using your Zotero online account (API key), or</li>
+            <li>using Zotero Desktop for offline access.</li>
+        </ul>
+        
+        <h4>Connect online (API method)</h4>
+        <p>Use this method if you want to access your cloud-synced Zotero library:</p>
         <ol>
-            <li>Login to your <b>Zotero</b> account.</li>
-            <li>In your document, switch to the <b>Plugins</b> tab and choose <div class="icon icon-zotero"></div> <b>Zotero</b>, a sidebar will open on the left side of your document.</li>
-            <li>Click the <b>Zotero API settings</b> link.</li>
-            <li>On the Zotero site, create a new key for Zotero, copy it and save it for later use.</li>
-            <li>Switch to your document and paste the API key.</li>
-            <li>Click <b>Save</b>.</li>
+            <li>Open <b>Plugins</b> → <div class="icon icon-zotero"></div> <b>Zotero</b>.</li>
+            <li>Click the <b>Log in with API key</b> button.</li>
+            <li>If you do not have an API key, you can sign up <a href="https://www.zotero.org/user/register/" target="_blank">on the official Zotero website</a> and generate one (<b>Settings</b> → <b>Security</b> → <b>New key</b>).</li>
+            <li>Paste the key into the <b>Plugin</b> field.</li>
+            <li>Your online Zotero library will load in the left-hand panel.</li>
         </ol>
-        <p>Now ONLYOFFICE is connected to your Zotero account.</p>
+        
+        <h4>Connect offline (local Zotero method)</h4>
+        <p>Use this method if you want to access your local Zotero library without an Internet connection:</p>
+        <ol>
+            <li>Install <b>Zotero Desktop</b>.</li>
+            <li>In Zotero, go to <b>Edit</b> → <b>Settings</b> → <b>Advanced</b>.</li>
+            <li>Enable <b>Allow other applications on this computer to communicate with Zotero</b>.</li>
+            <li>Go to the <b>Sync</b> tab on the left panel → <b>login</b> with your Zotero credentials → click <b>Set Up Syncing</b>.</li>
+            <li>Open ONLYOFFICE Desktop Editors.</li>
+            <li>Go to <b>Plugins</b> → <div class="icon icon-zotero"></div> <b>Zotero</b>.</li>
+            <li>Click <b>Work with local Zotero</b>.</li>
+            <li>Make sure Zotero Desktop is running.</li>
+        </ol>
+        <div class="notehelp">
+            <ul>
+                <li>Internet is not required once the local library is available.</li>
+                <li>All citation and bibliography tools work in offline mode.</li>
+            </ul>
+        </div>
+        
         <h4>Inserting references using Zotero</h4>
         <ol>
             <li>Open the document and place the cursor on the spot where you want to insert the reference(s).</li>
             <li>Switch to the <b>Plugins</b> tab and choose <div class="icon icon-zotero"></div> <b>Zotero</b>.</li>
-            <li>Enter a search text and hit <b>Enter</b> on your keyboard.</li>
-            <li>Click one or more check-boxes.</li>
-            <li>[Optional] Enter a new search text and click on one or more check-boxes.</li>
-            <li>Choose the reference style from the <b>Style</b> pull-down menu.</li>
+            <li>Enter a search text and hit <kbd>Enter</kbd> on your keyboard. Click the <b>Search</b> in button next to the search field to set the libraries.</li>
+            <li>Click one or more checkboxes.</li>
+            <li><em>(Optional)</em> Enter a new search text and click on one or more checkboxes.</li>
+            <li>
+                Choose the <b>Settings</b> tool icon to select the citation style from the drop-down menu and set the language. Click <b>Done</b> when ready.
+                <p class="note">Select the <b>More styles</b> menu item in the drop-down menu to open up the list of all available styles.</p>
+            </li>
             <li>Click the <b>Insert Bibliography</b> button.</li>
         </ol>
+        
+        <h4>Adding custom citation styles</h4>
+        <p>To install a custom style:</p>
+        <ol>
+            <li>Switch to the <b>Plugins</b> tab and choose <div class="icon icon-zotero"></div> <b>Zotero</b>.</li>
+            <li>Click the <b>Settings</b> tool button → open the drop-down menu → <b>Add custom style</b>.</li>
+            <li>Import your <code>.csl</code> file.</li>
+            <li>Zotero will add the style to the list of available citation formats.</li>
+            <li>Restart the editor to ensure the style loads correctly.</li>
+        </ol>
+        <p class="note">If you don’t have a <code>.csl</code> file ready, you can choose from over 10,000 additional styles available in the <a href="https://www.zotero.org/styles/" target="_blank">Zotero Style Repository</a>.</p>
     </div>
 </body>
 </html>

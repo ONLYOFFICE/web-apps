@@ -195,7 +195,7 @@ button:disabled, button[disabled]{
             </div>
         </div>
     </div>
-
+    <input id="statusHandler" type="hidden" value="<%= statusHandler || '' %>">
     <script type="text/javascript" language="javascript">
 
 		function redirect(url) {
@@ -253,7 +253,7 @@ button:disabled, button[disabled]{
         
 		var convertFile = function () {
 
-            let statusHandler = <%- JSON.stringify(statusHandler) %>;
+            let statusHandler = document.getElementById('statusHandler').value || null;
 			
 			if(!statusHandler) {
 				error();

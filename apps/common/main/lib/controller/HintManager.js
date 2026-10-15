@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  HintManager.js
@@ -127,6 +130,29 @@ Common.UI.HintManager = new(function() {
         };
 
     var _api;
+    
+    var _runPrefill = function (section, level) {
+        const prevSection = _currentSection,
+            prevLevel = _currentLevel,
+            prevControls = _currentControls.slice(),
+            prevUsed = _usedTitles.slice();
+
+        _currentSection = section || prevSection;
+        _currentLevel = (level !== undefined) ? level : prevLevel;
+
+        _currentControls.length = 0;
+        _usedTitles.length = 0;
+        _getControls();
+
+        _currentSection = prevSection;
+        _currentLevel = prevLevel;
+
+        _currentControls.length = 0;
+        if (prevControls.length) _currentControls.push(...prevControls);
+
+        _usedTitles.length = 0;
+        if (prevUsed.length) _usedTitles.push(...prevUsed);
+    }
 
     var _setCurrentSection = function (btn, section) {
         if (section) {
@@ -155,8 +181,22 @@ Common.UI.HintManager = new(function() {
         }
     };
 
-    var _showHints = function () {
+    var _showHints = function (btnMore) {
         _inputLetters = '';
+        const p = {
+            level: _currentLevel,
+            section: _currentSection,
+            cancel: false,
+            set: function (section, level) {
+                if (section) _currentSection = section;
+                if (level !== undefined) _currentLevel = level;
+            }
+        };
+
+        Common.NotificationCenter.trigger('hints:resolve-section', p);
+
+        if (p.cancel) return;
+
         if (_currentLevel === 0) {
             Common.NotificationCenter.trigger('toolbar:collapse');
         }
@@ -347,7 +387,13 @@ Common.UI.HintManager = new(function() {
             docW = _isEditDiagram ? (window.parent.innerWidth * Common.Utils.zoom()) : (Common.Utils.innerWidth()),
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
             topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? Common.Utils.getOffset($(section)).top : 0,
-            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
+            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH,
+            p = { section: section, docH: docH, top: topSection, bottom: bottomSection};
+
+        Common.NotificationCenter.trigger('hints:resolve-bounds', p);
+        if (p.top !== undefined && p.top !== topSection) topSection = p.top;
+        if (p.bottom !== undefined && p.bottom !== bottomSection) bottomSection = p.bottom;
+        
         if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
             bottomSection += $(section).find('.box-controls').outerHeight();
         }
@@ -492,7 +538,11 @@ Common.UI.HintManager = new(function() {
                 _isDocReady = true;
             },
             'hints:clear': _clearHints,
-            'window:resize': _clearHints
+            'window:resize': _clearHints,
+            'hints:prefill': function (payload) {
+                if (!payload) return;
+                _runPrefill(payload.section, payload.level);
+            }
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();
@@ -526,6 +576,26 @@ Common.UI.HintManager = new(function() {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
+                        const p = {
+                            level: _currentLevel,
+                            section: _currentSection,
+                            handledValue: false,
+                            handled: function (v) { this.handledValue = !!v; }
+                        };
+
+                        Common.NotificationCenter.trigger('hints:esc', p);
+
+                        if (p.handledValue) {
+                            _removeHints();
+                            _currentHints.length = 0;
+                            _currentControls.length = 0;
+
+                            _currentSection = $('#toolbar');
+                            _currentLevel = 1;
+                            _showHints();
+                            return;
+                        }
+
                         if (_currentLevel === 0) {
                             _hideHints();
                             _resetToDefault();
@@ -571,6 +641,27 @@ Common.UI.HintManager = new(function() {
                         if (curr) {
                             Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
+                            const p = {
+                                level: _currentLevel,
+                                section: _currentSection,
+                                control: curr,
+                                exitValue: false,
+                                exit: function (v) { this.exitValue = !!v; }
+                            };
+
+                            Common.NotificationCenter.trigger('hints:activate-control', p);
+
+                            if (p.exitValue) {
+                                _clearHints(true);
+                                _resetToDefault();
+                                _lockedKeyEvents(false);
+
+                                if (curr && curr.length) {
+                                    if (curr.attr('for')) $('#' + curr.attr('for')).trigger('click');
+                                    else curr.trigger('click');
+                                }
+                                return;
+                            }
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();
                                 curr.contextmenu();

@@ -167,7 +167,8 @@
       "textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
       "textUnderline": "Sottolineato",
       "textUsers": "Utenti",
-      "textWidow": "Controllo vedovo"
+      "textWidow": "Controllo vedovo",
+      "textEnterComment": "Inserisci commento"
     },
     "HighlightColorPalette": {
       "textNoFill": "Nessun riempimento"
@@ -316,7 +317,7 @@
     "textHeaderRow": "Riga di intestazione",
     "textHighlightColor": "Colore di evidenziazione",
     "textHorizontalText": "Testo orizzontale",
-    "textHyperlink": "Collegamento ipertestuale",
+    "textHyperlink": "Collegamento",
     "textImage": "Immagine",
     "textImageURL": "URL dell'immagine",
     "textInFront": "Davanti al testo",
@@ -335,6 +336,7 @@
     "textLink": "Collegamento",
     "textLinkSettings": "Impostazioni del collegamento",
     "textLinkToPrevious": "Collega al precedente",
+    "textLtrTextDirection": "Da sinistra a destra",
     "textMarch": "Marzo",
     "textMay": "Maggio",
     "textMo": "Lun",
@@ -379,6 +381,7 @@
     "textRightAlign": "Allinea a destra",
     "textRotateTextDown": "Ruota testo in basso",
     "textRotateTextUp": "Ruota testo in alto",
+    "textRtlTextDirection": "Da destra a sinistra",
     "textSa": "Sab",
     "textSameCreatedNewStyle": "Come il nuovo stile creato",
     "textSave": "Salva",
@@ -407,6 +410,7 @@
     "textTableOfCont": "Indice",
     "textTableOptions": "Opzioni della tabella",
     "textText": "Testo",
+    "textTextDirection": "Direzione del testo",
     "textTextOrientation": "Orientamento del testo",
     "textTextWrapping": "Avvolgimento testo",
     "textTh": "Gio",
@@ -423,7 +427,9 @@
     "textWrapText": "Avvolgi il testo",
     "textYourOption": "La tua opzione",
     "txtHeight": "Altezza",
-    "txtWidth": "Larghezza"
+    "txtWidth": "Larghezza",
+    "txtCustom": "Personalizza",
+    "textCurrentFont": "Testo principale"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
@@ -436,6 +442,7 @@
     "errorComboSeries": "Per creare un grafico a combinazione, seleziona almeno due serie di dati.",
     "errorCompare": "La funzione Confronta documenti non è disponibile in modalità di co-editing.",
     "errorConnectToServer": "Impossibile salvare questo documento. Controlla le impostazioni di connessione o contatta l'amministratore.<br>Cliccando su OK ti verrà richiesto di scaricare il documento.",
+    "errorCopyDisabled": "Per ragioni di sicurezza il contenuto di questo documento non può essere copiato.",
     "errorDatabaseConnection": "Errore esterno.<br>Errore di connessione al database. Si prega di contattare il supporto.",
     "errorDataEncrypted": "Le modifiche crittografate sono state ricevute, non possono essere decifrate.",
     "errorDataRange": "Intervallo di dati non corretto.",
@@ -444,8 +451,10 @@
     "errorEditingDownloadas": "Si è verificato un errore durante il lavoro con il documento.<br>Scarica il documento per salvare il backup del file localmente.",
     "errorEditProtectedRange": "Non hai il permesso di modificare questa selezione perché è protetta.",
     "errorEmptyTOC": "Inizia a creare un sommario applicando uno stile di intestazione dalla galleria Stili al testo selezionato.",
+    "errorFileNotAssembled": "Questo file è stato aperto da una copia di backup del server e non è salvato in un archivio.<br>Usa la funzione 'Salva come...' per salvarlo su un disco.",
     "errorFilePassProtect": "Il file è protetto da password e non può essere aperto.",
     "errorFileSizeExceed": "La dimensione del file supera il limite del tuo server.<br>Ti preghiamo di contattare l'amministratore.",
+    "errorForcedViewMode": "Questo file è aperto in modalità visualizzazione.<br>Il file non può essere modificato oppure i tuoi diritti di accesso non ne permettono la modifica.",
     "errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizzare l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprovare più tardi.",
     "errorInconsistentExt": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file non corrisponde all'estensione.",
     "errorInconsistentExtDocx": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file corrisponde a documenti di testo (ad es. docx), ma il file ha l'estensione incompatibile: %1.",
@@ -527,7 +536,8 @@
     "txtEditingMode": "Imposta modalità di modifica...",
     "uploadImageTextText": "Caricamento immagine in corso...",
     "uploadImageTitleText": "Caricamento immagine",
-    "waitText": "Attendere prego..."
+    "waitText": "Attendere prego...",
+    "changesSaved": "Tutte le modifiche sono state salvate"
   },
   "Main": {
     "criticalErrorTitle": "Errore",
@@ -539,7 +549,7 @@
     "notcriticalErrorTitle": "Avvertimento",
     "SDK": {
       " -Section ": "-Sezione",
-      "above": "al di sopra",
+      "above": "sopra",
       "Aspect": "Aspetto",
       "below": "sotto",
       "Blue": "Blu",
@@ -579,7 +589,7 @@
       "Heading 7": "Titolo 7",
       "Heading 8": "Titolo 8",
       "Heading 9": "Titolo 9",
-      "Hyperlink": "Collegamento ipertestuale",
+      "Hyperlink": "Collegamento",
       "Index Too Large": "Indice troppo grande",
       "Intense Emphasis": "Enfasi intensa",
       "Intense Quote": "Citazione intensa",
@@ -651,6 +661,7 @@
     "textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
     "textNo": "No",
     "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
+    "textNoResourcesTitle": "Risorse insufficienti",
     "textNoMatches": "Nessuna corrispondenza",
     "textOk": "Ok",
     "textPaidFeature": "Funzionalità a pagamento",
@@ -676,6 +687,7 @@
     "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai più accesso alle funzionalità di modifica dei documenti. Ti preghiamo di contattare il tuo amministratore.",
     "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
+    "warnNoResources": "Il server %1 non dispone di risorse sufficienti per aprire questo documento per la modifica. Il documento verrà aperto in modalità di sola lettura.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnProcessRightsChange": "Non hai il permesso di modificare questo file."
   },
@@ -742,6 +754,7 @@
     "textHelp": "Aiuto",
     "textHiddenTableBorders": "Bordi di tabella nascosti",
     "textHighlightResults": "Evidenziare risultati",
+    "textHyphenation": "Trattini",
     "textInch": "Pollice",
     "textLandscape": "Orizzontale",
     "textLastModified": "Ultima modifica",
@@ -763,6 +776,7 @@
     "textNoMatches": "Nessuna corrispondenza",
     "textOk": "OK",
     "textOpenFile": "Immettere la password per aprire il file",
+    "textOpenLocation": "Apri posizione",
     "textOrientation": "Orientamento",
     "textOwner": "Proprietario",
     "textPages": "Pagine",
@@ -818,7 +832,10 @@
     "txtDownloadTxt": "Scarica TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
+    "textAutoSaveDocument": "Salvataggio automatico",
+    "textDarkDocument": "Documento scuro",
+    "textSaveDocument": "Salva"
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",
@@ -834,6 +851,11 @@
     "textSwitchedMobileView": "Passato alla visualizzazione mobile",
     "textSwitchedStandardView": "Passato alla visualizzazione standard",
     "textSwitchToDesktop": "Passa al desktop",
-    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo."
+    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo.",
+    "textSave": "Salva",
+    "textDontSave": "Non salvare",
+    "textCancel": "Annulla",
+    "textSaveData": "Salva le modifiche prima di uscire",
+    "textUnsavedData": "Dati non salvati"
   }
 }

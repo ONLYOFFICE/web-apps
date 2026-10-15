@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>MINIFS funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="MINIFS funkcija je jedna od statističkih funkcija. Koristi se za vraćanje najmanje vrednosti među ćelijama koje zadovoljavaju određene uslove ili kriterijume." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>MINIFS funkcija</h1>
+			<p><b>MINIFS</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za vraćanje najmanje vrednosti među ćelijama koje zadovoljavaju određene uslove ili kriterijume.</p>			
+			<h3>Sintaksa</h3> 
+			<p><b><em>MINIFS(min_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)</em></b></p> 
+			<p><b>MINIFS</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>min_range</em></b></td>
+                    <td>Opseg ćelija u kojem će se određivati najmanja vrednost.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria_range1</em></b></td>
+                    <td>Prvi odabrani opseg ćelija na koji se primenjuje <em>criteria1</em>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria1</em></b></td>
+                    <td>Prvi uslov koji mora biti ispunjen. Primjenjuje se na <em>criteria_range1</em> i određuje koje ćelije u <em>min_range</em> će se uzeti u obzir za najmanju vrednost.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria_range2, criteria2</em></b></td>
+                    <td>Dodatni opsezi ćelija i odgovarajući kriterijumi. Ovi argumenti su opciona.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+            <p>Možete koristiti wildcard karaktere prilikom definisanja kriterijuma. Upitnik "?" može zameniti bilo koji pojedinačni karakter, a zvezdica "*" može zameniti bilo koji broj karaktera.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>MINIFS</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>MINIFS</b> funkcija.</p>
+			<p><img alt="MINIFS funkcija" src="../images/minifs.png" /></p>
+		</div>
+	</body>
+</html>

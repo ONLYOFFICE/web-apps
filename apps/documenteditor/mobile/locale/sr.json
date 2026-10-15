@@ -167,7 +167,9 @@
       "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUnderline": "Podvuci",
       "textUsers": "Korisnici",
-      "textWidow": "Kontrola udovice"
+      "textWidow": "Kontrola udovice",
+      "textEnterComment": "Unesite komentar",
+      "textMention": "Komentarišite ili pomenite pomoću + ili @"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez Punjenja"
@@ -181,7 +183,7 @@
       "dark": "Tamno",
       "light": "Svetlo",
       "system": "Isto kao sistem",
-      "textTheme": "Tema"
+      "textTheme": "Tema interfejsa"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Upozorenje",
@@ -426,7 +428,9 @@
     "textWrapText": "Upakuj tekst",
     "textYourOption": "Tvoja opcija",
     "txtHeight": "Visina",
-    "txtWidth": "Širina "
+    "txtWidth": "Širina ",
+    "txtCustom": "Prilagođeno",
+    "textCurrentFont": "Glavni tekst"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
@@ -448,8 +452,10 @@
     "errorEditingDownloadas": "Greška je nastala u toku rada sa dokumentom.<br>Preuzmite dokument da sačuvate rezervnu kopiju fajla lokalno.",
     "errorEditProtectedRange": "Nije vam dozvoljeno da uređujete ovaj odabir jer je zaštićen.",
     "errorEmptyTOC": "Počni da kreiraš tabelu sadržaja primenjujući stil naslova iz galerije Stilova na odabran tekst.",
+    "errorFileNotAssembled": "Ovaj fajl je otvoren sa rezervne kopije sa servera i nije sačuvan na skladište.<br>Koristite opciju 'Sačuvaj kao...' da biste ga sačuvali na disk.",
     "errorFilePassProtect": "Fajl je zaštićen lozinkom i nije se mogao otvoriti.",
     "errorFileSizeExceed": "Fajl prevazilazi limite vašeg servera.<br>Molimo, kontaktirajte vašeg admina.",
+    "errorForcedViewMode": "Ovaj fajl je otvoren u režimu prikaza.<br>Fajl je zaključan za uređivanje ili vaša prava pristupa ne dozvoljavaju izmenu.",
     "errorForceSave": "Greška se pojavila u toku čuvanja fajla. Molimo koristite \"Preuzmi kao\" opciju da sačuvate fajl na hard drajv vašeg kompjutera ili pokušajte ponovo kasnije.",
     "errorInconsistentExt": "Greška se pojavila u toku otvaranja fajla.<br>Sadržaj fajla se ne poklapa sa fajl ekstenzijom.",
     "errorInconsistentExtDocx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara tekstualnim dokumentima (npr docx), ali fajl ima nedoslednu ekstenziju: %1.",
@@ -497,6 +503,7 @@
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",
     "applyChangesTitleText": "Učitavanje Podataka ",
+    "changesSaved": "Sve promene su sačuvane",
     "confirmMaxChangesSize": "Veličina akcija prevazilazi ograničenja postavljena za vaš server.<br>Pritisnite \"Undo\" da otkažete vašu poslednju akciju ili pritisnite \"Continue\" da zadržite akciju lokalno (morate da preuzmete fajl ili kopirate njegov sadržaj da se uverite da ništa nije izgubljeno).",
     "downloadMergeText": "Preuzimanje...",
     "downloadMergeTitle": "Preuzimanje",
@@ -655,6 +662,7 @@
     "textHasMacros": "Fajl sadrži automatske makroe.<br>Želite li da pokrenete makroe?",
     "textNo": "Ne",
     "textNoLicenseTitle": "Limit licence dostignut",
+    "textNoResourcesTitle": "Nedovoljno resursa",
     "textNoMatches": "Bez Poklapanja",
     "textOk": "OK",
     "textPaidFeature": "Plaćena funkcija ",
@@ -680,6 +688,7 @@
     "warnLicenseLimitedNoAccess": "Licenca istekla. Nemate pristup fukcionalnosti uređivanja dokumenta. Molimo, kontaktirajte vašeg admina.",
     "warnLicenseLimitedRenewed": "Licenca treba da bude obnovljena. Imate ograničen pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora da dobijete pun pristup",
     "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
+    "warnNoResources": "Server %1 nema dovoljno resursa da otvori ovaj dokument za uređivanje. Ovaj dokument biće otvoren samo za pregledanje.",
     "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
     "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl."
   },
@@ -694,6 +703,7 @@
     "textApplication": "Aplikacija",
     "textApplicationSettings": "Podešavanja Aplikacije",
     "textAuthor": "Autor",
+    "textAutoSaveDocument": "Auto-čuvanje",
     "textBack": "Nazad",
     "textBeginningDocument": "Početak dokumenta ",
     "textBottom": "Dno",
@@ -713,6 +723,7 @@
     "textCreated": "Kreirano",
     "textCustomSize": "Prilagođena veličina",
     "textDark": "Tamno",
+    "textDarkDocument": "Tamni Dokument",
     "textDarkTheme": "Tamna Tema",
     "textDialogUnprotect": "Unesi lozinku da skineš zaštitu sa dokumenta",
     "textDirection": "Pravac",
@@ -737,7 +748,7 @@
     "textExport": "Izvoz",
     "textExportAs": "Izvezi kao",
     "textFastWV": "Brzi Mrežni Prikaz",
-    "textFeedback": "Povratne Informacije i Podrška",
+    "textFeedback": "Kontaktirajte podršku",
     "textFillingForms": "Popunjavanje formi",
     "textFind": "Pronađi",
     "textFindAndReplace": "Pronađi i Zameni",
@@ -768,7 +779,8 @@
     "textNoMatches": "Bez Poklapanja",
     "textOk": "OK",
     "textOpenFile": "Unesi lozinku da otvoriš fajl",
-    "textOrientation": "Orijentacija ",
+    "textOpenLocation": "Otvorena lokacija",
+    "textOrientation": "Orijentacija stranice",
     "textOwner": "Vlasnik",
     "textPages": "Stranice",
     "textPageSize": "Veličina stranice",
@@ -797,6 +809,7 @@
     "textRightToLeft": "Desno ka levo",
     "textSameAsSystem": "Isto kao sistem",
     "textSave": "Sačuvaj",
+    "textSaveDocument": "Sačuvaj",
     "textSearch": "Pronađi",
     "textSetPassword": "Postavi lozinku",
     "textSettings": "Podešavanja",
@@ -823,7 +836,26 @@
     "txtDownloadTxt": "Preuzmite TXT",
     "txtIncorrectPwd": "Lozinka je netačna",
     "txtOk": "OK",
-    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
+    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana",
+    "textAboutGroup": "O",
+    "textDocumentSetup": "Podešavanje dokumenta",
+    "textHelpCenter": "Centar za pomoć",
+    "textHeadings": "Naslovi",
+    "textSaveCopy": "Sačuvaj kopiju",
+    "textSaveACopy": "Sačuvaj kopiju",
+    "textSaveACopyAs": "Sačuvaj kopiju kao",
+    "textTools": "Alati",
+    "textView": "Prikaz",
+    "textSettingsGroup": "Podešavanja",
+    "textPreferences": "Podešavanja",
+    "textHelpAndFeedback": "Pomoć i povratne informacije",
+    "textShare": "Podeli",
+    "textMobileViewWarning": "Deo sadržaja ovog dokumenta biće sakriven u mobilnom prikazu.",
+    "textStyleGroup": "Stil",
+    "textSpellingGroup": "Pravopis",
+    "textDisplayGroup": "Ekran",
+    "textSaveACopyHeader": "Sačuvaj kopiju",
+    "textSaveConnectedStorage": "Datoteka će biti sačuvana na povezanu memoriju"
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",
@@ -839,6 +871,11 @@
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
     "textSwitchToDesktop": "Prebaci na Desktop verziju",
-    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
+    "textSave": "Sačuvaj",
+    "textDontSave": "Nemoj sačuvati",
+    "textCancel": "Otkaži",
+    "textSaveData": "Sačuvajte izmene pre nego što odete",
+    "textUnsavedData": "Nesačuvani podaci"
   }
 }

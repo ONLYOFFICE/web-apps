@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ViewTab.js
@@ -42,6 +45,9 @@ define([
     'common/main/lib/component/Layout'
 ], function () {
     'use strict';
+
+    !Common.enumLock && (Common.enumLock = {});
+    Common.enumLock.compactMode = 'compact-mode';
 
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template = '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
@@ -73,6 +79,7 @@ define([
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-dark-document"></span>' +
             '</div>' +
             '<div class="separator long separator-theme"></div>' +
             '<div class="group sheet-freeze">' +
@@ -177,6 +184,9 @@ define([
             }, me));
             me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                 me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
+            }, me));
+            me.btnDarkDocument.on('click', _.bind(function (e) {
+                me.fireEvent('darkmode:change', [e.pressed]);
             }, me));
             me.btnMacros && me.btnMacros.on('click', function () {
                 me.fireEvent('macros:click');
@@ -381,7 +391,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-theme',
                     caption: this.textInterfaceTheme,
                     menu: true,
                     dataHint: '1',
@@ -391,10 +401,21 @@ define([
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
+                this.btnDarkDocument = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: `toolbar__icon ${Common.UI.Themes.isContentThemeDark() ? 'btn-night' : 'btn-day'}`,
+                    lock: [_set.inLightTheme, _set.lostConnect],
+                    caption: this.textDarkDocument,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnDarkDocument);
+
                 this.chFormula = new Common.UI.CheckBox({
                     labelText: this.textFormula,
                     value: !Common.localStorage.getBool('sse-hidden-formula'),
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -404,7 +425,7 @@ define([
                 this.chStatusbar = new Common.UI.CheckBox({
                     labelText: this.textCombineSheetAndStatusBars,
                     value       : Common.localStorage.getBool('sse-compact-statusbar', true),
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -414,7 +435,7 @@ define([
                 this.chToolbar = new Common.UI.CheckBox({
                     labelText: this.textAlwaysShowToolbar,
                     value       : !options.compactToolbar,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.compactMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -461,6 +482,7 @@ define([
                 this.cmbZoom.setValue(100);
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
+                this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
                 this.chFormula.render($host.find('#slot-chk-formula'));
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
@@ -497,6 +519,7 @@ define([
                     }
                     me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+                    me.btnDarkDocument.updateHint(me.tipDarkDocument);
                     me.btnRecMacro && me.btnRecMacro.updateHint(me.tipRecMacro);
                     me.btnPauseMacro && me.btnPauseMacro.updateHint(me.tipPauseMacro);
 

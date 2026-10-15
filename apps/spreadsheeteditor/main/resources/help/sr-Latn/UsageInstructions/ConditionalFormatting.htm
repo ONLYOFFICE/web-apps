@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Uslovno formatiranje</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Uslovno formatiranje vam omogućava da primenite različite stilove formatiranja (boja, font, dekoracija, gradijent) na ćelije radi rada sa podacima u tabeli: isticanje, sortiranje i prikaz podataka koji ispunjavaju potrebne kriterijume." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Uslovno formatiranje</h1>
+			<p><b>Uslovno formatiranje</b> vam omogućava da primenite različite stilove formatiranja (boja, font, dekoracija, gradijent) na ćelije radi rada sa podacima u tabeli: isticanje, sortiranje i prikaz podataka koji ispunjavaju potrebne kriterijume. Definišite odgovarajuće kriterijume i kreirajte nova pravila formatiranja, uređujte, upravljajte ili brišite postojeća pravila. 
+            Pravila uslovnog formatiranja koja podržava ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> su:</p>
+			<p><b>Value is</b>, <b>Top/Bottom</b>, <b>Average</b>, <b>Text</b>, <b>Date</b>, <b>Blank/Error</b>, <b>Duplicate/Unique</b>, <b>Data Bars</b>, <b>Color Scales</b>, <b>Icon Sets</b>, <b>Formula</b>.</p>
+            <p>Za brz pristup, ili ako želite da izaberete neki od dostupnih unapred podešenih uslova, ili da pristupite svim dostupnim opcijama uslovnog formatiranja, idite na karticu <b>Home</b> i kliknite na dugme <b>Conditional formatting</b> <span class="icon icon-conditionalformatting_button"></span>.</p>
+                    <p><img alt="Conditional Formatting Home Tab" src="../images/interface/hometab.png" /></p>
+            <p>Sve opcije <b>Conditional Formatting</b> dostupne su i na desnoj bočnoj traci u kartici <b>Cell Settings</b>. Kliknite na strelicu nadole kontrole <b>Conditional Formatting</b> da biste otvorili padajući meni koji sadrži sve dostupne opcije.</p>
+                    <p><img alt="Conditional Formatting Right Sidebar" src="../images/conditionalformatting_rightsidebar.png" /></p>
+            <p>Da biste otvorili prozor <b>New Formatting Rule</b>, možete kliknuti desnim tasterom miša na bilo koju ćeliju i izabrati <b>Conditional Formatting</b> iz kontekstnog menija.</p>
+                    <p><img alt="Conditional Formatting Right Click" src="../images/conditionalformatting_rightclick.png" /></p>
+            <p>Da biste primenili uslov pravila formatiranja, izaberite opseg ćelija, zatim kliknite na dugme <b>Conditional formatting</b> <span class="icon icon-conditionalformatting_button"></span> na gornjoj traci sa alatkama ili kliknite na kontrolu <b>Conditional Formatting</b> u kartici <b>Cell Settings</b> na desnoj bočnoj traci i izaberite odgovarajuće pravilo iz padajućeg menija.</p> 
+            <p><img alt="Conditional Formatting Drop-Down" src="../images/conditionalformatting_dropdown.png" />. 
+            <p>Otvoriće se prozor <b>New Formatting Rule</b> kako biste podesili kriterijume za isticanje.</p>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Value is</b></summary>
+                <p>Pravilo formatiranja <b>Value is</b> koristi se za pronalaženje i isticanje ćelija koje ispunjavaju određeni uslov poređenja:</p> 
+                <ul type="circle">
+                     <li>Veće od</li>
+                     <li>Veće ili jednako</li>
+                     <li>Manje od</li>
+                     <li>Manje ili jednako</li>
+                     <li>Jednako</li>
+                     <li>Nije jednako</li>
+                     <li>Između</li>
+                     <li>Nije između</li>
+                </ul>
+                    <p><img alt="New Rule Value Is" src="../images/newrule_valueis.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov poređenja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova. Koristite polje <b>Select Data</b> da biste definisali vrednost ćelije za poređenje. Koristite referencu na jednu ćeliju ili referencu sa funkcijom radnog lista kao što je =SUM(A1:B5). </li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na <b>Clear</b> 
+                da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što su <b>Greater</b> than i <b>Between</b>. Ovo formatira planine sa visinom većom od 6,960 zelenom pozadinom i procenat između 5,000 i 6,500 ružičastom bojom.</p>
+                <p><img alt="Value Is" src="../images/conditionalformatting/valueis_example.png" /></p>
+            </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Top/Bottom</b></summary>
+                <p>Pravilo <b>Top/Bottom</b> koristi se za pronalaženje i prikaz najvećih i najmanjih vrednosti u tabeli:</p> 
+                <ul type="circle">
+                     <li>Top 10 stavki</li>
+                     <li>Top 10%</li>
+                     <li>Bottom 10 stavki</li>
+                     <li>Bottom 10%</li>
+               </ul>
+                    <p><img alt="New Rule Top&Bottom" src="../images/newrule_topbottom.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova, broju stavki (procentu) za prikaz, i izabrati da li želite da istaknete stavke ili procenat.</li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što su <b>Top 10%</b> podešeno da prikaže top 20% vrednosti i <b>Bottom 10 items</b>. Ovo formatira Top 20% naknada u gradovima koje ste posetili narandžastom pozadinom i najniže vrednosti za gradove gde ste prodali mali broj knjiga plavom pozadinom.</p>
+                <p><img alt="Top Bottom" src="../images/conditionalformatting/topbottom_example.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Average</b></summary>
+                <p><b>Average</b> se koristi za pronalaženje i prikaz vrednosti iznad ili ispod proseka ili standardne devijacije u oceni:</p> 
+                <ul type="circle">
+                     <li>Iznad</li>
+                     <li>Ispod</li>
+                     <li>Jednako ili iznad</li>
+                     <li>Jednako ili ispod</li>
+                     <li>1 std dev iznad</li>
+                     <li>1 std dev ispod</li>
+                     <li>2 std dev iznad</li>
+                     <li>2 std dev ispod</li>
+                     <li>3 std dev iznad</li>
+                     <li>3 std dev ispod</li>
+               </ul>
+                    <p><img alt="New Rule Average" src="../images/newrule_average.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova.</li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što je <b>Above</b> average. Ovo formatira gradove gde je posećenost bila iznad proseka zelenom pozadinom.</p>
+                <p><img alt="Average" src="../images/conditionalformatting/average_example.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Text</b></summary>
+                <p>Pravilo formatiranja <b>Text</b> koristi se za pronalaženje i isticanje ćelija koje sadrže određeni tekst i ispunjavaju jedan od dostupnih uslova formatiranja:</p> 
+                <ul type="circle">
+                     <li>Sadrži</li>
+                     <li>Ne sadrži</li>
+                     <li>Počinje sa</li>
+                     <li>Završava se sa</li>
+               </ul>
+                    <p><img alt="New Rule Text" src="../images/newrule_text.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov formatiranja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova. Koristite polje <b>Select Data</b> da biste definisali vrednost ćelije za poređenje. Koristite referencu na jednu ćeliju ili referencu sa funkcijom radnog lista kao što je =SUM(A1:B5).</li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što je <b>Contains</b>. Ovo formatira ćelije koje sadrže Denmark ružičastom pozadinom kako bi se istakla prodaja za određeni region.</p>
+                <p><img alt="Text" src="../images/conditionalformatting/text_example.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Date</b></summary>
+                <p>Pravilo formatiranja <b>Date</b> koristi se za pronalaženje i isticanje ćelija koje sadrže određeni datum i ispunjavaju jedan od dostupnih uslova formatiranja:</p> 
+                <ul type="circle">
+                     <li>Juče</li>
+                     <li>Danas</li>
+                     <li>Sutra</li>
+                     <li>U poslednjih 7 dana</li>
+                     <li>Prošle nedelje</li>
+                     <li>Ove nedelje</li>
+                     <li>Sledeće nedelje</li>
+                     <li>Prošlog meseca</li>
+                     <li>Ovog meseca</li>
+                     <li>Sledećeg meseca</li>
+               </ul>
+                    <p><img alt="New Rule Date" src="../images/newrule_date.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov formatiranja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova.</li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što je <b>Last month</b>. Ovo formatira ćelije koje sadrže datume iz prethodnog meseca žutom pozadinom kako bi se istakla prodaja za određeni vremenski period.</p>
+                <p><img alt="Date" src="../images/conditionalformatting/date_example.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Blank/Error</b></summary>
+                <p>Pravilo formatiranja <b>Blank/Error</b> koristi se za pronalaženje i isticanje ćelija koje sadrže ili ne sadrže prazna polja i greške:</p> 
+                <ul type="circle">
+                     <li>Sadrži prazna polja</li>
+                     <li>Ne sadrži prazna polja</li>
+                     <li>Sadrži greške</li>
+                     <li>Ne sadrži greške</li>
+               </ul>
+                    <p><img alt="New Rule Blank/Error" src="../images/newrule_blankerror.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov formatiranja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova. </li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što je <b>Contains blanks</b>. Ovo formatira prazne ćelije u koloni koja prikazuje broj prodaja svetloplavom pozadinom.</p>
+                <p><img alt="Blank/Error" src="../images/conditionalformatting/blankerror_example.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Pravilo formatiranja Duplicate/Unique</b></summary>
+                <p>Pravilo formatiranja <b>Duplicate/Unique</b> koristi se za prikaz duplih vrednosti u tabeli i u opsegu ćelija definisanom uslovnim formatiranjem; dostupne opcije su:</p> 
+                <ul type="circle">
+                     <li>Duplikat</li>
+                     <li>Jedinstveno</li>
+               </ul>
+                    <p><img alt="New Rule Duplicate/Unique" src="../images/newrule_duplicateunique.png" /></p>
+                <ul type="disc">
+                     <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov formatiranja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova. </li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primer ispod prikazuje unapred definisane kriterijume formatiranja, kao što je <b>Duplicate</b>. Ovo formatira duplirane kontakte žutom pozadinom.</p>
+                    <p><img alt="Unique and duplicates" src="../images/conditionalformatting/uniqueduplicates.webp" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Formatiranje Data Bars</b></summary>
+                <p><b>Data Bars</b> se koriste za poređenje vrednosti u obliku dijagrama (trake).</p> 
+                    <p><span class="big big-databars_diagrams"></span></p>
+                <p>Na primer, uporedite visine planina prikazivanjem njihove podrazumevane vrednosti u metrima (zelena traka) i iste vrednosti u opsegu od 0 do 100 procenata (žuta traka); percentil kada ekstremne vrednosti „iskrivljuju“ podatke (svetloplava traka); samo trake umesto brojeva (plava traka); analiza podataka u dve kolone da biste videli i brojeve i trake (crvena traka).</p>
+                    <p><img alt="Data bars" src="../images/conditionalformatting/databars.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Formatiranje Color Scales</b></summary>
+                <p><b>Color Scales</b> se koriste za isticanje vrednosti u tabeli putem gradijentne skale.</p> 
+                <p><span class="big big-colorscales"></span></p>
+                <p>Primer ispod prikazuje kolone od „Dairy” do „Beverage” koje prikazuju podatke putem dvobojne skale sa varijacijom od žute do crvene; kolona „Total Sales” prikazuje podatke putem trobojne skale od najmanjeg iznosa u crvenoj do najvećeg iznosa u plavoj boji.</p>
+                    <p><img alt="Gradient" src="../images/conditionalformatting/gradient.png" /></p>
+                </details>
+            <details class="details-example">
+                <summary><b>Formatiranje Icon Sets</b></summary>
+                <p><b>Icon Sets</b> se koriste za prikaz podataka tako što se u ćeliji koja ispunjava kriterijume prikazuje odgovarajuća ikonica. Spreadsheet Editor podržava različite skupove ikonica:</p> 
+               <ul type="circle">
+                     <li>Directional</li>
+                     <li>Shapes</li>
+                     <li>Indicators</li>
+                     <li>Ratings</li>
+               </ul>
+               <p><span class="big big-iconsets"></span></p>
+               <p>U nastavku su navedeni primeri za najčešće slučajeve uslovnog formatiranja sa skupovima ikonica.</p>
+               <ul>
+                        <li>Umesto brojeva i procentualnih vrednosti, vidite formatirane ćelije sa odgovarajućim strelicama koje prikazuju ostvarenje prihoda u koloni „Status” i dinamiku trendova u budućnosti u koloni „Trend”.
+                            <p><img alt="Icon set" src="../images/conditionalformatting/iconsetrevenue.png" /></p>
+                        </li>
+                        <li>Umesto ćelija sa ocenama u rasponu od 1 do 5, alat za uslovno formatiranje prikazuje odgovarajuće ikonice iz legende na vrhu za svaki bicikl u listi ocena.
+                            <p><img alt="Icon set" src="../images/conditionalformatting/iconsetbikerating.png" /></p>
+                        </li>
+                        <li>Umesto ručnog poređenja dinamike mesečnog profita, formatirane ćelije imaju odgovarajuću crvenu ili zelenu strelicu.
+                            <p><img alt="Icon set" src="../images/conditionalformatting/iconsettrends.png" /></p>
+                        </li>
+                        <li>Koristite sistem semafora (crveni, žuti i zeleni krugovi) za vizuelizaciju dinamike prodaje.
+                            <p><img alt="Icon set" src="../images/conditionalformatting/iconsettrafficlights.png" /></p>
+                        </li>
+               </ul>                
+               </details>
+            <details class="details-example">
+                <summary><b>Formatiranje korišćenjem formula</b></summary>
+                <p><b>Formula-based</b> formatiranje koristi različite formule za filtriranje podataka prema specifičnim potrebama.</p>
+                <p><img alt="New Rule Formula" src="../images/newrule_formula.png" /></p>                
+                <ul>     
+                <li>Odeljak <b>Rule</b> prikazuje izabrano pravilo i izabrani uslov formatiranja; klikom na strelicu nadole možete pristupiti listi dostupnih pravila i uslova. Koristite polje <b>Select Data</b> da biste definisali vrednost ćelije za poređenje. Koristite referencu na jednu ćeliju ili referencu sa funkcijom radnog lista kao što je =SUM(A1:B5).</li>
+                     <li>Odeljak <b>Format</b> nudi niz opcija za formatiranje ćelija. Možete izabrati jedan od dostupnih <b>Presets</b>.</li>
+                </ul>
+                     <p><img alt="Format Presets" src="../images/format_presets.png" /></p>                
+                <p>ili</p> 
+                <p>prilagoditi formatiranje korišćenjem opcija formatiranja fonta (Bold, Italic, Underline, Strikeout), boje teksta, boje ispune i ivica. Koristite padajuću listu <b>General</b> da biste izabrali odgovarajući format brojeva (General, Number, Scientific, Accounting, Currency, Date, Time, Percentage). Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja. Kliknite na dugme <b>Clear</b> da biste obrisali sva podešavanja formatiranja.</p>
+                <p>Kliknite <b>OK</b> da biste potvrdili.</p>
+                <p>Primeri ispod ilustruju mogućnosti formatiranja putem formula.</p>
+                    <p>Zasenčite naizmenične redove,</p>
+                    <p><img alt="Formula-based" src="../images/conditionalformatting/shading.png" /></p>
+                    <p>Uporedite sa referentnom vrednošću (ovde je to $55) i prikažite da li je veća (zeleno) ili manja (crveno),</p>
+                    <p><img alt="Formula-based" src="../images/conditionalformatting/comparison.png" /></p>
+                    <p>Istaknite redove koji ispunjavaju potrebne kriterijume (pogledajte koje ciljeve treba da ostvarite ovog meseca; u ovom slučaju to je oktobar),</p>
+                    <p><img alt="Formula-based" src="../images/conditionalformatting/shaderows.png" /></p>
+                    <p>Ili istaknite samo jedinstvene redove</p>
+                    <p><img alt="Formula-based" src="../images/conditionalformatting/shadeunique.png" /></p>
+                </details>
+        <h2>Kreiraj novo pravilo</h2>
+            <p>Kada treba da kreirate novo pravilo za uslovno formatiranje, to možete uraditi na jedan od sledećih načina:</p>
+                 <ul>
+                 <li> Idite na karticu <b>Home</b>, kliknite dugme <b>Conditional Formatting</b> <div class = "icon icon-conditionalformatting_button"></div> i iz padajućeg menija izaberite <b>New Rule</b>.</li>
+                 <li> Kliknite karticu <b>Cell Settings</b> na desnoj bočnoj traci i kliknite strelicu nadole na kontroli <b>Conditional formatting</b>, zatim iz padajućeg menija izaberite <b>New Rule</b>.</li>
+                 <li> Desnim klikom na bilo koju ćeliju iz kontekstnog menija izaberite <b>Conditional Formatting</b>.</li>               
+                 </ul>
+            <p>Prozor <b>New Formatting Rule</b> će se odmah otvoriti. Podesite potrebne opcije da biste konfigurisali pravilo kao što je opisano iznad i kliknite <b>OK</b> da biste potvrdili.</p>
+        <h2>Upravljanje pravilima uslovnog formatiranja</h2>
+            <p>Kada podesite pravila uslovnog formatiranja, možete ih lako uređivati, brisati i pregledati koristeći opciju <b>Manage Rule</b> klikom na dugme <b>Conditional Formatting</b> <span class="icon icon-conditionalformatting_button"></span> na kartici <b>Home</b>, ili na kontrolu <b>Conditional formatting</b> na desnoj bočnoj traci u kartici <b>Cell Settings</b>. Pojaviće se prozor <b>Conditional Formatting</b>:</p>
+            <p><img alt="Manage Rules" src="../images/managerules.png" /><p>
+            <p><b>Show formatting rules for</b> omogućava izbor pravila koja želite da prikažete:</p>
+        <ul type="circle">
+                     <li>Current selection</li>
+                     <li>This worksheet</li>
+                     <li>This table</li>
+                     <li>This pivot</li>
+        </ul>
+        <p> Sva pravila pronađena u izabranom opsegu biće prikazana po redosledu prioriteta (od vrha ka dnu) pod <b>Rules</b>. Polje <b>Apply to</b> prikazuje opseg na koji se pravilo primenjuje; opseg možete promeniti klikom na ikonicu <b>Select data</b> <span class="icon icon-selectdata_icon"></span>. Polje <b>Format</b> prikazuje primenjeno pravilo formatiranja.</p>
+        <ul>
+        <li>Koristite dugme <b>New</b> da biste dodali novo pravilo.</li>
+        <li>Koristite dugme <b>Edit</b> ako želite da izmenite postojeće pravilo; otvoriće se prozor <b>Edit Formatting Rule</b>. Izmenite pravilo po potrebi i kliknite <b>OK</b>.</li>
+        <li>Koristite strelice gore i dole da promenite mesto u redosledu prioriteta.</li>
+        <li>Kliknite <b>Delete</b> da uklonite pravilo.</li>
+         <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+        </ul>
+        <h2>Uređivanje uslovnog formatiranja</h2>
+            <details class="details-example">
+            <summary><b>Uređivanje Value is, Top/Bottom, Average, Text, Date, Blank/Error, Duplicate/Unique, Formula</b></summary>
+            <p>Prozor <b>Edit Formatting Rule</b> za <b>Value is</b>, <b>Top/Bottom</b>, <b>Average</b>, <b>Text</b>, <b>Date</b>, <b>Blank/Error</b>, <b>Duplicate/Unique</b>, <b>Formula</b> nudi niz standardnih podešavanja:</p>
+            <p><img alt="Edit Value is Rule" src="../images/editrule_valueis.png" /></p>
+        <ul type="disc">
+                     <li>Kliknite <b>Rule</b> da promenite pravilo i prethodno primenjeni uslov formatiranja;</li>
+                     <li>Koristite polje <b>Select data</b> da promenite opseg ćelija na koji se referiše (za <i>Value is</i>, <i>Text</i> i <i>Formula</i>);</li>
+                     <li>Koristite opcije formata fonta i ćelije (<i>Bold</i>, <i>Italic</i>, <i>Underline</i>, <i>Strikeout</i>), <i>Text color</i>, <i>Fill color</i> i <i>Borders</i>. </li>
+                     <li>Kliknite padajuću listu <b>General</b> da izaberete odgovarajući format brojeva (<i>General</i>, <i>Number</i>, <i>Scientific</i>, <i>Accounting</i>, <i>Currency</i>, <i>Date</i>, <i>Time</i>, <i>Percentage</i>).</li>
+                     <li>Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja.</li>
+                     <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+        </ul>
+        </details>
+        <details class="details-example">
+            <summary><b>Uređivanje Data Bars</b></summary>
+            <p>Prozor <b>Edit Formatting Rule</b> za <b>Data Bar</b> nudi sledeće opcije:</p>
+            <p><img alt="Edit Data Bar Formatting" src="../images/editrule_databar.png" /></p>
+        <ul type="disc">
+             <li><b>Rule</b> – da promenite pravilo i prethodno primenjeni uslov formatiranja;</li>
+            <li>
+                <b>Minimum/Maximum</b> – da definišete tip minimalnih i maksimalnih vrednosti za trake podataka ako želite da se fokusirate na razlike. Tipovi maksimalnih/minimalnih vrednosti:
+                <ul>
+                    <li>Minimum/Maximum</li>
+                    <li>Number</li>
+                    <li>Percent</li>
+                    <li>Formula</li>
+                    <li>Percentile</li>
+                    <li>Automatic</li>
+                </ul>
+                <p>Izaberite <b>Automatic</b> da biste postavili minimalnu vrednost na nulu, a maksimalnu vrednost na najveći broj u opsegu. <b>Automatic</b> je podrazumevana opcija.</p>
+                <p>Kliknite polje <b>Select data</b> da biste promenili opseg ćelija za minimalne/maksimalne vrednosti.</p>
+                </li>              
+              <li><b>Bar Appearance</b>
+                   <p>Prilagodite izgled <b>Data Bar</b> elemenata izborom tipa i boje ispune i ivice, kao i smera traka.</p>
+                  <ul>
+                      <li>Postoje dve opcije tipa <b>Fill</b>: <b>Solid</b> ispunа i <b>Gradient</b> ispuna. Koristite strelicu nadole ispod da izaberete boju ispune za trake koje predstavljaju pozitivne i negativne vrednosti.</li>
+                      <li>Postoje dve opcije tipa <b>Border</b>: <b>Solid</b> i <b>None</b>. Koristite strelicu nadole ispod da izaberete boju ivice za trake koje predstavljaju pozitivne i negativne vrednosti.</li>
+                      <li>Omogućite potvrdni okvir <b>Same as positive</b> da biste prikazali pozitivne i negativne vrednosti istom bojom. Podešavanja boje za <b>Negative</b> vrednosti biće onemogućena kada je ovaj okvir označen.</li>
+                      <li>Koristite <b>Bar Direction</b> da promenite smer traka podataka. <b>Context</b> je podrazumevana opcija, ali možete izabrati <b>Left to right</b> ili <b>Right to left</b> u zavisnosti od načina na koji želite da prikažete podatke.</li>
+                      <li>Omogućite potvrdni okvir <b>Show bar only</b> da biste prikazali samo trake podataka u ćelijama i sakrili vrednosti.</li>
+                  </ul>
+              </li>              
+              <li><b>Axis</b>
+              <p>Izaberite <b>Position</b> ose traka podataka u odnosu na sredinu ćelije kako biste razdvojili pozitivne i negativne vrednosti. Postoje tri opcije položaja ose: <b>Automatic</b>, <b>Cell midpoint</b> i <b>None</b>. Kliknite strelicu nadole u polju boje da biste podesili boju ose.</p>
+              </li>
+              <li>Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja.</li>
+              <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+        </ul>
+        </details>
+        <details class="details-example">
+            <summary><b>Uređivanje Color Scales</b></summary>
+        <details class="details-example">
+            <summary><b>Uređivanje 2 Color Scale formatiranja</b></summary>
+            <p>Prozor <b>Edit Formatting Rule</b> za <b>2 Color Scale</b> nudi sledeće opcije formatiranja:</p>
+            <p><img alt="Edit 2 Color Scale Formatting" src="../images/editrule_2color.png" /></p>
+        <ul type="disc">
+             <li>Kliknite <b>Rule</b> da promenite pravilo i prethodno primenjeni uslov formatiranja;</li>
+            <li>
+                Kliknite <b>Minpoint/Maxpoint</b> da definišete tip vrednosti za minimalnu i maksimalnu tačku skale boja ako želite da se fokusirate na razlike. Tipovi vrednosti za minpoint/maxpoint:
+                <ul>
+                    <li>Minimum/Maximum</li>
+                    <li>Number</li>
+                    <li>Percent</li>
+                    <li>Formula</li>
+                    <li>Percentile</li>
+                </ul>
+                <p><b>Minimum/Maximum</b> je podrazumevana opcija.</p>
+            </li>
+        <li>Koristite polje <b>Select data</b> da biste promenili opseg ćelija za minimalnu i maksimalnu tačku.</li>
+        <li>Koristite strelicu nadole ispod da izaberete boju za svaku skalu.</li>
+        <li>Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja.</li>
+        <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+        </ul>
+        </details>
+        <details class="details-example">
+            <summary><b>Uređivanje 3 Color Scale formatiranja</b></summary>
+            <p>Prozor <b>Edit Formatting Rule</b> za <b>3 Color Scale</b> nudi sledeće opcije formatiranja:</p>
+            <p><img alt="Edit 3 Color Scale Formatting" src="../images/editrule_3color.png" /></p>
+        <ul type="disc">
+             <li>Kliknite <b>Rule</b> da promenite pravilo i prethodno primenjeni uslov formatiranja;</li>
+            <li>
+                Kliknite <b>Minpoint/Midpoint/Maxpoint</b> da definišete tip vrednosti za minimalnu, srednju i maksimalnu tačku skale boja ako želite da se fokusirate na razlike.
+                <p>Tipovi vrednosti za minpoint/maxpoint:</p>
+                <ul>
+                    <li>Minimum/Maximum</li>
+                    <li>Number</li>
+                    <li>Percent</li>
+                    <li>Formula</li>
+                    <li>Percentile</li>
+                </ul>
+                <p>Tipovi vrednosti za midpoint:</p>
+                <ul>
+                    <li>Number</li>
+                    <li>Percent</li>
+                    <li>Formula</li>
+                    <li>Percentile</li>
+                </ul>
+                <p><b>Minimum/Percentile/Maximum</b> je podrazumevana opcija za formatiranje <b>3 Color Scale</b>.</p>
+            </li>
+            <li>Koristite polje <b>Select data</b> da biste promenili opseg ćelija za minimalnu, srednju i maksimalnu tačku.</li>
+            <li>Koristite strelicu nadole ispod da izaberete boju za svaku skalu.</li>
+            <li>Polje <b>Preview</b> prikazuje kako će ćelija izgledati nakon formatiranja.</li>
+            <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+            </ul>
+            </details>
+            </details>
+        <details class="details-example">
+            <summary><b>Uređivanje Icon sets</b></summary>
+            <p>Prozor <b>Edit Formatting Rule</b> za <b>Icon Sets</b> nudi sledeće opcije formatiranja:</p>
+            <p><img alt="Edit Icon Sets Formatting" src="../images/editrule_iconsets.png" /></p>
+        <ul type="disc">
+                     <li>Kliknite <b>Rule</b> da promenite pravilo i prethodno primenjeni uslov formatiranja;</li>
+                     <li>Kliknite <b>Icon Style</b> da prilagodite stil ikonica za kreirano pravilo.</li>
+                     <li>Omogućite <b>Show icon only</b> da biste prikazali samo ikonice u ćelijama i sakrili vrednosti.</li>
+                     <li>Omogućite <b>Reverse Icons Order</b> da promenite redosled ikonica i rasporedite ih od najniže ka najvišoj vrednosti. Podrazumevano, ikonice su raspoređene od najviše ka najnižoj vrednosti.</li>
+                     <li>Podesite pravilo za svaku ikonicu i prilagodite operatore poređenja (<i>greater than or equal to</i>, <i>greater than</i>), granične vrednosti (threshold) i tip vrednosti (<i>Number</i>, <i>Percent</i>, <i>Formula</i>, <i>Percentile</i>) da biste rasporedili vrednosti u niz od vrha ka dnu. Podrazumevano, vrednosti su podeljene jednako.</li>
+                     <li>Kliknite <b>OK</b> da biste potvrdili.</li>
+        </ul>
+        </details>
+        <h2>Brisanje uslovnog formatiranja</h2>
+            <p>Da biste obrisali sva uslovna formatiranja, idite na karticu <b>Home</b>, kliknite dugme <b>Conditional Formatting</b> <span class="icon icon-conditionalformatting_button"></span>, ili kliknite kontrolu <b>Conditional Formatting</b> na kartici <b>Cell Settings</b> na desnoj bočnoj traci, zatim u padajućem meniju kliknite <b>Clear Rules</b> i izaberite jednu od odgovarajućih radnji:</p>
+        <ul type="circle">
+                     <li>Current selection</li>
+                     <li>This worksheet</li>
+                     <li>This table</li>
+                     <li>This pivot</li>
+        </ul>
+			<p class="note"><b>Molimo imajte u vidu</b> da ovaj vodič sadrži grafičke informacije iz Microsoft Office radne sveske <a href="https://download.microsoft.com/download/e/4/0/e4089f75-cdb0-4658-9d34-bfa3f7b48815/Conditional%20Formatting%20examples.xlsx" onclick="onhyperlinkclick(this)">Conditional Formatting Samples and guidelines</a>. Isprobajte navedena pravila tako što ćete preuzeti radnu svesku i otvoriti je u Spreadsheet Editor-u.</p>
+			
+		</div>
+	</body>
+</html>

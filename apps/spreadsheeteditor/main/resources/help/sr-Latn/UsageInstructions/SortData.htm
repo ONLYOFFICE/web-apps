@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sortiranje i filtriranje podataka</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Sortirajte podatke rastućim ili opadajućim redosledom u tabeli i koristite filtere" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Sortiranje i filtriranje podataka</h1>
+			<h3>Sortiranje podataka</h3>
+			<p>Možete brzo sortirati podatke u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>-u koristeći jednu od sledećih opcija:</p>
+			<ul>
+			<li><b>Ascending</b> se koristi za sortiranje podataka rastućim redosledom – od A do Z abecedno ili od najmanjeg ka najvećem broju za numeričke podatke.</li>
+			<li><b>Descending</b> se koristi za sortiranje podataka opadajućim redosledom – od Z do A abecedno ili od najvećeg ka najmanjem broju za numeričke podatke.</li>
+			</ul>
+            <p class="note"><b>Napomena</b>: opcije <b>Sort</b> su dostupne i na karticama <b>Home</b> i <b>Data</b>.</p>
+			<p>Da biste sortirali podatke,</p>
+			<ol>
+				<li>izaberite opseg ćelija koji želite da sortirate (možete izabrati jednu ćeliju unutar opsega da biste sortirali ceo opseg),
+                </li>
+				<li>kliknite na ikonu <b>Sort ascending</b> <div class = "icon icon-sortatoz"></div> koja se nalazi na kartici <b>Home</b> ili <b>Data</b> na gornjoj alatnoj traci da biste sortirali podatke rastućim redosledom,
+					<br />ILI<br />
+					kliknite na ikonu <b>Sort descending</b> <div class = "icon icon-sortztoa"></div> koja se nalazi na kartici <b>Home</b> ili <b>Data</b> na gornjoj alatnoj traci da biste sortirali podatke opadajućim redosledom.
+				</li>
+			</ol>
+            <p class="note"><b>Napomena</b>: ako izaberete jednu kolonu/red unutar opsega ćelija ili deo kolone/reda, bićete upitani da li želite da proširite izbor tako da uključuje susedne ćelije ili da sortirate samo izabrane podatke.</p>
+			<p>Takođe možete sortirati podatke koristeći opcije iz <b>kontekstnog menija</b>. Kliknite desnim tasterom miša na izabrani opseg ćelija, izaberite opciju <b>Sort</b> iz menija i zatim izaberite opciju <b>Ascending</b> ili <b>Descending</b> iz podmenija.</p>
+            <p>Moguće je i sortirati podatke po boji koristeći kontekstni meni:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na ćeliju koja sadrži boju po kojoj želite da sortirate podatke,</li>
+                <li>izaberite opciju <b>Sort</b> iz menija,</li>
+                <li>
+                    izaberite potrebnu opciju iz podmenija:
+                    <ul>
+                        <li><b>Selected Cell Color on top</b> - da se unosi sa istom bojom pozadine ćelije prikažu na vrhu kolone,</li>
+                        <li><b>Selected Font Color on top</b> - da se unosi sa istom bojom fonta prikažu na vrhu kolone.</li>
+                    </ul>
+                </li>
+            </ol>            
+                        
+			<h3 id="filter">Filtriranje podataka</h3>
+			<p>Da biste prikazali samo redove koji ispunjavaju određene kriterijume, a sakrili ostale, koristite opciju <b>Filter</b>.</p>
+            <p class="note"><b>Napomena</b>: opcije <b>Filter</b> su dostupne i na karticama <b>Home</b> i <b>Data</b>.</p>
+            <b>Da biste uključili filter,</b>
+            <ol>
+                <li>Izaberite opseg ćelija koji sadrži podatke za filtriranje (možete izabrati jednu ćeliju unutar opsega da biste filtrirali ceo opseg),</li>
+                <li>
+                    Kliknite na ikonu <b>Filter</b> <div class = "icon icon-sortandfilter"></div> koja se nalazi na kartici <b>Home</b> ili <b>Data</b> na gornjoj alatnoj traci.
+                    <p>Padajuća strelica <span class = "icon icon-dropdownarrow"></span> pojaviće se u prvoj ćeliji svake kolone izabranog opsega ćelija. To znači da je filter uključen.</p>
+                </li>
+            </ol>
+            <p><b>Da biste primenili filter,</b></p>
+            <ol>
+                <li>Kliknite na padajuću strelicu <div class = "icon icon-dropdownarrow"></div>. Otvoriće se lista opcija <b>Filter</b>: 
+                <p><img alt="Filter window" src="../images/filterwindow.png" /></p>
+                <p class="note"><b>Napomena</b>: možete podesiti veličinu prozora filtera prevlačenjem njegove desne ivice udesno ili ulevo kako biste podatke prikazali što je moguće preglednije.</p>
+                </li>
+                <li>
+                <p>Podesite parametre filtera. Možete postupiti na jedan od sledećih načina: izabrati podatke za prikaz, filtrirati podatke po određenim kriterijumima ili filtrirati podatke po boji.</p>
+                    <ul>
+                        <li>
+                            <b>Izaberite podatke za prikaz</b>
+                            <p>Poništite polja za potvrdu pored podataka koje želite da sakrijete. Radi vaše удобности, svi podaci unutar liste opcija <b>Filter</b> sortirani su rastućim redosledom.</p>
+                            <p>Broj jedinstvenih vrednosti u filtriranom opsegu prikazan je desno od svake vrednosti unutar prozora filtera.</p>
+                            <p class="note"><b>Napomena</b>: polje za potvrdu <b>{Blanks}</b> odgovara praznim ćelijama. Dostupno je ako izabrani opseg ćelija sadrži najmanje jednu praznu ćeliju.</p>
+                            <p>Da biste olakšali proces, koristite polje za pretragu na vrhu. Unesite upit, u celosti ili delimično, u polje <!--and press the Enter key--> – vrednosti koje sadrže ove znakove biće prikazane u listi ispod. Sledeće dve opcije će takođe biti dostupne:</p>
+                            <ul>
+                                <li><b>Select All Search Results</b> - podrazumevano je označeno. Omogućava izbor svih vrednosti koje odgovaraju vašem upitu u listi.</li>
+                                <li><b>Add current selection to filter</b> - ako označite ovo polje, izabrane vrednosti neće biti sakrivene kada primenite filter.</li>
+                            </ul>
+                            <p>Nakon što izaberete sve potrebne podatke, kliknite na dugme <b>OK</b> u listi opcija <b>Filter</b> da biste primenili filter.</p>
+                        </li>
+                        <li>
+                            <b>Filtriranje podataka po određenim kriterijumima</b>
+                            <p>U zavisnosti od podataka u izabranoj koloni, možete izabrati opciju <b>Number filter</b> ili <b>Text filter</b> na desnoj strani liste opcija <b>Filter</b>, a zatim izabrati jednu od opcija iz podmenija:</p>
+                            <ul>
+                                <li>Za <b>Number filter</b> dostupne su sledeće opcije: <em>Equals...</em>, <em>Does not equal...</em>, <em>Greater than...</em>, <em>Greater than or equal to...</em>, <em>Less than...</em>, <em>Less than or equal to...</em>, <em>Between</em>, <em>Top 10</em>, <em>Above Average</em>, <em>Below Average</em>, <em>Custom Filter...</em>.</li>
+                                <li>Za <b>Text filter</b> dostupne su sledeće opcije: <em>Equals...</em>, <em>Does not equal...</em>, <em>Begins with...</em>, <em>Does not begin with...</em>, <em>Ends with...</em>, <em>Does not end with...</em>, <em>Contains...</em>, <em>Does not contain...</em>, <em>Custom Filter...</em>.</li>
+                            </ul>
+                            <p>Nakon što izaberete jednu od gore navedenih opcija (osim <em>Top 10</em> i <em>Above/Below Average</em>), otvoriće se prozor <b>Custom Filter</b>. Odgovarajući kriterijum biće izabran u gornjoj padajućoj listi. Unesite potrebnu vrednost u polje sa desne strane.</p>
+                            <p>Da biste dodali još jedan kriterijum, koristite radio-dugme <b>And</b> ako je potrebno da podaci ispune oba kriterijuma ili kliknite radio-dugme <b>Or</b> ako može biti ispunjen bilo koji ili oba kriterijuma. Zatim izaberite drugi kriterijum iz donje padajuće liste i unesite potrebnu vrednost sa desne strane.</p>
+                            <p>Kliknite <b>OK</b> da biste primenili filter.</p>
+                            <p><img alt="Custom Filter window" src="../images/customfilterwindow.png" /></p>
+                            <p>Ako izaberete opciju <em>Custom Filter...</em> iz liste opcija <b>Number/Text filter</b>, prvi kriterijum se ne bira automatski, već ga možete sami postaviti.</p>
+                            <p>Ako izaberete opciju <em>Top 10</em> iz liste opcija <b>Number filter</b>, otvoriće se novi prozor:</p>
+                            <p><img alt="Top 10 AutoFilter window" src="../images/topten.png" /></p>
+                            <p>Prva padajuća lista omogućava izbor da li želite da prikažete najveće (<b>Top</b>) ili najmanje (<b>Bottom</b>) vrednosti. Drugo polje omogućava da odredite koliko unosa iz liste ili koji procenat od ukupnog broja unosa želite da prikažete (možete uneti broj od 1 do 500). Treća padajuća lista omogućava podešavanje jedinica mere: <b>Item</b> ili <b>Percent</b>. Kada su potrebni parametri podešeni, kliknite <b>OK</b> da biste primenili filter.</p>
+                            <p>Ako izaberete opciju <em>Above/Below Average</em> iz liste opcija <b>Number filter</b>, filter će biti odmah primenjen.</p>
+                        </li>
+                        <li>
+                            <b>Filtriranje podataka po boji</b>
+                            <p>Ako opseg ćelija koji želite da filtrirate sadrži neke ćelije koje ste formatirali promenom boje pozadine ili boje fonta (ručno ili korišćenjem unapred definisanih stilova), možete koristiti jednu od sledećih opcija:</p>
+                            <ul>
+                                <li><b>Filter by cells color</b> - da prikažete samo unose sa određenom bojom pozadine ćelije i sakrijete ostale,</li>
+                                <li><b>Filter by font color</b> - da prikažete samo unose sa određenom bojom fonta ćelije i sakrijete ostale.</li>
+                            </ul>
+                            <p>Kada izaberete potrebnu opciju, otvoriće se paleta koja sadrži boje korišćene u izabranom opsegu ćelija. Izaberite jednu od boja da biste primenili filter.</p>
+                            <p><img alt="Filter data by color" src="../images/filterbycolor.png" /></p>
+                        </li>
+                    </ul>
+                    <p>Dugme <b>Filter</b> <span class = "icon icon-filterbutton"></span> pojaviće se u prvoj ćeliji kolone. To znači da je filter primenjen. Broj filtriranih zapisa biće prikazan na statusnoj traci (npr. <em>25 of 80 records filtered</em>).</p>
+                    <p class="note"><b>Napomena</b>: kada je filter primenjen, redovi koji su filtrirani ne mogu se menjati pri automatskom popunjavanju, formatiranju ili brisanju vidljivog sadržaja. Takve radnje utiču samo na vidljive redove, dok redovi koji su sakriveni filterom ostaju nepromenjeni. Prilikom kopiranja i lepljenja filtriranih podataka, mogu se kopirati i nalepiti samo vidljivi redovi. Ovo nije isto kao ručno sakriveni redovi na koje utiču sve slične radnje.</p>
+                </li>
+			</ol>
+            <h3>Sortiranje filtriranih podataka</h3>
+            <p>Možete da podesite <b>redosled sortiranja</b> podataka koje ste omogućili ili na koje ste primenili filter. Kliknite na strelicu padajućeg menija <span class="icon icon-dropdownarrow"></span> ili dugme <b>Filter</b> <span class="icon icon-filterbutton"></span> i izaberite jednu od opcija u listi opcija <b>Filter</b>:</p>
+                <ul>
+                    <li><b>Sortiraj od najmanje ka najvećoj vrednosti</b> - omogućava sortiranje podataka u rastućem redosledu, prikazujući najmanju vrednost na vrhu kolone,</li>
+                    <li><b>Sortiraj od najveće ka najmanjoj vrednosti</b> - omogućava sortiranje podataka u opadajućem redosledu, prikazujući najveću vrednost na vrhu kolone,</li>
+                    <li><b>Sortiraj po boji ćelija</b> - omogućava izbor jedne od boja i prikaz unosa sa istom bojom pozadine ćelije na vrhu kolone,</li>
+                    <li><b>Sortiraj po boji fonta</b> - omogućava izbor jedne od boja i prikaz unosa sa istom bojom fonta na vrhu kolone.</li>
+                </ul>
+                <p>Poslednje dve opcije mogu se koristiti ako opseg ćelija koji želite da sortirate sadrži neke ćelije koje ste formatirali promenom boje pozadine ili fonta (ručno ili korišćenjem unapred definisanih stilova).</p>
+            <p>Smer sortiranja biće označen strelicom na dugmadima filtera.</p>
+            <ul>
+                <li>ako su podaci sortirani u rastućem redosledu, strelica padajućeg menija u prvoj ćeliji kolone izgleda ovako: <div class = "icon icon-lowesttohighest"></div> a dugme <b>Filter</b> izgleda na sledeći način: <div class = "icon icon-lowesttohighest1"></div>.</li>
+                <li>ako su podaci sortirani u opadajućem redosledu, strelica padajućeg menija u prvoj ćeliji kolone izgleda ovako: <div class = "icon icon-highesttolowest"></div> a dugme <b>Filter</b> izgleda na sledeći način: <div class = "icon icon-highesttolowest1"></div>.</li>
+            </ul>
+            <p>Takođe možete brzo sortirati podatke po boji koristeći opcije kontekstnog menija:</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na ćeliju koja sadrži boju po kojoj želite da sortirate podatke,</li>
+                <li>izaberite opciju <b>Sortiraj</b> iz menija,</li>
+                <li>
+                    izaberite neophodnu opciju iz podmenija:
+                    <ul>
+                        <li><b>Boja izabrane ćelije na vrhu</b> - za prikaz unosa sa istom bojom pozadine ćelije na vrhu kolone,</li>
+                        <li><b>Boja fonta izabrane ćelije na vrhu</b> - za prikaz unosa sa istom bojom fonta na vrhu kolone.</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>Filtriraj po sadržaju izabrane ćelije</h3>
+            <p>Takođe možete brzo filtrirati podatke po sadržaju izabrane ćelije koristeći opcije <b>kontekstnog</b> menija. Kliknite desnim tasterom miša na ćeliju, izaberite opciju <b>Filter</b> iz menija i zatim izaberite jednu od dostupnih opcija:</p>
+			<ul>
+                <li><b>Filtriraj po vrednosti izabrane ćelije</b> - za prikaz samo unosa sa istom vrednošću koju sadrži izabrana ćelija.</li>
+                <li><b>Filtriraj po boji ćelije</b> - za prikaz samo unosa sa istom bojom pozadine ćelije kao što ima izabrana ćelija.</li>
+                <li><b>Filtriraj po boji fonta</b> - za prikaz samo unosa sa istom bojom fonta kao što ima izabrana ćelija.</li>
+            </ul>
+            <h3 id="tabletemplate">Formatiraj kao šablon tabele</h3>
+			<p>Da biste olakšali rad sa podacima, <b>Spreadsheet Editor</b> omogućava da primenite šablon tabele na izabrani opseg ćelija uz automatsko uključivanje filtera. Da biste to uradili,</p>
+			<ol>
+				<li>izaberite opseg ćelija koji treba da formatirate,</li>
+				<li>kliknite na ikonu <b>Formatiraj kao šablon tabele</b> <div class = "icon icon-tabletemplate"></div> koja se nalazi na kartici <b>Home</b> na gornjoj traci sa alatkama.</li>
+				<li>izaberite potrebni šablon u galeriji,</li>
+				<li>u otvorenom iskačućem prozoru proverite opseg ćelija koje će biti formatirane kao tabela,</li>
+				<li>označite opciju <b>Naslov</b> ako želite da zaglavlja tabele budu uključena u izabrani opseg ćelija, u suprotnom će red zaglavlja biti dodat na vrhu dok će izabrani opseg ćelija biti pomeren jedan red nadole,</li>
+				<li>kliknite na dugme <b>OK</b> da biste primenili izabrani šablon.</li>
+			</ol>
+			<p>Šablon će biti primenjen na izabrani opseg ćelija i moći ćete da uređujete zaglavlja tabele i primenite filter za rad sa podacima. Da biste saznali više o radu sa formatiranim tabelama, pogledajte <a href="../UsageInstructions/FormattedTables.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+            <h3>Ponovo primeni filter</h3>
+            <p>Ako su filtrirani podaci izmenjeni, možete osvežiti filter da biste prikazali ažurirani rezultat:</p>
+            <ol>
+                <li>kliknite na dugme <b>Filter</b> <div class = "icon icon-filterbutton"></div> u prvoj ćeliji kolone koja sadrži filtrirane podatke,</li>
+                <li>izaberite opciju <b>Ponovo primeni</b> u otvorenoj listi opcija <b>Filter</b>.</li>
+            </ol>
+            <p>Takođe možete kliknuti desnim tasterom miša na ćeliju unutar kolone koja sadrži filtrirane podatke i izabrati opciju <b>Ponovo primeni</b> iz kontekstnog menija.</p>
+            <h3>Obriši filter</h3>
+			<p>Da biste obrisali filter,</p>
+            <ol>
+                <li>kliknite na dugme <b>Filter</b> <div class = "icon icon-filterbutton"></div> u prvoj ćeliji kolone koja sadrži filtrirane podatke,</li>
+                <li>izaberite opciju <b>Obriši</b> u otvorenoj listi opcija <b>Filter</b>.</li>
+            </ol>
+            <p>Takođe možete postupiti na sledeći način:</p>
+				<ol>
+					<li>izaberite opseg ćelija koji sadrži filtrirane podatke,</li>
+					<li>kliknite na ikonu <b>Obriši filter</b> <div class = "icon icon-clearfilter"></div> koja se nalazi na kartici <b>Home</b> ili <b>Data</b> na gornjoj traci sa alatkama.</li>
+				</ol>
+            <p>Filter će ostati omogućen, ali će svi primenjeni parametri filtera biti uklonjeni, a dugmad <b>Filter</b> <span class="icon icon-filterbutton"></span> u prvim ćelijama kolona promeniće se u strelice padajućeg menija <span class="icon icon-dropdownarrow"></span>.</p>
+            <h3>Ukloni filter</h3>
+            <p>Da biste uklonili filter,</p>
+            <ol>
+                <li>izaberite opseg ćelija koji sadrži filtrirane podatke,</li>
+                <li>kliknite na ikonu <b>Filter</b> <div class = "icon icon-sortandfilter"></div> koja se nalazi na kartici <b>Home</b> ili <b>Data</b> na gornjoj traci sa alatkama.</li>
+            </ol>
+            <p>Filter će biti onemogućen, a strelice padajućeg menija <span class="icon icon-dropdownarrow"></span> će nestati iz prvih ćelija kolona.</p>
+            <h3>Sortiraj podatke po više kolona/redova</h3>
+            <p>Da biste sortirali podatke po više kolona/redova, možete kreirati više nivoa sortiranja koristeći funkciju <b>Prilagođeno sortiranje</b>.</p>
+            <ol>
+                <li>izaberite opseg ćelija koji želite da sortirate (možete izabrati jednu ćeliju da biste sortirali ceo opseg),</li>
+                <li>kliknite na ikonu <b>Prilagođeno sortiranje</b> <span class="icon icon-customsort"></span> koja se nalazi na kartici <b>Data</b> na gornjoj traci sa alatkama,</li>
+                <li>
+                    pojaviće se prozor <b>Sortiranje</b>. Sortiranje po kolonama je podrazumevano izabrano.
+                    <p><img alt="Prozor Prilagođeno sortiranje" src="../images/customsortwindow.png" /></p>
+                <li>
+                    koristite odeljak <b>Nivoi</b> da biste dodali nove nivoe i upravljali dodatim nivoima.
+                            <ul>
+                                <li>dugme <b>Novo</b> za dodavanje novog nivoa, izaberite drugu kolonu / red koji želite da sortirate i navedite ostale parametre sortiranja u polju <b>Zatim po</b> kao što je opisano iznad. Po potrebi dodajte više nivoa na isti način,</li>
+                                <li>dugme <b>Kopiraj</b> za kopiranje izabranog nivoa i dupliciranje svih postojećih podešavanja,</li>
+                                <li>
+                                    dugme <b>Opcije</b> za promenu orijentacije sortiranja (tj. sortiranje podataka po redovima umesto po kolonama). Kliknite na dugme da biste otvorili prozor <b>Opcije sortiranja</b>:
+                                    <p><img alt="Prozor Opcije sortiranja" src="../images/sortoptionswindow.png" /></p>
+                                    <ul>
+                                        <li>označite polje <b>Moji podaci imaju zaglavlja</b>, ako je potrebno</li>
+                                        <li>izaberite potrebnu <b>Orijentaciju</b>: <b>Sortiraj od vrha ka dnu</b> za sortiranje podataka po kolonama ili <b>Sortiraj sleva nadesno</b> za sortiranje podataka po redovima,</li>
+                                        <li>kliknite na <b>OK</b> da biste primenili izmene i zatvorili prozor.</li>
+                                    </ul>
+
+                                <li>dugme <b>Obriši</b> za brisanje izabranog nivoa,
+                                <li>dugmad sa strelicama <b>Pomeri nivo nagore</b> / <b>Pomeri nivo nadole</b> za promenu redosleda nivoa.</li>
+                                </ul>
+
+                                    <li>
+                                        podesite prvi nivo sortiranja u polju <b>Sortiraj po</b>:
+                                        <p><img alt="Prozor Prilagođeno sortiranje" src="../images/customsortwindow2.png" /></p>
+                                        <ul>
+                                            <li>u odeljku <b>Kolona</b> / <b>Red</b> izaberite prvu kolonu / red koji želite da sortirate,</li>
+                                            <li>u listi <b>Sortiraj po</b> izaberite jednu od sledećih opcija: <b>Vrednosti</b>, <b>Boja ćelije</b> ili <b>Boja fonta</b>,</li>
+                                            <li>
+                                                u listi <b>Redosled</b> navedite potrebni redosled sortiranja. Dostupne opcije se razlikuju u zavisnosti od izabrane opcije u listi <b>Sortiraj po</b>:
+                                                <ul>
+                                                    <li>ako je izabrana opcija <b>Vrednosti</b>, izaberite opciju <b>Rastuće</b> / <b>Opadajuće</b> ako opseg ćelija sadrži brojeve ili opciju <b>A do Z</b> / <b>Z do A</b> ako opseg ćelija sadrži tekstualne vrednosti,</li>
+                                                    <li>ako je izabrana opcija <b>Boja ćelije</b>, izaberite potrebnu boju ćelije i izaberite opciju <b>Vrh</b> / <b>Dno</b> za kolone ili <b>Levo</b> / <b>Desno</b> za redove,</li>
+                                                    <li>ako je izabrana opcija <b>Boja fonta</b>, izaberite potrebnu boju fonta i izaberite opciju <b>Vrh</b> / <b>Dno</b> za kolone ili <b>Levo</b> / <b>Desno</b> za redove.</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>kliknite na <b>OK</b> da biste primenili izmene i zatvorili prozor.</li>
+            </ol>
+            <p>Podaci će biti sortirani prema navedenim nivoima sortiranja.</p>
+		</div>
+	</body>
+</html>

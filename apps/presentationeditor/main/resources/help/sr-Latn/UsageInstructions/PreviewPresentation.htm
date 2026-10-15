@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pregledajte vašu prezentaciju</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Pregledajte vašu prezentaciju" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Pregledajte vašu prezentaciju</h1>
+            <h3>Pokrenite pregled</h3>
+            <p class="note">Napomena: Ako preuzmete prezentaciju koja je kreirana pomoću aplikacije treće strane, možete videti pregled animacionih efekata, ako postoje.</p>
+			<p>Da biste pregledali trenutnu prezentaciju u <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a>-u, možete:</p>
+            <ul>
+                <li>kliknuti na ikonu <b>Start slideshow</b> <div class = "icon icon-startpreview"></div> na kartici <b>Home</b> gornje trake sa alatkama ili sa leve strane statusne trake, ili</li>
+                <li>izabrati određeni slajd u listi slajdova sa leve strane, kliknuti desnim tasterom miša i izabrati opciju <b>Start Slideshow</b> iz kontekstnog menija.</li>
+            </ul>
+            <p>Pregled će započeti od trenutno izabranog slajda. </p>
+            <p>Takođe možete kliknuti na strelicu pored ikone <b>Start slideshow</b> <span class = "icon icon-startpreview"></span> na kartici <b>Home</b> gornje trake sa alatkama i izabrati jednu od dostupnih opcija:</p>
+            <ul>
+                <li><b>Show from Beginning</b> – za pokretanje pregleda od prvog slajda,</li>
+                <li><b>Show from Current slide</b> – za pokretanje pregleda od trenutno izabranog slajda,</li>
+                <li><b>Show presenter view</b> – za pokretanje pregleda u <b>Presenter</b> režimu koji omogućava da prikažete prezentaciju publici bez beleški slajda, dok istovremeno gledate prezentaciju sa beleškama na drugom monitoru.</li>
+                <li><b>Show Settings</b> – za otvaranje prozora sa podešavanjima koji omogućava podešavanje samo jedne opcije: <b>Loop continuously until 'Esc' is pressed</b>. Označite ovu opciju po potrebi i kliknite na <b>OK</b>. Ako omogućite ovu opciju, prezentacija će se prikazivati dok ne pritisnete taster <b>Escape</b>, tj. kada se dođe do poslednjeg slajda prezentacije, moći ćete ponovo da se vratite na prvi slajd itd. Ako onemogućite ovu opciju, kada se prikaže poslednji slajd prezentacije, pojaviće se crni ekran koji označava da je prezentacija završena i možete izaći iz <b>Preview</b> režima.
+                <p><img alt="Prozor Show Settings" src="../images/showsettings.png" /></p>
+                </li>
+            </ul>
+            <h3>Koristite Preview režim</h3>
+            <p>U <b>Preview</b> režimu možete koristiti sledeće kontrole u donjem levom uglu:</p>
+            <p><img alt="Kontrole Preview režima" src="../images/preview_mode.png" /></p>
+            <ul>
+                <li>dugme <b>Previous slide</b> <div class = "icon icon-previousslide"></div> omogućava povratak na prethodni slajd.</li>
+                <li>dugme <b>Pause presentation</b> <div class = "icon icon-pausepresentation"></div> omogućava zaustavljanje pregleda. Kada se dugme pritisne, ono se menja u dugme <div class = "icon icon-startpresentation"></div>.</li>
+                <li>dugme <b>Start presentation</b> <div class = "icon icon-startpresentation"></div> omogućava nastavak pregleda. Kada se dugme pritisne, ono se menja u dugme <div class = "icon icon-pausepresentation"></div>.</li>
+                <li>dugme <b>Next slide</b> <div class = "icon icon-nextslide"></div> omogućava prelazak na sledeći slajd.</li>
+                <li><b>Slide number indicator</b> prikazuje trenutni broj slajda, kao i ukupan broj slajdova u prezentaciji. Da biste prešli na određeni slajd u Preview režimu, kliknite na <b>Slide number indicator</b>, unesite potreban broj slajda u otvorenom prozoru i pritisnite <b>Enter</b>.</li>
+                <li>dugme <b>Full screen</b> <div class = "icon icon-fullscreen"></div> omogućava prelazak u režim celog ekrana.</li>
+                <li>dugme <b>Exit full screen</b> <div class = "icon icon-exitfullscreen"></div> omogućava izlazak iz režima celog ekrana.</li>
+                <li>dugme <b>Close slideshow</b> <div class = "icon icon-closepreview"></div> omogućava izlazak iz Preview režima.</li>
+            </ul>
+			<p>Takođe možete <a href="../HelpfulHints/KeyboardShortcuts.htm#preview" onclick="onhyperlinkclick(this)">koristiti prečice na tastaturi</a> za kretanje između slajdova u Preview režimu.</p>
+            <h3 id="presenter">Koristite Presenter režim</h3>
+            <p class="note"><b>Napomena</b>: u <em>desktop verziji</em>, Presenter režim se može aktivirati samo ako je povezan drugi monitor.</p>
+            <p>U <b>Presenter</b> režimu možete pregledati vašu prezentaciju sa beleškama slajdova u posebnom prozoru, dok istovremeno prikazujete prezentaciju bez beleški na drugom monitoru. Beleške za svaki slajd prikazane su ispod oblasti za pregled slajda.</p>
+            <p>Za navigaciju kroz slajdove možete koristiti dugmad <span class="icon icon-previousslide"></span> i <span class="icon icon-nextslide"></span> ili kliknuti na slajdove u listi sa leve strane. Brojevi skrivenih slajdova su precrtani u listi sa leve strane. Ako želite da prikažete slajd označen kao skriven drugima, jednostavno kliknite na njega u listi slajdova – slajd će biti prikazan.</p>
+            <p>Možete koristiti sledeće kontrole ispod oblasti za pregled slajda:</p>
+            <p><img alt="Kontrole Presenter režima" src="../images/presenter_mode.png" /></p>
+            <ul>
+                <li>dugme <b>Timer</b> prikazuje proteklo vreme prezentacije u formatu <em>hh.mm.ss</em>.</li>
+                <li>dugme <b>Pause presentation</b> <div class = "icon icon-presenter_pausepresentation"></div> omogućava zaustavljanje pregleda. Kada se dugme pritisne, ono se menja u dugme <div class = "icon icon-presenter_startpresentation"></div>.</li>
+                <li>dugme <b>Start presentation</b> <div class = "icon icon-presenter_startpresentation"></div> omogućava nastavak pregleda. Kada se dugme pritisne, ono se menja u dugme <div class = "icon icon-presenter_pausepresentation"></div>.</li>
+                <li>dugme <b>Reset</b> omogućava resetovanje proteklog vremena prezentacije.</li>
+                <li>dugme <b>Previous slide</b> <div class = "icon icon-presenter_previousslide"></div> omogućava povratak na prethodni slajd.</li>
+                <li>dugme <b>Next slide</b> <div class = "icon icon-presenter_nextslide"></div> omogućava prelazak na sledeći slajd.</li>
+                <li><b>Slide number indicator</b> prikazuje trenutni broj slajda, kao i ukupan broj slajdova u prezentaciji.</li>
+                <li>dugme <b>Pointer</b> <div class = "icon icon-pointer"></div> omogućava isticanje sadržaja na ekranu tokom prikazivanja prezentacije. Kada je ova opcija omogućena, dugme izgleda ovako: <div class = "icon icon-pointer_enabled"></div>. Da biste istakli objekte, pređite pokazivačem miša preko oblasti za pregled slajda i pomerajte pokazivač po slajdu. Pokazivač će izgledati ovako: <div class = "icon icon-pointer_screen"></div>. Da biste isključili ovu opciju, ponovo kliknite na dugme <div class = "icon icon-pointer_enabled"></div>.</li>
+                <li>simbol <b>Pen</b> omogućava uključivanje režima crtanja: izaberite tip olovke, boju isticanja i mastila, kao i brisanje prethodnih oznaka na slajdu.</li>
+                <li>dugme <b>End slideshow</b> omogućava izlazak iz <b>Presenter</b> režima.</li>
+            </ul>			
+		</div>
+	</body>
+</html>
