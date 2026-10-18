@@ -313,7 +313,28 @@ Common.UI.HintManager = new(function() {
         var visibleItemsWithStaticTitle = itemsWithStaticTitle.filter(function (item) {
             return $(item).is(':visible');
         });
-        if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title-lang
+        // Remove dynamically assigned data-hint-title-lang for items without a static data-hint-title
+        // to force recalculation when the number of visible items changes between tabs.
+        // This prevents stale keytips on shared (static panel) buttons like the format painter.
+        visibleItems.forEach(function (item) {
+            var el = $(item);
+            if (!el.attr('data-hint-title') && el.attr('data-hint-title-lang')) {
+                el.removeAttr('data-hint-title-lang');
+            }
+        });
+        // Recount items with title after cleanup
+        if (_.isArray(_currentSection)) {
+            itemsWithTitle = [];
+            _currentSection.forEach(function (section) {
+                itemsWithTitle = itemsWithTitle.concat($(section).find('[data-hint-title-lang][data-hint=' + (_currentLevel) + ']').toArray());
+            });
+        } else {
+            itemsWithTitle = $(_currentSection).find('[data-hint-title-lang][data-hint=' + (_currentLevel) + ']').toArray();
+        }
+        visibleItemsWithTitle = itemsWithTitle.filter(function (item) {
+            return $(item).is(':visible');
+        });
+        if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title-lang (from static data-hint-title)
             visibleItems.forEach(function (item) {
                 _currentControls.push($(item));
             });
