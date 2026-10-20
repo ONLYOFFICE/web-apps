@@ -113,6 +113,7 @@ const config = {
         include: [
           resolvePath(`../../apps/${editor}/mobile/src`),
           resolvePath('../../apps/common/mobile/lib'),
+          resolvePath('../../apps/common/main/lib/view/SmartArtDialog.js'),
           resolvePath('node_modules/framework7'),
           resolvePath('node_modules/framework7-react'),
           resolvePath('node_modules/template7'),

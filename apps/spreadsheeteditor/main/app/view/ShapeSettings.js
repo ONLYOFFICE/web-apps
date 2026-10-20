@@ -52,6 +52,7 @@ define([
     'common/main/lib/component/ComboDataView',
     'common/main/lib/component/Slider',
     'common/main/lib/component/MultiSliderGradient',
+    'common/main/lib/view/SmartArtDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -64,6 +65,8 @@ define([
         // Delegated events for creating new items, and clearing completed ones.
         events: {
         },
+
+        textEditSmartArt: 'Edit SmartArt',
 
         options: {
             alias: 'ShapeSettings'
@@ -142,6 +145,19 @@ define([
             this.EditChangeShapeContainer = $('#shape-button-change-shape-container');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
+            this.btnEditSmartArt = new Common.UI.Button({
+                parentEl: this.$el.find('.smartart-edit'),
+                cls: 'btn-text-default',
+                style: 'width:100%;',
+                caption: this.textEditSmartArt
+            });
+            this.btnEditSmartArt.on('click', _.bind(function () {
+                var me = this;
+                require(['common/main/lib/view/SmartArtDialog'], function (show) {
+                    show(me.api, {onClose: function () { me.fireEvent('editcomplete', me); }});
+                });
+            }, this));
+            this.lockedControls.push(this.btnEditSmartArt);
             this.RotationSettings = $('.shape-rotation');
         },
 
@@ -833,6 +849,7 @@ define([
                 this._noApply = true;
                 this._state.isFromImage = !!shapeprops.get_FromImage();
                 this._state.isFromSmartArtInternal = !!shapeprops.asc_getFromSmartArtInternal();
+                this.$el.find('.smartart-edit-row').toggleClass('hidden', !(this.api && this.api.asc_getSmartArtOutline && this.api.asc_getSmartArtOutline()));
 
                 this.disableControls(this._locked, !shapeprops.asc_getCanFill());
                 this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || !!shapeprops.asc_getFromImage());

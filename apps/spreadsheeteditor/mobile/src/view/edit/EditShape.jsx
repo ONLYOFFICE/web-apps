@@ -33,6 +33,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import '../../../../../common/main/lib/view/SmartArtDialog.js';
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, Page, Navbar, NavRight, List, ListItem, Link, Icon, Range, Tab, Tabs, ListButton} from 'framework7-react';
@@ -49,6 +50,7 @@ import IconMoveBackward from '@common-icons/icon-move-backward.svg';
 
 const EditShape = props => {
     const { t } = useTranslation();
+    const api = Common.EditorApi.get();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
     const objects = storeFocusObjects.objects;
@@ -68,6 +70,9 @@ const EditShape = props => {
     return (
         <Fragment>
             <List>
+                {api.asc_getSmartArtOutline && api.asc_getSmartArtOutline() &&
+                    <ListItem title={t('SmartArt.edit', {defaultValue: 'Edit SmartArt'})} onClick={() => window.OnlyOfficeSmartArtDialog(api)} />
+                }
                 {canFill ?
                     <ListItem title={_t.textStyle} link="/edit-style-shape/" routeProps={{
                         onFillColor: props.onFillColor,

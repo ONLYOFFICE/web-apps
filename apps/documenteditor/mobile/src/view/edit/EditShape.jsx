@@ -33,6 +33,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import '../../../../../common/main/lib/view/SmartArtDialog.js';
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {List, ListItem, Icon, Page, Navbar, NavRight, BlockTitle, Toggle, Range, ListButton, Link, Tabs, Tab} from 'framework7-react';
@@ -630,6 +631,9 @@ const EditShape = props => {
     return (
         <Fragment>
             <List>
+                {api.asc_getSmartArtOutline && api.asc_getSmartArtOutline() &&
+                    <ListItem title={t('SmartArt.edit', {defaultValue: 'Edit SmartArt'})} onClick={() => window.OnlyOfficeSmartArtDialog(api)} />
+                }
                 {!fixedSize ?
                     canFill ?
                         <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
