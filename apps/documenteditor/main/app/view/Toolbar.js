@@ -1766,7 +1766,8 @@ define([
                     });
 
                     var itemWidth = 104,
-                        itemHeight = 40;
+                        itemHeight = 40,
+                        themedImage = window.AscDesktopEditor.theme.type == "dark" ? "invert(1) hue-rotate(180deg)" : "none";
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         lock: [_set.noStyles, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
@@ -1784,7 +1785,7 @@ define([
                         autoWidth:       true,
                         itemTemplate: _.template([
                             '<div class="style" id="<%= id %>">',
-                                '<div style="background-image: url(<%= imageUrl %>); width: ' + itemWidth + 'px; height: ' + itemHeight + 'px;"></div>',
+                                '<div style="background-image: url(<%= imageUrl %>); width: ' + itemWidth + 'px; height: ' + itemHeight + 'px; filter: ' + themedImage + '"></div>',
                             '</div>'
                         ].join('')),
                         beforeOpenHandler: function (e) {
