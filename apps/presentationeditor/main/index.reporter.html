@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html style="width:100%; height:100%;overflow: hidden;">
 <head>
+    <!-- Ignore anonymous AMD define() calls injected by browser extensions (e.g. wallet "inpage" scripts
+         bundling UMD loglevel). Such calls arrive after require.js is loaded and make it throw
+         "Mismatched anonymous define() module", which leaves the editor hanging. -->
+    <script>
+        (function () {
+            var current;
+            function wrap(define) {
+                if (typeof define !== 'function' || define.__ignoresExtensions) return define;
+                var guarded = function () {
+                    var stack = '';
+                    try { stack = String(new Error().stack); } catch (e) {}
+                    if (stack.indexOf('-extension://') >= 0) return;
+                    return define.apply(this, arguments);
+                };
+                for (var key in define) {
+                    if (Object.prototype.hasOwnProperty.call(define, key)) guarded[key] = define[key];
+                }
+                guarded.__ignoresExtensions = true;
+                return guarded;
+            }
+            try {
+                Object.defineProperty(window, 'define', {
+                    configurable: true,
+                    enumerable: true,
+                    get: function () { return current; },
+                    set: function (value) { current = wrap(value); }
+                });
+            } catch (e) {}
+        })();
+    </script>
     <title>Presenter View</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8"/>
