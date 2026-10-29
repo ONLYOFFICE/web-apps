@@ -34,5 +34,42 @@
     <div id="panel-settings" class="content-box"></div>
     <div id="panel-help" class="content-box"></div>
     <div id="panel-protect" class="content-box"></div>
-    <div id="panel-print" class="content-box"></div>
+    <div id="panel-print" class="content-box">
+<div class="print-setting-section" style="margin-top: 15px; border-top: 1px solid #e1e1e1; padding-top: 10px;">
+    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Páginas por hoja (N-up):</label>
+    <select id="select-n-up-pages" class="form-control" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc;">
+        <option value="1">1 página por hoja</option>
+        <option value="2">2 páginas</option>
+        <option value="4">4 páginas</option>
+        <option value="6">6 páginas</option>
+        <option value="8">8 páginas</option>
+        <option value="16">16 páginas</option>
+        <option value="custom">Personalizado...</option>
+    </select>
+
+    <div id="custom-n-up-container" style="display: none; margin-top: 8px;">
+        <label style="font-size: 11px; color: #666;">Número personalizado de páginas:</label>
+        <input type="number" id="input-custom-n-up" min="1" max="64" value="1" class="form-control" style="width: 100%; padding: 4px;" />
+    </div>
 </div>
+
+<script>
+    document.getElementById('select-n-up-pages').addEventListener('change', function(e) {
+        var customContainer = document.getElementById('custom-n-up-container');
+        if (e.target.value === 'custom') {
+            customContainer.style.display = 'block';
+        } else {
+            customContainer.style.display = 'none';
+            if (window.Asc && window.Asc.printOptions) {
+                window.Asc.printOptions.pagesPerSheet = parseInt(e.target.value, 10);
+            }
+        }
+    });
+
+    document.getElementById('input-custom-n-up').addEventListener('input', function(e) {
+        var val = parseInt(e.target.value, 10);
+        if (window.Asc && window.Asc.printOptions && val > 0) {
+            window.Asc.printOptions.pagesPerSheet = val;
+        }
+    });
+</script>
