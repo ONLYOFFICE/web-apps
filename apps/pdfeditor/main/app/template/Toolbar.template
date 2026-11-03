@@ -135,6 +135,7 @@
                     <span class="btn-slot text x-huge slot-inspage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-rotate-edit"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
                 </div>
                 <div class="separator long pdfedit"></div>
                 <div class="group pdfedit">
