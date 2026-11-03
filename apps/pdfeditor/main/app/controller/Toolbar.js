@@ -378,6 +378,7 @@ define([
             toolbar.btnsRotatePage[1].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
             toolbar.btnsRotatePage[1].on('click',                       _.bind(this.onRotatePage, this));
             toolbar.btnDelPage.on('click',                              _.bind(this.onDelPage, this));
+            toolbar.btnWatermark && toolbar.btnWatermark.menu.on('item:click', _.bind(this.onWatermarkSelect, this));
 
         },
 
@@ -2848,6 +2849,46 @@ define([
 
         onEditTextClick: function() {
             this.api && this.api.asc_EditPage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onWatermarkSelect: function(menu, item) {
+            if (!this.api || !this.api.canEdit() || this.api.isRestrictionView())
+                return;
+
+            if (item.value == 'remove') {
+                this.api.asc_WatermarkRemove();
+            } else {
+                var me = this;
+                if (_.isUndefined(me.fontstore)) {
+                    me.fontstore = new Common.Collections.Fonts();
+                    var fonts = me.toolbar.cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font) {
+                        if (!font.cloneid)
+                            arr.push(_.clone(font));
+                    });
+                    me.fontstore.add(arr);
+                }
+
+                window.DE = window.DE || {};
+                window.DE.Views = window.DE.Views || {};
+                require(['documenteditor/main/app/view/WatermarkSettingsDialog'], function() {
+                    (new DE.Views.WatermarkSettingsDialog({
+                        props: me.api.asc_GetWatermarkProps(),
+                        api: me.api,
+                        lang: me.mode.lang,
+                        disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                        storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}") > -1,
+                        fontStore: me.fontstore,
+                        handler: function(result, value) {
+                            if (result == 'ok')
+                                me.api.asc_SetWatermarkProps(value);
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                });
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

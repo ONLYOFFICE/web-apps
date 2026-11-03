@@ -905,6 +905,28 @@ define([
                 this.btnsRotatePage[1] = btnRotatePage;
                 arr.push(btnRotatePage);
 
+                this.btnWatermark = new Common.UI.Button({
+                    id: 'id-toolbar-btn-watermark',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-watermark',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.capBtnWatermark,
+                    hint: this.tipWatermark,
+                    action: 'insert-watermark',
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [
+                            {caption: this.textEditWatermark, value: 'edit'},
+                            {caption: this.textRemWatermark, value: 'remove'}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.toolbarControls.push(this.btnWatermark);
+                arr.push(this.btnWatermark);
+
                 Common.UI.LayoutManager.addControls(arr);
 
                 PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
@@ -1632,6 +1654,7 @@ define([
                 _injectComponent('#slot-btn-rotate-edit', this.btnsRotatePage[1]);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-deletepage', this.btnDelPage);
+                _injectComponent('#slot-btn-watermark', this.btnWatermark);
             },
 
             rendererComponentsAnnotate: function($host) {
@@ -2217,7 +2240,11 @@ define([
             tipNumNumbersPoint: '1. 2. 3.',
             tipNumNumbersParentheses: '1) 2) 3)',
             tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.'
+            tipNumRomanSmall: 'i. ii. iii.',
+            capBtnWatermark: 'Watermark',
+            textEditWatermark: 'Custom watermark',
+            textRemWatermark: 'Remove watermark',
+            tipWatermark: 'Edit watermark'
         }
     })(), PDFE.Views.Toolbar || {}));
 });
