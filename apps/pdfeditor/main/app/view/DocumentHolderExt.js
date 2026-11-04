@@ -33,7 +33,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-define([], function () {
+define([
+    'pdfeditor/main/app/view/DocumentHolder'
+], function () {
     'use strict';
 
     if (window.PDFE && window.PDFE.Views && window.PDFE.Views.DocumentHolder) {
@@ -1723,6 +1725,10 @@ define([], function () {
                 caption     : me.textCopy,
                 value : 'copy'
             });
+            me.mnuExtractPages = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-download',
+                caption     : me.txtExtractPages || 'Extract Selected Pages'
+            });
             me.mnuPastePageBefore = new Common.UI.MenuItem({
                 caption     : me.txtPastePageBefore,
                 value : 'paste-before'
@@ -1773,6 +1779,7 @@ define([], function () {
                         me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
                         me.mnuDeletePage.setVisible(value.isPageSelect===true);
                         me.mnuCopyPage.setVisible(value.isPageSelect===true);
+                        me.mnuExtractPages.setVisible(value.isPageSelect===true);
                         me.mnuCutPage.setVisible(value.isPageSelect===true);
                         menuPageNewSeparator.setVisible(value.isPageSelect===true);
                         menuPagePasteSeparator.setVisible(value.isPageSelect===true);
@@ -1792,6 +1799,7 @@ define([], function () {
                 items: [
                     me.mnuCutPage,
                     me.mnuCopyPage,
+                    me.mnuExtractPages,
                     menuPagePasteSeparator,
                     me.mnuPastePageBefore,
                     me.mnuPastePageAfter,

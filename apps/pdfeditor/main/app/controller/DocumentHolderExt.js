@@ -41,7 +41,10 @@
  *
  */
 
-define([], function () {
+define([
+    'pdfeditor/main/app/controller/DocumentHolder',
+    'pdfeditor/main/app/view/DocumentHolderExt'
+], function () {
     'use strict';
 
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
@@ -227,6 +230,7 @@ define([], function () {
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
                 view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, -90));
                 view.mnuCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuExtractPages.on('click', _.bind(me.onExtractPages, me));
                 view.mnuCutPage.on('click', _.bind(me.onCutCopyPaste, me));
                 view.mnuPastePageBefore.on('click', _.bind(me.onCutCopyPaste, me));
                 view.mnuPastePageAfter.on('click', _.bind(me.onCutCopyPaste, me));
@@ -2520,6 +2524,59 @@ define([], function () {
                         break;
                 }
             }
+        };
+
+        dh.onExtractPages = function() {
+            if (!this.api || !this.api.asc_extractSelectedPages)
+                return;
+
+            var downloadDenied = this.mode && this.mode.canDownload === false && this.mode.canDownloadOrigin !== true;
+            if (downloadDenied) {
+                Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny || 'You do not have permission to extract pages.');
+                return;
+            }
+
+            var result = this.api.asc_extractSelectedPages();
+            if (!result || !result.base64) {
+                Common.UI.warning({
+                    msg: 'Could not extract the selected pages. Save the document and try again.',
+                    buttons: ['ok']
+                });
+                return;
+            }
+
+            var customization = this.mode && this.mode.customization;
+            if (customization && customization.handleExtractPages) {
+                // One postMessage carries the subset. Above this size the host message can fail silently.
+                var maxExtractBytes = 64 * 1024 * 1024;
+                if (Math.floor(result.base64.length * 3 / 4) > maxExtractBytes) {
+                    Common.UI.warning({
+                        msg: 'The selected pages are too large to send to the host application.',
+                        buttons: ['ok']
+                    });
+                    return;
+                }
+                Common.Gateway.extractPages(result);
+                if (window.g_asc_plugins)
+                    window.g_asc_plugins.onPluginEvent('onExtractPages', result);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                return;
+            }
+
+            var binary = window.atob(result.base64);
+            var bytes = new Uint8Array(binary.length);
+            for (var i = 0; i < binary.length; i++)
+                bytes[i] = binary.charCodeAt(i);
+            var blob = new Blob([bytes], {type: 'application/pdf'});
+            var url = window.URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = result.title || 'Extracted pages.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.setTimeout(function() { window.URL.revokeObjectURL(url); }, 1000);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
 
         dh.onNewPage = function(item) {
