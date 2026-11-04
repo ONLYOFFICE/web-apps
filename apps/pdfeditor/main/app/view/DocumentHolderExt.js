@@ -93,6 +93,10 @@ define([
                 caption: me.textCopy,
                 value: 'copy'
             });
+            me.menuViewExtractPages = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-download',
+                caption: me.txtExtractPages || 'Extract Selected Pages'
+            });
 
             this.viewPageMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
@@ -102,9 +106,11 @@ define([
                     else
                         value = me.options.eventProps;
                     value && me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                    value && me.menuViewExtractPages.setDisabled(value.isPageSelect!==true);
                 },
                 items: [
-                    me.menuViewCopyPage
+                    me.menuViewCopyPage,
+                    me.menuViewExtractPages
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
