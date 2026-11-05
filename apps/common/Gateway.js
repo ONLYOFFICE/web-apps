@@ -333,6 +333,25 @@ if (window.Common === undefined) {
                 });
             },
 
+            /**
+             * Hand a newly generated file to the embedding host.
+             * The payload is the generated file, not the document that is open.
+             * Parent receives the Docs API event. A nested frame (WOPI) also
+             * receives it on the top window, because parent is not the outer host.
+             */
+            extractPages: function(data) {
+                var msg = {
+                    event: 'onExtractPages',
+                    data: data
+                };
+                _postMessage(msg);
+                try {
+                    if (window.top && window.top !== window.parent && window.JSON) {
+                        window.top.postMessage(window.JSON.stringify(msg), '*');
+                    }
+                } catch (e) {}
+            },
+
             collaborativeChanges: function() {
                 _postMessage({event: 'onCollaborativeChanges'});
             },

@@ -2182,6 +2182,7 @@
   "PDFE.Views.DocumentHolder.txtRemSubscript": "Remove subscript",
   "PDFE.Views.DocumentHolder.txtRemSuperscript": "Remove superscript",
   "PDFE.Views.DocumentHolder.txtRotateLeft": "Rotate left",
+  "PDFE.Views.DocumentHolder.txtExtractPages": "Extract Selected Pages",
   "PDFE.Views.DocumentHolder.txtRotateRight": "Rotate right",
   "PDFE.Views.DocumentHolder.txtScriptsAfter": "Scripts after text",
   "PDFE.Views.DocumentHolder.txtScriptsBefore": "Scripts before text",

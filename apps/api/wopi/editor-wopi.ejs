@@ -255,6 +255,18 @@ div {
             _postMessage('UI_InsertGraphic', {});
         };
 
+        // The editor posts this to its parent, which is this page. The Docs API
+        // only delivers it when an event handler is registered. Hosts that set
+        // customization.handleExtractPages receive the same payload the editor sent.
+        var onExtractPages = function (event) {
+            if (!event || !event.data || !window.parent || !window.JSON)
+                return;
+            window.parent.postMessage(window.JSON.stringify({
+                event: 'onExtractPages',
+                data: event.data
+            }), postMessageOrigin);
+        };
+
         var onError = function (event) {
             if (event)
                 innerAlert(event.data);
@@ -412,7 +424,8 @@ div {
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
                     "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined,
-                    "onRequestInsertImage": fileInfo.EnableInsertRemoteImage ? onRequestInsertImage : undefined
+                    "onRequestInsertImage": fileInfo.EnableInsertRemoteImage ? onRequestInsertImage : undefined,
+                    "onExtractPages": (docs_api_config.editorConfig && docs_api_config.editorConfig.customization && docs_api_config.editorConfig.customization.handleExtractPages) ? onExtractPages : undefined
                 }
 			});
 
