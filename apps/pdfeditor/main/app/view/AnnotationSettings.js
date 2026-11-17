@@ -41,8 +41,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/main/lib/component/Button'
-], function (menuTemplate, $, _, Backbone) {
+    'common/main/lib/component/Button',
+    'pdfeditor/main/app/view/FreeTextStyle'
+], function (menuTemplate, $, _, Backbone, button, FreeTextStyle) {
     'use strict';
 
     PDFE.Views.AnnotationSettings = Backbone.View.extend(_.extend({
@@ -521,15 +522,34 @@ define([
             });
         },
         
+        _rememberFreeText: function(patch) {
+            if (!FreeTextStyle || !this._originalProps || this._noApply || this._initSettings)
+                return;
+            var annotType = this._originalProps.asc_getType && this._originalProps.asc_getType();
+            var annotPr = this._originalProps.asc_getAnnotProps && this._originalProps.asc_getAnnotProps();
+            var lineEnd = annotPr && annotPr.asc_getLineEnd ? annotPr.asc_getLineEnd() : null;
+            var intent = FreeTextStyle.intentForAnnot(annotType, lineEnd, AscPDF.ANNOTATIONS_TYPES.FreeText);
+            if (!FreeTextStyle.shouldRemember({
+                editMode: FreeTextStyle.editorCanFormat(this.api),
+                initializing: false,
+                fromSelection: false,
+                annotType: intent == null ? null : 'freeText'
+            }))
+                return;
+            FreeTextStyle.write(Common.localStorage, Common.Utils.InternalSettings, intent, patch);
+        },
+
         //Event handlers
         onBorderColorSelect: function(btn, color) {
             if (this.api && !this._noApply) {
                 this._state.BorderColor = undefined;
                 if (color == 'transparent') {
                     this.api.SetAnnotStrokeColor();
+                    this._rememberFreeText({stroke: null});
                 } else {
                     const clr = Common.Utils.ThemeColor.getRgbColor(color);
                     this.api.SetAnnotStrokeColor(clr.get_r(), clr.get_g(), clr.get_b());
+                    this._rememberFreeText({stroke: {r: clr.get_r(), g: clr.get_g(), b: clr.get_b()}});
                 }
                 this.fireEvent('editcomplete', this);
             }
@@ -539,7 +559,9 @@ define([
             if (this.api && !this._noApply)  {
                 this._state.BorderWidth = undefined;
                 const value = field.getNumberValue();
-                this.api.SetAnnotStrokeWidth(Common.Utils.Metric.fnRecalcToPt(value));
+                const pt = Common.Utils.Metric.fnRecalcToPt(value);
+                this.api.SetAnnotStrokeWidth(pt);
+                this._rememberFreeText({strokeWidth: pt});
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -549,6 +571,8 @@ define([
                 const isValueNone = record.value === 'None';
                 this._state.BorderStyle = undefined;
                 this.api.SetAnnotStrokeStyle(isValueNone ? undefined : record.value);
+                if (!isValueNone)
+                    this._rememberFreeText({strokeStyle: record.value});
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -558,9 +582,11 @@ define([
                 this._state.BackgroundColor = undefined;
                 if (color == 'transparent') {
                     this.api.SetAnnotFillColor(undefined);
+                    this._rememberFreeText({fill: null});
                 } else {
                     const clr = Common.Utils.ThemeColor.getRgbColor(color);
                     this.api.SetAnnotFillColor(clr.get_r(), clr.get_g(), clr.get_b());
+                    this._rememberFreeText({fill: {r: clr.get_r(), g: clr.get_g(), b: clr.get_b()}});
                 }
                 this.fireEvent('editcomplete', this);
             }
@@ -583,6 +609,7 @@ define([
             if (this.api && !this._noApply)  {
                 const num = field.getNumberValue();
                 this.api.SetAnnotOpacity(num);
+                this._rememberFreeText({opacity: num});
             }
         },
         onOpacityChange: function(field, newValue, oldValue) {
@@ -606,7 +633,9 @@ define([
         },
         _opacityApplyFunc: function() {
             if (this._sliderOpacityChanged !== undefined) {
-                this.api.SetAnnotOpacity(this._sliderOpacityChanged);
+                var opacity = this._sliderOpacityChanged;
+                this.api.SetAnnotOpacity(opacity);
+                this._rememberFreeText({opacity: opacity});
                 this._sliderOpacityChanged = undefined;
             }
         },
@@ -621,6 +650,7 @@ define([
         onLineEndChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this.api.SetAnnotLineEnd(record.value);
+                this._rememberFreeText({lineEnd: record.value});
                 this.fireEvent('editcomplete', this);
             }
         },

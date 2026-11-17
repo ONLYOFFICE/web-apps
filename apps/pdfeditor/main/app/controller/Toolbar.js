@@ -44,8 +44,9 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'pdfeditor/main/app/view/Toolbar'
-], function () {
+    'pdfeditor/main/app/view/Toolbar',
+    'pdfeditor/main/app/view/FreeTextStyle'
+], function (core, windowComponent, toolbarView, FreeTextStyle) {
     'use strict';
 
     PDFE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -82,6 +83,7 @@ define([
                 can_increase: undefined,
                 can_decrease: undefined,
                 fontsize: undefined,
+                freeTextIntent: null,
                 textclrhighlight: undefined,
                 initEditing: true,
                 showChartTab: false,
@@ -572,6 +574,7 @@ define([
 
         onApiFocusObjectAnnotate: function(selectedObjects) {
             if (!this.editMode || !this.mode.isPDFAnnotate) return;
+            this._trackFreeTextTarget(selectedObjects);
 
             var i = -1,
                 page_deleted = false;
@@ -588,6 +591,7 @@ define([
 
         onApiFocusObject: function(selectedObjects) {
             if (!this.editMode || !this.mode.isPDFEdit) return;
+            this._trackFreeTextTarget(selectedObjects);
 
             var pr, i = -1, type,
                 paragraph_locked = false,
@@ -1255,8 +1259,51 @@ define([
             this.onInsertTextComment(newType, btn, e);
         },
 
+        _trackFreeTextTarget: function(selectedObjects) {
+            // Selection chooses which preference a later edit updates. It does not write the preference.
+            var intent = null;
+            var i = -1;
+            while (selectedObjects && ++i < selectedObjects.length) {
+                var el = selectedObjects[i];
+                if (!el || !el.get_ObjectType || el.get_ObjectType() !== Asc.c_oAscTypeSelectElement.Annot)
+                    continue;
+                var pr = el.get_ObjectValue();
+                if (!pr || !pr.asc_getType || pr.asc_getType() !== AscPDF.ANNOTATIONS_TYPES.FreeText)
+                    continue;
+                var annotPr = pr.asc_getAnnotProps && pr.asc_getAnnotProps();
+                var lineEnd = annotPr && annotPr.asc_getLineEnd ? annotPr.asc_getLineEnd() : null;
+                intent = FreeTextStyle.intentForAnnot(pr.asc_getType(), lineEnd, AscPDF.ANNOTATIONS_TYPES.FreeText);
+            }
+            this._state.freeTextIntent = intent;
+        },
+
+        rememberFreeTextStyle: function(patch) {
+            if (!FreeTextStyle || this._state.freeTextIntent == null)
+                return;
+            if (!FreeTextStyle.shouldRemember({
+                editMode: FreeTextStyle.editorCanFormat(this.api),
+                initializing: false,
+                fromSelection: false,
+                annotType: 'freeText'
+            }))
+                return;
+            FreeTextStyle.write(Common.localStorage, Common.Utils.InternalSettings, this._state.freeTextIntent, patch);
+        },
+
+        rememberFreeTextFontSize: function() {
+            if (!this.api || !this.api.get_TextProps)
+                return;
+            var textPr = this.api.get_TextProps();
+            var size = textPr && textPr.get_TextPr && textPr.get_TextPr().get_FontSize();
+            if (typeof size === 'number')
+                this.rememberFreeTextStyle({fontSize: size});
+        },
+
         onInsertTextComment: function(type, btn, e) {
-            this.api && this.api.AddFreeTextAnnot(type);
+            var style = null;
+            if (FreeTextStyle && FreeTextStyle.editorCanFormat(this.api))
+                style = FreeTextStyle.read(Common.localStorage, type, Common.Utils.InternalSettings);
+            this.api && this.api.AddFreeTextAnnot(type, style || undefined);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
         },
@@ -2328,6 +2375,7 @@ define([
         onIncrease: function(e) {
             if (this.api)
                 this.api.FontSizeIn();
+            this.rememberFreeTextFontSize();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2335,6 +2383,7 @@ define([
         onDecrease: function(e) {
             if (this.api)
                 this.api.FontSizeOut();
+            this.rememberFreeTextFontSize();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2343,6 +2392,7 @@ define([
             this._state.bold = undefined;
             if (this.api)
                 this.api.put_TextPrBold(btn.pressed);
+            this.rememberFreeTextStyle({bold: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2351,6 +2401,7 @@ define([
             this._state.italic = undefined;
             if (this.api)
                 this.api.put_TextPrItalic(btn.pressed);
+            this.rememberFreeTextStyle({italic: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2359,6 +2410,7 @@ define([
             this._state.underline = undefined;
             if (this.api)
                 this.api.put_TextPrUnderline(btn.pressed);
+            this.rememberFreeTextStyle({underline: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2367,6 +2419,7 @@ define([
             this._state.strike = undefined;
             if (this.api)
                 this.api.put_TextPrStrikeout(btn.pressed);
+            this.rememberFreeTextStyle({strikeout: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2419,8 +2472,12 @@ define([
             btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
             btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
-            if (this.api && item.checked)
+            if (this.api && item.checked) {
                 this.api.put_PrAlign(item.value);
+                var pdfAlign = FreeTextStyle && FreeTextStyle.pdfAlignFromInternal(item.value);
+                if (pdfAlign != null)
+                    this.rememberFreeTextStyle({align: pdfAlign});
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2514,6 +2571,7 @@ define([
                         callback: _.bind(function(btn) {
                             if (btn == 'yes') {
                                 this.api.put_TextPrFontName(record.name);
+                                this.rememberFreeTextStyle({fontFamily: record.name});
                             } else {
                                 this.toolbar.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
                             }
@@ -2522,6 +2580,7 @@ define([
                     });
                 } else {
                     this.api.put_TextPrFontName(record.name);
+                    this.rememberFreeTextStyle({fontFamily: record.name});
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -2540,6 +2599,8 @@ define([
             this._state.fontsize = undefined;
             if (this.api)
                 this.api.put_TextPrFontSize(record.value);
+            if (typeof record.value === 'number')
+                this.rememberFreeTextStyle({fontSize: record.value});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2584,6 +2645,7 @@ define([
                 if (this.api) {
                     this.api.put_TextPrFontSize(value);
                 }
+                this.rememberFreeTextStyle({fontSize: value});
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
@@ -2837,8 +2899,12 @@ define([
             this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
-            if (this.api)
-                this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            if (this.api) {
+                var clr = Common.Utils.ThemeColor.getRgbColor(color);
+                this.api.put_TextColor(clr);
+                if (clr && clr.get_r)
+                    this.rememberFreeTextStyle({textColor: {r: clr.get_r(), g: clr.get_g(), b: clr.get_b()}});
+            }
 
         },
 

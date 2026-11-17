@@ -41,7 +41,9 @@
  *
  */
 
-define([], function () {
+define([
+    'pdfeditor/main/app/view/FreeTextStyle'
+], function (FreeTextStyle) {
     'use strict';
 
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
@@ -644,6 +646,7 @@ define([], function () {
             this._state.bold = undefined;
             if (this.api)
                 this.api.put_TextPrBold(btn.pressed);
+            this.rememberFreeTextPatch({bold: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -652,6 +655,7 @@ define([], function () {
             this._state.italic = undefined;
             if (this.api)
                 this.api.put_TextPrItalic(btn.pressed);
+            this.rememberFreeTextPatch({italic: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -660,6 +664,7 @@ define([], function () {
             this._state.underline = undefined;
             if (this.api)
                 this.api.put_TextPrUnderline(btn.pressed);
+            this.rememberFreeTextPatch({underline: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -668,6 +673,7 @@ define([], function () {
             this._state.strike = undefined;
             if (this.api)
                 this.api.put_TextPrStrikeout(btn.pressed);
+            this.rememberFreeTextPatch({strikeout: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -699,8 +705,12 @@ define([], function () {
             this.documentHolder.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
 
             this.documentHolder.mnuFontColorPicker.currentColor = color;
-            if (this.api)
-                this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            if (this.api) {
+                var clr = Common.Utils.ThemeColor.getRgbColor(color);
+                this.api.put_TextColor(clr);
+                if (clr && clr.get_r)
+                    this.rememberFreeTextPatch({textColor: {r: clr.get_r(), g: clr.get_g(), b: clr.get_b()}});
+            }
         };
 
         dh.onBtnFontColor = function() {
@@ -727,6 +737,7 @@ define([], function () {
                         callback: _.bind(function(btn) {
                             if (btn == 'yes') {
                                 this.api.put_TextPrFontName(record.name);
+                                this.rememberFreeTextPatch({fontFamily: record.name});
                             } else {
                                 this.documentHolder.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
                             }
@@ -735,6 +746,7 @@ define([], function () {
                     });
                 } else {
                     this.api.put_TextPrFontName(record.name);
+                    this.rememberFreeTextPatch({fontFamily: record.name});
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
@@ -753,6 +765,8 @@ define([], function () {
             this._state.fontsize = undefined;
             if (this.api)
                 this.api.put_TextPrFontSize(record.value);
+            if (record && typeof record.value === 'number')
+                this.rememberFreeTextPatch({fontSize: record.value});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -797,6 +811,7 @@ define([], function () {
                 if (this.api) {
                     this.api.put_TextPrFontSize(value);
                 }
+                this.rememberFreeTextPatch({fontSize: value});
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -815,8 +830,12 @@ define([], function () {
             btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
             btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
-            if (this.api && item.checked)
+            if (this.api && item.checked) {
                 this.api.put_PrAlign(item.value);
+                var pdfAlign = FreeTextStyle && FreeTextStyle.pdfAlignFromInternal(item.value);
+                if (pdfAlign != null)
+                    this.rememberFreeTextPatch({align: pdfAlign});
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -2655,13 +2674,43 @@ define([], function () {
             /** coauthoring end **/
         };
 
+        dh.rememberFreeTextPatch = function(patch) {
+            if (!FreeTextStyle || !this.api || !this.api.getSelectedElements)
+                return;
+            var selected = this.api.getSelectedElements();
+            var annotType = null;
+            var lineEnd = null;
+            if (selected && selected.length) {
+                for (var i = 0; i < selected.length; i++) {
+                    if (!selected[i].get_ObjectType || selected[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.Annot)
+                        continue;
+                    var pr = selected[i].get_ObjectValue();
+                    annotType = pr && pr.asc_getType && pr.asc_getType();
+                    var annotPr = pr && pr.asc_getAnnotProps && pr.asc_getAnnotProps();
+                    lineEnd = annotPr && annotPr.asc_getLineEnd ? annotPr.asc_getLineEnd() : null;
+                }
+            }
+            var intent = FreeTextStyle.intentForAnnot(annotType, lineEnd, AscPDF.ANNOTATIONS_TYPES.FreeText);
+            if (!FreeTextStyle.shouldRemember({
+                editMode: FreeTextStyle.editorCanFormat(this.api),
+                initializing: false,
+                fromSelection: false,
+                annotType: intent == null ? null : 'freeText'
+            }))
+                return;
+            FreeTextStyle.write(Common.localStorage, Common.Utils.InternalSettings, intent, patch);
+        };
+
         dh.onSelectStrokeColor = function(btn, picker, color) {
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            if (!this.api.SetAnnotStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+            var red = parseInt(r, 16), green = parseInt(g, 16), blue = parseInt(b, 16);
+            if (!this.api.SetAnnotStrokeColor(red, green, blue)) {
                 color = this.api.GetAnnotStrokeColor();
                 color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            } else {
+                this.rememberFreeTextPatch({stroke: {r: red, g: green, b: blue}});
             }
             btn.currentColor = color;
             btn.setColor(btn.currentColor);
@@ -2688,6 +2737,8 @@ define([], function () {
             }
             if (!this.api.SetAnnotOpacity(val))
                 val = oldval;
+            else
+                this.rememberFreeTextPatch({opacity: val});
             sizePicker.setValue(val + '%');
         };
 
