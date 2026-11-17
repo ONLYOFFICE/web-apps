@@ -124,8 +124,15 @@ const failing = {
 	setItem: function () { throw new Error("blocked"); }
 };
 const mem = settingsStore();
-assert.deepStrictEqual(style.write(failing, mem, COMMENT, {fontFamily: "Arial", bold: true}), {fontFamily: "Arial", bold: true});
-assert.deepStrictEqual(style.read(failing, COMMENT, mem), {fontFamily: "Arial", bold: true});
+assert.deepStrictEqual(style.write(failing, mem, COMMENT, {fontFamily: "Arial", bold: true, underline: true, strikeout: false}), {fontFamily: "Arial", bold: true, underline: true, strikeout: false});
+assert.deepStrictEqual(style.read(failing, COMMENT, mem), {fontFamily: "Arial", bold: true, underline: true, strikeout: false});
+const marked = style.write(memoryStorage(), null, CALLOUT, {fontSize: 12, underline: true});
+assert.strictEqual(marked.underline, true);
+assert.strictEqual(Object.prototype.hasOwnProperty.call(marked, "strikeout"), false);
+const kept = style.write(memoryStorage({[style.KEY_CALLOUT]: JSON.stringify(marked)}), null, CALLOUT, {strikeout: true});
+assert.strictEqual(kept.fontSize, 12);
+assert.strictEqual(kept.underline, true);
+assert.strictEqual(kept.strikeout, true);
 assert.strictEqual(style.pdfAlignFromInternal(1), 0);
 assert.strictEqual(style.pdfAlignFromInternal(0), 2);
 

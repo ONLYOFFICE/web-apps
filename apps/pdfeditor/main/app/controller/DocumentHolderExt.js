@@ -646,6 +646,7 @@ define([
             this._state.bold = undefined;
             if (this.api)
                 this.api.put_TextPrBold(btn.pressed);
+            this.rememberFreeTextPatch({bold: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -654,6 +655,7 @@ define([
             this._state.italic = undefined;
             if (this.api)
                 this.api.put_TextPrItalic(btn.pressed);
+            this.rememberFreeTextPatch({italic: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -662,6 +664,7 @@ define([
             this._state.underline = undefined;
             if (this.api)
                 this.api.put_TextPrUnderline(btn.pressed);
+            this.rememberFreeTextPatch({underline: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -670,6 +673,7 @@ define([
             this._state.strike = undefined;
             if (this.api)
                 this.api.put_TextPrStrikeout(btn.pressed);
+            this.rememberFreeTextPatch({strikeout: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -701,8 +705,12 @@ define([
             this.documentHolder.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
 
             this.documentHolder.mnuFontColorPicker.currentColor = color;
-            if (this.api)
-                this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            if (this.api) {
+                var clr = Common.Utils.ThemeColor.getRgbColor(color);
+                this.api.put_TextColor(clr);
+                if (clr && clr.get_r)
+                    this.rememberFreeTextPatch({textColor: {r: clr.get_r(), g: clr.get_g(), b: clr.get_b()}});
+            }
         };
 
         dh.onBtnFontColor = function() {
@@ -729,6 +737,7 @@ define([
                         callback: _.bind(function(btn) {
                             if (btn == 'yes') {
                                 this.api.put_TextPrFontName(record.name);
+                                this.rememberFreeTextPatch({fontFamily: record.name});
                             } else {
                                 this.documentHolder.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
                             }
@@ -737,6 +746,7 @@ define([
                     });
                 } else {
                     this.api.put_TextPrFontName(record.name);
+                    this.rememberFreeTextPatch({fontFamily: record.name});
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
@@ -755,6 +765,8 @@ define([
             this._state.fontsize = undefined;
             if (this.api)
                 this.api.put_TextPrFontSize(record.value);
+            if (record && typeof record.value === 'number')
+                this.rememberFreeTextPatch({fontSize: record.value});
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
@@ -799,6 +811,7 @@ define([
                 if (this.api) {
                     this.api.put_TextPrFontSize(value);
                 }
+                this.rememberFreeTextPatch({fontSize: value});
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -817,8 +830,12 @@ define([
             btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
             btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
-            if (this.api && item.checked)
+            if (this.api && item.checked) {
                 this.api.put_PrAlign(item.value);
+                var pdfAlign = FreeTextStyle && FreeTextStyle.pdfAlignFromInternal(item.value);
+                if (pdfAlign != null)
+                    this.rememberFreeTextPatch({align: pdfAlign});
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };

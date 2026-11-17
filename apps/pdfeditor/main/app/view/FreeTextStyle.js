@@ -109,6 +109,10 @@
             style.bold = raw.bold;
         if (raw.italic === true || raw.italic === false)
             style.italic = raw.italic;
+        if (raw.underline === true || raw.underline === false)
+            style.underline = raw.underline;
+        if (raw.strikeout === true || raw.strikeout === false)
+            style.strikeout = raw.strikeout;
         if (typeof raw.fontFamily === 'string') {
             var family = raw.fontFamily.replace(/[\u0000-\u001f]/g, '').trim();
             if (family.length > 0 && family.length <= 200)

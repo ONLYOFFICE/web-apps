@@ -2410,6 +2410,7 @@ define([
             this._state.underline = undefined;
             if (this.api)
                 this.api.put_TextPrUnderline(btn.pressed);
+            this.rememberFreeTextStyle({underline: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2418,6 +2419,7 @@ define([
             this._state.strike = undefined;
             if (this.api)
                 this.api.put_TextPrStrikeout(btn.pressed);
+            this.rememberFreeTextStyle({strikeout: !!btn.pressed});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
