@@ -41,7 +41,9 @@
  *
  */
 
-define([], function () {
+define([
+    'pdfeditor/main/app/view/FreeTextStyle'
+], function (FreeTextStyle) {
     'use strict';
 
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
@@ -2655,13 +2657,43 @@ define([], function () {
             /** coauthoring end **/
         };
 
+        dh.rememberFreeTextPatch = function(patch) {
+            if (!FreeTextStyle || !this.api || !this.api.getSelectedElements)
+                return;
+            var selected = this.api.getSelectedElements();
+            var annotType = null;
+            var lineEnd = null;
+            if (selected && selected.length) {
+                for (var i = 0; i < selected.length; i++) {
+                    if (!selected[i].get_ObjectType || selected[i].get_ObjectType() != Asc.c_oAscTypeSelectElement.Annot)
+                        continue;
+                    var pr = selected[i].get_ObjectValue();
+                    annotType = pr && pr.asc_getType && pr.asc_getType();
+                    var annotPr = pr && pr.asc_getAnnotProps && pr.asc_getAnnotProps();
+                    lineEnd = annotPr && annotPr.asc_getLineEnd ? annotPr.asc_getLineEnd() : null;
+                }
+            }
+            var intent = FreeTextStyle.intentForAnnot(annotType, lineEnd, AscPDF.ANNOTATIONS_TYPES.FreeText);
+            if (!FreeTextStyle.shouldRemember({
+                editMode: FreeTextStyle.editorCanFormat(this.api),
+                initializing: false,
+                fromSelection: false,
+                annotType: intent == null ? null : 'freeText'
+            }))
+                return;
+            FreeTextStyle.write(Common.localStorage, Common.Utils.InternalSettings, intent, patch);
+        };
+
         dh.onSelectStrokeColor = function(btn, picker, color) {
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            if (!this.api.SetAnnotStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+            var red = parseInt(r, 16), green = parseInt(g, 16), blue = parseInt(b, 16);
+            if (!this.api.SetAnnotStrokeColor(red, green, blue)) {
                 color = this.api.GetAnnotStrokeColor();
                 color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            } else {
+                this.rememberFreeTextPatch({stroke: {r: red, g: green, b: blue}});
             }
             btn.currentColor = color;
             btn.setColor(btn.currentColor);
@@ -2688,6 +2720,8 @@ define([], function () {
             }
             if (!this.api.SetAnnotOpacity(val))
                 val = oldval;
+            else
+                this.rememberFreeTextPatch({opacity: val});
             sizePicker.setValue(val + '%');
         };
 
