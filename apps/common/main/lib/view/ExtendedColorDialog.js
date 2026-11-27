@@ -115,7 +115,7 @@ define([
             this.textColor = new Common.UI.MaskedField({
                 el: $('#extended-text-color'),
                 maskExp: /[a-fA-F0-9]/,
-                maxLength: 6
+                maxLength: 7
             });
 
             this.spinR.on('change', _.bind(this.showColor, this, null, true)).on('changing', _.bind(this.onChangingRGB, this, 1));
@@ -133,6 +133,7 @@ define([
             this.on('close', function() {
                 me.trigger('onmodalresult', 0);
             });
+
 
             function onBtnClick(event) {
                 me.trigger('onmodalresult', parseInt(event.currentTarget.attributes['result'].value));
@@ -219,7 +220,14 @@ define([
             }
         },
 
+
+
         onChangeMaskedField: function(field, newValue) {
+            var normaliseHex = newValue
+            if (normaliseHex[0] == '#') {
+               normaliseHex = normaliseHex.substring(1)
+            }
+            newValue = normaliseHex
             newValue = ((/^[a-fA-F0-9]{0,6}$/.test(newValue))) ? newValue : '000000';
             newValue = '000000' + newValue;
             var colors = newValue.match(/([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})$/i);
@@ -232,6 +240,10 @@ define([
         },
 
         onChangedMaskedField: function(field, newValue) {
+            var normaliseHex = newValue
+            if (normaliseHex[0] == '#') {
+               normaliseHex = normaliseHex.substring(1)
+            }
             var me = this;
             if (!/^[a-fA-F0-9]{0,6}$/.test(newValue) || _.isEmpty(newValue)) {
                 field.setValue('000000');
